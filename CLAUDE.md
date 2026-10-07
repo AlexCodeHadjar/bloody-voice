@@ -1,65 +1,55 @@
-# Bloody Voice — карта проекта для Claude
+# Bloody Voice — карта проекта
 
-Сюжетная игра про охотника на монстров с элементами рогалика (Godot 4.7, GDScript). Владелец пишет по-русски,
-решения по механике принимает сам. Дизайн — `Bloody Voice - Game Design Document.docx` (собирается из
-`tools/gdd/*.js`: `npm install` в `tools/gdd`, затем `node build.js`). Порядок работ — GDD §18 (фазы 0–10).
-После каждого шага фазы — тесты зелёные → коммит → push в `main` (github.com/AlexCodeHadjar/bloody-voice, публичный).
+Сюжетная игра про охотника на монстров с элементами рогалика. Godot 4.7, GDScript.
+Владелец пишет по-русски и сам решает по механике (спрашивать вариантами). Дизайн — `docs/gdd/`
+(оглавление `README.md`), порядок работ — `docs/gdd/18-development-roadmap.md`. Репозиторий: github.com/AlexCodeHadjar/bloody-voice (main).
+
+**Документы и заметки — только Markdown (`.md` в `docs/`).** С `.docx` не работать: не создавать, не читать,
+не править; просят «ворд» — делать `.md` и сказать об этом.
+
+## Рабочий цикл (обязательно)
+
+1. Работа → `tools/check_all.sh` зелёный (скилл `bv-check`).
+2. **Критик.** Отдать работу субагенту `critic` (код, данные, тесты, документация); если менялись механика,
+   контент, GDD, экран или арт — ещё и `design-critic`. В запросе: задача владельца, что сделано, файлы.
+   Оценка < 7 или `REWORK` → исправить `MUST FIX` и отправить снова (до 3 кругов; дальше — отчитаться владельцу
+   с оценкой и причиной). Вопросы из `QUESTIONS FOR THE OWNER` — владельцу, не решать за него.
+   В отчёте владельцу — итоговые оценки критиков.
+3. **CLAUDE.md** — обновить в том же коммите: убрать устаревшее, добавить новое одной строкой. Держать коротким
+   (≈ 80 строк): только правила и карта; процедуры — в скиллах `.claude/skills/`, не дублировать.
+4. Коммит → push в `main`.
+
+## Скиллы проекта
+
+`bv-check` проверка · `bv-content` данные (карты, твари, эффекты) · `bv-mechanic` чек-лист новой механики ·
+`bv-art` арт и импорт · `bv-balance` бот и баланс · `bv-docs` документы и заметки в Markdown.
 
 ## Правила кода (GDD §19)
 
-- Слои: `data/` → `core/content` (defs) → `core/rules`, `core/generation` → `core/state` → `autoload/GameState` → `scenes/`.
-  Правила — `class_name` + `static func`, без узлов и глобалов; меняют только переданный им объект состояния и
-  возвращают отчёт. Сигналы шлёт только `GameState` (через `EventBus`). Экраны **не** пишут в `RunState`.
-- Новая механика = файл `core/rules/<домен>/<механика>_rules.gd` + тест `tests/test_<механика>.gd` (добавить в
-  `SUITES` в `tests/run_tests.gd`) + проверки в `content_validator.gd`, если есть данные.
-- Все числа — в `data/balance.json` (`BalanceDef`). Контент — JSON, читается через `DefReader` с `ErrorLog`.
-- Строгая типизация: `untyped_declaration` = ошибка. Переменные цикла тоже с типом (`for x: T in`).
-  `:=` не выводит тип из Variant/Dictionary — писать `var x: T = …`.
-- Файл ≤ 400 строк, функция ≤ 40. Никакой тяжёлой логики в `_process`.
-- Случайность только из `SeededRng.make_stream(seed, система, день)` / `Rng.stream(...)`.
-- Сохранения: `RunState.SAVE_VERSION` + `SaveMigrations`. Не переименовывать id, которые попадают в сейвы.
-- Комментарии и тексты игры — по-английски.
-
-## Арт
-
-- Исходники от владельца — `assets/<districts|map|ui>/` (не в git, Godot их не видит). Имена `<CODE>__<kind>__<state>`.
-- `python tools/import_art.py` → `art/` (webp). Лист иконок ресурсов режется на `art/ui/icons/RESOURCE__<id>.webp`.
-- Районы на карте-картинке — полигоны `data/city/map_regions.json` (порядок = приоритет попадания, анкер — где
-  стоит фигурка). Проверка: `python tools/check_map_regions.py <out.png>`.
-- Схема города для промтов: `python tools/gen_city_sketch.py` → `docs/assets/map/`.
-
-## Команды
-
-```bash
-G="/d/Godot_v4.7.2-stable_win64_console.exe"
-"$G" --headless --path . --import
-"$G" --headless --path . -s res://tests/run_tests.gd            # -- --only=calendar
-"$G" --path . --resolution 1920x1080 -- --shots=<абс. папка>    # автоснимки (core/dev/dev_shots.gd)
-```
+- Слои: `data/` → `core/content` (defs, валидатор) → `core/rules`, `core/generation` → `core/state` →
+  `autoload/GameState` → `scenes/`. Правила — `class_name` + `static func`, без узлов и глобалов, меняют
+  переданное состояние и возвращают отчёт. Сигналы шлёт только `GameState`; экраны не пишут в `RunState`.
+- Числа — `data/balance.json`; контент — JSON через `DefReader`/`ErrorLog`; ошибка данных = игра не стартует.
+- Строгие типы (`untyped_declaration` = ошибка), у переменных цикла тоже. `:=` не выводит тип из Variant.
+- Файл ≤ 400 строк, функция ≤ 40. Без тяжёлой логики в `_process`. Случайность — только `SeededRng`/`Rng.stream`.
+- Сейвы: `RunState.SAVE_VERSION` + `SaveMigrations`; id из сейвов не переименовывать.
+- Комментарии, тексты игры, GDD и промты — по-английски; заметки для владельца — можно по-русски.
 
 ## Где что
 
 | Область | Файлы |
 |---|---|
-| Контент | `core/content/content_loader.gd`, `content_validator.gd`, `def_reader.gd`, `defs/*.gd`; данные `data/` |
-| Состояние | `core/state/run_state.gd` (день, деньги, район героя, `CityState`), `place_state.gd`, `save_migrations.gd` |
-| Встречи | `core/generation/encounter_rules.gd` (тварь района — заглушка до слухов/заказов), `seeded_rng.gd` |
-| Правила | `core/rules/time/calendar_rules.gd`, `day_rules.gd` (конец дня, аренда); `core/rules/city/map_region_rules.gd`, `district_state_rules.gd` (состояния районов GDD §14) |
-| Бой (GDD §9–10) | состояние `core/state/combat/` (`combat_state.gd`, `hero_combatant.gd`, `enemy_combatant.gd`, `part_state.gd`, `card_instance.gd`, `combat_target.gd`, `combat_setup.gd`); правила `core/rules/combat/` — `combat_rules.gd` (старт, сыграть карту, конец хода, победа/поражение), `effect_applier.gd` (оп-коды эффектов, список — `core/content/effect_schema.gd`), `damage_rules.gd` (уклонение → блок → HP; удар по части: часть получает всё, тело — `part_main_damage_mult`), `enemy_rules.gd` (колода ходов, намерения, фазы, поломка частей), `deck_rules.gd`, `status_rules.gd`, `capture_rules.gd`; данные `data/cards/*.json`, `data/monsters/*.json`; экран `scenes/combat/` |
-| Бот и баланс | `core/dev/combat_bot.gd` (честный игрок), `tests/bot/autoplay.gd` — отчёт по всем тварям: `"$G" --headless --path . -s res://tests/bot/autoplay.gd -- --fights=200 [--capture]` |
+| Контент | `core/content/` (`content_loader`, `content_validator`, `def_reader`, `effect_schema`, `effect_text` — текст хода из эффектов, `defs/`); `data/` |
+| Состояние | `core/state/run_state.gd` (день, деньги, район, `CityState`), `save_migrations.gd`; бой — `core/state/combat/` |
+| Время, город | `core/rules/time/` (календарь, конец дня, аренда); `core/rules/city/` (попадание по карте, состояния районов) |
+| Бой | `core/rules/combat/` (`combat_rules` поток, `effect_applier`, `damage_rules`, `enemy_rules`, `deck_rules`, `status_rules`, `capture_rules`) |
+| Генерация | `core/generation/` (`seeded_rng`, `encounter_rules` — заглушка до слухов) |
+| Разработка | `core/dev/combat_bot.gd`, `dev_shots.gd` (`--shots`); `tests/` (`run_tests.gd`, `bot/autoplay.gd`) |
 | Автозагрузки | `EventBus`, `ContentDB`, `Rng`, `SaveService`, `GameState` (фасад-команды), `DevShots` |
-| Экраны | `scenes/boot`, `scenes/menu/main_menu`, `scenes/city_map/` (`map_view.gd`, `district_panel.gd`) |
+| Экраны | `scenes/boot`, `menu`, `city_map` (карта, карточка района), `combat` (бой) |
 | UI | `ui/theme/palette.gd`, `ui_kit.gd` |
-
-## Промты для арта (модули, твари, иконки)
-
-- Документ `Bloody Voice - Art Prompts (Modules, Creatures, Icons).docx` собирается из данных:
-  `python tools/gen_art_templates.py` (шаблоны в `docs/assets/templates/`) → `python tools/art_prompts/refs.py` →
-  `node tools/art_prompts/build.js` (нужен npm-пакет `docx`). Данные: `data/gear/shapes.json` (фигуры клеток),
-  `data/gear/modules.json` (каталог модулей, этап 2), `data/monsters/*.json` (`look`, `true_form`), `data/ui/icons.json`
-  (все иконки игры: наборы по стилю object / symbol / crest / badge).
-- Импорт: `assets/modules/<ID>__module__normal.png` → подгоняется под фигуру (256 px на клетку, вне — прозрачно);
-  `assets/monsters/<ID>__combat__normal|phase2.png`, `<ID>__silhouette__leaflet|cracked.png`;
-  иконки — ОДНА картинка на набор `assets/icons/<SET>__sheet.png`, сетка `grid` [столбцы, строки] и порядок — из
-  `data/ui/icons.json` (шаблон раскладки `docs/assets/templates/icons/<SET>__grid.png`) → `art/ui/icons/<SET>__<id>.webp`;
-  кусок иконки уходит в ячейку, где лежит его центр, соринки < `MIN_PIECE` отбрасываются.
+| Арт | `assets/` исходники (не в git) → `tools/import_art.py` → `art/`; контуры районов `data/city/map_regions.json` |
+| Каталоги этапа 2 | `data/gear/modules.json`, `shapes.json`; иконки `data/ui/icons.json` |
+| Документы | `docs/gdd/` (GDD по разделам), `docs/art-prompts/` (генерируется `tools/gen_art_prompts.py`), `docs/assets/` |
+| Инструменты | `tools/` (`check_all.sh`, `import_art.py`, `tune_monsters.py`, `gen_art_prompts.py`, `gen_art_templates.py`, `gen_city_sketch.py`) |
+| Агенты | `.claude/agents/critic.md`, `design-critic.md` |

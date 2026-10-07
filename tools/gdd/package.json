@@ -1,6 +1,0 @@
-{
-  "name": "bloody-voice-gdd",
-  "private": true,
-  "description": "Builds the Game Design Document (.docx). Run: npm install && node build.js",
-  "dependencies": { "docx": "^9.0.0" }
-}

@@ -5,7 +5,7 @@ investigation through rumors, crafting your own weapons, and a living city that 
 
 Engine: **Godot 4.7** · Language: **GDScript** · Status: **Phase 1 — Combat core** (grey-box)
 
-The full design is in [`Bloody Voice - Game Design Document.docx`](Bloody%20Voice%20-%20Game%20Design%20Document.docx).
+The full design is in [`docs/gdd/`](docs/gdd/README.md); art prompts in [`docs/art-prompts/`](docs/art-prompts/README.md).
 
 ## Run
 
@@ -32,8 +32,8 @@ G="/d/Godot_v4.7.2-stable_win64_console.exe"   # path to your Godot 4.7 binary
 | `scenes/` | Presentation only: screens read state and call `GameState` commands |
 | `ui/theme/` | Palette and UI factory |
 | `art/` | Processed game art (webp). Sources go to `assets/` (not committed) |
-| `docs/` | GDD assets, city sketch, prompts (ignored by Godot) |
-| `tools/` | Python/Node tools: art import, city sketch, map region check, GDD builder |
+| `docs/` | Design document `gdd/`, art prompts `art-prompts/`, templates and city sketch `assets/` (Markdown only; ignored by Godot) |
+| `tools/` | Python tools: project check, art import, city sketch, map region check, art prompts, monster tuning |
 | `tests/` | Headless test runner + one suite per rules file |
 
 ## Art pipeline

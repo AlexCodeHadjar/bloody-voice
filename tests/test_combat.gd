@@ -157,6 +157,8 @@ func test_every_effect_op_is_implemented() -> void:
 	for op: StringName in EffectSchema.OPS:
 		check(samples.has(op), "test sample for op %s" % op)
 		if samples.has(op):
+			var one: Array[Dictionary] = [samples[op] as Dictionary]
+			check(EffectText.describe(one) != "Does nothing.", "EffectText has a phrase for op %s" % op)
 			var before := s.events.size()
 			EffectApplier.apply(s, samples[op] as Dictionary, EffectContext.create(s.hero, s.enemy, CombatTarget.enemy(), true), data)
 			check(s.events.size() >= before, "op %s ran" % op)
@@ -169,3 +171,12 @@ func test_bot_finishes_every_fight() -> void:
 			var s := CombatBot.run_fight(CombatSetup.from_balance(data.balance, id, i), data)
 			check(s.is_over(), "%s fight %d finished" % [id, i])
 			check(s.turn <= data.balance.turn_limit + 1, "%s within turn limit" % id)
+
+
+func test_move_text_is_built_from_effects() -> void:
+	eq(EffectText.describe([{"op": "damage", "amount": 4, "hits": 2}, {"op": "apply_status", "status": "bleed", "stacks": 2}]),
+		"Deal 4 twice, Bleed 2.", "damage + status")
+	eq(EffectText.describe([{"op": "sanity", "amount": 4}, {"op": "apply_status", "status": "enraged", "stacks": 1, "to": "self"}]),
+		"4 Sanity damage, Enraged 1 (self).", "fear + self buff")
+	var lament: MonsterDef.MoveDef = load_content(false).monster(&"mourning_bride").moves[&"lament"]
+	eq(lament.text, "%d Sanity damage." % int(lament.effects[0]["amount"]), "data text follows numbers")

@@ -46,8 +46,7 @@
       "op": "damage",
       "amount": 9
      }
-    ],
-    "text": "Deal 9."
+    ]
    },
    {
     "id": "wail",
@@ -64,8 +63,7 @@
       "pile": "discard",
       "count": 1
      }
-    ],
-    "text": "3 Sanity damage, adds Dread."
+    ]
    },
    {
     "id": "drowning_song",
@@ -82,8 +80,7 @@
       "stacks": 1,
       "to": "target"
      }
-    ],
-    "text": "Deal 8."
+    ]
    },
    {
     "id": "huddle",
@@ -94,8 +91,7 @@
       "op": "block",
       "amount": 6
      }
-    ],
-    "text": "Block 6."
+    ]
    },
    {
     "id": "chorus",
@@ -107,8 +103,7 @@
       "amount": 5,
       "hits": 2
      }
-    ],
-    "text": "Deal 5 twice."
+    ]
    }
   ],
   "deck": [
@@ -169,8 +164,7 @@
       "stacks": 2,
       "to": "target"
      }
-    ],
-    "text": "Weak 2."
+    ]
    },
    {
     "id": "sting",
@@ -181,8 +175,7 @@
       "op": "damage",
       "amount": 10
      }
-    ],
-    "text": "Deal 10."
+    ]
    },
    {
     "id": "lull",
@@ -193,8 +186,7 @@
       "op": "sanity",
       "amount": 4
      }
-    ],
-    "text": "4 Sanity damage."
+    ]
    },
    {
     "id": "cocoon",
@@ -205,8 +197,7 @@
       "op": "block",
       "amount": 8
      }
-    ],
-    "text": "Block 8."
+    ]
    },
    {
     "id": "swarm",
@@ -218,8 +209,7 @@
       "amount": 4,
       "hits": 3
      }
-    ],
-    "text": "Deal 4 three times."
+    ]
    }
   ],
   "deck": [
@@ -288,8 +278,7 @@
       "op": "damage",
       "amount": 8
      }
-    ],
-    "text": "Deal 8."
+    ]
    },
    {
     "id": "darkness",
@@ -306,8 +295,7 @@
       "op": "sanity",
       "amount": 3
      }
-    ],
-    "text": "Exposed 2, 3 Sanity damage."
+    ]
    },
    {
     "id": "snuff",
@@ -324,8 +312,7 @@
       "stacks": 1,
       "to": "target"
      }
-    ],
-    "text": "Deal 4."
+    ]
    },
    {
     "id": "stride",
@@ -336,8 +323,7 @@
       "op": "block",
       "amount": 7
      }
-    ],
-    "text": "Block 7."
+    ]
    },
    {
     "id": "burnt_gaze",
@@ -348,8 +334,7 @@
       "op": "damage",
       "amount": 10
      }
-    ],
-    "text": "Deal 10."
+    ]
    }
   ],
   "deck": [
@@ -419,8 +404,7 @@
       "op": "damage",
       "amount": 6
      }
-    ],
-    "text": "Deal 6."
+    ]
    },
    {
     "id": "double_cut",
@@ -432,8 +416,7 @@
       "amount": 3,
       "hits": 2
      }
-    ],
-    "text": "Deal 3 twice."
+    ]
    },
    {
     "id": "acid_spit",
@@ -450,8 +433,7 @@
       "stacks": 2,
       "to": "target"
      }
-    ],
-    "text": "Deal 2, Bleed 2."
+    ]
    },
    {
     "id": "harden",
@@ -462,8 +444,7 @@
       "op": "block",
       "amount": 8
      }
-    ],
-    "text": "Block 8."
+    ]
    },
    {
     "id": "frenzy",
@@ -480,8 +461,7 @@
       "op": "damage",
       "amount": 4
      }
-    ],
-    "text": "Enraged 1, deal 4."
+    ]
    }
   ],
   "deck": [
@@ -550,8 +530,7 @@
       "op": "sanity",
       "amount": 4
      }
-    ],
-    "text": "5 Sanity damage."
+    ]
    },
    {
     "id": "reflection",
@@ -566,8 +545,7 @@
       "op": "block",
       "amount": 7
      }
-    ],
-    "text": "Deal 5."
+    ]
    },
    {
     "id": "embrace",
@@ -578,8 +556,7 @@
       "op": "damage",
       "amount": 8
      }
-    ],
-    "text": "Deal 8."
+    ]
    },
    {
     "id": "sorrow",
@@ -592,8 +569,7 @@
       "stacks": 2,
       "to": "target"
      }
-    ],
-    "text": "Weak 2."
+    ]
    },
    {
     "id": "shatter",
@@ -605,8 +581,7 @@
       "amount": 3,
       "hits": 3
      }
-    ],
-    "text": "Deal 3 three times."
+    ]
    }
   ],
   "deck": [
@@ -676,8 +651,7 @@
       "op": "damage",
       "amount": 11
      }
-    ],
-    "text": "Deal 11."
+    ]
    },
    {
     "id": "pounce",
@@ -694,8 +668,7 @@
       "stacks": 1,
       "to": "target"
      }
-    ],
-    "text": "Deal 7."
+    ]
    },
    {
     "id": "howl",
@@ -712,8 +685,7 @@
       "stacks": 1,
       "to": "self"
      }
-    ],
-    "text": "4 Sanity damage, Enraged 1."
+    ]
    },
    {
     "id": "circle",
@@ -724,8 +696,7 @@
       "op": "block",
       "amount": 7
      }
-    ],
-    "text": "Block 7."
+    ]
    },
    {
     "id": "frenzy_bite",
@@ -737,8 +708,7 @@
       "amount": 5,
       "hits": 2
      }
-    ],
-    "text": "Deal 5 twice."
+    ]
    }
   ],
   "deck": [
@@ -814,8 +784,7 @@
       "stacks": 1,
       "to": "target"
      }
-    ],
-    "text": "4 Sanity damage, Weak 1."
+    ]
    },
    {
     "id": "scalpel",
@@ -826,8 +795,7 @@
       "op": "damage",
       "amount": 7
      }
-    ],
-    "text": "Deal 7."
+    ]
    },
    {
     "id": "mend",
@@ -838,8 +806,7 @@
       "op": "heal",
       "amount": 6
      }
-    ],
-    "text": "Heal 6."
+    ]
    },
    {
     "id": "ward",
@@ -850,8 +817,7 @@
       "op": "block",
       "amount": 8
      }
-    ],
-    "text": "Block 8."
+    ]
    },
    {
     "id": "dissect",
@@ -868,8 +834,7 @@
       "stacks": 3,
       "to": "target"
      }
-    ],
-    "text": "Deal 4."
+    ]
    }
   ],
   "deck": [
@@ -946,8 +911,7 @@
       "op": "damage",
       "amount": 9
      }
-    ],
-    "text": "Deal 9."
+    ]
    },
    {
     "id": "burrow",
@@ -958,8 +922,7 @@
       "op": "block",
       "amount": 8
      }
-    ],
-    "text": "Block 8."
+    ]
    },
    {
     "id": "tail_sweep",
@@ -976,8 +939,7 @@
       "stacks": 1,
       "to": "target"
      }
-    ],
-    "text": "Deal 5."
+    ]
    },
    {
     "id": "acid_wash",
@@ -990,8 +952,7 @@
       "stacks": 4,
       "to": "target"
      }
-    ],
-    "text": "Bleed 4."
+    ]
    },
    {
     "id": "tremor",
@@ -1006,8 +967,7 @@
       "op": "sanity",
       "amount": 2
      }
-    ],
-    "text": "Deal 4."
+    ]
    },
    {
     "id": "collapse",
@@ -1019,8 +979,7 @@
       "amount": 4,
       "hits": 2
      }
-    ],
-    "text": "Deal 4 twice."
+    ]
    }
   ],
   "deck": [

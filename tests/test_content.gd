@@ -43,6 +43,14 @@ func test_broken_json_is_reported() -> void:
 	check(_has(errs.messages, "JSON error"), "broken JSON must be reported")
 
 
+func test_move_text_field_is_rejected() -> void:
+	var errs := ErrorLog.new()
+	MonsterDef.from_dict({"id": "x", "name": "X", "rank": "A", "hp": 5, "deck": ["hit"],
+		"moves": [{"id": "hit", "name": "Hit", "kind": "attack", "text": "old", "effects": [{"op": "damage", "amount": 1}]}]},
+		errs, "test.json")
+	check(_has(errs.messages, "remove 'text'"), "leftover move text must be reported")
+
+
 func _errors(data: ContentData) -> PackedStringArray:
 	var errs := ErrorLog.new()
 	ContentValidator.validate(data, errs, false)

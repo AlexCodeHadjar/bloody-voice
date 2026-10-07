@@ -7,5 +7,4 @@
 *.py text eol=lf
 *.webp binary
 *.png binary
-*.docx binary
 *.ogg binary

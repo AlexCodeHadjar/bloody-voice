@@ -14,7 +14,7 @@ class MoveDef:
 	var id: StringName
 	var name: String
 	var kind: StringName  ## attack / defend / fear / debuff / buff / heal — for intent icons
-	var text: String
+	var text: String  ## built from effects by EffectText (never written in data)
 	var effects: Array[Dictionary] = []
 
 
@@ -81,9 +81,11 @@ static func _move(d: Dictionary, errs: ErrorLog, w: String) -> MoveDef:
 	m.id = DefReader.id(d, "id", errs, w + "/moves")
 	m.name = DefReader.string(d, "name", errs, w + "/moves")
 	m.kind = DefReader.id(d, "kind", errs, w + "/moves")
-	m.text = DefReader.string(d, "text", errs, w + "/moves", false)
+	if d.has("text"):
+		errs.add(w + "/moves/" + m.id, "remove 'text': move text is built from effects (EffectText)")
 	for e: Variant in DefReader.array(d, "effects", errs, w + "/moves"):
 		m.effects.append(e as Dictionary)
+	m.text = EffectText.describe(m.effects)
 	return m
 
 
