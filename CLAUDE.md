@@ -60,4 +60,6 @@ G="/d/Godot_v4.7.2-stable_win64_console.exe"
   (все иконки игры: наборы по стилю object / symbol / crest / badge).
 - Импорт: `assets/modules/<ID>__module__normal.png` → подгоняется под фигуру (256 px на клетку, вне — прозрачно);
   `assets/monsters/<ID>__combat__normal|phase2.png`, `<ID>__silhouette__leaflet|cracked.png`;
-  листы иконок `assets/icons/<SET>__sheet__<n>.png` (по 6 в ряд, порядок — из каталога) → `art/ui/icons/<SET>__<id>.webp`.
+  иконки — ОДНА картинка на набор `assets/icons/<SET>__sheet.png`, сетка `grid` [столбцы, строки] и порядок — из
+  `data/ui/icons.json` (шаблон раскладки `docs/assets/templates/icons/<SET>__grid.png`) → `art/ui/icons/<SET>__<id>.webp`;
+  кусок иконки уходит в ячейку, где лежит его центр, соринки < `MIN_PIECE` отбрасываются.

@@ -17,7 +17,6 @@ const MODULES = read("data/gear/modules.json");
 const MONSTERS = fs.readdirSync(path.join(ROOT, "data/monsters")).filter((f) => f.endsWith(".json")).sort()
   .flatMap((f) => read("data/monsters/" + f));
 const ICONS = read("data/ui/icons.json");
-const ICONS_PER_SHEET = 6;
 const TPL = (p) => path.join(ROOT, "docs/assets/templates", p);
 const REF = (p) => path.join(__dirname, ".cache", p);
 const code = (id) => id.toUpperCase();
@@ -230,26 +229,35 @@ const ACCENTS = {
   STAT: "Accents: health = blood red, sanity = violet, voice = dark red, all others brass only.",
 };
 
-function iconSheetPrompt(set, ids, n, total) {
-  const list = ids.map((ic, i) => `${i + 1}. ${ic.name} — ${ic.look}`).join("\n");
-  const prev = n > 1 ? `, ${set.set}__sheet__${n - 1}.png (keep exactly the same style and size)` : "";
+function iconSheetPrompt(set) {
+  const [cols, rows] = set.grid;
+  const lines = [];
+  for (let r = 0; r < rows; r++) {
+    const row = set.icons.slice(r * cols, (r + 1) * cols);
+    if (row.length === 0) break;
+    lines.push(`Row ${r + 1}:`);
+    row.forEach((ic, i) => lines.push(`  ${r * cols + i + 1}. ${ic.name} — ${ic.look}`));
+  }
+  const empty = cols * rows - set.icons.length;
   const accent = ACCENTS[set.set] ? ACCENTS[set.set] + "\n" : "";
   return `[STYLE BLOCK]
 [ICON STYLE — ${set.style.toUpperCase()}]
-Attached: RESOURCE icons (style reference)${prev}.
-A sheet of ${ids.length} game icons for: ${set.about}
-Draw them in ONE horizontal row, left to right in this exact order, all the same size,
-each centred in its own equal slot, with clear empty space between them (they must not touch):
-${list}
-${accent}Transparent background. No text, no labels, no numbers, no frames or circles around the icons.
-Output: transparent PNG, 3:2 landscape (1536×1024). Save as ${set.set}__sheet__${n}.png (sheet ${n} of ${total}).`;
+Attached: RESOURCE icons (style reference), ${set.set}__grid.png (layout guide).
+ONE image with ALL ${set.icons.length} icons of this set: ${set.about}
+Lay them out as a grid of ${cols} column${cols > 1 ? "s" : ""} × ${rows} row${rows > 1 ? "s" : ""}, exactly like the attached layout guide:
+each icon centred in its own slot, all the same size and style, clear empty space between
+them (they must not touch). Order: left to right, top to bottom.
+${lines.join("\n")}
+${empty > 0 ? `Leave the last ${empty} slot${empty > 1 ? "s" : ""} empty.\n` : ""}${accent}Transparent background. Do not draw the guide lines or slot numbers.
+No text, no labels, no numbers, no frames or circles around the icons.
+Output: transparent PNG, 3:2 landscape (1536×1024). Save as ${set.set}__sheet.png.`;
 }
 
 function iconSection() {
   const total = ICONS.reduce((a, s) => a + s.icons.length, 0);
   const out = [
     L.H1("D. Game Icons"),
-    L.P(`Every icon the game needs: **${total} icons in ${ICONS.length} sets**. The catalog is \`data/ui/icons.json\` — the game, the import tool and this document all read it, so ids and order never drift apart.`),
+    L.P(`Every icon the game needs: **${total} icons in ${ICONS.length} sets**. The catalog is \`data/ui/icons.json\` — the game, the import tool and this document all read it, so ids, order and grid never drift apart.`),
     L.H2("D.1 Four icon styles"),
     L.Tbl(["Style", "Used for", "Size in game"], [
       ["Object", "Resources, weapon sections, armor, day actions — things you can hold", "64–256 px"],
@@ -258,26 +266,27 @@ function iconSection() {
       ["Badge", "Register ranks A / P / D / S (the letter is added by the game)", "32–96 px"],
     ], [0.8, 3.4, 1]),
     ...Object.values(ICON_STYLES).map((v) => L.Code(v[1], 15)),
-    L.H2("D.2 How icon sheets work"),
+    L.H2("D.2 One image per group"),
     L.Bul([
-      `Icons are generated as **sheets of up to ${ICONS_PER_SHEET}**, in one row, in the order listed — exactly like the existing resource sheet.`,
-      "Save a sheet as `assets/icons/<SET>__sheet__<n>.png`. `python tools/import_art.py` cuts it into `art/ui/icons/<SET>__<id>.webp` using the order from the catalog.",
-      "If one icon of a sheet is bad, regenerate the whole sheet (attach the previous version and ask to change only that icon), so the order stays right.",
-      "Icons may touch slightly — the cutter separates them by their solid cores — but clear gaps are safest.",
+      "**Every set is generated as ONE image** with all its icons on a grid — never icon by icon. Icons drawn together share size, light and style automatically.",
+      "Each set has its grid (columns × rows) in the catalog: up to 5 icons → one row, up to 10 → two rows, up to 15 → three rows. Attach the set's layout guide `docs/assets/templates/icons/<SET>__grid.png` (numbered slots) so the model keeps the order.",
+      "Save the image as `assets/icons/<SET>__sheet.png`. `python tools/import_art.py` cuts it into `art/ui/icons/<SET>__<id>.webp`: every shape goes to the slot that holds its centre, so loose drips and sparks stay with their icon.",
+      "If one icon is bad, regenerate the whole set: attach the previous image and ask to change only that icon, keeping all the others and the layout.",
+      "Do the sets of one style in the same chat (all symbol sets, then all crests…), attaching an earlier finished set as a style reference.",
     ]),
-    ...L.Img(REF("RESOURCES__six_icons.png"), 520, "Style reference for all icons — the resource sheet (already done)"),
-    L.H2("D.3 Icon catalog and prompts"),
+    ...L.Img(TPL("icons/FACTION__grid.png"), 420, "Example layout guide — FACTION, 5 × 3 (docs/assets/templates/icons/FACTION__grid.png)"),
+    ...L.Img(REF("RESOURCES__six_icons.png"), 520, "Style reference for all icons — the resource set (already done)"),
+    L.H2("D.3 Sets: grid, catalog and prompt"),
+    L.Tbl(["Set", "Icons", "Grid", "Style", "File"],
+      ICONS.map((x) => [x.set, String(x.icons.length), `${x.grid[0]} × ${x.grid[1]}`, ICON_STYLES[x.style][0], `${x.set}__sheet.png`]),
+      [1.3, 0.6, 0.7, 1, 2]),
   ];
   for (const set of ICONS) {
-    const sheets = Math.ceil(set.icons.length / ICONS_PER_SHEET);
-    out.push(L.H3(`${set.set} — ${set.icons.length} icons · ${ICON_STYLES[set.style][0]}${set.status === "done" ? " · DONE" : ""}`));
+    out.push(L.H3(`${set.set} — ${set.icons.length} icons · grid ${set.grid[0]}×${set.grid[1]} · ${ICON_STYLES[set.style][0]}${set.status === "done" ? " · DONE" : ""}`));
     out.push(L.P(set.about));
-    out.push(L.Tbl(["File", "Name", "Where it is used", "Look"],
-      set.icons.map((ic) => [`${set.set}__${ic.id}`, ic.name, ic.use, ic.look]), [1.6, 1.1, 1.6, 2.4]));
-    for (let n = 1; n <= sheets; n++) {
-      const ids = set.icons.slice((n - 1) * ICONS_PER_SHEET, n * ICONS_PER_SHEET);
-      out.push(...L.Code(iconSheetPrompt(set, ids, n, sheets), 15));
-    }
+    out.push(L.Tbl(["#", "File", "Name", "Where it is used", "Look"],
+      set.icons.map((ic, i) => [String(i + 1), `${set.set}__${ic.id}`, ic.name, ic.use, ic.look]), [0.3, 1.6, 1.1, 1.5, 2.3]));
+    out.push(...L.Code(iconSheetPrompt(set), 15));
   }
   return out;
 }
@@ -288,7 +297,7 @@ function finishSection() {
     L.H2("C.1 Import"),
     L.Num([
       "Save the PNG into `assets/modules/`, `assets/monsters/` or `assets/icons/` with the exact file name from the prompt.",
-      "Run `python tools/import_art.py` — modules are cut to their cell shape, icon sheets into single icons; everything becomes webp in `art/gear/modules/`, `art/monsters/` and `art/ui/icons/`.",
+      "Run `python tools/import_art.py` — modules are cut to their cell shape, icon sheets (one per set) into single icons; everything becomes webp in `art/gear/modules/`, `art/monsters/` and `art/ui/icons/`.",
       "Run Godot `--import` (or open the editor).",
     ]),
     L.H2("C.2 Quality checklist"),
@@ -301,7 +310,7 @@ function finishSection() {
       ["Readable small", "at 64 px per cell", "silhouette at 96 px"],
     ], [1.6, 2, 2]),
     L.Tbl(["Check", "Icons"], [
-      ["One row, catalog order, same size, gaps between icons", "yes"],
+      ["One image per set, grid as in the layout guide, catalog order, same size, gaps", "yes"],
       ["Symbol icons readable at 32 px (squint test)", "yes"],
       ["Only one accent colour, and only where it means something", "yes"],
       ["Rank badges have an empty centre — no letters", "yes"],

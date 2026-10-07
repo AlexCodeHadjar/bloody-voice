@@ -4,6 +4,10 @@
   "style": "object",
   "about": "Resources (GDD 6.1). Already generated — keep for re-generation.",
   "status": "done",
+  "grid": [
+   3,
+   2
+  ],
   "icons": [
    {
     "id": "gears",
@@ -48,6 +52,10 @@
   "style": "symbol",
   "about": "The hunter's counters on the left edge of the combat screen and in menus (GDD 4.2).",
   "status": "new",
+  "grid": [
+   4,
+   2
+  ],
   "icons": [
    {
     "id": "hp",
@@ -104,6 +112,10 @@
   "style": "symbol",
   "about": "Will, Agility, Cunning (GDD 4.1).",
   "status": "new",
+  "grid": [
+   3,
+   1
+  ],
   "icons": [
    {
     "id": "will",
@@ -130,6 +142,10 @@
   "style": "symbol",
   "about": "Statuses on the hunter and the creature (GDD 9, combat rules).",
   "status": "new",
+  "grid": [
+   3,
+   2
+  ],
   "icons": [
    {
     "id": "weak",
@@ -174,6 +190,10 @@
   "style": "symbol",
   "about": "Icons on the creature's intent cards (GDD 9.4).",
   "status": "new",
+  "grid": [
+   4,
+   2
+  ],
   "icons": [
    {
     "id": "attack",
@@ -224,6 +244,10 @@
   "style": "symbol",
   "about": "Small badge in the corner of every card (GDD 9.3).",
   "status": "new",
+  "grid": [
+   3,
+   2
+  ],
   "icons": [
    {
     "id": "attack",
@@ -268,6 +292,10 @@
   "style": "symbol",
   "about": "Cell types of the weapon grid and armor sockets (GDD 5.2).",
   "status": "new",
+  "grid": [
+   3,
+   1
+  ],
   "icons": [
    {
     "id": "gear",
@@ -294,6 +322,10 @@
   "style": "object",
   "about": "The five sections of a weapon (GDD 5.2).",
   "status": "new",
+  "grid": [
+   5,
+   1
+  ],
   "icons": [
    {
     "id": "sight",
@@ -332,6 +364,10 @@
   "style": "object",
   "about": "Armor pieces and the mechanism socket (GDD 5.1).",
   "status": "new",
+  "grid": [
+   5,
+   1
+  ],
   "icons": [
    {
     "id": "helmet",
@@ -370,6 +406,10 @@
   "style": "symbol",
   "about": "Skill webs and node types (GDD 4.4).",
   "status": "new",
+  "grid": [
+   3,
+   2
+  ],
   "icons": [
    {
     "id": "mechanic",
@@ -414,6 +454,10 @@
   "style": "symbol",
   "about": "The four directions of each skill web (GDD 4.4).",
   "status": "new",
+  "grid": [
+   4,
+   1
+  ],
   "icons": [
    {
     "id": "equipment",
@@ -446,6 +490,10 @@
   "style": "symbol",
   "about": "Contract types and the tracker (GDD 7).",
   "status": "new",
+  "grid": [
+   3,
+   2
+  ],
   "icons": [
    {
     "id": "slay",
@@ -490,6 +538,10 @@
   "style": "symbol",
   "about": "What an investigated rumor turned out to be (GDD 8.3).",
   "status": "new",
+  "grid": [
+   5,
+   1
+  ],
   "icons": [
    {
     "id": "target",
@@ -528,6 +580,10 @@
   "style": "symbol",
   "about": "Categories of rumor tags (GDD 8.2).",
   "status": "new",
+  "grid": [
+   3,
+   2
+  ],
   "icons": [
    {
     "id": "sound",
@@ -572,6 +628,10 @@
   "style": "object",
   "about": "Day actions and the calendar (GDD 3.3).",
   "status": "new",
+  "grid": [
+   4,
+   2
+  ],
   "icons": [
    {
     "id": "investigate",
@@ -628,6 +688,10 @@
   "style": "crest",
   "about": "Faction emblems (GDD 12). Shown on reputation, contracts, shops.",
   "status": "new",
+  "grid": [
+   5,
+   3
+  ],
   "icons": [
    {
     "id": "crown",
@@ -726,6 +790,10 @@
   "style": "badge",
   "about": "Lumen Register ranks A / P / D / S (GDD 12.1). The game prints the letter.",
   "status": "new",
+  "grid": [
+   4,
+   1
+  ],
   "icons": [
    {
     "id": "a",
@@ -758,6 +826,10 @@
   "style": "symbol",
   "about": "Reputation tiers with factions (GDD 12).",
   "status": "new",
+  "grid": [
+   5,
+   1
+  ],
   "icons": [
    {
     "id": "hostile",
@@ -796,6 +868,10 @@
   "style": "symbol",
   "about": "District state markers on the city map (GDD 14.2).",
   "status": "new",
+  "grid": [
+   5,
+   3
+  ],
   "icons": [
    {
     "id": "fog_breach",
@@ -882,6 +958,10 @@
   "style": "crest",
   "about": "District crests for the tracker, cards and the map legend (GDD 13.5).",
   "status": "new",
+  "grid": [
+   4,
+   3
+  ],
   "icons": [
    {
     "id": "crown",
@@ -962,6 +1042,10 @@
   "style": "symbol",
   "about": "Bestiary knowledge levels (GDD 10.3).",
   "status": "new",
+  "grid": [
+   5,
+   1
+  ],
   "icons": [
    {
     "id": "seen",
@@ -1000,6 +1084,10 @@
   "style": "symbol",
   "about": "Interface buttons and markers.",
   "status": "new",
+  "grid": [
+   5,
+   3
+  ],
   "icons": [
    {
     "id": "menu",

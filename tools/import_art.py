@@ -2,7 +2,8 @@
 
 - checks the naming rule  <CODE>__<kind>[__<state>...]  (CODE upper-case, the rest lower-case)
 - prefers the PNG original, encodes WEBP (quality 88), limits the longest side
-- slices icon sheets assets/icons/<SET>__sheet__<n>.png into one file per icon (order from data/ui/icons.json)
+- cuts icon sheets assets/icons/<SET>__sheet.png (one image per set, a grid of icons) into one file per icon;
+  grid size and order come from data/ui/icons.json
 - fits weapon-module art to its exact cell shape (data/gear/*.json): 256 px per cell, transparent outside
 - skips files whose output is newer than the source (use --force to redo all)
 
@@ -25,17 +26,18 @@ FOLDERS = {"districts": "city/districts", "map": "city/map", "ui": "ui", "module
 NAME_RE = re.compile(r"^[A-Z0-9_]+(__[a-z0-9_]+)+$")
 MAX_SIDE = 1672
 QUALITY = 88
-ICONS_PER_SHEET = 6
-LEGACY_SHEETS = {"RESOURCES__six_icons": ("RESOURCE", 1)}  # first sheet, made before the naming rule
+# Sheets made before the naming rule: stem -> (set, (cols, rows)).
+LEGACY_SHEETS = {"RESOURCES__six_icons": ("RESOURCE", (6, 1))}
+CELL = 256
+MIN_PIECE = 40  # smallest loose piece (in 1/3-scale pixels) that still belongs to an icon
 
 
-def icon_sets() -> dict[str, list[str]]:
-    """Icon set code -> icon ids in sheet order (data/ui/icons.json)."""
+def icon_sets() -> dict[str, tuple[list[str], tuple[int, int]]]:
+    """Icon set code -> (icon ids in reading order, (cols, rows)) from data/ui/icons.json."""
     import json
 
     sets = json.loads((ROOT / "data/ui/icons.json").read_text(encoding="utf-8"))
-    return {s["set"]: [i["id"] for i in s["icons"]] for s in sets}
-CELL = 256
+    return {s["set"]: ([i["id"] for i in s["icons"]], (s["grid"][0], s["grid"][1])) for s in sets}
 
 
 def module_shapes() -> dict[str, list[list[int]]]:
@@ -121,35 +123,44 @@ def _label(mask, seeds_mask):
     return labels, sizes
 
 
-def slice_sheet(img: Image.Image, count: int) -> list[Image.Image]:
-    """Split a sheet of (possibly touching) icons into the `count` biggest shapes, left to right."""
+def slice_grid(img: Image.Image, cols: int, rows: int, count: int) -> list[Image.Image | None]:
+    """Cut a sheet laid out as a cols x rows grid (read left to right, top to bottom).
+
+    Every connected shape goes to the grid slot that holds its centre, so small loose bits
+    (drips, sparks) stay with their icon and icons that overflow their slot are not cut.
+    Returns one image per slot up to `count`; None where a slot is empty.
+    """
     import numpy as np
 
     scale = 3
-    small = img.resize((img.width // scale, img.height // scale), Image.NEAREST)
+    small = img.resize((max(1, img.width // scale), max(1, img.height // scale)), Image.NEAREST)
     alpha = np.array(small.getchannel("A"))
-    # Opaque cores separate icons that touch through soft edges.
-    labels, sizes = _label(alpha > 16, alpha > 250)
-    biggest = sorted(range(1, len(sizes)), key=lambda k: sizes[k], reverse=True)[:count]
-    biggest.sort(key=lambda k: np.nonzero(labels == k)[1].mean())
-    full = np.array(Image.fromarray(labels.astype(np.int32)).resize(img.size, Image.NEAREST))
+    labels, sizes = _label(alpha > 16, alpha > 250)  # opaque cores keep touching icons apart
+    h, w = alpha.shape
+    slot_of = np.zeros(len(sizes), dtype=np.int32) - 1
+    for k in range(1, len(sizes)):
+        if sizes[k] < MIN_PIECE:  # specks of noise, not drips or sparks
+            continue
+        ys, xs = np.nonzero(labels == k)
+        col = min(cols - 1, int(xs.mean() / (w / cols)))
+        row = min(rows - 1, int(ys.mean() / (h / rows)))
+        slot_of[k] = row * cols + col
+    slots = np.array(Image.fromarray(slot_of[labels].astype(np.int32)).resize(img.size, Image.NEAREST))
     rgba = np.array(img)
-    icons = []
-    for k in biggest:
+    icons: list[Image.Image | None] = []
+    for slot in range(count):
         part = rgba.copy()
-        part[..., 3] = np.where(full == k, part[..., 3], 0)
+        part[..., 3] = np.where(slots == slot, part[..., 3], 0)
         icon = Image.fromarray(part)
-        mask = icon.getchannel("A").point(lambda a: 255 if a > 48 else 0)
-        icons.append(icon.crop(mask.getbbox()))
+        box = icon.getchannel("A").point(lambda a: 255 if a > 48 else 0).getbbox()
+        icons.append(icon.crop(box) if box else None)
     return icons
 
 
-def _sheet_key(stem: str) -> tuple[str, int] | None:
-    """'STATUS__sheet__1' -> ('STATUS', 1)."""
+def _sheet_set(stem: str) -> str | None:
+    """'STATUS__sheet' -> 'STATUS'."""
     parts = stem.split("__")
-    if len(parts) == 3 and parts[1] == "sheet" and parts[2].isdigit():
-        return parts[0], int(parts[2])
-    return None
+    return parts[0] if len(parts) == 2 and parts[1] == "sheet" else None
 
 
 def main(force: bool) -> int:
@@ -165,14 +176,18 @@ def main(force: bool) -> int:
         if not NAME_RE.match(stem):
             errors.append(f"{src.relative_to(ROOT)}: bad name, expected <CODE>__<kind>__<state>")
             continue
-        sheet = (LEGACY_SHEETS.get(stem) or _sheet_key(stem)) if folder in ("icons", "ui") else None
-        if sheet is not None:
-            set_code, index = sheet
+        legacy = LEGACY_SHEETS.get(stem)
+        set_code = legacy[0] if legacy else _sheet_set(stem) if folder == "icons" else None
+        if set_code is not None:
             if set_code not in icons:
                 errors.append(f"{src.relative_to(ROOT)}: no icon set '{set_code}' in data/ui/icons.json")
                 continue
-            ids = icons[set_code][(index - 1) * ICONS_PER_SHEET:index * ICONS_PER_SHEET]
-            for icon_id, icon in zip(ids, slice_sheet(Image.open(src).convert("RGBA"), len(ids))):
+            ids, grid = icons[set_code]
+            cols, rows = legacy[1] if legacy else grid
+            for icon_id, icon in zip(ids, slice_grid(Image.open(src).convert("RGBA"), cols, rows, len(ids))):
+                if icon is None:
+                    errors.append(f"{src.relative_to(ROOT)}: no icon found for '{icon_id}' (grid {cols}x{rows})")
+                    continue
                 save_webp(icon, DST / "ui/icons" / f"{set_code}__{icon_id}.webp")
                 written += 1
             continue

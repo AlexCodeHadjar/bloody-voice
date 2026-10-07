@@ -4,6 +4,7 @@ Writes into docs/assets/templates/:
   modules/SHAPE__<id>.png        one template per module shape (256 px cells, transparent outside)
   modules/shapes_overview.png    all shapes on one sheet (for the prompt document)
   monsters/LEAFLET__frame.png    1:1 parchment with the circle the silhouette must fit in
+  icons/<SET>__grid.png          3:2 layout guide with numbered slots for every icon set
   monsters/COMBAT__frame.png     2:3 transparent frame with safe area and ground line
 
 Shapes come from data/gear/shapes.json, so templates always match the game.
@@ -112,7 +113,27 @@ def write_monster_frames() -> None:
     combat.save(out / "COMBAT__frame.png")
 
 
+def write_icon_grids() -> None:
+    """One 1536x1024 layout guide per icon set (data/ui/icons.json): dashed slots, small slot numbers."""
+    out = OUT / "icons"
+    out.mkdir(parents=True, exist_ok=True)
+    sets = json.loads((ROOT / "data/ui/icons.json").read_text(encoding="utf-8"))
+    w, h = 1536, 1024
+    for s in sets:
+        cols, rows = s["grid"]
+        img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        d = ImageDraw.Draw(img)
+        sw, sh = w / cols, h / rows
+        for i in range(len(s["icons"])):
+            c, r = i % cols, i // cols
+            box = (int(c * sw + 18), int(r * sh + 18), int((c + 1) * sw - 18), int((r + 1) * sh - 18))
+            dashed_rect(d, box, SAFE, 16, 3)
+            d.text((box[0] + 10, box[1] + 6), str(i + 1), font=font(30), fill=SAFE)
+        img.save(out / f"{s['set']}__grid.png")
+
+
 if __name__ == "__main__":
     write_modules(load_shapes())
     write_monster_frames()
+    write_icon_grids()
     print("written to", OUT)
