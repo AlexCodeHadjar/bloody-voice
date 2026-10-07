@@ -37,7 +37,10 @@ func setup(card: CardInstance, playable: bool, selected: bool) -> void:
 	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	top.add_child(name_label)
 	var kind := String(def.type).capitalize() + ("   · ammo %d" % def.ammo if def.ammo > 0 else "")
-	v.add_child(UiKit.label(kind, 14, TYPE_COLORS.get(def.type, Palette.INK_MUTED)))
+	var kind_row := HBoxContainer.new()
+	kind_row.add_child(Icons.rect("CARD_TYPE", def.type, 24))
+	kind_row.add_child(UiKit.label(kind, 14, TYPE_COLORS.get(def.type, Palette.INK_MUTED)))
+	v.add_child(kind_row)
 	v.add_child(UiKit.paragraph(def.text, 16, Palette.SOOT))
 	for c: Node in v.get_children():
 		(c as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE

@@ -126,12 +126,12 @@ func _refresh_spares() -> void:
 	for id: StringName in spare:
 		var m := ContentDB.data.module(id)
 		var row := HBoxContainer.new()
-		row.add_child(ShapeIcon.new().setup(ContentDB.data.shapes[m.shape].cells, m.cell))
+		row.add_child(_module_picture(m))
 		var b := UiKit.button("%s  [%s · %s cell]\n%s" % [m.name, m.section, m.cell, m.effect], 15)
 		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		b.custom_minimum_size = Vector2(370, 64)
+		b.custom_minimum_size = Vector2(360, 64)
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		b.clip_text = true
+		b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		b.tooltip_text = m.effect
 		b.add_theme_color_override("font_color", Palette.BRASS_LIGHT if id == _held else Palette.PARCHMENT)
 		b.pressed.connect(_hold.bind(id))
@@ -146,6 +146,7 @@ func _refresh_armor() -> void:
 	for a: GearDefs.ArmorDef in ContentDB.data.armor:
 		for i: int in a.sockets:
 			var row := HBoxContainer.new()
+			row.add_child(Icons.rect("ARMOR", a.id, 34))
 			row.add_child(UiKit.label("%s:" % a.name, 18))
 			var pick := OptionButton.new()
 			pick.custom_minimum_size = Vector2(320, 36)
@@ -163,6 +164,20 @@ func _refresh_armor() -> void:
 			pick.item_selected.connect(func(idx: int) -> void: _message.text = GameState.set_socket(a.id, i, choices[idx]))
 			row.add_child(pick)
 			_armor.add_child(row)
+
+
+## The module's art (its exact cell shape) or, without art, a drawn outline of the shape.
+func _module_picture(m: ModuleDef) -> Control:
+	var tex := UiKit.texture(m.art_path())
+	if tex == null:
+		return ShapeIcon.new().setup(ContentDB.data.shapes[m.shape].cells, m.cell)
+	var r := TextureRect.new()
+	r.texture = tex
+	r.custom_minimum_size = Vector2(76, 64)
+	r.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	r.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	r.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return r
 
 
 func _refresh_deck() -> void:

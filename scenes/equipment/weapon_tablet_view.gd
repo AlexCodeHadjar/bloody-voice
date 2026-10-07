@@ -1,6 +1,7 @@
 class_name WeaponTabletView
 extends Control
-## Draws the weapon's sections as cell grids, the placed modules and a ghost of the module in hand.
+## Draws the weapon's sections as cell grids, the placed modules (their art, rotated) and a ghost of the
+## module in hand.
 ## Reports clicks on cells; the screen decides what to do (GameState commands).
 
 signal cell_clicked(section: StringName, cell: Vector2i)
@@ -27,6 +28,8 @@ var _ghost_rot: int = 0
 var _hover_section: StringName = &""
 var _hover_cell := Vector2i(-99, -99)
 var _font: Font
+## Textures used in _draw must stay referenced here: draw calls keep only the RID, a freed texture draws white.
+var _textures: Dictionary[String, Texture2D] = {}
 
 
 func setup(data: ContentData, loadout: LoadoutState) -> void:
@@ -34,6 +37,7 @@ func setup(data: ContentData, loadout: LoadoutState) -> void:
 	_loadout = loadout
 	_font = UiKit.serif()
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	tooltip_text = "module"  # real text comes from _get_tooltip
 	_layout()
 	queue_redraw()
 
@@ -120,7 +124,10 @@ func _draw() -> void:
 		return
 	for s: WeaponDef.SectionDef in weapon.sections:
 		var o: Vector2 = _origins[s.id]
-		draw_string(_font, o + Vector2(0, -10), s.name, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Palette.PARCHMENT)
+		var icon := _tex(Icons.path("SECTION", s.id))
+		if icon != null:
+			draw_texture_rect(icon, Rect2(o + Vector2(0, -32), Vector2(28, 28)), false)
+		draw_string(_font, o + Vector2(32 if icon != null else 0, -10), s.name, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Palette.PARCHMENT)
 		for c: Vector2i in s.cells:
 			var r := Rect2(o + Vector2(c) * CELL, Vector2(CELL, CELL)).grow(-2)
 			draw_rect(r, CELL_COLORS.get(s.cells[c], Palette.INK_MUTED))
@@ -156,9 +163,10 @@ func _draw_ghost() -> void:
 	p.rot = _ghost_rot
 	var ok := WeaponGridRules.can_place(_loadout, _data, _ghost_module, _hover_section, _hover_cell, _ghost_rot) == ""
 	var o: Vector2 = _origins[_hover_section]
+	_draw_art(p, Color(1, 1, 1, 0.6))
 	for c: Vector2i in WeaponGridRules.covered(p, _data):
 		var r := Rect2(o + Vector2(c) * CELL, Vector2(CELL, CELL)).grow(-6)
-		draw_rect(r, Color(0.4, 0.9, 0.5, 0.45) if ok else Color(0.9, 0.25, 0.2, 0.45))
+		draw_rect(r, Color(0.4, 0.9, 0.5, 0.3) if ok else Color(0.9, 0.25, 0.2, 0.45))
 
 
 ## A module: its cells in one colour, joined, with an outline around the whole shape and its name.
@@ -168,8 +176,10 @@ func _draw_module(p: LoadoutState.Placement, col: Color) -> void:
 		return
 	var o: Vector2 = _origins[p.section]
 	var cells := WeaponGridRules.covered(p, _data)
-	for c: Vector2i in cells:
-		draw_rect(Rect2(o + Vector2(c) * CELL, Vector2(CELL, CELL)).grow(-3), col)
+	var has_art := _draw_art(p, Color.WHITE)
+	if not has_art:
+		for c: Vector2i in cells:
+			draw_rect(Rect2(o + Vector2(c) * CELL, Vector2(CELL, CELL)).grow(-3), col)
 	for c: Vector2i in cells:
 		var r := Rect2(o + Vector2(c) * CELL, Vector2(CELL, CELL)).grow(-3)
 		var edges: Array = [[Vector2i.UP, r.position, r.position + Vector2(r.size.x, 0)],
@@ -178,8 +188,51 @@ func _draw_module(p: LoadoutState.Placement, col: Color) -> void:
 			[Vector2i.RIGHT, r.position + Vector2(r.size.x, 0), r.end]]
 		for e: Array in edges:
 			if not cells.has(c + (e[0] as Vector2i)):
-				draw_line(e[1] as Vector2, e[2] as Vector2, Palette.SOOT, 3.0)
-	_draw_name(m.name, o, cells)
+				draw_line(e[1] as Vector2, e[2] as Vector2, col if has_art else Palette.SOOT, 2.0 if has_art else 3.0)
+	if not has_art:
+		_draw_name(m.name, o, cells)
+
+
+## The module's art, turned like the placement. Returns false when the module has no art.
+func _draw_art(p: LoadoutState.Placement, tint: Color) -> bool:
+	var m := _data.module(p.module)
+	if m == null or not _origins.has(p.section) or not _data.shapes.has(m.shape):
+		return false
+	var tex := _tex(m.art_path())
+	if tex == null:
+		return false
+	var base := WeaponGridRules.rotated(_data.shapes[m.shape].cells, 0)
+	var turned := WeaponGridRules.rotated(base, p.rot)
+	var size := Vector2(_bbox(base)) * CELL
+	var center: Vector2 = _origins[p.section] + (Vector2(p.pos) + Vector2(_bbox(turned)) / 2.0) * CELL
+	draw_set_transform(center, p.rot * PI / 2.0, Vector2.ONE)
+	draw_texture_rect(tex, Rect2(-size / 2.0, size), false, tint)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	return true
+
+
+func _tex(path: String) -> Texture2D:
+	if not _textures.has(path):
+		_textures[path] = UiKit.texture(path)
+	return _textures[path]
+
+
+static func _bbox(cells: Array[Vector2i]) -> Vector2i:
+	var out := Vector2i.ZERO
+	for c: Vector2i in cells:
+		out = Vector2i(maxi(out.x, c.x + 1), maxi(out.y, c.y + 1))
+	return out
+
+
+## Hovering an installed module names it and says what it does.
+func _get_tooltip(at_position: Vector2) -> String:
+	for s: StringName in _origins:
+		var c := Vector2i(((at_position - _origins[s]) / CELL).floor())
+		var i := WeaponGridRules.placement_at(_loadout, _data, s, c)
+		if i >= 0:
+			var m := _data.module(_loadout.placements[i].module)
+			return "%s\n%s" % [m.name, m.effect]
+	return ""
 
 
 ## The module name once, word per line, inside the module's top row of cells (never over other cells).
@@ -206,6 +259,9 @@ func _draw_legend() -> void:
 	for kind: StringName in [&"gear", &"spark", &"blood"]:
 		draw_rect(Rect2(Vector2(x, y - 16), Vector2(18, 18)), CELL_COLORS[kind])
 		draw_rect(Rect2(Vector2(x, y - 16), Vector2(18, 18)), Palette.FOG, false, 1.0)
+		var icon := _tex(Icons.path("CELL", kind))
+		if icon != null:
+			draw_texture_rect(icon, Rect2(Vector2(x - 3, y - 19), Vector2(24, 24)), false)
 		draw_string(_font, Vector2(x + 26, y), "%s cell" % String(kind).capitalize(), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Palette.FOG)
 		x += 140.0
 	draw_string(_font, Vector2(x + 20, y), "Green outline = where the held module fits.", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Palette.FOG)

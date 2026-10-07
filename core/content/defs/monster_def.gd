@@ -38,6 +38,11 @@ var deck: Array[StringName] = []
 var phases: Array[PhaseDef] = []
 
 
+## Art path: kind = "combat" | "silhouette", state = "normal" | "phase2" | "leaflet" | "cracked".
+func art_path(kind: String, state: String = "normal") -> String:
+	return "res://art/monsters/%s__%s__%s.webp" % [String(id).to_upper(), kind, state]
+
+
 static func from_dict(d: Dictionary, errs: ErrorLog, file: String) -> MonsterDef:
 	var m := MonsterDef.new()
 	m.id = DefReader.id(d, "id", errs, file)

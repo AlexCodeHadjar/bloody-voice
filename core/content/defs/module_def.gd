@@ -20,6 +20,11 @@ var effect: String
 var look: String
 
 
+## Art fitted to the module's cell shape (tools/import_art.py), drawn unrotated.
+func art_path() -> String:
+	return "res://art/gear/modules/%s__module__normal.webp" % String(id).to_upper()
+
+
 static func from_dict(d: Dictionary, errs: ErrorLog) -> ModuleDef:
 	var m := ModuleDef.new()
 	m.id = DefReader.id(d, "id", errs, "modules.json")

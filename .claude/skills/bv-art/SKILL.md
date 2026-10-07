@@ -7,7 +7,7 @@ description: Арт-пайплайн Bloody Voice — импорт картин�
 
 ## Куда класть и как называть
 
-Исходники — `assets/<папка>/` (не в git, Godot их не видит). Имя: `<CODE>__<kind>__<state>.png`
+Исходники — `assets/<папка>/` или `assets/png/<папка>/` (то же самое; не в git, Godot их не видит). Имя: `<CODE>__<kind>__<state>.png`
 (CODE заглавными, остальное строчными).
 
 | Папка | Пример | Попадает в |
@@ -17,7 +17,7 @@ description: Арт-пайплайн Bloody Voice — импорт картин�
 | `ui` | `CONTRACT__tablet.png` | `art/ui/` |
 | `modules` | `CAPACITOR_BANK__module__normal.png` | `art/gear/modules/` — подгоняется под фигуру, 256 px на клетку |
 | `monsters` | `GUTTER_CHOIR__combat__normal.png`, `__phase2`, `__silhouette__leaflet`, `__silhouette__cracked` | `art/monsters/` |
-| `icons` | `STATUS__sheet.png` (весь набор одной картинкой) | `art/ui/icons/STATUS__<id>.webp` |
+| `icons` | `STATUS__sheet.png` (весь набор сеткой) или `STATUS__bleed.png` (по одной) | `art/ui/icons/STATUS__<id>.webp` (квадрат 256 px) |
 
 ## Импорт
 
@@ -29,6 +29,12 @@ tools/check_all.sh                  # импорт в Godot + проверка, 
 Ошибки импорта говорят, что не так с именем или какого id нет в данных. Иконки режутся по сетке `grid`
 из `data/ui/icons.json`: кусок уходит в ячейку своего центра, соринки отбрасываются. Если иконка «потерялась» —
 посмотри картинку: возможно, ChatGPT нарушил раскладку; попроси перегенерировать набор целиком.
+
+## В игре
+
+Иконки — `Icons.rect/with_text/button(SET, id)` (`ui/theme/icons.gd`), нет файла — пустое место того же размера.
+Тварь — `MonsterDef.art_path(kind, state)`, модуль — `ModuleDef.art_path()` (рисуется с поворотом на сетке).
+Валидатор требует арт всех тварей и модулей; тест — файл на каждую иконку из `icons.json`.
 
 ## Районы на карте
 

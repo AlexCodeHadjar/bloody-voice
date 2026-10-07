@@ -5,7 +5,6 @@ extends Control
 const MAIN_MENU := "res://scenes/menu/main_menu.tscn"
 const COMBAT := "res://scenes/combat/combat_screen.tscn"
 const EQUIPMENT := "res://scenes/equipment/equipment_screen.tscn"
-const COIN := "res://art/ui/icons/RESOURCE__money.webp"
 
 var _map_view: MapView
 var _panel: DistrictPanel
@@ -57,33 +56,29 @@ func _build_bar() -> Control:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 24)
 	bar.add_child(row)
+	row.add_child(Icons.rect("ACTION", &"day", 34))
 	_day_label = UiKit.label("", 22)
 	row.add_child(_day_label)
-	var coin := TextureRect.new()
-	coin.texture = UiKit.texture(COIN)
-	coin.custom_minimum_size = Vector2(30, 30)
-	coin.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	coin.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	row.add_child(coin)
+	row.add_child(Icons.rect("RESOURCE", &"money", 34))
 	_money_label = UiKit.label("", 22, Palette.BRASS_LIGHT)
 	row.add_child(_money_label)
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(spacer)
-	var gear := UiKit.button("Equipment", 18)
-	gear.custom_minimum_size = Vector2(170, 40)
+	var gear := Icons.button("DIRECTION", &"equipment", "Equipment", 18)
+	gear.custom_minimum_size = Vector2(190, 40)
 	gear.pressed.connect(func() -> void: get_tree().change_scene_to_file(EQUIPMENT))
 	row.add_child(gear)
-	var hunt := UiKit.button("Hunt here (1 day)", 18)
-	hunt.custom_minimum_size = Vector2(220, 40)
+	var hunt := Icons.button("ACTION", &"investigate", "Hunt here (1 day)", 18)
+	hunt.custom_minimum_size = Vector2(250, 40)
 	hunt.pressed.connect(_hunt)
 	row.add_child(hunt)
-	var end_day := UiKit.button("Rest (end day)", 18)
-	end_day.custom_minimum_size = Vector2(200, 40)
+	var end_day := Icons.button("ACTION", &"rest", "Rest (end day)", 18)
+	end_day.custom_minimum_size = Vector2(225, 40)
 	end_day.pressed.connect(GameState.end_day)
 	row.add_child(end_day)
-	var menu := UiKit.button("Menu", 18)
-	menu.custom_minimum_size = Vector2(120, 40)
+	var menu := Icons.button("UI", &"menu", "Menu", 18)
+	menu.custom_minimum_size = Vector2(140, 40)
 	menu.pressed.connect(_to_menu)
 	row.add_child(menu)
 	return bar

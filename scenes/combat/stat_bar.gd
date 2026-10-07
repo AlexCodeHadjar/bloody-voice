@@ -6,9 +6,14 @@ var _label: Label
 var _bar: ProgressBar
 
 
-func setup(color: Color, width: float = 320.0, font_size: int = 17) -> StatBar:
+## icon: a STAT icon id shown before the caption (&"" = none).
+func setup(color: Color, width: float = 320.0, font_size: int = 17, icon: StringName = &"") -> StatBar:
+	var head := HBoxContainer.new()
+	add_child(head)
+	if icon != &"":
+		head.add_child(Icons.rect("STAT", icon, font_size + 9))
 	_label = UiKit.label("", font_size)
-	add_child(_label)
+	head.add_child(_label)
 	_bar = ProgressBar.new()
 	_bar.show_percentage = false
 	_bar.custom_minimum_size = Vector2(width, 14)

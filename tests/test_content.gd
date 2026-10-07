@@ -9,6 +9,27 @@ func test_real_content_is_valid() -> void:
 	check(data.map_regions.regions.size() >= 12, "map regions")
 
 
+## Every icon in the catalog data/ui/icons.json has its imported art (screens show icons by id).
+func test_every_icon_has_art() -> void:
+	var sets: Array = JSON.parse_string(FileAccess.get_file_as_string("res://data/ui/icons.json"))
+	var missing: PackedStringArray = []
+	for s: Dictionary in sets:
+		for icon: Dictionary in s["icons"]:
+			var path := Icons.path(s["set"] as String, StringName(icon["id"] as String))
+			if not ResourceLoader.exists(path):
+				missing.append(path.get_file())
+	check(missing.is_empty(), "icons without art: %s" % ", ".join(missing))
+
+
+func test_missing_creature_art_is_reported() -> void:
+	var data := load_content()
+	var m: MonsterDef = data.monsters.values()[0]
+	m.id = &"no_such_creature"
+	var errs := ErrorLog.new()
+	ContentValidator.validate(data, errs, true)
+	check(_has(errs.messages, "missing art"), "missing creature art must fail")
+
+
 func test_bad_weekday_is_reported() -> void:
 	var data := load_content(false)
 	data.balance.rent_weekday = 9

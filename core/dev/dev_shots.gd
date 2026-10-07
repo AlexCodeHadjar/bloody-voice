@@ -74,6 +74,7 @@ func _combat_shots() -> void:
 	GameState.combat_end_turn()
 	await _wait(0.3)
 	await _shot("07_combat_turn_2")
+	s.enemy.hp = mini(s.enemy.hp, 5)  # the result shot shows a win: the creature's cracked silhouette
 	while not s.is_over():
 		CombatBot.play_turn(s, ContentDB.data)
 	EventBus.combat_updated.emit()

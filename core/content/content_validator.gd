@@ -11,6 +11,8 @@ static func validate(data: ContentData, errs: ErrorLog, check_files: bool = true
 	_cards(data, errs)
 	_monsters(data, errs)
 	GearValidator.validate(data, errs)
+	if check_files:
+		_art(data, errs)
 
 
 static func _balance(data: ContentData, errs: ErrorLog) -> void:
@@ -134,3 +136,18 @@ static func _effects(effects: Array[Dictionary], data: ContentData, errs: ErrorL
 			errs.add(w, problem)
 		elif StringName(str(e["op"])) == &"add_card" and not data.cards.has(StringName(str(e["card"]))):
 			errs.add(w, "add_card: unknown card '%s'" % e["card"])
+
+
+## Every creature has combat art (and phase art if it has phases) and both silhouettes; every module has art.
+## Only with check_files: unit tests that build content in memory skip it.
+static func _art(data: ContentData, errs: ErrorLog) -> void:
+	for m: MonsterDef in data.monsters.values():
+		var needed: Array[String] = [m.art_path("combat"), m.art_path("silhouette", "leaflet"), m.art_path("silhouette", "cracked")]
+		if not m.phases.is_empty():
+			needed.append(m.art_path("combat", "phase2"))
+		for path: String in needed:
+			if not ResourceLoader.exists(path):
+				errs.add("monsters/%s" % m.id, "missing art %s" % path)
+	for mod: ModuleDef in data.modules.values():
+		if not ResourceLoader.exists(mod.art_path()):
+			errs.add("gear/modules.json/%s" % mod.id, "missing art %s" % mod.art_path())

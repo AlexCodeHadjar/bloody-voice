@@ -4,6 +4,8 @@
 - prefers the PNG original, encodes WEBP (quality 88), limits the longest side
 - cuts icon sheets assets/icons/<SET>__sheet.png (one image per set, a grid of icons) into one file per icon;
   grid size and order come from data/ui/icons.json
+- single icons assets/icons/<SET>__<id>.png are centred on a transparent square of ICON_SIDE px
+- assets/png/<folder>/ is read like assets/<folder>/ (the owner's PNG drop folder)
 - fits weapon-module art to its exact cell shape (data/gear/*.json): 256 px per cell, transparent outside
 - skips files whose output is newer than the source (use --force to redo all)
 
@@ -29,6 +31,8 @@ QUALITY = 88
 # Sheets made before the naming rule: stem -> (set, (cols, rows)).
 LEGACY_SHEETS = {"RESOURCES__six_icons": ("RESOURCE", (6, 1))}
 CELL = 256
+ICON_SIDE = 256
+PNG_DROP = "png/"  # assets/png/<folder>/... is the same as assets/<folder>/...
 MIN_PIECE = 40  # smallest loose piece (in 1/3-scale pixels) that still belongs to an icon
 
 
@@ -77,7 +81,7 @@ def sources() -> dict[str, Path]:
     for path in sorted(SRC.rglob("*")):
         if path.suffix.lower() not in (".png", ".webp"):
             continue
-        key = str(path.relative_to(SRC).with_suffix(""))
+        key = path.relative_to(SRC).with_suffix("").as_posix().removeprefix(PNG_DROP)
         if key not in found or path.suffix.lower() == ".png":
             found[key] = path
     return found
@@ -157,6 +161,26 @@ def slice_grid(img: Image.Image, cols: int, rows: int, count: int) -> list[Image
     return icons
 
 
+def square_icon(img: Image.Image) -> Image.Image:
+    """Trim empty borders, then centre on a transparent ICON_SIDE square (icons line up in the UI)."""
+    img = img.convert("RGBA")
+    box = img.getchannel("A").getbbox()
+    if box:
+        img = img.crop(box)
+    img.thumbnail((ICON_SIDE - 8, ICON_SIDE - 8), Image.LANCZOS)
+    out = Image.new("RGBA", (ICON_SIDE, ICON_SIDE), (0, 0, 0, 0))
+    out.paste(img, ((ICON_SIDE - img.width) // 2, (ICON_SIDE - img.height) // 2), img)
+    return out
+
+
+def _single_icon(stem: str, icons: dict[str, tuple[list[str], tuple[int, int]]]) -> str | None:
+    """'STATUS__bleed' -> problem text or "" if that icon exists in data/ui/icons.json."""
+    set_code, _, icon_id = stem.partition("__")
+    if set_code not in icons:
+        return f"no icon set '{set_code}' in data/ui/icons.json"
+    return "" if icon_id in icons[set_code][0] else f"no icon '{icon_id}' in set {set_code}"
+
+
 def _sheet_set(stem: str) -> str | None:
     """'STATUS__sheet' -> 'STATUS'."""
     parts = stem.split("__")
@@ -169,7 +193,7 @@ def main(force: bool) -> int:
     shapes = module_shapes()
     icons = icon_sets()
     for key, src in sources().items():
-        folder, _, stem = key.replace("\\", "/").partition("/")
+        folder, _, stem = key.partition("/")
         if folder not in FOLDERS:
             errors.append(f"{src.relative_to(ROOT)}: unknown folder '{folder}' (expected {', '.join(FOLDERS)})")
             continue
@@ -196,6 +220,12 @@ def main(force: bool) -> int:
             skipped += 1
             continue
         img = Image.open(src)
+        if folder == "icons":
+            problem = _single_icon(stem, icons)
+            if problem:
+                errors.append(f"{src.relative_to(ROOT)}: {problem}")
+                continue
+            img = square_icon(img)
         if folder == "modules":
             code = stem.split("__")[0]
             if code not in shapes:

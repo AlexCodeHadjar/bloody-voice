@@ -54,8 +54,8 @@
 | Разработка | `core/dev/combat_bot.gd`, `dev_shots.gd` (`--shots`); `tests/` (`run_tests.gd`, `bot/autoplay.gd`) |
 | Автозагрузки | `EventBus`, `ContentDB`, `Rng`, `SaveService`, `GameState` (фасад-команды), `DevShots` |
 | Экраны | `scenes/boot`, `menu`, `city_map` (карта, карточка района), `equipment` (оружие, броня), `combat` (бой) |
-| UI | `ui/theme/palette.gd`, `ui_kit.gd` |
-| Арт | `assets/` исходники (не в git) → `tools/import_art.py` → `art/`; контуры районов `data/city/map_regions.json` |
+| UI | `ui/theme/palette.gd`, `ui_kit.gd`, `icons.gd` (иконки по набору и id) |
+| Арт | `assets/` и `assets/png/` исходники (не в git) → `tools/import_art.py` → `art/` (твари, модули, иконки); контуры районов `data/city/map_regions.json` |
 | Иконки | каталог `data/ui/icons.json` |
 | Документы | `docs/gdd/` (GDD по разделам), `docs/art-prompts/` (генерируется `tools/gen_art_prompts.py`), `docs/assets/` |
 | Инструменты | `tools/` (`check_all.sh`, `import_art.py`, `tune_monsters.py`, `gen_art_prompts.py`, `gen_art_templates.py`, `gen_city_sketch.py`) |
