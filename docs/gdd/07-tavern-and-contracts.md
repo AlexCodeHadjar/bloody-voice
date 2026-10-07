@@ -2,7 +2,7 @@
 
 ## 7.1 The contract board
 
-- The tavern 'The Lantern & Hook' has a **wooden wall with pinned leaflets**: reward, short description, black silhouette.
+- The tavern 'The Lantern & Hook' (in the Grey Chapels, GDD §20) has a **wooden wall with pinned leaflets**: reward, short description, black silhouette.
 - Clicking a leaflet opens the **contract tablet** in front of the hero. Arrows left/right switch between tablets.
 - **Accept** stamps a seal on the leaflet (the hunter has taken the job). The contract moves to the **tracker** in the top-right corner.
 - Tracker row: monster silhouette, name, days left, **region icon**. Clicking the icon plays a glowing outline animation of the region where the creature was last seen.

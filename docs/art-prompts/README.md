@@ -9,6 +9,8 @@ see [GDD §16](../gdd/16-art-direction-and-generation-prompts.md).
 | [modules.md](modules.md) | 20 weapon modules in 11 cell shapes |
 | [creatures.md](creatures.md) | 8 creatures × 4 images (combat art, phase 2, leaflet silhouette, cracked) |
 | [icons.md](icons.md) | 152 icons in 22 sets — one image per set |
+| [district-grey-chapels.md](district-grey-chapels.md) | Hand-written: close-up map of the Grey Chapels (overview + 12 tiles) |
+| [combat-ui.md](combat-ui.md) | Hand-written: combat screen v2 pieces (card frames, medallions, vials, lamps…) |
 
 ## How to use
 

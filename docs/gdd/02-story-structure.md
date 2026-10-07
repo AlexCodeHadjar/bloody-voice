@@ -4,7 +4,7 @@
 
 | Chapter | Length | Area unlocked | Main thread |
 |---|---|---|---|
-| Prologue — First Blood | 3 days | Nordhal Quarter, tavern, workshop | Tutorial hunt. The hero takes his first injection of beast blood and hears the Voice for the first time. |
+| Prologue — First Blood | 3 days | Grey Chapels (slums): tavern, workshop | Tutorial hunt. The hero takes his first injection of beast blood and hears the Voice for the first time. |
 | I — The Lantern & Hook | 4 weeks | Upper City (all 12 districts) | Disappearances across the city lead to the Church of the Pale Vault and the Masked Moon. Factions introduce themselves. |
 | II — Beneath the Platform | 4 weeks | Transition Zone, Lower City levels 6–5 | Deepwright Company, the Grey Communion, an uprising below. A section of the platform collapses. |
 | III — Where Voices Gather | 4 weeks | Levels 4–1, Ruins of the Old Capital | The fissure into the Underdream. The source of the Voice. Final hunt. |

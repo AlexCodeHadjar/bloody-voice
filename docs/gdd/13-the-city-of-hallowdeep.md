@@ -235,10 +235,10 @@ Each district is described with the same fields. **Code** is the stable identifi
 | Danger rank | P |
 | Look | Dark brick, Nordhal runes on doors, forges, fighting pits, steam from bathhouses. |
 | Areas (sub-zones) | Tavern Street · Forge Row · The Pits · Old Rune Yard |
-| Landmarks | 7 — Tavern 'The Lantern & Hook' (contract board); 8 — the hero's workshop-home |
+| Landmarks | 7 — Hunters' Hall of the crews; 8 — Forge Row smithies. (The tavern 'The Lantern & Hook', the hero's home and workshop are in the Grey Chapels — GDD §20.) |
 | Typical monsters | Infected hunters turning into beasts — a familiar face from the tavern can become a contract. |
 | Rumor flavour tags | a howl; human footprints turning into paws; smell of blood and medicine |
-| Gameplay role | Hub: tavern, workshop, home. Blood formulas from the Pale Hounds or the Weavers. |
+| Gameplay role | Home of the hunters' crews; opens after the slums (GDD §20). Blood formulas from the Pale Hounds or the Weavers. |
 
 ### Grey Chapels  [GREY · G]
 
@@ -249,11 +249,11 @@ Each district is described with the same fields. **Code** is the stable identifi
 | Controlled by | Nobody officially; the Grey Communion secretly |
 | Danger rank | P |
 | Look | Ruined chapels of a forgotten faith, shanty roofs, grey fog in cellars, bonfires. |
-| Areas (sub-zones) | The Old Grey Chapel · Shanty Roofs · Edge Walk (railing over the abyss) |
-| Landmarks | 12 — The Old Grey Chapel |
+| Areas (sub-zones) | Ash Quarter · Shanty Roofs · Chapel Close · Fog Hollow · Lower Yards · Edge Walk (GDD §20.5) |
+| Landmarks | 12 — The Old Grey Chapel (city map number). Inside the district: 20 places, see GDD §20.6 |
 | Typical monsters | Fog corruption, cult summonings, rat swarms. |
 | Rumor flavour tags | grey fog in the cellar; prayers to the god in the wall; people with grey eyes |
-| Gameplay role | Contact with the Grey Communion; ichor; secret path down in Chapter II. |
+| Gameplay role | **Start district** — the game begins confined here (GDD §20): home, tavern, workshop, shop, library. Contact with the Grey Communion; ichor; secret path down in Chapter II. |
 
 ### Deepwright Lifts  [DEEPWRIGHT · D]
 

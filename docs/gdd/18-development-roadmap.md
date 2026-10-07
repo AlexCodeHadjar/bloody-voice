@@ -16,6 +16,7 @@
 | 0. Foundation | A clean skeleton that will not need to be rewritten | Folder structure, autoloads (EventBus, ContentDB, GameState, SaveService, Rng), content loader + validator, test runner, CLAUDE.md, coding standards | Empty game boots, loads data, validator fails on broken data, tests run in CI/headless | 1–2 w |
 | 1. Combat core | Grey-box card combat | CombatSession (pure), cards as data, effects interpreter, AP, draw/discard, enemy deck + intents, body parts, combat screen | One full fight playable; bot can play 1000 fights headless | 3–4 w |
 | 2. Gear = deck | Equipment builds the deck | Weapon tablet with grid + polyomino modules, armor sockets, mechanisms, deck assembly, ammo/reload | Changing modules changes the deck; tests for grid placement | 3 w |
+| 2b. Look and onboarding | The game looks right and teaches itself (owner, 2026-10-07) | Russian interface through translation keys; tutorial hints (dim + highlight); combat screen v2; close-up Grey Chapels map, game starts confined there (GDD §20–22) | All UI in Russian; combat/equipment/district hint sequences; the hero walks the Grey Chapels map | 5–6 w (RU 1 · tutorial 1 · combat v2 2 · district map 2) |
 | 3. Investigation | Contracts and rumors | Tavern board, contract tablet, tracker, map with figure, search ring, rumor tablet, tag matching, outcomes; ContractGenerator + RumorGenerator v1 | Contract → rumor → fight → reward loop works with generated content | 4 w |
 | 4. Time, city, economy — VERTICAL SLICE | The day loop | Calendar, day actions, rent, shop, workshop crafting, library, tavern shift, Hunter's Fall; 3 districts | Prologue + 1 week playable start-to-end; first external playtest | 3–4 w |
 | 5. Art generation pipeline (parallel from Phase 1) | Consistent look | Style bible, prompt files, city sketch, import tool (PNG → webp, naming check), placeholder → final swap | Map, 3 districts, UI props and 6 monsters in final style | ongoing |
@@ -23,7 +24,7 @@
 | 7. Living city | Districts change | District state system, transitions, overlays, EventScheduler, all 12 districts in data | Storm Season and Fog Breach work end-to-end, saved and loaded | 3 w |
 | 8. Chapter I content | First complete chapter | Story contracts, dialogues, 8–10 monsters, 40–60 cards, all Chapter I art; **creatures scale with gear** (stronger ones / affixes — full gear now wins 99–100%, GDD §5.5); themed armor pickers and mechanism trade-offs (deferred from Phase 2) | Chapter I completable; bot finishes it with full gear inside the win-rate targets; playtest | 6–8 w |
 | 9. Chapters II–III | Full campaign | Transition Zone + Lower City layers, Ruins, finale, endings, remaining monsters | Game completable with all endings | 10–12 w |
-| 10. Polish and release | Ship it | Balance pass (bots + humans), audio, VFX, tutorial hints, localisation RU/EN, performance pass, Steam build | No blockers, stable 60 FPS, all tests green | 6 w |
+| 10. Polish and release | Ship it | Balance pass (bots + humans), audio, VFX, tutorial hints, English localisation (Russian is built in Phase 2b), performance pass, Steam build | No blockers, stable 60 FPS, all tests green | 6 w |
 
 > **Note:** Estimates assume one developer working with AI assistance. The order matters more than the numbers: never start content production (Phase 8) before the vertical slice (Phase 4) is fun.
 

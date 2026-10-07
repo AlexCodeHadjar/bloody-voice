@@ -39,7 +39,9 @@
 - Строгие типы (`untyped_declaration` = ошибка), у переменных цикла тоже. `:=` не выводит тип из Variant.
 - Файл ≤ 400 строк, функция ≤ 40. Без тяжёлой логики в `_process`. Случайность — только `SeededRng`/`Rng.stream`.
 - Сейвы: `RunState.SAVE_VERSION` + `SaveMigrations`; id из сейвов не переименовывать.
-- Комментарии, тексты игры, GDD и промты — по-английски; заметки для владельца — можно по-русски.
+- Комментарии, GDD, промты и id — по-английски; заметки для владельца — можно по-русски.
+- **Интерфейс игры — на русском** через ключи перевода (`tr()`, `locale/strings.csv`, GDD §22); строк в сценах не писать
+  (вводится в фазе 2b; существующие сцены ещё на английских строках — переводить при первой правке).
 
 ## Где что
 
@@ -57,6 +59,6 @@
 | UI | `ui/theme/palette.gd`, `ui_kit.gd`, `icons.gd` (иконки по набору и id) |
 | Арт | `assets/` и `assets/png/` исходники (не в git) → `tools/import_art.py` → `art/` (твари, модули, иконки); контуры районов `data/city/map_regions.json` |
 | Иконки | каталог `data/ui/icons.json` |
-| Документы | `docs/gdd/` (GDD по разделам), `docs/art-prompts/` (генерируется `tools/gen_art_prompts.py`), `docs/assets/` |
-| Инструменты | `tools/` (`check_all.sh`, `import_art.py`, `tune_monsters.py`, `gen_art_prompts.py`, `gen_art_templates.py`, `gen_city_sketch.py`) |
+| Документы | `docs/gdd/` (GDD по разделам; §20 район, §21 бой v2, §22 обучение и русский), `docs/art-prompts/` (генерируется `tools/gen_art_prompts.py`, кроме `district-grey-chapels.md`, `combat-ui.md`), `docs/assets/` (эскизы: `map/`, `districts/GREY/`, `ui/`) |
+| Инструменты | `tools/` (`check_all.sh`, `import_art.py`, `tune_monsters.py`, `gen_art_prompts.py`, `gen_art_templates.py`, `gen_city_sketch.py`, `gen_district_sketch.py` + `district_layout_grey.py` — карта района, `gen_ui_sketches.py` — эскизы экранов) |
 | Агенты | `.claude/agents/critic.md`, `design-critic.md` |
