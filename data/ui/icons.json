@@ -1,0 +1,1090 @@
+[
+ {
+  "set": "RESOURCE",
+  "style": "object",
+  "about": "Resources (GDD 6.1). Already generated — keep for re-generation.",
+  "status": "done",
+  "icons": [
+   {
+    "id": "gears",
+    "name": "Gears",
+    "use": "Resource counter, shop, crafting costs",
+    "look": "a single worn brass cogwheel with rivets"
+   },
+   {
+    "id": "scrap",
+    "name": "Work scrap",
+    "use": "Resource counter, shop, crafting costs",
+    "look": "a small pile of rusty pipes, nuts and bent plates"
+   },
+   {
+    "id": "electronics",
+    "name": "Electronics",
+    "use": "Resource counter, shop, crafting costs",
+    "look": "a small brass-framed circuit board with two glass capacitors"
+   },
+   {
+    "id": "ichor",
+    "name": "Ichor",
+    "use": "Resource counter, Monster web, blood modules",
+    "look": "a glossy drop of dark red blood with small drips"
+   },
+   {
+    "id": "trophy",
+    "name": "Trophies",
+    "use": "Loot from broken body parts",
+    "look": "a long bloody fang or claw with a torn root"
+   },
+   {
+    "id": "money",
+    "name": "Money",
+    "use": "Money counter, rewards, prices",
+    "look": "a gold coin with a laurelled profile"
+   }
+  ]
+ },
+ {
+  "set": "STAT",
+  "style": "symbol",
+  "about": "The hunter's counters on the left edge of the combat screen and in menus (GDD 4.2).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "hp",
+    "name": "Health",
+    "use": "HP counter",
+    "look": "an anatomical heart wrapped in a brass band"
+   },
+   {
+    "id": "sanity",
+    "name": "Sanity",
+    "use": "Sanity counter, Fear damage",
+    "look": "an open eye inside a cracked glass circle"
+   },
+   {
+    "id": "ap",
+    "name": "Action points",
+    "use": "AP counter, card cost",
+    "look": "a brass hourglass-shaped token with three notches"
+   },
+   {
+    "id": "block",
+    "name": "Block",
+    "use": "Block value on hunter and creature",
+    "look": "a round riveted iron buckler"
+   },
+   {
+    "id": "ammo",
+    "name": "Ammo",
+    "use": "Weapon card, ammo cost on cards",
+    "look": "a single brass rifle cartridge standing upright"
+   },
+   {
+    "id": "voice",
+    "name": "The Voice",
+    "use": "Corruption meter, Monster web",
+    "look": "a bloody mouth with fangs inside a ring of sound waves"
+   },
+   {
+    "id": "xp",
+    "name": "Experience",
+    "use": "Level bar",
+    "look": "a hunter's mark: crossed knife and quill over a small skull"
+   },
+   {
+    "id": "skill_point",
+    "name": "Skill point",
+    "use": "Skill web, level up",
+    "look": "a glowing brass rivet shaped like a star node of a web"
+   }
+  ]
+ },
+ {
+  "set": "ATTRIBUTE",
+  "style": "symbol",
+  "about": "Will, Agility, Cunning (GDD 4.1).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "will",
+    "name": "Will",
+    "use": "Character sheet, checks",
+    "look": "a clenched gauntlet fist holding a candle flame"
+   },
+   {
+    "id": "agility",
+    "name": "Agility",
+    "use": "Character sheet, checks",
+    "look": "a feathered boot heel with motion lines of ink"
+   },
+   {
+    "id": "cunning",
+    "name": "Cunning",
+    "use": "Character sheet, checks",
+    "look": "a fox mask with one narrowed eye"
+   }
+  ]
+ },
+ {
+  "set": "STATUS",
+  "style": "symbol",
+  "about": "Statuses on the hunter and the creature (GDD 9, combat rules).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "weak",
+    "name": "Weak",
+    "use": "Status: deals less damage",
+    "look": "a broken sword blade drooping down"
+   },
+   {
+    "id": "exposed",
+    "name": "Exposed",
+    "use": "Status: takes more damage",
+    "look": "a cracked breastplate with a gap"
+   },
+   {
+    "id": "bleed",
+    "name": "Bleed",
+    "use": "Status: loses HP each turn",
+    "look": "three falling blood drops"
+   },
+   {
+    "id": "dodge",
+    "name": "Dodge",
+    "use": "Status: avoids the next attack",
+    "look": "a swirl of grey smoke with a silhouette slipping away"
+   },
+   {
+    "id": "enraged",
+    "name": "Enraged",
+    "use": "Status: deals more damage",
+    "look": "a red burning eye with a vertical pupil"
+   },
+   {
+    "id": "panic",
+    "name": "Panic",
+    "use": "Hunter at 0 Sanity",
+    "look": "a trembling hand with spilled ink around it"
+   }
+  ]
+ },
+ {
+  "set": "INTENT",
+  "style": "symbol",
+  "about": "Icons on the creature's intent cards (GDD 9.4).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "attack",
+    "name": "Attack",
+    "use": "Intent: the creature will strike",
+    "look": "three claw slashes"
+   },
+   {
+    "id": "defend",
+    "name": "Defend",
+    "use": "Intent: the creature will block",
+    "look": "a chitin carapace shell"
+   },
+   {
+    "id": "fear",
+    "name": "Fear",
+    "use": "Intent: Sanity damage",
+    "look": "a tentacled shadow over a small eye"
+   },
+   {
+    "id": "debuff",
+    "name": "Debuff",
+    "use": "Intent: weakens the hunter",
+    "look": "a wilted thorn branch dripping black"
+   },
+   {
+    "id": "buff",
+    "name": "Buff",
+    "use": "Intent: strengthens itself",
+    "look": "a rising red flame with fangs"
+   },
+   {
+    "id": "heal",
+    "name": "Heal",
+    "use": "Intent: heals itself",
+    "look": "stitched flesh with a sewing needle"
+   },
+   {
+    "id": "unknown",
+    "name": "Unknown",
+    "use": "Intent hidden or cancelled",
+    "look": "a black question-shaped smoke curl"
+   }
+  ]
+ },
+ {
+  "set": "CARD_TYPE",
+  "style": "symbol",
+  "about": "Small badge in the corner of every card (GDD 9.3).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "attack",
+    "name": "Attack",
+    "use": "Card type badge",
+    "look": "a hunting knife crossed with a rifle"
+   },
+   {
+    "id": "support",
+    "name": "Support",
+    "use": "Card type badge",
+    "look": "a brass gear with a small shield"
+   },
+   {
+    "id": "consumable",
+    "name": "Consumable",
+    "use": "Card type badge",
+    "look": "a corked glass vial"
+   },
+   {
+    "id": "capture",
+    "name": "Capture",
+    "use": "Card type badge",
+    "look": "a folded iron net with lead weights"
+   },
+   {
+    "id": "rage",
+    "name": "Rage",
+    "use": "Card type badge",
+    "look": "a bloody fist"
+   },
+   {
+    "id": "curse",
+    "name": "Curse",
+    "use": "Card type badge",
+    "look": "a black thorned seal"
+   }
+  ]
+ },
+ {
+  "set": "CELL",
+  "style": "symbol",
+  "about": "Cell types of the weapon grid and armor sockets (GDD 5.2).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "gear",
+    "name": "Gear cell",
+    "use": "Weapon grid, module cards",
+    "look": "a brass square socket with a cog engraved"
+   },
+   {
+    "id": "spark",
+    "name": "Spark cell",
+    "use": "Weapon grid, module cards",
+    "look": "a copper square socket with a blue lightning sign"
+   },
+   {
+    "id": "blood",
+    "name": "Blood cell",
+    "use": "Weapon grid, module cards",
+    "look": "a bone square socket with a red drop inside"
+   }
+  ]
+ },
+ {
+  "set": "SECTION",
+  "style": "object",
+  "about": "The five sections of a weapon (GDD 5.2).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "sight",
+    "name": "Sight",
+    "use": "Weapon tablet labels, module filters",
+    "look": "a brass rifle scope"
+   },
+   {
+    "id": "magazine",
+    "name": "Magazine",
+    "use": "Weapon tablet labels, module filters",
+    "look": "a box magazine with cartridges"
+   },
+   {
+    "id": "stock",
+    "name": "Stock",
+    "use": "Weapon tablet labels, module filters",
+    "look": "a wooden rifle stock with a brass butt plate"
+   },
+   {
+    "id": "frame",
+    "name": "Frame",
+    "use": "Weapon tablet labels, module filters",
+    "look": "a riveted steel rifle receiver"
+   },
+   {
+    "id": "barrel",
+    "name": "Barrel",
+    "use": "Weapon tablet labels, module filters",
+    "look": "a short rifle barrel with a muzzle brake"
+   }
+  ]
+ },
+ {
+  "set": "ARMOR",
+  "style": "object",
+  "about": "Armor pieces and the mechanism socket (GDD 5.1).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "helmet",
+    "name": "Helmet",
+    "use": "Equipment screen, Equipment web",
+    "look": "a hunter's wide-brimmed hat with a steel plague-mask visor"
+   },
+   {
+    "id": "chestplate",
+    "name": "Chestplate",
+    "use": "Equipment screen, Equipment web",
+    "look": "a leather coat with a riveted steel chestplate"
+   },
+   {
+    "id": "gauntlets",
+    "name": "Gauntlets & Pauldrons",
+    "use": "Equipment screen, Equipment web",
+    "look": "a steel gauntlet with a shoulder pauldron"
+   },
+   {
+    "id": "greaves",
+    "name": "Greaves",
+    "use": "Equipment screen, Equipment web",
+    "look": "tall buckled boots with steel shin plates"
+   },
+   {
+    "id": "mechanism_socket",
+    "name": "Mechanism socket",
+    "use": "Empty socket on armor",
+    "look": "a round empty brass socket with screw holes"
+   }
+  ]
+ },
+ {
+  "set": "SKILL",
+  "style": "symbol",
+  "about": "Skill webs and node types (GDD 4.4).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "mechanic",
+    "name": "The Mechanic",
+    "use": "Web emblem",
+    "look": "a cogwheel inside a spider web made of wire"
+   },
+   {
+    "id": "monster",
+    "name": "The Monster",
+    "use": "Web emblem",
+    "look": "a fanged maw inside a spider web made of veins"
+   },
+   {
+    "id": "passive",
+    "name": "Passive node",
+    "use": "Skill node",
+    "look": "a small round brass rivet"
+   },
+   {
+    "id": "blueprint",
+    "name": "Blueprint node",
+    "use": "Skill node",
+    "look": "a rolled blueprint with a wax seal"
+   },
+   {
+    "id": "socket",
+    "name": "Socket node",
+    "use": "Skill node",
+    "look": "an empty round socket"
+   },
+   {
+    "id": "keystone",
+    "name": "Keystone node",
+    "use": "Skill node",
+    "look": "an ornate brass key head with a red gem"
+   }
+  ]
+ },
+ {
+  "set": "DIRECTION",
+  "style": "symbol",
+  "about": "The four directions of each skill web (GDD 4.4).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "equipment",
+    "name": "Equipment",
+    "use": "Web direction",
+    "look": "a helmet with a pauldron"
+   },
+   {
+    "id": "weapon",
+    "name": "Weapon",
+    "use": "Web direction",
+    "look": "a rifle seen from the side"
+   },
+   {
+    "id": "modules",
+    "name": "Weapon modules",
+    "use": "Web direction",
+    "look": "an L-shaped piece made of square cells"
+   },
+   {
+    "id": "mechanisms",
+    "name": "Mechanisms",
+    "use": "Web direction",
+    "look": "a small clockwork device with a spring"
+   }
+  ]
+ },
+ {
+  "set": "CONTRACT",
+  "style": "symbol",
+  "about": "Contract types and the tracker (GDD 7).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "slay",
+    "name": "Slay",
+    "use": "Contract type",
+    "look": "a skull pierced by a harpoon"
+   },
+   {
+    "id": "capture",
+    "name": "Capture",
+    "use": "Contract type",
+    "look": "a beast silhouette under an iron net"
+   },
+   {
+    "id": "research",
+    "name": "Research",
+    "use": "Contract type",
+    "look": "a magnifying glass over an anatomical sketch"
+   },
+   {
+    "id": "story",
+    "name": "Story",
+    "use": "Contract type",
+    "look": "an open book with a ribbon bookmark"
+   },
+   {
+    "id": "deadline",
+    "name": "Deadline",
+    "use": "Days left on contracts",
+    "look": "a small brass hourglass with red sand"
+   },
+   {
+    "id": "region",
+    "name": "Region",
+    "use": "Tracker: show where it was seen",
+    "look": "a brass map pin over a fragment of a city map"
+   }
+  ]
+ },
+ {
+  "set": "OUTCOME",
+  "style": "symbol",
+  "about": "What an investigated rumor turned out to be (GDD 8.3).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "target",
+    "name": "The target",
+    "use": "Rumor result",
+    "look": "a crosshair over a black silhouette"
+   },
+   {
+    "id": "wrong_monster",
+    "name": "Wrong creature",
+    "use": "Rumor result",
+    "look": "two different silhouettes, one crossed out"
+   },
+   {
+    "id": "discovery",
+    "name": "Discovery",
+    "use": "Rumor result",
+    "look": "an open chest with a faint glow"
+   },
+   {
+    "id": "false_lead",
+    "name": "False lead",
+    "use": "Rumor result",
+    "look": "a torn leaflet"
+   },
+   {
+    "id": "empty_night",
+    "name": "Empty night",
+    "use": "Rumor result",
+    "look": "a crescent moon over an empty alley"
+   }
+  ]
+ },
+ {
+  "set": "TAG",
+  "style": "symbol",
+  "about": "Categories of rumor tags (GDD 8.2).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "sound",
+    "name": "Sound",
+    "use": "Rumor tag category",
+    "look": "an ear with sound rings"
+   },
+   {
+    "id": "trace",
+    "name": "Trace",
+    "use": "Rumor tag category",
+    "look": "three parallel claw furrows"
+   },
+   {
+    "id": "victims",
+    "name": "Victims",
+    "use": "Rumor tag category",
+    "look": "an empty child's shoe"
+   },
+   {
+    "id": "time",
+    "name": "Time",
+    "use": "Rumor tag category",
+    "look": "a pocket watch with a moon on the dial"
+   },
+   {
+    "id": "place",
+    "name": "Place",
+    "use": "Rumor tag category",
+    "look": "a gas street lamp"
+   },
+   {
+    "id": "shape",
+    "name": "Shape",
+    "use": "Rumor tag category",
+    "look": "a tall wrong silhouette with long arms"
+   }
+  ]
+ },
+ {
+  "set": "ACTION",
+  "style": "object",
+  "about": "Day actions and the calendar (GDD 3.3).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "investigate",
+    "name": "Investigate",
+    "use": "Day action",
+    "look": "a lantern and a magnifying glass"
+   },
+   {
+    "id": "workshop",
+    "name": "Workshop",
+    "use": "Day action",
+    "look": "a hammer and wrench crossed over an anvil"
+   },
+   {
+    "id": "library",
+    "name": "Library",
+    "use": "Day action",
+    "look": "a stack of old books with a candle"
+   },
+   {
+    "id": "tavern",
+    "name": "Tavern shift",
+    "use": "Day action",
+    "look": "a pewter beer mug with a hook-shaped handle"
+   },
+   {
+    "id": "rest",
+    "name": "Rest",
+    "use": "Day action",
+    "look": "a simple bed with a candle by it"
+   },
+   {
+    "id": "travel",
+    "name": "Travel",
+    "use": "Moving the hunter figure",
+    "look": "a small stone hunter figurine on a pedestal"
+   },
+   {
+    "id": "day",
+    "name": "Day",
+    "use": "Calendar",
+    "look": "a tear-off calendar page"
+   },
+   {
+    "id": "rent",
+    "name": "Rent",
+    "use": "Rentday reminder",
+    "look": "a house key on a ring with a coin"
+   }
+  ]
+ },
+ {
+  "set": "FACTION",
+  "style": "crest",
+  "about": "Faction emblems (GDD 12). Shown on reputation, contracts, shops.",
+  "status": "new",
+  "icons": [
+   {
+    "id": "crown",
+    "name": "Crown Magistracy",
+    "use": "Faction emblem",
+    "look": "an iron crown over a clock face"
+   },
+   {
+    "id": "vigil",
+    "name": "Order of the Iron Vigil",
+    "use": "Faction emblem",
+    "look": "a tall tower with an open eye at the top"
+   },
+   {
+    "id": "lumen",
+    "name": "Lumen Collegium",
+    "use": "Faction emblem",
+    "look": "an open book with a lamp flame above it"
+   },
+   {
+    "id": "pale_vault",
+    "name": "Church of the Pale Vault",
+    "use": "Faction emblem",
+    "look": "a silver crescent moon inside a domed arch"
+   },
+   {
+    "id": "rowan",
+    "name": "Rowan Exchange",
+    "use": "Faction emblem",
+    "look": "a rowan branch with red berries over balance scales"
+   },
+   {
+    "id": "harrow",
+    "name": "House Harrow (Hawk)",
+    "use": "Rowan house emblem",
+    "look": "an eagle head totem"
+   },
+   {
+    "id": "brannoc",
+    "name": "House Brannoc (Bear)",
+    "use": "Rowan house emblem",
+    "look": "a bear head totem"
+   },
+   {
+    "id": "varga",
+    "name": "House Varga (Wolf)",
+    "use": "Rowan house emblem",
+    "look": "a wolf head totem"
+   },
+   {
+    "id": "pale_hounds",
+    "name": "Pale Hounds",
+    "use": "Hunter crew emblem",
+    "look": "a white wolf skull"
+   },
+   {
+    "id": "weavers",
+    "name": "The Weavers",
+    "use": "Hunter crew emblem",
+    "look": "a black spider on a red web"
+   },
+   {
+    "id": "scarlet",
+    "name": "Scarlet Supper",
+    "use": "Faction emblem",
+    "look": "a goblet spilling blood under a red lantern"
+   },
+   {
+    "id": "morrell",
+    "name": "House Morrell",
+    "use": "Faction emblem",
+    "look": "a mortar and pestle with green herbs"
+   },
+   {
+    "id": "deepwright",
+    "name": "Deepwright Company",
+    "use": "Faction emblem",
+    "look": "a pickaxe over a lift cage and gears"
+   },
+   {
+    "id": "grey_communion",
+    "name": "Grey Communion",
+    "use": "Faction emblem",
+    "look": "a hooded face made of grey fog"
+   },
+   {
+    "id": "dusk_anointed",
+    "name": "The Dusk Anointed",
+    "use": "Secret faction emblem",
+    "look": "a bonfire under a half-set sun"
+   }
+  ]
+ },
+ {
+  "set": "RANK",
+  "style": "badge",
+  "about": "Lumen Register ranks A / P / D / S (GDD 12.1). The game prints the letter.",
+  "status": "new",
+  "icons": [
+   {
+    "id": "a",
+    "name": "Rank A — Anomalous",
+    "use": "Danger rank of creatures and places, hero rank",
+    "look": "a plain iron badge, oval, with an empty centre"
+   },
+   {
+    "id": "p",
+    "name": "Rank P — Panic",
+    "use": "Danger rank",
+    "look": "a bronze badge with thorned edges and an empty centre"
+   },
+   {
+    "id": "d",
+    "name": "Rank D — Desolation",
+    "use": "Danger rank",
+    "look": "a silver badge with cracks and an empty centre"
+   },
+   {
+    "id": "s",
+    "name": "Rank S — Sovereign",
+    "use": "Danger rank",
+    "look": "a black-and-gold badge with a crown of spikes and an empty centre"
+   }
+  ]
+ },
+ {
+  "set": "REPUTATION",
+  "style": "symbol",
+  "about": "Reputation tiers with factions (GDD 12).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "hostile",
+    "name": "Hostile",
+    "use": "Reputation tier",
+    "look": "a broken wax seal with a dagger through it"
+   },
+   {
+    "id": "wary",
+    "name": "Wary",
+    "use": "Reputation tier",
+    "look": "a half-closed eye"
+   },
+   {
+    "id": "neutral",
+    "name": "Neutral",
+    "use": "Reputation tier",
+    "look": "a plain wax seal"
+   },
+   {
+    "id": "trusted",
+    "name": "Trusted",
+    "use": "Reputation tier",
+    "look": "a handshake of a gauntlet and a glove"
+   },
+   {
+    "id": "sworn",
+    "name": "Sworn",
+    "use": "Reputation tier",
+    "look": "a hand on a book with a red ribbon"
+   }
+  ]
+ },
+ {
+  "set": "STATE",
+  "style": "symbol",
+  "about": "District state markers on the city map (GDD 14.2).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "fog_breach",
+    "name": "Fog breach",
+    "use": "Map marker",
+    "look": "grey fog pouring through a crack in a wall"
+   },
+   {
+    "id": "flooded",
+    "name": "Flooded",
+    "use": "Map marker",
+    "look": "waves rising over a street lamp"
+   },
+   {
+    "id": "burning",
+    "name": "Burning",
+    "use": "Map marker",
+    "look": "a house roof in flames"
+   },
+   {
+    "id": "burned",
+    "name": "Burned",
+    "use": "Map marker",
+    "look": "a charred black house frame"
+   },
+   {
+    "id": "rebuilding",
+    "name": "Rebuilding",
+    "use": "Map marker",
+    "look": "scaffolding with a hammer"
+   },
+   {
+    "id": "rebuilt",
+    "name": "Rebuilt",
+    "use": "Map marker",
+    "look": "a new house with a small banner"
+   },
+   {
+    "id": "quarantine",
+    "name": "Quarantine",
+    "use": "Map marker",
+    "look": "a plague doctor mask on a yellow cloth"
+   },
+   {
+    "id": "riot",
+    "name": "Riot",
+    "use": "Map marker",
+    "look": "a barricade with a torch"
+   },
+   {
+    "id": "martial_law",
+    "name": "Martial law",
+    "use": "Map marker",
+    "look": "a steel helmet over crossed pikes"
+   },
+   {
+    "id": "festival",
+    "name": "Festival",
+    "use": "Map marker",
+    "look": "paper lanterns on a string"
+   },
+   {
+    "id": "eclipse",
+    "name": "Eclipse",
+    "use": "Map marker",
+    "look": "a black moon with a silver corona"
+   },
+   {
+    "id": "collapsed",
+    "name": "Collapsed",
+    "use": "Map marker",
+    "look": "a cracked platform plate falling into darkness"
+   },
+   {
+    "id": "cleansed",
+    "name": "Cleansed",
+    "use": "Map marker",
+    "look": "a lit lamp with a clean white flame"
+   }
+  ]
+ },
+ {
+  "set": "DISTRICT",
+  "style": "crest",
+  "about": "District crests for the tracker, cards and the map legend (GDD 13.5).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "crown",
+    "name": "Crown Ward",
+    "use": "District crest",
+    "look": "a clock tower over a marble arch"
+   },
+   {
+    "id": "silverhill",
+    "name": "Silverhill",
+    "use": "District crest",
+    "look": "a cathedral rose window with a moon"
+   },
+   {
+    "id": "vigil",
+    "name": "Vigil Spire Ward",
+    "use": "District crest",
+    "look": "a tall honeycomb tower"
+   },
+   {
+    "id": "lumen",
+    "name": "Lumen Campus",
+    "use": "District crest",
+    "look": "a brass library dome"
+   },
+   {
+    "id": "market",
+    "name": "Rowan Market",
+    "use": "District crest",
+    "look": "a market awning over scales"
+   },
+   {
+    "id": "exchange",
+    "name": "Rowan Exchange Posts",
+    "use": "District crest",
+    "look": "a fortified gate with a totem"
+   },
+   {
+    "id": "avenues",
+    "name": "Numbered Avenues",
+    "use": "District crest",
+    "look": "a street grid with a tram"
+   },
+   {
+    "id": "morrell",
+    "name": "Morrell Ward",
+    "use": "District crest",
+    "look": "a greenhouse with a green lamp"
+   },
+   {
+    "id": "nordhal",
+    "name": "Nordhal Quarter",
+    "use": "District crest",
+    "look": "a forge anvil with a hook and lantern"
+   },
+   {
+    "id": "grey",
+    "name": "Grey Chapels",
+    "use": "District crest",
+    "look": "a ruined chapel in fog"
+   },
+   {
+    "id": "deepwright",
+    "name": "Deepwright Lifts",
+    "use": "District crest",
+    "look": "a lift shaft with chains"
+   },
+   {
+    "id": "scarlet",
+    "name": "Scarlet Lantern Row",
+    "use": "District crest",
+    "look": "a red lantern over a narrow alley"
+   }
+  ]
+ },
+ {
+  "set": "KNOWLEDGE",
+  "style": "symbol",
+  "about": "Bestiary knowledge levels (GDD 10.3).",
+  "status": "new",
+  "icons": [
+   {
+    "id": "seen",
+    "name": "Seen",
+    "use": "Bestiary",
+    "look": "an eye over a silhouette"
+   },
+   {
+    "id": "fought",
+    "name": "Fought",
+    "use": "Bestiary",
+    "look": "crossed knife and claw"
+   },
+   {
+    "id": "slain",
+    "name": "Slain",
+    "use": "Bestiary",
+    "look": "a skull with a harpoon"
+   },
+   {
+    "id": "captured",
+    "name": "Captured",
+    "use": "Bestiary",
+    "look": "a cage with a shadow inside"
+   },
+   {
+    "id": "dissected",
+    "name": "Dissected",
+    "use": "Bestiary",
+    "look": "a scalpel over an anatomical drawing"
+   }
+  ]
+ },
+ {
+  "set": "UI",
+  "style": "symbol",
+  "about": "Interface buttons and markers.",
+  "status": "new",
+  "icons": [
+   {
+    "id": "menu",
+    "name": "Menu",
+    "use": "Top bar",
+    "look": "three brass bars"
+   },
+   {
+    "id": "settings",
+    "name": "Settings",
+    "use": "Menu",
+    "look": "a cogwheel with a wrench"
+   },
+   {
+    "id": "save",
+    "name": "Save",
+    "use": "Menu",
+    "look": "a journal with a wax seal"
+   },
+   {
+    "id": "close",
+    "name": "Close",
+    "use": "Windows, tablets",
+    "look": "an iron cross-shaped clasp"
+   },
+   {
+    "id": "arrow_left",
+    "name": "Previous",
+    "use": "Tablet arrows",
+    "look": "a brass arrow pointing left"
+   },
+   {
+    "id": "arrow_right",
+    "name": "Next",
+    "use": "Tablet arrows",
+    "look": "a brass arrow pointing right"
+   },
+   {
+    "id": "end_turn",
+    "name": "End turn",
+    "use": "Combat",
+    "look": "an hourglass turned on its side"
+   },
+   {
+    "id": "draw_pile",
+    "name": "Draw pile",
+    "use": "Combat",
+    "look": "a face-down stack of cards"
+   },
+   {
+    "id": "discard_pile",
+    "name": "Discard pile",
+    "use": "Combat",
+    "look": "a scattered pile of cards"
+   },
+   {
+    "id": "exhaust_pile",
+    "name": "Exhaust pile",
+    "use": "Combat",
+    "look": "a burning card turning to ash"
+   },
+   {
+    "id": "lock",
+    "name": "Locked",
+    "use": "Locked nodes, closed areas",
+    "look": "a heavy iron padlock"
+   },
+   {
+    "id": "bestiary",
+    "name": "Bestiary",
+    "use": "Journal tab",
+    "look": "a leather book with a claw mark"
+   },
+   {
+    "id": "journal",
+    "name": "Journal",
+    "use": "Journal tab",
+    "look": "a notebook with a pencil"
+   },
+   {
+    "id": "accept",
+    "name": "Accept",
+    "use": "Contract tablet",
+    "look": "a red wax stamp"
+   }
+  ]
+ }
+]

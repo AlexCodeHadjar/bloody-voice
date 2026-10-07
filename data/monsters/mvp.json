@@ -127,7 +127,9 @@
     ],
     "remove": []
    }
-  ]
+  ],
+  "look": "a cluster of pale, child-sized drowned figures fused at the shoulders into one dripping mass that rises out of a storm drain; two long throats stretch up like organ pipes, wet handprints all over its skin",
+  "true_form": "the mass splits open into a ring of singing mouths, water pouring from every throat, the children's faces stretched into one long scream"
  },
  {
   "id": "moth_matron",
@@ -236,7 +238,9 @@
     ],
     "remove": []
    }
-  ]
+  ],
+  "look": "a tall moth-woman in a ragged nightgown made of grey wings, huge dusty compound eyes, thin arms cradling silk cocoons with sleeping people inside",
+  "true_form": "the nightgown opens into enormous wings covered in eye-patterns, a cloud of smaller moths pouring out of her body"
  },
  {
   "id": "lamplighter",
@@ -366,7 +370,9 @@
      "stride"
     ]
    }
-  ]
+  ],
+  "look": "an impossibly tall, thin figure in a long coat and stovepipe hat, carrying a lamplighter's pole with a lantern of black flame, its hands too long with too many joints",
+  "true_form": "the hat and face burn away to a hollow lantern-head full of black fire; the long hands unfold like spider legs"
  },
  {
   "id": "rust_mantis",
@@ -495,7 +501,9 @@
     ],
     "remove": []
    }
-  ]
+  ],
+  "look": "a mantis made of corroded iron plates and wet sinew, two scythe arms built from old saw blades, acid dripping from its jaws, sparks where metal grinds",
+  "true_form": "the plates flare open like a rusted crown, steam and acid spraying from the joints, the scythes glowing red-hot"
  },
  {
   "id": "mourning_bride",
@@ -619,7 +627,9 @@
      "sorrow"
     ]
    }
-  ]
+  ],
+  "look": "a bride in a black veil and a tattered wedding dress, holding a silver hand mirror; her fingers are too many and too long; the reflection in the mirror is not her",
+  "true_form": "the mirror cracks and her reflection climbs out of it; two brides joined at the back, veils torn, glass shards circling them"
  },
  {
   "id": "vigil_hound",
@@ -749,7 +759,9 @@
      "circle"
     ]
    }
-  ]
+  ],
+  "look": "a former monster hunter caught halfway into a huge wolf-like beast: torn hunter's coat and belts still on its body, empty syringes stuck in the fur, one human hand left",
+  "true_form": "the last human parts are gone: a massive hound with a split jaw, the hunter's hat snagged on one ear, eyes burning like lamps"
  },
  {
   "id": "clay_saint",
@@ -876,7 +888,9 @@
     ],
     "remove": []
    }
-  ]
+  ],
+  "look": "an artificial human of cracked white clay and brass joints, a halo-like ring of floating scalpels behind its head, a glowing core visible through a hole in its chest",
+  "true_form": "the clay shell peels away showing brass ribs and the bright core; the scalpels spin faster, extra surgical arms unfold from its back"
  },
  {
   "id": "burrow_wyrm",
@@ -1028,6 +1042,8 @@
      "burrow"
     ]
    }
-  ]
+  ],
+  "look": "a giant segmented worm-beast with layered chitin plates, a round maw lined with rings of teeth, a spiked armoured tail, bursting out of a broken mine floor",
+  "true_form": "the shell splits along its back, acid steaming from the cracks; the maw opens wider than its body, the tunnel collapsing around it"
  }
 ]

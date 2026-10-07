@@ -20,3 +20,5 @@ __pycache__/
 node_modules/
 tools/gdd/package-lock.json
 map_regions_check.png
+
+tools/art_prompts/.cache/

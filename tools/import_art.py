@@ -2,7 +2,8 @@
 
 - checks the naming rule  <CODE>__<kind>[__<state>...]  (CODE upper-case, the rest lower-case)
 - prefers the PNG original, encodes WEBP (quality 88), limits the longest side
-- slices the resource icon sheet into one icon per resource
+- slices icon sheets assets/icons/<SET>__sheet__<n>.png into one file per icon (order from data/ui/icons.json)
+- fits weapon-module art to its exact cell shape (data/gear/*.json): 256 px per cell, transparent outside
 - skips files whose output is newer than the source (use --force to redo all)
 
 Run from the project root:  python tools/import_art.py [--force]
@@ -19,13 +20,53 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "assets"
 DST = ROOT / "art"
 
-FOLDERS = {"districts": "city/districts", "map": "city/map", "ui": "ui"}
+FOLDERS = {"districts": "city/districts", "map": "city/map", "ui": "ui", "modules": "gear/modules",
+           "monsters": "monsters", "icons": "ui/icons"}
 NAME_RE = re.compile(r"^[A-Z0-9_]+(__[a-z0-9_]+)+$")
 MAX_SIDE = 1672
 QUALITY = 88
-# Resource sheet: icons left to right, in this order (see GDD 6.1).
-RESOURCE_SHEET = "RESOURCES__six_icons"
-RESOURCE_IDS = ["gears", "scrap", "electronics", "ichor", "trophy", "money"]
+ICONS_PER_SHEET = 6
+LEGACY_SHEETS = {"RESOURCES__six_icons": ("RESOURCE", 1)}  # first sheet, made before the naming rule
+
+
+def icon_sets() -> dict[str, list[str]]:
+    """Icon set code -> icon ids in sheet order (data/ui/icons.json)."""
+    import json
+
+    sets = json.loads((ROOT / "data/ui/icons.json").read_text(encoding="utf-8"))
+    return {s["set"]: [i["id"] for i in s["icons"]] for s in sets}
+CELL = 256
+
+
+def module_shapes() -> dict[str, list[list[int]]]:
+    """Module id (upper case, as in file names) -> list of [x, y] cells."""
+    import json
+
+    shapes = json.loads((ROOT / "data/gear/shapes.json").read_text(encoding="utf-8"))
+    modules = json.loads((ROOT / "data/gear/modules.json").read_text(encoding="utf-8"))
+    return {m["id"].upper(): shapes[m["shape"]]["cells"] for m in modules}
+
+
+def fit_to_shape(img: Image.Image, cells: list[list[int]]) -> Image.Image:
+    """Cover-scale the art to the shape's bounding box and cut away everything outside its cells."""
+    from PIL import ImageDraw, ImageOps
+
+    cols = max(c[0] for c in cells) + 1
+    rows = max(c[1] for c in cells) + 1
+    size = (cols * CELL, rows * CELL)
+    art = ImageOps.fit(img.convert("RGBA"), size, Image.LANCZOS)
+    mask = Image.new("L", size, 0)
+    d = ImageDraw.Draw(mask)
+    for x, y in cells:
+        d.rounded_rectangle([x * CELL, y * CELL, (x + 1) * CELL - 1, (y + 1) * CELL - 1], radius=CELL // 12, fill=255)
+    for x, y in cells:  # merge neighbouring cells so the shape has no seams
+        for dx, dy in ((1, 0), (0, 1)):
+            if [x + dx, y + dy] in cells:
+                d.rectangle([x * CELL + CELL // 2, y * CELL + CELL // 2,
+                             (x + dx) * CELL + CELL // 2, (y + dy) * CELL + CELL // 2], fill=255)
+    alpha = Image.composite(art.getchannel("A"), Image.new("L", size, 0), mask)
+    art.putalpha(alpha)
+    return art
 
 
 def sources() -> dict[str, Path]:
@@ -103,9 +144,19 @@ def slice_sheet(img: Image.Image, count: int) -> list[Image.Image]:
     return icons
 
 
+def _sheet_key(stem: str) -> tuple[str, int] | None:
+    """'STATUS__sheet__1' -> ('STATUS', 1)."""
+    parts = stem.split("__")
+    if len(parts) == 3 and parts[1] == "sheet" and parts[2].isdigit():
+        return parts[0], int(parts[2])
+    return None
+
+
 def main(force: bool) -> int:
     errors: list[str] = []
     written = skipped = 0
+    shapes = module_shapes()
+    icons = icon_sets()
     for key, src in sources().items():
         folder, _, stem = key.replace("\\", "/").partition("/")
         if folder not in FOLDERS:
@@ -114,10 +165,15 @@ def main(force: bool) -> int:
         if not NAME_RE.match(stem):
             errors.append(f"{src.relative_to(ROOT)}: bad name, expected <CODE>__<kind>__<state>")
             continue
-        if stem == RESOURCE_SHEET:
-            img = Image.open(src).convert("RGBA")
-            for rid, icon in zip(RESOURCE_IDS, slice_sheet(img, len(RESOURCE_IDS))):
-                save_webp(icon, DST / "ui/icons" / f"RESOURCE__{rid}.webp")
+        sheet = (LEGACY_SHEETS.get(stem) or _sheet_key(stem)) if folder in ("icons", "ui") else None
+        if sheet is not None:
+            set_code, index = sheet
+            if set_code not in icons:
+                errors.append(f"{src.relative_to(ROOT)}: no icon set '{set_code}' in data/ui/icons.json")
+                continue
+            ids = icons[set_code][(index - 1) * ICONS_PER_SHEET:index * ICONS_PER_SHEET]
+            for icon_id, icon in zip(ids, slice_sheet(Image.open(src).convert("RGBA"), len(ids))):
+                save_webp(icon, DST / "ui/icons" / f"{set_code}__{icon_id}.webp")
                 written += 1
             continue
         out = DST / FOLDERS[folder] / f"{stem}.webp"
@@ -125,6 +181,12 @@ def main(force: bool) -> int:
             skipped += 1
             continue
         img = Image.open(src)
+        if folder == "modules":
+            code = stem.split("__")[0]
+            if code not in shapes:
+                errors.append(f"{src.relative_to(ROOT)}: no module '{code.lower()}' in data/gear/modules.json")
+                continue
+            img = fit_to_shape(img, shapes[code])
         save_webp(img.convert("RGBA" if img.mode in ("RGBA", "LA", "P") else "RGB"), out)
         written += 1
     for e in errors:

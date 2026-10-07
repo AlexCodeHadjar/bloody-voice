@@ -1,0 +1,14 @@
+{
+ "_comment": "Module shapes (GDD 5.2). cells = [x, y] in the base orientation, x to the right, y down. The game rotates them.",
+ "M1": { "name": "Single",   "cells": [[0,0]] },
+ "I2": { "name": "Bar 2",    "cells": [[0,0],[1,0]] },
+ "I3": { "name": "Bar 3",    "cells": [[0,0],[1,0],[2,0]] },
+ "L3": { "name": "Corner 3", "cells": [[0,0],[0,1],[1,1]] },
+ "I4": { "name": "Bar 4",    "cells": [[0,0],[1,0],[2,0],[3,0]] },
+ "O4": { "name": "Square",   "cells": [[0,0],[1,0],[0,1],[1,1]] },
+ "T4": { "name": "T",        "cells": [[0,0],[1,0],[2,0],[1,1]] },
+ "L4": { "name": "L",        "cells": [[0,0],[0,1],[0,2],[1,2]] },
+ "J4": { "name": "J",        "cells": [[1,0],[1,1],[1,2],[0,2]] },
+ "S4": { "name": "S",        "cells": [[1,0],[2,0],[0,1],[1,1]] },
+ "Z4": { "name": "Z",        "cells": [[0,0],[1,0],[1,1],[2,1]] }
+}

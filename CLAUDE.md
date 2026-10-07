@@ -50,3 +50,14 @@ G="/d/Godot_v4.7.2-stable_win64_console.exe"
 | Автозагрузки | `EventBus`, `ContentDB`, `Rng`, `SaveService`, `GameState` (фасад-команды), `DevShots` |
 | Экраны | `scenes/boot`, `scenes/menu/main_menu`, `scenes/city_map/` (`map_view.gd`, `district_panel.gd`) |
 | UI | `ui/theme/palette.gd`, `ui_kit.gd` |
+
+## Промты для арта (модули, твари, иконки)
+
+- Документ `Bloody Voice - Art Prompts (Modules, Creatures, Icons).docx` собирается из данных:
+  `python tools/gen_art_templates.py` (шаблоны в `docs/assets/templates/`) → `python tools/art_prompts/refs.py` →
+  `node tools/art_prompts/build.js` (нужен npm-пакет `docx`). Данные: `data/gear/shapes.json` (фигуры клеток),
+  `data/gear/modules.json` (каталог модулей, этап 2), `data/monsters/*.json` (`look`, `true_form`), `data/ui/icons.json`
+  (все иконки игры: наборы по стилю object / symbol / crest / badge).
+- Импорт: `assets/modules/<ID>__module__normal.png` → подгоняется под фигуру (256 px на клетку, вне — прозрачно);
+  `assets/monsters/<ID>__combat__normal|phase2.png`, `<ID>__silhouette__leaflet|cracked.png`;
+  листы иконок `assets/icons/<SET>__sheet__<n>.png` (по 6 в ряд, порядок — из каталога) → `art/ui/icons/<SET>__<id>.webp`.
