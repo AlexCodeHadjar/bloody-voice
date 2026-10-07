@@ -1,0 +1,22 @@
+# Godot
+.godot/
+*.translation
+export_presets.cfg
+/build/
+
+# Source art drop folder: large PNG originals stay local (OneDrive).
+# Processed game art lives in art/ and IS committed.
+/assets/*
+!/assets/README.md
+
+# Office lock files, OS junk
+~$*
+*.tmp
+Thumbs.db
+.DS_Store
+
+# Tools
+__pycache__/
+node_modules/
+tools/gdd/package-lock.json
+map_regions_check.png

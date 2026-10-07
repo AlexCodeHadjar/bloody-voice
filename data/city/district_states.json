@@ -1,0 +1,17 @@
+{
+ "_comment": "District state catalog (GDD 14.2). A state is data: art suffix + rule modifiers.",
+ "normal":      { "art_suffix": "normal",      "danger_delta": 0,  "ring_growth_mult": 1.0, "shop_price_mult": 1.0 },
+ "fog_breach":  { "art_suffix": "fog_breach",  "danger_delta": 1,  "ring_growth_mult": 1.0, "shop_price_mult": 1.2, "overlay": "fog", "monster_pool_add": ["dreamspawn"] },
+ "flooded":     { "art_suffix": "flooded",     "danger_delta": 0,  "ring_growth_mult": 0.5, "shop_price_mult": 1.1, "overlay": "water_low", "rumor_tag_weights": { "near_water": 2.0, "rain": 2.0 } },
+ "burning":     { "art_suffix": "burning",     "danger_delta": 1,  "ring_growth_mult": 0.5, "shop_price_mult": 1.5, "overlay": "fire", "next": "burned" },
+ "burned":      { "art_suffix": "burned",      "danger_delta": 0,  "ring_growth_mult": 1.0, "shop_price_mult": 1.2 },
+ "rebuilding":  { "art_suffix": "rebuilding",  "danger_delta": 0,  "ring_growth_mult": 1.0, "shop_price_mult": 1.1, "next": "rebuilt" },
+ "rebuilt":     { "art_suffix": "rebuilt",     "danger_delta": 0,  "ring_growth_mult": 1.0, "shop_price_mult": 1.0 },
+ "quarantine":  { "art_suffix": "quarantine",  "danger_delta": 0,  "ring_growth_mult": 0.75, "shop_price_mult": 1.3, "overlay": "chalk" },
+ "riot":        { "art_suffix": "riot",        "danger_delta": 1,  "ring_growth_mult": 1.0, "shop_price_mult": 1.3, "overlay": "smoke" },
+ "martial_law": { "art_suffix": "martial_law", "danger_delta": -1, "ring_growth_mult": 0.75, "shop_price_mult": 1.1 },
+ "festival":    { "art_suffix": "festival",    "danger_delta": 0,  "ring_growth_mult": 1.25, "shop_price_mult": 1.2, "overlay": "lanterns" },
+ "eclipse":     { "art_suffix": "eclipse",     "danger_delta": 1,  "ring_growth_mult": 1.0, "shop_price_mult": 1.0 },
+ "collapsed":   { "art_suffix": "collapsed",   "danger_delta": 1,  "ring_growth_mult": 1.0, "shop_price_mult": 1.0, "permanent": true },
+ "cleansed":    { "art_suffix": "cleansed",    "danger_delta": -1, "ring_growth_mult": 1.0, "shop_price_mult": 0.9 }
+}

@@ -1,0 +1,378 @@
+[
+ {
+  "id": "CROWN",
+  "symbol": "C",
+  "name": "Crown Ward",
+  "class": "Administrative / nobility",
+  "size": "Small (core)",
+  "controller": "Crown Magistracy and old noble houses",
+  "danger": "A (contracts lead to P–D)",
+  "look": "Marble galleries, a citadel of black steel and white stone, clock towers on every square, gas lamps with brass cages, named streets, private gardens under glass domes.",
+  "areas": [
+   {
+    "id": "citadel_square",
+    "name": "Citadel Square"
+   },
+   {
+    "id": "the_glass_gardens",
+    "name": "The Glass Gardens"
+   },
+   {
+    "id": "gallery_row",
+    "name": "Gallery Row (noble mansions)"
+   },
+   {
+    "id": "clockmakers_steps",
+    "name": "Clockmakers' Steps"
+   }
+  ],
+  "landmarks": "1 — Crown Magistracy citadel",
+  "monsters": "Mimics and doubles, creatures living in mirrors and portraits, mind control. Nobles secretly dabble in black magic.",
+  "rumor_tags": "a servant 'acting differently'; mirrors covered with cloth; one more guest at the ball than invited",
+  "role": "Expensive secret contracts with strict deadlines; failure hurts reputation.",
+  "mood": "polished, cold, silent luxury hiding rot"
+ },
+ {
+  "id": "SILVERHILL",
+  "symbol": "S",
+  "name": "Silverhill",
+  "class": "Religious",
+  "size": "Large (north-north-west, from the centre to the wall)",
+  "controller": "Church of the Pale Vault",
+  "danger": "A by day, P by night",
+  "look": "White cathedrals with moon-shaped rose windows, silver domes, convent walls, terraced cemetery down to the Ringwall, orphanage courtyards.",
+  "areas": [
+   {
+    "id": "cathedral_close",
+    "name": "Cathedral Close"
+   },
+   {
+    "id": "convent_of_st_aldric",
+    "name": "Convent of St. Aldric"
+   },
+   {
+    "id": "terraced_cemetery",
+    "name": "Terraced Cemetery"
+   },
+   {
+    "id": "orphans_stair",
+    "name": "Orphans' Stair"
+   }
+  ],
+  "landmarks": "4 — Cathedral of the Pale Vault; 5 — Convent of St. Aldric",
+  "monsters": "Sleepwalkers, 'Moon children', silver parasites, moth swarms. Hidden truth: the moon they worship is the Masked Moon, a creature wearing a god's skin.",
+  "rumor_tags": "at full moon; smells of incense and blood; the victim was smiling",
+  "role": "Long story chain of Chapter I; healing and holy consumables.",
+  "mood": "pale, sacred, moonlit, unsettling serenity"
+ },
+ {
+  "id": "VIGIL",
+  "symbol": "V",
+  "name": "Vigil Spire Ward",
+  "class": "Military order",
+  "size": "Small wedge (north-east of the centre)",
+  "controller": "Order of the Iron Vigil",
+  "danger": "A",
+  "look": "A 300-metre honeycomb tower with 49 elevators, barracks, drill yards, archive halls, steel banners.",
+  "areas": [
+   {
+    "id": "the_spire",
+    "name": "The Spire"
+   },
+   {
+    "id": "drill_yards",
+    "name": "Drill Yards"
+   },
+   {
+    "id": "archive_halls",
+    "name": "Archive Halls"
+   }
+  ],
+  "landmarks": "2 — The Vigil Spire",
+  "monsters": "Rare: escaped evidence from archives, possessed knights.",
+  "rumor_tags": "armour found empty; orders given by no one; lights in the archive at night",
+  "role": "Dossiers on monsters (contract tags revealed early), knight armor blueprints.",
+  "mood": "disciplined, vertical, iron and lamplight"
+ },
+ {
+  "id": "LUMEN",
+  "symbol": "L",
+  "name": "Lumen Campus",
+  "class": "University / science",
+  "size": "Medium (east of the centre)",
+  "controller": "Lumen Collegium",
+  "danger": "P (experiments escape)",
+  "look": "Lecture halls, glass laboratories, chimneys with coloured smoke, the Great Library with a brass dome, mechanical department workshops.",
+  "areas": [
+   {
+    "id": "great_library",
+    "name": "Great Library"
+   },
+   {
+    "id": "alchemy_wing",
+    "name": "Alchemy Wing"
+   },
+   {
+    "id": "mechanical_department",
+    "name": "Mechanical Department"
+   },
+   {
+    "id": "lecture_quad",
+    "name": "Lecture Quad"
+   }
+  ],
+  "landmarks": "3 — Great Library of the Collegium (the hero's Library action)",
+  "monsters": "Escaped 'Clay Saints' (artificial humans), victims of transmutation, living formulas.",
+  "rumor_tags": "smell of formalin; glass chiming; the skull opened neatly, like in a lecture",
+  "role": "Library actions; buyer of captured creatures; Mechanic blueprints.",
+  "mood": "clinical, curious, brass and glass, knowledge as power"
+ },
+ {
+  "id": "MARKET",
+  "symbol": "M",
+  "name": "Rowan Market",
+  "class": "Trade",
+  "size": "Medium (south of the centre)",
+  "controller": "Rowan Exchange",
+  "danger": "A",
+  "look": "Covered rows, scales, crates, awnings, a central hall with a rowan tree carved in wood. The hero's shop is a wooden table with cards.",
+  "areas": [
+   {
+    "id": "central_hall",
+    "name": "Central Hall"
+   },
+   {
+    "id": "covered_rows",
+    "name": "Covered Rows"
+   },
+   {
+    "id": "crate_yards",
+    "name": "Crate Yards"
+   }
+  ],
+  "landmarks": "6 — Rowan Market, the shop table",
+  "monsters": "Smuggled 'sleeping' creatures in crates, wood parasites, a curse of greed (cursed object).",
+  "rumor_tags": "the cargo moved; a trader went mad with greed; roots through the cobbles",
+  "role": "The Shop location.",
+  "mood": "busy, warm lamplight, haggling, hidden contraband"
+ },
+ {
+  "id": "EXCHANGE",
+  "symbol": "X",
+  "name": "Rowan Exchange Posts",
+  "class": "Trade enclaves",
+  "size": "Three small enclaves at the gates",
+  "controller": "Rowan Exchange houses: Harrow (Hawk), Varga (Wolf), Brannoc (Bear)",
+  "danger": "A",
+  "look": "Fortified warehouses at the gates, totem carvings (eagle / wolf / bear), caravan yards, weighing towers.",
+  "areas": [
+   {
+    "id": "hawk_post",
+    "name": "Hawk Post"
+   },
+   {
+    "id": "wolf_post",
+    "name": "Wolf Post"
+   },
+   {
+    "id": "bear_post",
+    "name": "Bear Post"
+   }
+  ],
+  "landmarks": "14 — Hawk Gate post; 15 — Wolf Gate post; 16 — Bear Gate post",
+  "monsters": "Things that come in from the Mistveil with caravans.",
+  "rumor_tags": "fog on the cargo; a caravan arrived with one driver too many",
+  "role": "House-specific shop lines (Hawk = scopes, Bear = armor, Wolf = hunting mechanisms).",
+  "mood": "fortified, tribal-mercantile, fog at the gates"
+ },
+ {
+  "id": "AVENUES",
+  "symbol": "A",
+  "name": "The Numbered Avenues",
+  "class": "Middle class (largest)",
+  "size": "Very large (west and south-west, from inner ring to the wall)",
+  "controller": "Nobody (formally the Magistracy, in practice the Iron Vigil)",
+  "danger": "A, with P hotspots",
+  "look": "An endless grid of identical streets: '12th Avenue', 'Street K'. Offices, shops, tenement houses, trams.",
+  "areas": [
+   {
+    "id": "4th_avenue",
+    "name": "4th Avenue"
+   },
+   {
+    "id": "23rd_avenue",
+    "name": "23rd Avenue"
+   },
+   {
+    "id": "tram_depot",
+    "name": "Tram Depot"
+   },
+   {
+    "id": "letter_streets",
+    "name": "Letter Streets (A–Z)"
+   },
+   {
+    "id": "laundry_canals",
+    "name": "Laundry Canals"
+   }
+  ],
+  "landmarks": "13 — the quiet bookshop on 23rd Avenue (easter egg: its rumor can never be investigated — 'Contact not advised')",
+  "monsters": "Everyday horror: something in the drains, in the neighbours' cellar, on the last tram.",
+  "rumor_tags": "wet handprints on windows; children singing in the drains; the last tram arrived empty",
+  "role": "Most generated side contracts; good place to farm rumors.",
+  "mood": "grey routine, rain, repetition, lonely windows"
+ },
+ {
+  "id": "MORRELL",
+  "symbol": "H",
+  "name": "Morrell Ward",
+  "class": "Medical",
+  "size": "Small-medium (west of the centre)",
+  "controller": "House Morrell",
+  "danger": "A",
+  "look": "Clinics, apothecaries, greenhouses with herbs, a morgue with green lamps.",
+  "areas": [
+   {
+    "id": "apothecarium",
+    "name": "Apothecarium"
+   },
+   {
+    "id": "greenhouses",
+    "name": "Greenhouses"
+   },
+   {
+    "id": "the_morgue",
+    "name": "The Morgue"
+   }
+  ],
+  "landmarks": "10 — Morrell Apothecarium & clinic (Hunter's Fall wake-up point)",
+  "monsters": "Patients who did not die, disease-beings, infections from the Lower City.",
+  "rumor_tags": "the corpse was warm a week later; bitter herbal smell; nurses refuse the night shift",
+  "role": "Treatment of HP and the Voice; tonics; buys captured creatures.",
+  "mood": "sterile green light, herbs, quiet suffering"
+ },
+ {
+  "id": "NORDHAL",
+  "symbol": "N",
+  "name": "Nordhal Quarter",
+  "class": "Hunters / working class — HOME",
+  "size": "Large (north-east, outer ring)",
+  "controller": "Hunter crews and the old Nordhal families",
+  "danger": "P",
+  "look": "Dark brick, Nordhal runes on doors, forges, fighting pits, steam from bathhouses.",
+  "areas": [
+   {
+    "id": "tavern_street",
+    "name": "Tavern Street"
+   },
+   {
+    "id": "forge_row",
+    "name": "Forge Row"
+   },
+   {
+    "id": "the_pits",
+    "name": "The Pits"
+   },
+   {
+    "id": "old_rune_yard",
+    "name": "Old Rune Yard"
+   }
+  ],
+  "landmarks": "7 — Tavern 'The Lantern & Hook' (contract board); 8 — the hero's workshop-home",
+  "monsters": "Infected hunters turning into beasts — a familiar face from the tavern can become a contract.",
+  "rumor_tags": "a howl; human footprints turning into paws; smell of blood and medicine",
+  "role": "Hub: tavern, workshop, home. Blood formulas from the Pale Hounds or the Weavers.",
+  "mood": "rough, warm firelight, brotherhood and dread"
+ },
+ {
+  "id": "GREY",
+  "symbol": "G",
+  "name": "Grey Chapels",
+  "class": "Slums at the platform edge",
+  "size": "Large (east, outer ring)",
+  "controller": "Nobody officially; the Grey Communion secretly",
+  "danger": "P",
+  "look": "Ruined chapels of a forgotten faith, shanty roofs, grey fog in cellars, bonfires.",
+  "areas": [
+   {
+    "id": "the_old_grey_chapel",
+    "name": "The Old Grey Chapel"
+   },
+   {
+    "id": "shanty_roofs",
+    "name": "Shanty Roofs"
+   },
+   {
+    "id": "edge_walk",
+    "name": "Edge Walk (railing over the abyss)"
+   }
+  ],
+  "landmarks": "12 — The Old Grey Chapel",
+  "monsters": "Fog corruption, cult summonings, rat swarms.",
+  "rumor_tags": "grey fog in the cellar; prayers to the god in the wall; people with grey eyes",
+  "role": "Contact with the Grey Communion; ichor; secret path down in Chapter II.",
+  "mood": "poverty, ash and fog, forbidden faith"
+ },
+ {
+  "id": "DEEPWRIGHT",
+  "symbol": "D",
+  "name": "Deepwright Lifts",
+  "class": "Industrial",
+  "size": "Large (south-east)",
+  "controller": "Deepwright Company",
+  "danger": "P, D near the shafts",
+  "look": "Giant mine lifts going down through the platform, foundries, ore yards, machines roaring, workers in masks.",
+  "areas": [
+   {
+    "id": "main_lifts",
+    "name": "Main Lifts"
+   },
+   {
+    "id": "foundry_line",
+    "name": "Foundry Line"
+   },
+   {
+    "id": "ore_yards",
+    "name": "Ore Yards"
+   },
+   {
+    "id": "shaft_7",
+    "name": "Shaft 7 (sealed)"
+   }
+  ],
+  "landmarks": "9 — Deepwright Main Lifts (descent to the Lower City)",
+  "monsters": "Burrow Wyrm (rank D: digs, chitin shell, acid), creatures riding up the lifts.",
+  "rumor_tags": "walls eaten through; the floor collapsed; workers heard knocking from below",
+  "role": "Best district for Gears/Scrap; the way down in Chapter II.",
+  "mood": "industrial hell, sparks, steam, deep shafts"
+ },
+ {
+  "id": "SCARLET",
+  "symbol": "R",
+  "name": "Scarlet Lantern Row",
+  "class": "Red-light / black market",
+  "size": "Medium (south, outer ring)",
+  "controller": "Scarlet Supper",
+  "danger": "P–D",
+  "look": "Narrow alleys under red lanterns, brothels, gambling dens, underground auction houses, black magicians' parlours.",
+  "areas": [
+   {
+    "id": "lantern_alley",
+    "name": "Lantern Alley"
+   },
+   {
+    "id": "the_auction_house",
+    "name": "The Auction House"
+   },
+   {
+    "id": "velvet_steps",
+    "name": "Velvet Steps"
+   }
+  ],
+  "landmarks": "11 — Scarlet Supper auction house (black market)",
+  "monsters": "Illusions, blood curses, creatures summoned by clients.",
+  "rumor_tags": "a client left without a face; whispering in an unknown tongue; blood on the mirror",
+  "role": "Black market; Scarlet Supper contracts.",
+  "mood": "red light, perfume and blood, seductive danger"
+ }
+]

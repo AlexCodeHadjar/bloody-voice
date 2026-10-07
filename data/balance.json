@@ -1,0 +1,25 @@
+{
+ "_comment": "All tuning numbers live here (GDD 19.1: no magic numbers in code).",
+ "calendar": {
+  "days_per_week": 7,
+  "weeks_per_chapter": 4,
+  "rent_weekday": 6,
+  "shop_refresh_weekday": 0
+ },
+ "economy": {
+  "start_money": 60,
+  "weekly_rent": 25
+ },
+ "hero": {
+  "start_district": "NORDHAL",
+  "base_hp": 40,
+  "hp_per_level": 5,
+  "base_ap": 3,
+  "hand_size": 5
+ },
+ "capture": {
+  "per_cunning": 0.04,
+  "per_broken_part": 0.15,
+  "max_chance": 0.95
+ }
+}
