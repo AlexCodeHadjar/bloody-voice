@@ -21,6 +21,8 @@ func continue_game() -> bool:
 	var loaded := SaveService.load_run()
 	if loaded == null:
 		return false
+	for problem: String in WeaponGridRules.drop_invalid(loaded.loadout, ContentDB.data):
+		push_warning("[save] gear removed: " + problem)
 	run = loaded
 	Rng.set_seed(run.master_seed)
 	EventBus.run_loaded.emit()
@@ -53,16 +55,63 @@ func end_day() -> void:
 	save_game()
 
 
+## Gear can be changed anywhere outside a fight, for free (owner's decision, GDD 5).
+func equip_module(module: StringName, section: StringName, pos: Vector2i, rot: int) -> String:
+	if run == null or combat != null:
+		return "Not now."
+	var problem := WeaponGridRules.place(run.loadout, ContentDB.data, module, section, pos, rot)
+	if problem == "":
+		_loadout_changed()
+	return problem
+
+
+## Takes a placed module out; returns its id so the screen can pick it up again.
+func unequip_module(index: int) -> StringName:
+	if run == null or combat != null:
+		return &""
+	var id := WeaponGridRules.remove_at(run.loadout, index)
+	if id != &"":
+		_loadout_changed()
+	return id
+
+
+func set_socket(piece: StringName, index: int, mechanism: StringName) -> String:
+	if run == null or combat != null:
+		return "Not now."
+	var problem := ArmorRules.set_socket(run.loadout, ContentDB.data, piece, index, mechanism)
+	if problem == "":
+		_loadout_changed()
+	return problem
+
+
+## Developer only (debug builds): own one of every module and mechanism to try builds.
+func dev_grant_all_gear() -> void:
+	if run == null or not OS.is_debug_build():
+		return
+	for id: StringName in ContentDB.data.modules:
+		if not run.loadout.owned_modules.has(id):
+			run.loadout.owned_modules.append(id)
+	for id: StringName in ContentDB.data.mechanisms:
+		if not run.loadout.owned_mechanisms.has(id):
+			run.loadout.owned_mechanisms.append(id)
+	_loadout_changed()
+
+
+func _loadout_changed() -> void:
+	EventBus.loadout_changed.emit()
+	save_game()
+
+
 ## Placeholder for "Investigate a rumor" (GDD 8): a fight in the hero's district.
 func start_hunt(monster_id: StringName = &"", capture_allowed: bool = false) -> void:
 	if run == null:
 		return
 	var rng := Rng.stream(&"encounters", run.day)
 	var id := monster_id if monster_id != &"" else EncounterRules.pick_monster(ContentDB.data, run.hero_district, rng)
-	var setup := CombatSetup.from_balance(ContentDB.data.balance, id, Rng.stream(&"combat", run.day).randi())
-	setup.capture_allowed = capture_allowed
+	var setup := DeckBuilder.setup(run.loadout, ContentDB.data, id, Rng.stream(&"combat", run.day).randi(), capture_allowed)
 	if capture_allowed:
-		setup.deck.append(&"iron_net")
+		if not setup.deck.has(&"iron_net"):  # the contract issues a net unless the gear already brings one
+			setup.deck.append(&"iron_net")
 	combat = CombatRules.start(setup, ContentDB.data)
 	EventBus.combat_started.emit()
 

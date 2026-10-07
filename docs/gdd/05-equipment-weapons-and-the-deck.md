@@ -31,8 +31,8 @@ The weapon is shown as a **card**. Clicking it opens the **weapon tablet**: a si
 ## 5.3 How the deck is built
 
 ```text
-Deck = Base cards (6)
-     + cards from the weapon (frame + installed modules)
+Deck = The hunter's own cards (10: 4 Strike, 4 Guard, Read the Beast, Sidestep)
+     + the weapon's cards (Hunting Rifle: 2 Shot, Reload) + cards of installed modules
      + cards from armor mechanisms
      + consumables chosen for this mission (single use)
      + contract-only capture consumables (only on that capture contract)
@@ -45,3 +45,45 @@ The number of cells and sockets naturally limits deck size. There are no random 
 
 - The weapon card sits to the right of the hero and shows **ammo**. Weapon attack cards spend ammo; 'Reload' costs 1 AP (or a card).
 - Some frames build **heat** instead of ammo (electric weapons): overheating skips the next weapon card.
+
+## 5.5 Decisions and implementation (Phase 2)
+
+Owner's decisions (2026-10-07):
+
+- Modules **can be rotated** when installed (quarter turns).
+- The hunter **starts with one weapon and one module**: the Hunting Rifle with a Brass Scope in the sight.
+- Gear can be changed **anywhere outside a fight, for free** (no day spent).
+- Armor sockets and mechanisms are part of Phase 2.
+- The starter rifle layout stays "one module per section" (owner, 2026-10-07): **links start with the next
+  weapon** — the rifle has single spark cells, so the Coil + Harpoon link needs a later weapon.
+- Module cards are **real upgrades** over the hunter's basic cards (owner): gear is power progression, and the
+  creatures of later chapters must grow to match it.
+- **Duplicate modules are allowed and their effects stack**; the number of cells and the economy limit them.
+- Swapping gear is free anywhere outside a fight, also in the middle of a contract.
+
+Balance with full gear (bot, every section and socket filled — `tests/bot/full_gear.json`): every creature of the
+current roster is won 99–100% of the time. Expected: the current 8 creatures are Chapter I opening targets. Later
+chapters need stronger creatures or affixes (GDD §17, MonsterVariant).
+
+Starting Hunting Rifle (25 cells; **G** = gear, **S** = spark):
+
+| Section | Cells |
+|---|---|
+| Stock | 3×2 G |
+| Frame | 3×2 G + 1 S at the top right |
+| Magazine | 2×2 G |
+| Sight | G G S |
+| Barrel | G G G G S |
+
+Every gear module fits somewhere in the starting rifle (checked by a test). Spark and blood cells are scarce on
+purpose: they come with better weapons and the skill webs. Each armor piece has 1 socket at the start.
+
+Rules: a module fits when all its cells lie inside its own section, on cells of its type, and overlap nothing.
+Two modules **touch** when they share a section and an edge; links (e.g. Coil Accelerator + Harpoon Launcher)
+swap cards in the deck. Passive bonuses (`core/content/gear_mods.gd`): `max_ammo`, `max_hp`, `shot_damage`,
+`part_damage` (shots at a body part), `shot_block`, `shot_bleed`, `bleed_bonus`, `reload_draw`, `first_turn_draw`,
+`first_turn_ap`, `foresight_start`, `rage_hp_discount`.
+
+Data: `data/gear/weapons.json`, `modules.json`, `shapes.json`, `armor.json`, `mechanisms.json`; start gear in
+`data/balance.json` → `gear`.
+

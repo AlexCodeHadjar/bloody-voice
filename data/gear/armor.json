@@ -1,0 +1,22 @@
+[
+ {
+  "id": "helmet",
+  "name": "Helmet",
+  "sockets": 1
+ },
+ {
+  "id": "chestplate",
+  "name": "Chestplate",
+  "sockets": 1
+ },
+ {
+  "id": "gauntlets",
+  "name": "Gauntlets & Pauldrons",
+  "sockets": 1
+ },
+ {
+  "id": "greaves",
+  "name": "Greaves",
+  "sockets": 1
+ }
+]

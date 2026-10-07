@@ -8,6 +8,11 @@ const DISTRICT_STATES := "city/district_states.json"
 const MAP_REGIONS := "city/map_regions.json"
 const CARDS_DIR := "cards"
 const MONSTERS_DIR := "monsters"
+const WEAPONS := "gear/weapons.json"
+const MODULES := "gear/modules.json"
+const SHAPES := "gear/shapes.json"
+const ARMOR := "gear/armor.json"
+const MECHANISMS := "gear/mechanisms.json"
 
 
 static func load_all(root: String, errs: ErrorLog) -> ContentData:
@@ -37,7 +42,28 @@ static func load_all(root: String, errs: ErrorLog) -> ContentData:
 			errs.add(item[0] as String, "duplicate monster id '%s'" % monster.id)
 		data.monsters[monster.id] = monster
 		data.monster_order.append(monster.id)
+	_load_gear(root, data, errs)
 	return data
+
+
+static func _load_gear(root: String, data: ContentData, errs: ErrorLog) -> void:
+	for d: Variant in read_array(root.path_join(WEAPONS), errs):
+		var w := WeaponDef.from_dict(d as Dictionary, errs)
+		data.weapons[w.id] = w
+	for d: Variant in read_array(root.path_join(MODULES), errs):
+		var m := ModuleDef.from_dict(d as Dictionary, errs)
+		if data.modules.has(m.id):
+			errs.add(MODULES, "duplicate module id '%s'" % m.id)
+		data.modules[m.id] = m
+	var shapes := read_object(root.path_join(SHAPES), errs)
+	for k: Variant in shapes:
+		if not str(k).begins_with("_"):
+			data.shapes[StringName(str(k))] = GearDefs.shape(StringName(str(k)), shapes[k] as Dictionary, errs)
+	for d: Variant in read_array(root.path_join(ARMOR), errs):
+		data.armor.append(GearDefs.armor(d as Dictionary, errs))
+	for d: Variant in read_array(root.path_join(MECHANISMS), errs):
+		var mech := GearDefs.mechanism(d as Dictionary, errs)
+		data.mechanisms[mech.id] = mech
 
 
 ## Every *.json in a folder holds an array of objects. Returns [[file_name, object], ...] in file order.

@@ -4,7 +4,8 @@ extends TestSuite
 
 func _start(monster: StringName = &"gutter_choir", deck: Array[StringName] = [], seed_value: int = 7) -> Array:
 	var data := load_content(false)
-	var setup := CombatSetup.from_balance(data.balance, monster, seed_value)
+	var setup := DeckBuilder.default_setup(data, monster, seed_value)
+	setup.mods = {}  # rules tests run without gear bonuses (see test_gear.gd)
 	if not deck.is_empty():
 		setup.deck = deck
 	return [CombatRules.start(setup, data), data]
@@ -168,7 +169,7 @@ func test_bot_finishes_every_fight() -> void:
 	var data := load_content(false)
 	for id: StringName in data.monster_order:
 		for i: int in 25:
-			var s := CombatBot.run_fight(CombatSetup.from_balance(data.balance, id, i), data)
+			var s := CombatBot.run_fight(DeckBuilder.default_setup(data, id, i), data)
 			check(s.is_over(), "%s fight %d finished" % [id, i])
 			check(s.turn <= data.balance.turn_limit + 1, "%s within turn limit" % id)
 

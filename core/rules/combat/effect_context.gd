@@ -6,6 +6,8 @@ var actor: Combatant
 var opponent: Combatant
 var target: CombatTarget
 var actor_is_hero: bool
+var card: CardDef = null  ## the hunter card being played (null for creature moves)
+var bonus_damage: int = 0  ## added to every hit (gear bonuses for shots)
 
 
 static func create(actor_value: Combatant, opponent_value: Combatant, target_value: CombatTarget, is_hero: bool) -> EffectContext:

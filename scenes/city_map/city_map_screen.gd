@@ -4,6 +4,7 @@ extends Control
 
 const MAIN_MENU := "res://scenes/menu/main_menu.tscn"
 const COMBAT := "res://scenes/combat/combat_screen.tscn"
+const EQUIPMENT := "res://scenes/equipment/equipment_screen.tscn"
 const COIN := "res://art/ui/icons/RESOURCE__money.webp"
 
 var _map_view: MapView
@@ -69,6 +70,10 @@ func _build_bar() -> Control:
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(spacer)
+	var gear := UiKit.button("Equipment", 18)
+	gear.custom_minimum_size = Vector2(170, 40)
+	gear.pressed.connect(func() -> void: get_tree().change_scene_to_file(EQUIPMENT))
+	row.add_child(gear)
 	var hunt := UiKit.button("Hunt here (1 day)", 18)
 	hunt.custom_minimum_size = Vector2(220, 40)
 	hunt.pressed.connect(_hunt)

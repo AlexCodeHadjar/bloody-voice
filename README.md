@@ -3,7 +3,7 @@
 A story-driven monster-hunting game with roguelike elements: deck-building combat,
 investigation through rumors, crafting your own weapons, and a living city that changes after events.
 
-Engine: **Godot 4.7** · Language: **GDScript** · Status: **Phase 1 — Combat core** (grey-box)
+Engine: **Godot 4.7** · Language: **GDScript** · Status: **Phase 2 — Gear = deck** (grey-box)
 
 The full design is in [`docs/gdd/`](docs/gdd/README.md); art prompts in [`docs/art-prompts/`](docs/art-prompts/README.md).
 

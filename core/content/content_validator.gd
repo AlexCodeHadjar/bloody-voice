@@ -10,6 +10,7 @@ static func validate(data: ContentData, errs: ErrorLog, check_files: bool = true
 	_regions(data, errs, check_files)
 	_cards(data, errs)
 	_monsters(data, errs)
+	GearValidator.validate(data, errs)
 
 
 static func _balance(data: ContentData, errs: ErrorLog) -> void:

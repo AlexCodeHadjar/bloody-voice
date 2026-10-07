@@ -24,4 +24,4 @@ func load_run(path: String = SLOT_PATH) -> RunState:
 	if typeof(parsed) != TYPE_DICTIONARY:
 		push_error("[save] broken save file %s" % path)
 		return null
-	return RunState.from_dict(SaveMigrations.migrate(parsed as Dictionary))
+	return RunState.from_dict(SaveMigrations.migrate(parsed as Dictionary, ContentDB.data.balance.start_loadout))

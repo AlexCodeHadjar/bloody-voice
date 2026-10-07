@@ -1,0 +1,42 @@
+[
+ {
+  "id": "lantern_of_revealing",
+  "name": "Lantern of Revealing",
+  "cards": [
+   "flash"
+  ],
+  "mods": {},
+  "effect": "Adds card: Flash.",
+  "look": "a small hooded brass lantern with a lens that casts a cold revealing beam"
+ },
+ {
+  "id": "smoke_bellows",
+  "name": "Smoke Bellows",
+  "cards": [
+   "smoke_screen"
+  ],
+  "mods": {},
+  "effect": "Adds card: Smoke Screen.",
+  "look": "leather bellows with a soot-blackened nozzle and a smoke canister"
+ },
+ {
+  "id": "riveted_plates",
+  "name": "Riveted Plates",
+  "cards": [],
+  "mods": {
+   "max_hp": 6
+  },
+  "effect": "+6 max HP.",
+  "look": "overlapping riveted steel plates on leather straps"
+ },
+ {
+  "id": "quick_holster",
+  "name": "Quick Holster",
+  "cards": [],
+  "mods": {
+   "first_turn_draw": 1
+  },
+  "effect": "First turn: draw 1 more card.",
+  "look": "a spring-loaded leather holster with brass clasps"
+ }
+]

@@ -5,6 +5,7 @@ extends Node
 
 const CITY_MAP := "res://scenes/city_map/city_map_screen.tscn"
 const COMBAT := "res://scenes/combat/combat_screen.tscn"
+const EQUIPMENT := "res://scenes/equipment/equipment_screen.tscn"
 
 var _dir := ""
 
@@ -38,8 +39,22 @@ func _run() -> void:
 		_hover(view, &"SCARLET")
 		await _wait(0.5)
 		await _shot("04_hero_in_scarlet")
+	await _equipment_shots()
 	await _combat_shots()
 	get_tree().quit()
+
+
+func _equipment_shots() -> void:
+	get_tree().change_scene_to_file(EQUIPMENT)
+	await _wait(1.0)
+	await _shot("09_equipment_start")
+	GameState.dev_grant_all_gear()
+	GameState.set_socket(&"helmet", 0, &"lantern_of_revealing")
+	GameState.equip_module(&"drum_magazine", &"magazine", Vector2i.ZERO, 0)
+	GameState.equip_module(&"bayonet_mount", &"stock", Vector2i.ZERO, 1)
+	get_tree().current_scene.call("_hold", &"rifled_barrel")
+	await _wait(0.5)
+	await _shot("10_equipment_built")
 
 
 func _combat_shots() -> void:

@@ -9,6 +9,7 @@ signal day_changed(day: int)
 signal money_changed(money: int)
 signal hero_moved(district: StringName)
 signal district_state_changed(target: StringName, old_state: StringName, new_state: StringName)
+signal loadout_changed
 signal combat_started
 signal combat_updated
 signal combat_finished(outcome: StringName)

@@ -21,7 +21,7 @@
 | 5. Art generation pipeline (parallel from Phase 1) | Consistent look | Style bible, prompt files, city sketch, import tool (PNG → webp, naming check), placeholder → final swap | Map, 3 districts, UI props and 6 monsters in final style | ongoing |
 | 6. Progression | Long-term goals | Levels, attributes, Mechanic + Monster skill webs, Voice stages, Bestiary, factions & reputation, Register rank | A full Chapter I week shows meaningful build choices | 4 w |
 | 7. Living city | Districts change | District state system, transitions, overlays, EventScheduler, all 12 districts in data | Storm Season and Fog Breach work end-to-end, saved and loaded | 3 w |
-| 8. Chapter I content | First complete chapter | Story contracts, dialogues, 8–10 monsters, 40–60 cards, all Chapter I art | Chapter I completable; bot finishes it; playtest | 6–8 w |
+| 8. Chapter I content | First complete chapter | Story contracts, dialogues, 8–10 monsters, 40–60 cards, all Chapter I art; **creatures scale with gear** (stronger ones / affixes — full gear now wins 99–100%, GDD §5.5); themed armor pickers and mechanism trade-offs (deferred from Phase 2) | Chapter I completable; bot finishes it with full gear inside the win-rate targets; playtest | 6–8 w |
 | 9. Chapters II–III | Full campaign | Transition Zone + Lower City layers, Ruins, finale, endings, remaining monsters | Game completable with all endings | 10–12 w |
 | 10. Polish and release | Ship it | Balance pass (bots + humans), audio, VFX, tutorial hints, localisation RU/EN, performance pass, Steam build | No blockers, stable 60 FPS, all tests green | 6 w |
 

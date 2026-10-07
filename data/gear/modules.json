@@ -1,62 +1,269 @@
 [
- { "id": "harpoon_launcher", "name": "Harpoon Launcher", "section": "barrel", "shape": "I3", "cell": "gear",
-   "effect": "Adds card: Harpoon Shot.",
-   "look": "a short brass harpoon-gun barrel with a barbed steel harpoon loaded in it and a coiled chain wrapped along the side" },
- { "id": "rifled_barrel", "name": "Rifled Barrel", "section": "barrel", "shape": "I4", "cell": "gear",
-   "effect": "Shots deal +2 damage.",
-   "look": "a long blued-steel barrel with brass bands and small cut-away windows showing spiral rifling inside" },
- { "id": "coil_accelerator", "name": "Coil Accelerator", "section": "barrel", "shape": "I2", "cell": "spark",
-   "effect": "Next to a Harpoon Launcher: Harpoon Shot becomes Shock Harpoon.",
-   "look": "a short tube wrapped in stacked copper coil rings, thin blue electric arcs jumping between the rings" },
- { "id": "flame_nozzle", "name": "Flame Nozzle", "section": "barrel", "shape": "L3", "cell": "spark",
-   "effect": "Adds card: Gout of Flame.",
-   "look": "an angled heat-blued nozzle with a tiny pilot flame, a small round fuel tank and a spark igniter with a blue glow" },
- { "id": "net_caster", "name": "Net Caster", "section": "barrel", "shape": "I3", "cell": "gear",
-   "effect": "On capture contracts adds card: Iron Net.",
-   "look": "a wide-mouthed launcher tube with a folded iron-wire net and small lead weights sticking out of its mouth" },
- { "id": "brass_scope", "name": "Brass Scope", "section": "sight", "shape": "I2", "cell": "gear",
-   "effect": "Shots at body parts deal +3 damage.",
-   "look": "a long brass telescopic sight with adjustment knobs and a lens that faintly shows a crosshair" },
- { "id": "lantern_lens", "name": "Lantern Lens", "section": "sight", "shape": "M1", "cell": "spark",
-   "effect": "Adds card: Flash.",
-   "look": "a small round lens in a brass ring with a tiny caged electric bulb glowing behind it" },
- { "id": "hound_eye", "name": "Eye of the Hound", "section": "sight", "shape": "M1", "cell": "blood",
-   "effect": "Start of the fight: see the creature's next moves.",
-   "look": "a preserved yellow beast eye floating in a glass sphere with a brass rim, thin red veins in the liquid" },
- { "id": "drum_magazine", "name": "Drum Magazine", "section": "magazine", "shape": "O4", "cell": "gear",
-   "effect": "+2 max ammo.",
-   "look": "a round riveted drum magazine with a small window showing rows of brass cartridges" },
- { "id": "quick_loader", "name": "Quick Loader", "section": "magazine", "shape": "I2", "cell": "gear",
-   "effect": "Reload also draws 1 more card.",
-   "look": "a spring-loaded speed-loader clip holding a neat row of brass cartridges" },
- { "id": "ichor_cartridges", "name": "Ichor Cartridges", "section": "magazine", "shape": "L3", "cell": "blood",
-   "effect": "Shots apply 1 Bleed.",
-   "look": "glass-bodied cartridges filled with dark red ichor, held in a stained leather bandolier strip" },
- { "id": "capacitor_bank", "name": "Capacitor Bank", "section": "magazine", "shape": "T4", "cell": "spark",
-   "effect": "Adds card: Overcharge.",
-   "look": "three glass capacitor jars with copper caps linked by braided cables, a cold blue glow inside" },
- { "id": "recoil_spring", "name": "Recoil Spring", "section": "stock", "shape": "S4", "cell": "gear",
-   "effect": "Shots also give 2 block.",
-   "look": "a heavy coiled spring assembly with two pistons, brass end caps and oily steel guides" },
- { "id": "bayonet_mount", "name": "Bayonet Mount", "section": "stock", "shape": "L4", "cell": "gear",
-   "effect": "Adds card: Bayonet Thrust.",
-   "look": "a folding steel bayonet blade on a hinged mount with a locking lever" },
- { "id": "bone_brace", "name": "Bone Brace", "section": "stock", "shape": "Z4", "cell": "blood",
-   "effect": "Rage cards cost 1 less HP.",
-   "look": "carved bone struts lashed together with sinew and iron wire, old dark blood stains in the cracks" },
- { "id": "gyro_stabilizer", "name": "Gyro Stabilizer", "section": "frame", "shape": "T4", "cell": "gear",
-   "effect": "First turn: draw 1 more card.",
-   "look": "nested gyroscope rings spinning inside a brass cage on a steel base" },
- { "id": "galvanic_core", "name": "Galvanic Core", "section": "frame", "shape": "O4", "cell": "spark",
-   "effect": "First turn: +1 AP.",
-   "look": "a cylindrical battery core in an iron cage with captured lightning crawling inside thick glass" },
- { "id": "vein_lattice", "name": "Vein Lattice", "section": "frame", "shape": "I4", "cell": "blood",
-   "effect": "Blood modules touching it get a stronger effect.",
-   "look": "a lattice of glass tubes with dark red fluid pumping through them, small brass valves, like a mechanical vein" },
- { "id": "serrated_rail", "name": "Serrated Rail", "section": "frame", "shape": "J4", "cell": "gear",
-   "effect": "Adds card: Serrated Edge.",
-   "look": "a steel rail with a saw-tooth blade along its length and small rivets" },
- { "id": "smoke_vent", "name": "Smoke Vent", "section": "frame", "shape": "L4", "cell": "gear",
-   "effect": "Adds card: Smoke Screen.",
-   "look": "small leather bellows connected to sooty vent pipes, a thin puff of grey smoke" }
+ {
+  "id": "harpoon_launcher",
+  "name": "Harpoon Launcher",
+  "section": "barrel",
+  "shape": "I3",
+  "cell": "gear",
+  "cards": [
+   "harpoon_shot"
+  ],
+  "mods": {},
+  "effect": "Adds card: Harpoon Shot.",
+  "look": "a short brass harpoon-gun barrel with a barbed steel harpoon loaded in it and a coiled chain wrapped along the side"
+ },
+ {
+  "id": "rifled_barrel",
+  "name": "Rifled Barrel",
+  "section": "barrel",
+  "shape": "I4",
+  "cell": "gear",
+  "cards": [],
+  "mods": {
+   "shot_damage": 2
+  },
+  "effect": "Shots deal +2 damage.",
+  "look": "a long blued-steel barrel with brass bands and small cut-away windows showing spiral rifling inside"
+ },
+ {
+  "id": "coil_accelerator",
+  "name": "Coil Accelerator",
+  "section": "barrel",
+  "shape": "I2",
+  "cell": "spark",
+  "cards": [],
+  "mods": {},
+  "links": [
+   {
+    "with": "harpoon_launcher",
+    "replace": {
+     "harpoon_shot": "shock_harpoon"
+    }
+   }
+  ],
+  "effect": "Next to a Harpoon Launcher: Harpoon Shot becomes Shock Harpoon.",
+  "look": "a short tube wrapped in stacked copper coil rings, thin blue electric arcs jumping between the rings"
+ },
+ {
+  "id": "flame_nozzle",
+  "name": "Flame Nozzle",
+  "section": "barrel",
+  "shape": "L3",
+  "cell": "spark",
+  "cards": [
+   "gout_of_flame"
+  ],
+  "mods": {},
+  "effect": "Adds card: Gout of Flame.",
+  "look": "an angled heat-blued nozzle with a tiny pilot flame, a small round fuel tank and a spark igniter with a blue glow"
+ },
+ {
+  "id": "net_caster",
+  "name": "Net Caster",
+  "section": "barrel",
+  "shape": "I3",
+  "cell": "gear",
+  "cards": [],
+  "capture_cards": [
+   "iron_net"
+  ],
+  "mods": {},
+  "effect": "On capture contracts adds card: Iron Net.",
+  "look": "a wide-mouthed launcher tube with a folded iron-wire net and small lead weights sticking out of its mouth"
+ },
+ {
+  "id": "brass_scope",
+  "name": "Brass Scope",
+  "section": "sight",
+  "shape": "I2",
+  "cell": "gear",
+  "cards": [],
+  "mods": {
+   "part_damage": 3
+  },
+  "effect": "Shots at body parts deal +3 damage.",
+  "look": "a long brass telescopic sight with adjustment knobs and a lens that faintly shows a crosshair"
+ },
+ {
+  "id": "lantern_lens",
+  "name": "Lantern Lens",
+  "section": "sight",
+  "shape": "M1",
+  "cell": "spark",
+  "cards": [
+   "flash"
+  ],
+  "mods": {},
+  "effect": "Adds card: Flash.",
+  "look": "a small round lens in a brass ring with a tiny caged electric bulb glowing behind it"
+ },
+ {
+  "id": "hound_eye",
+  "name": "Eye of the Hound",
+  "section": "sight",
+  "shape": "M1",
+  "cell": "blood",
+  "cards": [],
+  "mods": {
+   "foresight_start": 1
+  },
+  "effect": "Start of the fight: see the creature's next moves.",
+  "look": "a preserved yellow beast eye floating in a glass sphere with a brass rim, thin red veins in the liquid"
+ },
+ {
+  "id": "drum_magazine",
+  "name": "Drum Magazine",
+  "section": "magazine",
+  "shape": "O4",
+  "cell": "gear",
+  "cards": [],
+  "mods": {
+   "max_ammo": 2
+  },
+  "effect": "+2 max ammo.",
+  "look": "a round riveted drum magazine with a small window showing rows of brass cartridges"
+ },
+ {
+  "id": "quick_loader",
+  "name": "Quick Loader",
+  "section": "magazine",
+  "shape": "I2",
+  "cell": "gear",
+  "cards": [],
+  "mods": {
+   "reload_draw": 1
+  },
+  "effect": "Reload also draws 1 more card.",
+  "look": "a spring-loaded speed-loader clip holding a neat row of brass cartridges"
+ },
+ {
+  "id": "ichor_cartridges",
+  "name": "Ichor Cartridges",
+  "section": "magazine",
+  "shape": "L3",
+  "cell": "blood",
+  "cards": [],
+  "mods": {
+   "shot_bleed": 1
+  },
+  "effect": "Shots apply 1 Bleed.",
+  "look": "glass-bodied cartridges filled with dark red ichor, held in a stained leather bandolier strip"
+ },
+ {
+  "id": "capacitor_bank",
+  "name": "Capacitor Bank",
+  "section": "magazine",
+  "shape": "T4",
+  "cell": "spark",
+  "cards": [
+   "overcharge"
+  ],
+  "mods": {},
+  "effect": "Adds card: Overcharge.",
+  "look": "three glass capacitor jars with copper caps linked by braided cables, a cold blue glow inside"
+ },
+ {
+  "id": "recoil_spring",
+  "name": "Recoil Spring",
+  "section": "stock",
+  "shape": "S4",
+  "cell": "gear",
+  "cards": [],
+  "mods": {
+   "shot_block": 2
+  },
+  "effect": "Shots also give 2 block.",
+  "look": "a heavy coiled spring assembly with two pistons, brass end caps and oily steel guides"
+ },
+ {
+  "id": "bayonet_mount",
+  "name": "Bayonet Mount",
+  "section": "stock",
+  "shape": "L4",
+  "cell": "gear",
+  "cards": [
+   "bayonet_thrust"
+  ],
+  "mods": {},
+  "effect": "Adds card: Bayonet Thrust.",
+  "look": "a folding steel bayonet blade on a hinged mount with a locking lever"
+ },
+ {
+  "id": "bone_brace",
+  "name": "Bone Brace",
+  "section": "stock",
+  "shape": "Z4",
+  "cell": "blood",
+  "cards": [],
+  "mods": {
+   "rage_hp_discount": 1
+  },
+  "effect": "Rage cards cost 1 less HP.",
+  "look": "carved bone struts lashed together with sinew and iron wire, old dark blood stains in the cracks"
+ },
+ {
+  "id": "gyro_stabilizer",
+  "name": "Gyro Stabilizer",
+  "section": "frame",
+  "shape": "T4",
+  "cell": "gear",
+  "cards": [],
+  "mods": {
+   "first_turn_draw": 1
+  },
+  "effect": "First turn: draw 1 more card.",
+  "look": "nested gyroscope rings spinning inside a brass cage on a steel base"
+ },
+ {
+  "id": "galvanic_core",
+  "name": "Galvanic Core",
+  "section": "frame",
+  "shape": "O4",
+  "cell": "spark",
+  "cards": [],
+  "mods": {
+   "first_turn_ap": 1
+  },
+  "effect": "First turn: +1 AP.",
+  "look": "a cylindrical battery core in an iron cage with captured lightning crawling inside thick glass"
+ },
+ {
+  "id": "vein_lattice",
+  "name": "Vein Lattice",
+  "section": "frame",
+  "shape": "I4",
+  "cell": "blood",
+  "cards": [],
+  "mods": {
+   "bleed_bonus": 1
+  },
+  "effect": "Bleed you apply is 1 stack stronger.",
+  "look": "a lattice of glass tubes with dark red fluid pumping through them, small brass valves, like a mechanical vein"
+ },
+ {
+  "id": "serrated_rail",
+  "name": "Serrated Rail",
+  "section": "frame",
+  "shape": "J4",
+  "cell": "gear",
+  "cards": [
+   "serrated_edge"
+  ],
+  "mods": {},
+  "effect": "Adds card: Serrated Edge.",
+  "look": "a steel rail with a saw-tooth blade along its length and small rivets"
+ },
+ {
+  "id": "smoke_vent",
+  "name": "Smoke Vent",
+  "section": "frame",
+  "shape": "L4",
+  "cell": "gear",
+  "cards": [
+   "smoke_screen"
+  ],
+  "mods": {},
+  "effect": "Adds card: Smoke Screen.",
+  "look": "small leather bellows connected to sooty vent pipes, a thin puff of grey smoke"
+ }
 ]

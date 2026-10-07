@@ -16,8 +16,9 @@ var hp_per_level: int = 0
 var base_ap: int = 0
 var hand_size: int = 0
 var base_sanity: int = 0
-var max_ammo: int = 0
-var starter_deck: Array[StringName] = []
+var starter_deck: Array[StringName] = []  ## the hunter's own cards; weapon and gear add the rest
+
+var start_loadout: Dictionary = {}  ## raw "gear" block, read by LoadoutState.from_dict
 
 var turn_limit: int = 40
 var weak_mult: float = 0.75
@@ -50,8 +51,8 @@ static func from_dict(d: Dictionary, errs: ErrorLog) -> BalanceDef:
 	b.base_ap = DefReader.integer(hero, "base_ap", errs, w + "/hero")
 	b.hand_size = DefReader.integer(hero, "hand_size", errs, w + "/hero")
 	b.base_sanity = DefReader.integer(hero, "base_sanity", errs, w + "/hero")
-	b.max_ammo = DefReader.integer(hero, "max_ammo", errs, w + "/hero")
 	b.starter_deck = DefReader.ids(hero, "starter_deck", errs, w + "/hero")
+	b.start_loadout = DefReader.dict(d, "gear", errs, w)
 	var cmb := DefReader.dict(d, "combat", errs, w)
 	b.turn_limit = DefReader.integer(cmb, "turn_limit", errs, w + "/combat", 40)
 	b.weak_mult = DefReader.number(cmb, "weak_mult", errs, w + "/combat", 0.75)

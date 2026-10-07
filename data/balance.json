@@ -17,7 +17,6 @@
   "base_ap": 3,
   "hand_size": 5,
   "base_sanity": 28,
-  "max_ammo": 3,
   "starter_deck": [
    "strike",
    "strike",
@@ -27,9 +26,6 @@
    "guard",
    "guard",
    "guard",
-   "shot",
-   "shot",
-   "reload",
    "read_the_beast",
    "sidestep"
   ]
@@ -47,5 +43,21 @@
   "panic_card": "panic",
   "part_main_damage_mult": 0.5,
   "max_hand": 10
+ },
+ "gear": {
+  "start_weapon": "hunting_rifle",
+  "start_modules": [
+   "brass_scope"
+  ],
+  "start_placements": [
+   {
+    "module": "brass_scope",
+    "section": "sight",
+    "x": 0,
+    "y": 0,
+    "rot": 0
+   }
+  ],
+  "start_mechanisms": []
  }
 }

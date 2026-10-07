@@ -10,6 +10,11 @@ var map_regions: MapRegionsDef = MapRegionsDef.new()
 var cards: Dictionary[StringName, CardDef] = {}
 var monsters: Dictionary[StringName, MonsterDef] = {}
 var monster_order: Array[StringName] = []
+var weapons: Dictionary[StringName, WeaponDef] = {}
+var modules: Dictionary[StringName, ModuleDef] = {}
+var shapes: Dictionary[StringName, GearDefs.ShapeDef] = {}
+var armor: Array[GearDefs.ArmorDef] = []
+var mechanisms: Dictionary[StringName, GearDefs.MechanismDef] = {}
 
 
 func district(id: StringName) -> DistrictDef:
@@ -22,3 +27,15 @@ func card(id: StringName) -> CardDef:
 
 func monster(id: StringName) -> MonsterDef:
 	return monsters.get(id) as MonsterDef
+
+
+func weapon(id: StringName) -> WeaponDef:
+	return weapons.get(id) as WeaponDef
+
+
+func module(id: StringName) -> ModuleDef:
+	return modules.get(id) as ModuleDef
+
+
+func mechanism(id: StringName) -> GearDefs.MechanismDef:
+	return mechanisms.get(id) as GearDefs.MechanismDef

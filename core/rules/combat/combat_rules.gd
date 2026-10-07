@@ -19,6 +19,7 @@ static func start(setup: CombatSetup, data: ContentData) -> CombatState:
 	h.max_ammo = setup.max_ammo
 	h.ammo = setup.max_ammo
 	h.cunning = setup.cunning
+	h.mods = setup.mods.duplicate()
 	EnemyRules.setup(s, data.monster(setup.monster_id))
 	DeckRules.build(s, setup.deck, data)
 	s.log_event(&"start", "%s blocks the way." % s.enemy.display_name)
@@ -53,8 +54,11 @@ static func play_card(s: CombatState, uid: int, target: CombatTarget, data: Cont
 	s.hand.erase(card)
 	s.log_event(&"play", "You play %s." % def.name, 0, def.id)
 	var ctx := EffectContext.create(s.hero, s.enemy, target, true)
+	ctx.card = def
+	ctx.bonus_damage = GearEffectRules.bonus_damage(s, def, target)
 	for effect: Dictionary in def.effects:
 		EffectApplier.apply(s, effect, ctx, data)
+	GearEffectRules.after_shot(s, def)
 	if def.exhaust:
 		s.exhaust_pile.append(card)
 	else:
@@ -102,7 +106,9 @@ static func _start_player_turn(s: CombatState, data: ContentData) -> void:
 	s.foresight = false
 	if s.hero.panicked:
 		DeckRules.add_cards(s, data.card(data.balance.panic_card), &"hand", 1)
-	DeckRules.draw(s, s.hero.hand_size, data.balance)
+	DeckRules.draw(s, s.hero.hand_size + GearEffectRules.extra_first_draw(s), data.balance)
+	if s.turn == 1:
+		GearEffectRules.first_turn(s)
 	EnemyRules.reveal_intents(s)
 
 

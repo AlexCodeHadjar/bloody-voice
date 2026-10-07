@@ -236,7 +236,7 @@
   "id": "lamplighter",
   "name": "The Lamplighter",
   "rank": "P",
-  "hp": 62,
+  "hp": 70,
   "intents_per_turn": 2,
   "districts": [
    "AVENUES",
@@ -610,7 +610,7 @@
   "id": "vigil_hound",
   "name": "Vigil Hound",
   "rank": "P",
-  "hp": 80,
+  "hp": 92,
   "intents_per_turn": 2,
   "districts": [
    "NORDHAL"
@@ -649,7 +649,7 @@
     "effects": [
      {
       "op": "damage",
-      "amount": 11
+      "amount": 14
      }
     ]
    },
@@ -660,7 +660,7 @@
     "effects": [
      {
       "op": "damage",
-      "amount": 7
+      "amount": 8
      },
      {
       "op": "apply_status",
@@ -737,7 +737,7 @@
   "id": "clay_saint",
   "name": "Clay Saint",
   "rank": "P",
-  "hp": 70,
+  "hp": 74,
   "intents_per_turn": 2,
   "districts": [
    "LUMEN"
@@ -793,7 +793,7 @@
     "effects": [
      {
       "op": "damage",
-      "amount": 7
+      "amount": 8
      }
     ]
    },

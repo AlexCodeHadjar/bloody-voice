@@ -41,16 +41,17 @@
 | Область | Файлы |
 |---|---|
 | Контент | `core/content/` (`content_loader`, `content_validator`, `def_reader`, `effect_schema`, `effect_text` — текст хода из эффектов, `defs/`); `data/` |
-| Состояние | `core/state/run_state.gd` (день, деньги, район, `CityState`), `save_migrations.gd`; бой — `core/state/combat/` |
+| Состояние | `core/state/run_state.gd` (день, деньги, район, `CityState`, `LoadoutState`; `SAVE_VERSION` 2), `save_migrations.gd`; бой — `core/state/combat/` |
 | Время, город | `core/rules/time/` (календарь, конец дня, аренда); `core/rules/city/` (попадание по карте, состояния районов) |
-| Бой | `core/rules/combat/` (`combat_rules` поток, `effect_applier`, `damage_rules`, `enemy_rules`, `deck_rules`, `status_rules`, `capture_rules`) |
+| Бой | `core/rules/combat/` (`combat_rules` поток, `effect_applier`, `damage_rules`, `enemy_rules`, `deck_rules`, `status_rules`, `capture_rules`, `gear_effect_rules` — бонусы снаряжения) |
+| Снаряжение (GDD §5) | состояние `core/state/loadout_state.gd`; правила `core/rules/gear/` (`weapon_grid_rules` ячейки/поворот/связки, `armor_rules` гнёзда, `deck_builder` колода и бонусы → `CombatSetup`); defs `weapon_def`, `module_def`, `gear_misc_defs`, `gear_mods.gd`, `gear_validator.gd`; данные `data/gear/`, старт — `balance.json/gear`; экран `scenes/equipment/` |
 | Генерация | `core/generation/` (`seeded_rng`, `encounter_rules` — заглушка до слухов) |
 | Разработка | `core/dev/combat_bot.gd`, `dev_shots.gd` (`--shots`); `tests/` (`run_tests.gd`, `bot/autoplay.gd`) |
 | Автозагрузки | `EventBus`, `ContentDB`, `Rng`, `SaveService`, `GameState` (фасад-команды), `DevShots` |
-| Экраны | `scenes/boot`, `menu`, `city_map` (карта, карточка района), `combat` (бой) |
+| Экраны | `scenes/boot`, `menu`, `city_map` (карта, карточка района), `equipment` (оружие, броня), `combat` (бой) |
 | UI | `ui/theme/palette.gd`, `ui_kit.gd` |
 | Арт | `assets/` исходники (не в git) → `tools/import_art.py` → `art/`; контуры районов `data/city/map_regions.json` |
-| Каталоги этапа 2 | `data/gear/modules.json`, `shapes.json`; иконки `data/ui/icons.json` |
+| Иконки | каталог `data/ui/icons.json` |
 | Документы | `docs/gdd/` (GDD по разделам), `docs/art-prompts/` (генерируется `tools/gen_art_prompts.py`), `docs/assets/` |
 | Инструменты | `tools/` (`check_all.sh`, `import_art.py`, `tune_monsters.py`, `gen_art_prompts.py`, `gen_art_templates.py`, `gen_city_sketch.py`) |
 | Агенты | `.claude/agents/critic.md`, `design-critic.md` |

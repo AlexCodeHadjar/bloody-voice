@@ -1,0 +1,169 @@
+[
+ {
+  "id": "hunting_rifle",
+  "name": "Hunting Rifle",
+  "cards": [
+   "shot",
+   "shot",
+   "reload"
+  ],
+  "max_ammo": 3,
+  "sections": [
+   {
+    "id": "sight",
+    "name": "Sight",
+    "cells": [
+     [
+      0,
+      0,
+      "gear"
+     ],
+     [
+      1,
+      0,
+      "gear"
+     ],
+     [
+      2,
+      0,
+      "spark"
+     ]
+    ]
+   },
+   {
+    "id": "magazine",
+    "name": "Magazine",
+    "cells": [
+     [
+      0,
+      0,
+      "gear"
+     ],
+     [
+      1,
+      0,
+      "gear"
+     ],
+     [
+      0,
+      1,
+      "gear"
+     ],
+     [
+      1,
+      1,
+      "gear"
+     ]
+    ]
+   },
+   {
+    "id": "stock",
+    "name": "Stock",
+    "cells": [
+     [
+      0,
+      0,
+      "gear"
+     ],
+     [
+      1,
+      0,
+      "gear"
+     ],
+     [
+      2,
+      0,
+      "gear"
+     ],
+     [
+      0,
+      1,
+      "gear"
+     ],
+     [
+      1,
+      1,
+      "gear"
+     ],
+     [
+      2,
+      1,
+      "gear"
+     ]
+    ]
+   },
+   {
+    "id": "frame",
+    "name": "Frame",
+    "cells": [
+     [
+      0,
+      0,
+      "gear"
+     ],
+     [
+      1,
+      0,
+      "gear"
+     ],
+     [
+      2,
+      0,
+      "gear"
+     ],
+     [
+      3,
+      0,
+      "spark"
+     ],
+     [
+      0,
+      1,
+      "gear"
+     ],
+     [
+      1,
+      1,
+      "gear"
+     ],
+     [
+      2,
+      1,
+      "gear"
+     ]
+    ]
+   },
+   {
+    "id": "barrel",
+    "name": "Barrel",
+    "cells": [
+     [
+      0,
+      0,
+      "gear"
+     ],
+     [
+      1,
+      0,
+      "gear"
+     ],
+     [
+      2,
+      0,
+      "gear"
+     ],
+     [
+      3,
+      0,
+      "gear"
+     ],
+     [
+      4,
+      0,
+      "spark"
+     ]
+    ]
+   }
+  ]
+ }
+]

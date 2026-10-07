@@ -12,7 +12,7 @@ description: Добавление и правка игрового контен�
 | Карты | `data/cards/*.json` (массив) | `core/content/defs/card_def.gd` |
 | Твари | `data/monsters/*.json` | `core/content/defs/monster_def.gd` |
 | Районы / состояния / регионы карты | `data/city/*.json` | `district_def.gd`, `district_state_def.gd`, `map_regions_def.gd` |
-| Модули и фигуры клеток | `data/gear/modules.json`, `shapes.json` | этап 2 (в игру ещё не грузятся) |
+| Оружие, модули, фигуры, броня, механизмы | `data/gear/*.json`; старт — `balance.json/gear` | `weapon_def.gd`, `module_def.gd`, `gear_misc_defs.gd`; бонусы — `gear_mods.gd` |
 | Иконки | `data/ui/icons.json` | набор = одна картинка, `grid` [столбцы, строки] |
 | Числа | `data/balance.json` | `balance_def.gd` |
 

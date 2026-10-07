@@ -11,3 +11,8 @@ var max_ammo: int
 var hand_size: int
 var cunning: int = 0
 var panicked: bool = false
+var mods: Dictionary[StringName, int] = {}  ## passive gear bonuses (GearMods)
+
+
+func mod(id: StringName) -> int:
+	return mods.get(id, 0)

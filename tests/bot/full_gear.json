@@ -1,0 +1,67 @@
+{
+ "weapon": "hunting_rifle",
+ "owned_modules": [
+  "brass_scope",
+  "drum_magazine",
+  "bayonet_mount",
+  "gyro_stabilizer",
+  "rifled_barrel"
+ ],
+ "placements": [
+  {
+   "module": "brass_scope",
+   "section": "sight",
+   "x": 0,
+   "y": 0,
+   "rot": 0
+  },
+  {
+   "module": "drum_magazine",
+   "section": "magazine",
+   "x": 0,
+   "y": 0,
+   "rot": 0
+  },
+  {
+   "module": "bayonet_mount",
+   "section": "stock",
+   "x": 0,
+   "y": 0,
+   "rot": 1
+  },
+  {
+   "module": "gyro_stabilizer",
+   "section": "frame",
+   "x": 0,
+   "y": 0,
+   "rot": 0
+  },
+  {
+   "module": "rifled_barrel",
+   "section": "barrel",
+   "x": 0,
+   "y": 0,
+   "rot": 0
+  }
+ ],
+ "owned_mechanisms": [
+  "lantern_of_revealing",
+  "smoke_bellows",
+  "riveted_plates",
+  "quick_holster"
+ ],
+ "sockets": {
+  "helmet": [
+   "lantern_of_revealing"
+  ],
+  "chestplate": [
+   "riveted_plates"
+  ],
+  "gauntlets": [
+   "smoke_bellows"
+  ],
+  "greaves": [
+   "quick_holster"
+  ]
+ }
+}

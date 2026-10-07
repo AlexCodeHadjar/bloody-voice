@@ -65,7 +65,7 @@ Transparent background. No table, no frame, no grid, no cell borders, no shadow 
 | Bone Brace | stock | Z4 | blood | Rage cards cost 1 less HP. |
 | Gyro Stabilizer | frame | T4 | gear | First turn: draw 1 more card. |
 | Galvanic Core | frame | O4 | spark | First turn: +1 AP. |
-| Vein Lattice | frame | I4 | blood | Blood modules touching it get a stronger effect. |
+| Vein Lattice | frame | I4 | blood | Bleed you apply is 1 stack stronger. |
 | Serrated Rail | frame | J4 | gear | Adds card: Serrated Edge. |
 | Smoke Vent | frame | L4 | gear | Adds card: Smoke Screen. |
 

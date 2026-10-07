@@ -12,7 +12,7 @@ static func apply(state: CombatState, effect: Dictionary, ctx: EffectContext, da
 	match op:
 		&"damage":
 			for i: int in int(effect.get("hits", 1)):
-				DamageRules.deal(state, ctx.actor, ctx.opponent, amount, ctx.part_id(), b)
+				DamageRules.deal(state, ctx.actor, ctx.opponent, amount + ctx.bonus_damage, ctx.part_id(), b)
 				if ctx.opponent.is_dead():
 					break
 		&"block":
@@ -23,8 +23,9 @@ static func apply(state: CombatState, effect: Dictionary, ctx: EffectContext, da
 			ctx.actor.hp = mini(ctx.actor.max_hp, ctx.actor.hp + amount)
 			state.log_event(&"heal", "%s heals %d." % [ctx.actor.display_name, ctx.actor.hp - before], ctx.actor.hp - before)
 		&"lose_hp":
-			ctx.actor.hp -= amount
-			state.log_event(&"lose_hp", "%s loses %d HP." % [ctx.actor.display_name, amount], amount)
+			var cost := GearEffectRules.hp_cost(state, ctx, amount)
+			ctx.actor.hp -= cost
+			state.log_event(&"lose_hp", "%s loses %d HP." % [ctx.actor.display_name, cost], cost)
 		&"sanity":
 			_sanity(state, amount, data)
 		&"draw":
@@ -34,6 +35,7 @@ static func apply(state: CombatState, effect: Dictionary, ctx: EffectContext, da
 		&"reload":
 			state.hero.ammo = state.hero.max_ammo
 			state.log_event(&"reload", "Reloaded.")
+			DeckRules.draw(state, state.hero.mod(&"reload_draw"), b)
 		&"foresight":
 			state.foresight = true
 		&"apply_status":
@@ -52,7 +54,7 @@ static func apply(state: CombatState, effect: Dictionary, ctx: EffectContext, da
 static func _status(state: CombatState, effect: Dictionary, ctx: EffectContext) -> void:
 	var who := ctx.actor if str(effect.get("to", "target")) == "self" else ctx.opponent
 	var status := StringName(str(effect["status"]))
-	var stacks := int(effect["stacks"])
+	var stacks := GearEffectRules.status_stacks(state, ctx, status, int(effect["stacks"]))
 	who.add_status(status, stacks)
 	state.log_event(&"status", "%s: %s %d." % [who.display_name, String(status).capitalize(), stacks], stacks)
 

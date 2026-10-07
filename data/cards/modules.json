@@ -1,10 +1,141 @@
 [
- { "id": "shock_harpoon", "name": "Shock Harpoon", "type": "attack", "cost": 2, "ammo": 1, "target": "enemy_or_part",
-   "text": "Deal 7 damage. Apply 2 Exposed.", "effects": [ { "op": "damage", "amount": 7 }, { "op": "apply_status", "status": "exposed", "stacks": 2, "to": "target" } ] },
- { "id": "flash", "name": "Flash", "type": "support", "cost": 1, "target": "enemy",
-   "text": "Apply 2 Weak.", "effects": [ { "op": "apply_status", "status": "weak", "stacks": 2, "to": "target" } ] },
- { "id": "smoke_screen", "name": "Smoke Screen", "type": "support", "cost": 1, "target": "self",
-   "text": "Gain 10 block.", "effects": [ { "op": "block", "amount": 10 } ] },
- { "id": "serrated_edge", "name": "Serrated Edge", "type": "attack", "cost": 1, "target": "enemy_or_part",
-   "text": "Deal 4 damage. Apply 3 Bleed.", "effects": [ { "op": "damage", "amount": 4 }, { "op": "apply_status", "status": "bleed", "stacks": 3, "to": "target" } ] }
+ {
+  "id": "shock_harpoon",
+  "name": "Shock Harpoon",
+  "type": "attack",
+  "cost": 1,
+  "ammo": 1,
+  "target": "enemy_or_part",
+  "text": "Deal 12 damage. Apply 2 Exposed.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 12
+   },
+   {
+    "op": "apply_status",
+    "status": "exposed",
+    "stacks": 2,
+    "to": "target"
+   }
+  ]
+ },
+ {
+  "id": "flash",
+  "name": "Flash",
+  "type": "support",
+  "cost": 1,
+  "target": "enemy",
+  "text": "Apply 2 Weak.",
+  "effects": [
+   {
+    "op": "apply_status",
+    "status": "weak",
+    "stacks": 2,
+    "to": "target"
+   }
+  ]
+ },
+ {
+  "id": "smoke_screen",
+  "name": "Smoke Screen",
+  "type": "support",
+  "cost": 1,
+  "target": "self",
+  "text": "Gain 10 block.",
+  "effects": [
+   {
+    "op": "block",
+    "amount": 10
+   }
+  ]
+ },
+ {
+  "id": "serrated_edge",
+  "name": "Serrated Edge",
+  "type": "attack",
+  "cost": 1,
+  "target": "enemy_or_part",
+  "text": "Deal 4 damage. Apply 3 Bleed.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 4
+   },
+   {
+    "op": "apply_status",
+    "status": "bleed",
+    "stacks": 3,
+    "to": "target"
+   }
+  ]
+ },
+ {
+  "id": "harpoon_shot",
+  "name": "Harpoon Shot",
+  "type": "attack",
+  "cost": 1,
+  "ammo": 1,
+  "target": "enemy_or_part",
+  "text": "Deal 12 damage.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 12
+   }
+  ]
+ },
+ {
+  "id": "gout_of_flame",
+  "name": "Gout of Flame",
+  "type": "attack",
+  "cost": 1,
+  "target": "enemy",
+  "text": "Deal 6 damage. Apply 2 Exposed.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 6
+   },
+   {
+    "op": "apply_status",
+    "status": "exposed",
+    "stacks": 2,
+    "to": "target"
+   }
+  ]
+ },
+ {
+  "id": "overcharge",
+  "name": "Overcharge",
+  "type": "support",
+  "cost": 0,
+  "target": "self",
+  "exhaust": true,
+  "text": "Gain 1 AP. Draw 1 card. Exhaust.",
+  "effects": [
+   {
+    "op": "gain_ap",
+    "amount": 1
+   },
+   {
+    "op": "draw",
+    "amount": 1
+   }
+  ]
+ },
+ {
+  "id": "bayonet_thrust",
+  "name": "Bayonet Thrust",
+  "type": "attack",
+  "cost": 1,
+  "target": "enemy_or_part",
+  "text": "Deal 7 damage.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 7
+   }
+  ]
+ }
 ]
