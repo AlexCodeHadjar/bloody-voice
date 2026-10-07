@@ -15,11 +15,37 @@
   "base_hp": 40,
   "hp_per_level": 5,
   "base_ap": 3,
-  "hand_size": 5
+  "hand_size": 5,
+  "base_sanity": 28,
+  "max_ammo": 3,
+  "starter_deck": [
+   "strike",
+   "strike",
+   "strike",
+   "strike",
+   "guard",
+   "guard",
+   "guard",
+   "guard",
+   "shot",
+   "shot",
+   "reload",
+   "read_the_beast",
+   "sidestep"
+  ]
  },
  "capture": {
   "per_cunning": 0.04,
   "per_broken_part": 0.15,
   "max_chance": 0.95
+ },
+ "combat": {
+  "turn_limit": 40,
+  "weak_mult": 0.75,
+  "exposed_mult": 1.5,
+  "enraged_bonus": 3,
+  "panic_card": "panic",
+  "part_main_damage_mult": 0.5,
+  "max_hand": 10
  }
 }

@@ -3,7 +3,7 @@
 A story-driven monster-hunting game with roguelike elements: deck-building combat,
 investigation through rumors, crafting your own weapons, and a living city that changes after events.
 
-Engine: **Godot 4.7** · Language: **GDScript** · Status: **Phase 0 — Foundation**
+Engine: **Godot 4.7** · Language: **GDScript** · Status: **Phase 1 — Combat core** (grey-box)
 
 The full design is in [`Bloody Voice - Game Design Document.docx`](Bloody%20Voice%20-%20Game%20Design%20Document.docx).
 
@@ -15,6 +15,7 @@ G="/d/Godot_v4.7.2-stable_win64_console.exe"   # path to your Godot 4.7 binary
 "$G" --path .                                   # play
 "$G" --headless --path . -s res://tests/run_tests.gd            # tests
 "$G" --path . --resolution 1920x1080 -- --shots=<abs dir>        # auto-screenshots
+"$G" --headless --path . -s res://tests/bot/autoplay.gd -- --fights=200   # balance report (bot)
 ```
 
 ## Project layout

@@ -8,6 +8,8 @@ static func validate(data: ContentData, errs: ErrorLog, check_files: bool = true
 	_districts(data, errs, check_files)
 	_states(data, errs)
 	_regions(data, errs, check_files)
+	_cards(data, errs)
+	_monsters(data, errs)
 
 
 static func _balance(data: ContentData, errs: ErrorLog) -> void:
@@ -25,6 +27,13 @@ static func _balance(data: ContentData, errs: ErrorLog) -> void:
 		errs.add(w, "capture max_chance must be in (0, 1]")
 	if not data.districts.has(b.start_district):
 		errs.add(w, "hero start_district '%s' is not a district" % b.start_district)
+	if b.starter_deck.is_empty():
+		errs.add(w, "hero starter_deck is empty")
+	for card_id: StringName in b.starter_deck:
+		if not data.cards.has(card_id):
+			errs.add(w, "starter_deck card '%s' does not exist" % card_id)
+	if not data.cards.has(b.panic_card):
+		errs.add(w, "combat panic_card '%s' does not exist" % b.panic_card)
 
 
 static func _districts(data: ContentData, errs: ErrorLog, check_files: bool) -> void:
@@ -68,3 +77,59 @@ static func _regions(data: ContentData, errs: ErrorLog, check_files: bool) -> vo
 	for id: StringName in data.districts:
 		if not covered.has(id):
 			errs.add("map_regions.json", "district %s has no region on the map" % id)
+
+
+static func _cards(data: ContentData, errs: ErrorLog) -> void:
+	for c: CardDef in data.cards.values():
+		var w := "cards/%s" % c.id
+		if not CardDef.TYPES.has(c.type):
+			errs.add(w, "unknown type '%s'" % c.type)
+		if not CardDef.TARGETS.has(c.target):
+			errs.add(w, "unknown target '%s'" % c.target)
+		if c.cost < 0 or c.ammo < 0:
+			errs.add(w, "cost and ammo must be >= 0")
+		_effects(c.effects, data, errs, w)
+
+
+static func _monsters(data: ContentData, errs: ErrorLog) -> void:
+	for m: MonsterDef in data.monsters.values():
+		var w := "monsters/%s" % m.id
+		if m.hp <= 0 or m.intents_per_turn < 1:
+			errs.add(w, "hp must be > 0 and intents_per_turn >= 1")
+		var removable := {}
+		for p: MonsterDef.PartDef in m.parts:
+			if p.hp <= 0:
+				errs.add(w, "part %s needs hp > 0" % p.id)
+			for mv: StringName in p.removes:
+				removable[mv] = true
+				_need_move(m, mv, errs, w + "/parts/" + p.id)
+		var safe := false
+		for mv: StringName in m.deck:
+			_need_move(m, mv, errs, w + "/deck")
+			safe = safe or not removable.has(mv)
+		if not safe:
+			errs.add(w, "deck needs at least one move that no body part removes")
+		for ph: MonsterDef.PhaseDef in m.phases:
+			if ph.below <= 0.0 or ph.below >= 1.0:
+				errs.add(w, "phase '%s': below must be in (0, 1)" % ph.name)
+			for mv: StringName in ph.add + ph.remove:
+				_need_move(m, mv, errs, w + "/phases")
+		for move: MonsterDef.MoveDef in m.moves.values():
+			_effects(move.effects, data, errs, w + "/moves/" + move.id)
+		for d: StringName in m.districts:
+			if not data.districts.has(d):
+				errs.add(w, "unknown district '%s'" % d)
+
+
+static func _need_move(m: MonsterDef, move_id: StringName, errs: ErrorLog, w: String) -> void:
+	if not m.moves.has(move_id):
+		errs.add(w, "unknown move '%s'" % move_id)
+
+
+static func _effects(effects: Array[Dictionary], data: ContentData, errs: ErrorLog, w: String) -> void:
+	for e: Dictionary in effects:
+		var problem := EffectSchema.check(e)
+		if problem != "":
+			errs.add(w, problem)
+		elif StringName(str(e["op"])) == &"add_card" and not data.cards.has(StringName(str(e["card"]))):
+			errs.add(w, "add_card: unknown card '%s'" % e["card"])

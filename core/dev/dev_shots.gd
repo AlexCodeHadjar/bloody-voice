@@ -4,6 +4,7 @@ extends Node
 ## Plays a fixed scripted route and saves PNGs for visual review (GDD 19.6).
 
 const CITY_MAP := "res://scenes/city_map/city_map_screen.tscn"
+const COMBAT := "res://scenes/combat/combat_screen.tscn"
 
 var _dir := ""
 
@@ -37,7 +38,32 @@ func _run() -> void:
 		_hover(view, &"SCARLET")
 		await _wait(0.5)
 		await _shot("04_hero_in_scarlet")
+	await _combat_shots()
 	get_tree().quit()
+
+
+func _combat_shots() -> void:
+	GameState.move_hero(&"NORDHAL")
+	GameState.start_hunt(&"vigil_hound")
+	get_tree().change_scene_to_file(COMBAT)
+	await _wait(1.0)
+	await _shot("05_combat_start")
+	var s := GameState.combat
+	for c: CardInstance in s.hand:
+		if c.def.target == &"enemy_or_part":
+			get_tree().current_scene.call("_on_card_chosen", c.uid)
+			break
+	await _wait(0.3)
+	await _shot("06_combat_targeting")
+	get_tree().current_scene.call("_on_target", CombatTarget.part(&"jaw"))
+	GameState.combat_end_turn()
+	await _wait(0.3)
+	await _shot("07_combat_turn_2")
+	while not s.is_over():
+		CombatBot.play_turn(s, ContentDB.data)
+	EventBus.combat_updated.emit()
+	await _wait(0.5)
+	await _shot("08_combat_result")
 
 
 func _hover(view: MapView, district: StringName) -> void:

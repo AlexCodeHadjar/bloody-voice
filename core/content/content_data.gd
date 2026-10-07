@@ -7,7 +7,18 @@ var districts: Dictionary[StringName, DistrictDef] = {}
 var district_order: Array[StringName] = []
 var district_states: Dictionary[StringName, DistrictStateDef] = {}
 var map_regions: MapRegionsDef = MapRegionsDef.new()
+var cards: Dictionary[StringName, CardDef] = {}
+var monsters: Dictionary[StringName, MonsterDef] = {}
+var monster_order: Array[StringName] = []
 
 
 func district(id: StringName) -> DistrictDef:
 	return districts.get(id) as DistrictDef
+
+
+func card(id: StringName) -> CardDef:
+	return cards.get(id) as CardDef
+
+
+func monster(id: StringName) -> MonsterDef:
+	return monsters.get(id) as MonsterDef

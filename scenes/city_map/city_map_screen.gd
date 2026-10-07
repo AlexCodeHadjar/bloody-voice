@@ -3,6 +3,7 @@ extends Control
 ## Talks to the game only through GameState commands and EventBus signals.
 
 const MAIN_MENU := "res://scenes/menu/main_menu.tscn"
+const COMBAT := "res://scenes/combat/combat_screen.tscn"
 const COIN := "res://art/ui/icons/RESOURCE__money.webp"
 
 var _map_view: MapView
@@ -68,6 +69,10 @@ func _build_bar() -> Control:
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(spacer)
+	var hunt := UiKit.button("Hunt here (1 day)", 18)
+	hunt.custom_minimum_size = Vector2(220, 40)
+	hunt.pressed.connect(_hunt)
+	row.add_child(hunt)
 	var end_day := UiKit.button("Rest (end day)", 18)
 	end_day.custom_minimum_size = Vector2(200, 40)
 	end_day.pressed.connect(GameState.end_day)
@@ -108,6 +113,11 @@ func _on_hero_moved(district: StringName) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		_to_menu()
+
+
+func _hunt() -> void:
+	GameState.start_hunt()
+	get_tree().change_scene_to_file(COMBAT)
 
 
 func _to_menu() -> void:

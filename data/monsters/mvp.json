@@ -1,0 +1,1033 @@
+[
+ {
+  "id": "gutter_choir",
+  "name": "Gutter Choir",
+  "rank": "A",
+  "hp": 44,
+  "intents_per_turn": 1,
+  "districts": [
+   "AVENUES",
+   "SCARLET"
+  ],
+  "tags": [
+   "children_singing",
+   "wet_handprints",
+   "near_water",
+   "during_rain",
+   "drowned_shallow"
+  ],
+  "parts": [
+   {
+    "id": "left_throat",
+    "name": "Left Throat",
+    "hp": 8,
+    "removes": [
+     "wail"
+    ],
+    "trophy": "throat"
+   },
+   {
+    "id": "right_throat",
+    "name": "Right Throat",
+    "hp": 8,
+    "removes": [
+     "drowning_song"
+    ],
+    "trophy": "throat"
+   }
+  ],
+  "moves": [
+   {
+    "id": "claw",
+    "name": "Claw",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 9
+     }
+    ],
+    "text": "Deal 9."
+   },
+   {
+    "id": "wail",
+    "name": "Wail",
+    "kind": "fear",
+    "effects": [
+     {
+      "op": "sanity",
+      "amount": 3
+     },
+     {
+      "op": "add_card",
+      "card": "dread",
+      "pile": "discard",
+      "count": 1
+     }
+    ],
+    "text": "3 Sanity damage, adds Dread."
+   },
+   {
+    "id": "drowning_song",
+    "name": "Drowning Song",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 8
+     },
+     {
+      "op": "apply_status",
+      "status": "weak",
+      "stacks": 1,
+      "to": "target"
+     }
+    ],
+    "text": "Deal 8."
+   },
+   {
+    "id": "huddle",
+    "name": "Huddle",
+    "kind": "defend",
+    "effects": [
+     {
+      "op": "block",
+      "amount": 6
+     }
+    ],
+    "text": "Block 6."
+   },
+   {
+    "id": "chorus",
+    "name": "Chorus",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 5,
+      "hits": 2
+     }
+    ],
+    "text": "Deal 5 twice."
+   }
+  ],
+  "deck": [
+   "claw",
+   "claw",
+   "wail",
+   "drowning_song",
+   "huddle"
+  ],
+  "phases": [
+   {
+    "below": 0.5,
+    "name": "The song rises",
+    "add": [
+     "chorus"
+    ],
+    "remove": []
+   }
+  ]
+ },
+ {
+  "id": "moth_matron",
+  "name": "Moth Matron",
+  "rank": "A",
+  "hp": 40,
+  "intents_per_turn": 1,
+  "districts": [
+   "SILVERHILL"
+  ],
+  "tags": [
+   "dust_on_sleepers",
+   "moonlight",
+   "never_wake",
+   "silent_wings"
+  ],
+  "parts": [
+   {
+    "id": "wings",
+    "name": "Wings",
+    "hp": 10,
+    "removes": [
+     "dust_cloud"
+    ],
+    "trophy": "wing_dust"
+   }
+  ],
+  "moves": [
+   {
+    "id": "dust_cloud",
+    "name": "Dust Cloud",
+    "kind": "debuff",
+    "effects": [
+     {
+      "op": "apply_status",
+      "status": "weak",
+      "stacks": 2,
+      "to": "target"
+     }
+    ],
+    "text": "Weak 2."
+   },
+   {
+    "id": "sting",
+    "name": "Sting",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 10
+     }
+    ],
+    "text": "Deal 10."
+   },
+   {
+    "id": "lull",
+    "name": "Lull",
+    "kind": "fear",
+    "effects": [
+     {
+      "op": "sanity",
+      "amount": 4
+     }
+    ],
+    "text": "4 Sanity damage."
+   },
+   {
+    "id": "cocoon",
+    "name": "Cocoon",
+    "kind": "defend",
+    "effects": [
+     {
+      "op": "block",
+      "amount": 8
+     }
+    ],
+    "text": "Block 8."
+   },
+   {
+    "id": "swarm",
+    "name": "Swarm",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 4,
+      "hits": 3
+     }
+    ],
+    "text": "Deal 4 three times."
+   }
+  ],
+  "deck": [
+   "sting",
+   "sting",
+   "dust_cloud",
+   "lull",
+   "cocoon"
+  ],
+  "phases": [
+   {
+    "below": 0.4,
+    "name": "The swarm wakes",
+    "add": [
+     "swarm"
+    ],
+    "remove": []
+   }
+  ]
+ },
+ {
+  "id": "lamplighter",
+  "name": "The Lamplighter",
+  "rank": "P",
+  "hp": 62,
+  "intents_per_turn": 2,
+  "districts": [
+   "AVENUES",
+   "CROWN"
+  ],
+  "tags": [
+   "lamps_die",
+   "too_tall",
+   "only_in_fog",
+   "burnt_eyes"
+  ],
+  "parts": [
+   {
+    "id": "lantern",
+    "name": "Lantern",
+    "hp": 12,
+    "removes": [
+     "darkness"
+    ],
+    "trophy": "lantern_glass"
+   },
+   {
+    "id": "hands",
+    "name": "Long Hands",
+    "hp": 14,
+    "removes": [
+     "grasp"
+    ],
+    "trophy": "finger_bone"
+   }
+  ],
+  "moves": [
+   {
+    "id": "grasp",
+    "name": "Grasp",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 8
+     }
+    ],
+    "text": "Deal 8."
+   },
+   {
+    "id": "darkness",
+    "name": "Darkness",
+    "kind": "fear",
+    "effects": [
+     {
+      "op": "apply_status",
+      "status": "exposed",
+      "stacks": 2,
+      "to": "target"
+     },
+     {
+      "op": "sanity",
+      "amount": 3
+     }
+    ],
+    "text": "Exposed 2, 3 Sanity damage."
+   },
+   {
+    "id": "snuff",
+    "name": "Snuff",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 4
+     },
+     {
+      "op": "apply_status",
+      "status": "weak",
+      "stacks": 1,
+      "to": "target"
+     }
+    ],
+    "text": "Deal 4."
+   },
+   {
+    "id": "stride",
+    "name": "Stride",
+    "kind": "defend",
+    "effects": [
+     {
+      "op": "block",
+      "amount": 7
+     }
+    ],
+    "text": "Block 7."
+   },
+   {
+    "id": "burnt_gaze",
+    "name": "Burnt Gaze",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 10
+     }
+    ],
+    "text": "Deal 10."
+   }
+  ],
+  "deck": [
+   "grasp",
+   "grasp",
+   "darkness",
+   "snuff",
+   "stride"
+  ],
+  "phases": [
+   {
+    "below": 0.5,
+    "name": "The light goes out",
+    "add": [
+     "burnt_gaze"
+    ],
+    "remove": [
+     "stride"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "rust_mantis",
+  "name": "Rust Mantis",
+  "rank": "P",
+  "hp": 64,
+  "intents_per_turn": 2,
+  "districts": [
+   "DEEPWRIGHT"
+  ],
+  "tags": [
+   "grinding_metal",
+   "acid_burns",
+   "foundries",
+   "eats_machinery"
+  ],
+  "parts": [
+   {
+    "id": "left_scythe",
+    "name": "Left Scythe",
+    "hp": 12,
+    "removes": [
+     "scythe_slash"
+    ],
+    "trophy": "scythe"
+   },
+   {
+    "id": "right_scythe",
+    "name": "Right Scythe",
+    "hp": 12,
+    "removes": [
+     "double_cut"
+    ],
+    "trophy": "scythe"
+   }
+  ],
+  "moves": [
+   {
+    "id": "scythe_slash",
+    "name": "Scythe Slash",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 6
+     }
+    ],
+    "text": "Deal 6."
+   },
+   {
+    "id": "double_cut",
+    "name": "Double Cut",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 3,
+      "hits": 2
+     }
+    ],
+    "text": "Deal 3 twice."
+   },
+   {
+    "id": "acid_spit",
+    "name": "Acid Spit",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 2
+     },
+     {
+      "op": "apply_status",
+      "status": "bleed",
+      "stacks": 2,
+      "to": "target"
+     }
+    ],
+    "text": "Deal 2, Bleed 2."
+   },
+   {
+    "id": "harden",
+    "name": "Harden",
+    "kind": "defend",
+    "effects": [
+     {
+      "op": "block",
+      "amount": 8
+     }
+    ],
+    "text": "Block 8."
+   },
+   {
+    "id": "frenzy",
+    "name": "Frenzy",
+    "kind": "buff",
+    "effects": [
+     {
+      "op": "apply_status",
+      "status": "enraged",
+      "stacks": 1,
+      "to": "self"
+     },
+     {
+      "op": "damage",
+      "amount": 4
+     }
+    ],
+    "text": "Enraged 1, deal 4."
+   }
+  ],
+  "deck": [
+   "scythe_slash",
+   "double_cut",
+   "acid_spit",
+   "harden",
+   "scythe_slash",
+   "harden"
+  ],
+  "phases": [
+   {
+    "below": 0.5,
+    "name": "Rust frenzy",
+    "add": [
+     "frenzy"
+    ],
+    "remove": []
+   }
+  ]
+ },
+ {
+  "id": "mourning_bride",
+  "name": "Mourning Bride",
+  "rank": "P",
+  "hp": 60,
+  "intents_per_turn": 2,
+  "districts": [
+   "CROWN"
+  ],
+  "tags": [
+   "covered_mirrors",
+   "one_guest_too_many",
+   "victim_smiling",
+   "perfume"
+  ],
+  "parts": [
+   {
+    "id": "veil",
+    "name": "Veil",
+    "hp": 10,
+    "removes": [
+     "lament"
+    ],
+    "trophy": "black_lace"
+   },
+   {
+    "id": "mirror",
+    "name": "Hand Mirror",
+    "hp": 14,
+    "removes": [
+     "reflection"
+    ],
+    "trophy": "mirror_shard"
+   }
+  ],
+  "moves": [
+   {
+    "id": "lament",
+    "name": "Lament",
+    "kind": "fear",
+    "effects": [
+     {
+      "op": "sanity",
+      "amount": 4
+     }
+    ],
+    "text": "5 Sanity damage."
+   },
+   {
+    "id": "reflection",
+    "name": "Reflection",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 5
+     },
+     {
+      "op": "block",
+      "amount": 7
+     }
+    ],
+    "text": "Deal 5."
+   },
+   {
+    "id": "embrace",
+    "name": "Embrace",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 8
+     }
+    ],
+    "text": "Deal 8."
+   },
+   {
+    "id": "sorrow",
+    "name": "Sorrow",
+    "kind": "debuff",
+    "effects": [
+     {
+      "op": "apply_status",
+      "status": "weak",
+      "stacks": 2,
+      "to": "target"
+     }
+    ],
+    "text": "Weak 2."
+   },
+   {
+    "id": "shatter",
+    "name": "Shatter",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 3,
+      "hits": 3
+     }
+    ],
+    "text": "Deal 3 three times."
+   }
+  ],
+  "deck": [
+   "embrace",
+   "reflection",
+   "lament",
+   "sorrow",
+   "embrace"
+  ],
+  "phases": [
+   {
+    "below": 0.5,
+    "name": "The mirror cracks",
+    "add": [
+     "shatter"
+    ],
+    "remove": [
+     "sorrow"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "vigil_hound",
+  "name": "Vigil Hound",
+  "rank": "P",
+  "hp": 80,
+  "intents_per_turn": 2,
+  "districts": [
+   "NORDHAL"
+  ],
+  "tags": [
+   "howl",
+   "prints_turn_to_paws",
+   "smell_of_medicine",
+   "former_hunter"
+  ],
+  "parts": [
+   {
+    "id": "jaw",
+    "name": "Jaw",
+    "hp": 14,
+    "removes": [
+     "maul"
+    ],
+    "trophy": "fang"
+   },
+   {
+    "id": "legs",
+    "name": "Hind Legs",
+    "hp": 14,
+    "removes": [
+     "pounce"
+    ],
+    "trophy": "sinew"
+   }
+  ],
+  "moves": [
+   {
+    "id": "maul",
+    "name": "Maul",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 11
+     }
+    ],
+    "text": "Deal 11."
+   },
+   {
+    "id": "pounce",
+    "name": "Pounce",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 7
+     },
+     {
+      "op": "apply_status",
+      "status": "exposed",
+      "stacks": 1,
+      "to": "target"
+     }
+    ],
+    "text": "Deal 7."
+   },
+   {
+    "id": "howl",
+    "name": "Howl",
+    "kind": "fear",
+    "effects": [
+     {
+      "op": "sanity",
+      "amount": 4
+     },
+     {
+      "op": "apply_status",
+      "status": "enraged",
+      "stacks": 1,
+      "to": "self"
+     }
+    ],
+    "text": "4 Sanity damage, Enraged 1."
+   },
+   {
+    "id": "circle",
+    "name": "Circle",
+    "kind": "defend",
+    "effects": [
+     {
+      "op": "block",
+      "amount": 7
+     }
+    ],
+    "text": "Block 7."
+   },
+   {
+    "id": "frenzy_bite",
+    "name": "Frenzy Bite",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 5,
+      "hits": 2
+     }
+    ],
+    "text": "Deal 5 twice."
+   }
+  ],
+  "deck": [
+   "maul",
+   "pounce",
+   "howl",
+   "circle",
+   "pounce"
+  ],
+  "phases": [
+   {
+    "below": 0.5,
+    "name": "The hunter is gone",
+    "add": [
+     "frenzy_bite"
+    ],
+    "remove": [
+     "circle"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "clay_saint",
+  "name": "Clay Saint",
+  "rank": "P",
+  "hp": 70,
+  "intents_per_turn": 2,
+  "districts": [
+   "LUMEN"
+  ],
+  "tags": [
+   "formalin",
+   "glass_chiming",
+   "surgical_wounds",
+   "walks_in_daylight"
+  ],
+  "parts": [
+   {
+    "id": "head",
+    "name": "Head",
+    "hp": 16,
+    "removes": [
+     "sermon"
+    ],
+    "trophy": "clay_mask"
+   },
+   {
+    "id": "core",
+    "name": "Core",
+    "hp": 20,
+    "removes": [
+     "mend"
+    ],
+    "trophy": "spark_core"
+   }
+  ],
+  "moves": [
+   {
+    "id": "sermon",
+    "name": "Sermon",
+    "kind": "fear",
+    "effects": [
+     {
+      "op": "sanity",
+      "amount": 4
+     },
+     {
+      "op": "apply_status",
+      "status": "weak",
+      "stacks": 1,
+      "to": "target"
+     }
+    ],
+    "text": "4 Sanity damage, Weak 1."
+   },
+   {
+    "id": "scalpel",
+    "name": "Scalpel",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 7
+     }
+    ],
+    "text": "Deal 7."
+   },
+   {
+    "id": "mend",
+    "name": "Mend",
+    "kind": "heal",
+    "effects": [
+     {
+      "op": "heal",
+      "amount": 6
+     }
+    ],
+    "text": "Heal 6."
+   },
+   {
+    "id": "ward",
+    "name": "Ward",
+    "kind": "defend",
+    "effects": [
+     {
+      "op": "block",
+      "amount": 8
+     }
+    ],
+    "text": "Block 8."
+   },
+   {
+    "id": "dissect",
+    "name": "Dissect",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 4
+     },
+     {
+      "op": "apply_status",
+      "status": "bleed",
+      "stacks": 3,
+      "to": "target"
+     }
+    ],
+    "text": "Deal 4."
+   }
+  ],
+  "deck": [
+   "scalpel",
+   "scalpel",
+   "sermon",
+   "mend",
+   "ward"
+  ],
+  "phases": [
+   {
+    "below": 0.5,
+    "name": "The procedure begins",
+    "add": [
+     "dissect"
+    ],
+    "remove": []
+   }
+  ]
+ },
+ {
+  "id": "burrow_wyrm",
+  "name": "Burrow Wyrm",
+  "rank": "D",
+  "hp": 80,
+  "intents_per_turn": 2,
+  "districts": [
+   "DEEPWRIGHT"
+  ],
+  "tags": [
+   "tremors",
+   "floors_collapse",
+   "acid",
+   "knocking_below"
+  ],
+  "parts": [
+   {
+    "id": "maw",
+    "name": "Maw",
+    "hp": 24,
+    "removes": [
+     "devour"
+    ],
+    "trophy": "wyrm_tooth"
+   },
+   {
+    "id": "shell",
+    "name": "Shell",
+    "hp": 30,
+    "removes": [
+     "burrow"
+    ],
+    "trophy": "chitin"
+   },
+   {
+    "id": "tail",
+    "name": "Tail",
+    "hp": 20,
+    "removes": [
+     "tail_sweep"
+    ],
+    "trophy": "tail_spike"
+   }
+  ],
+  "moves": [
+   {
+    "id": "devour",
+    "name": "Devour",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 9
+     }
+    ],
+    "text": "Deal 9."
+   },
+   {
+    "id": "burrow",
+    "name": "Burrow",
+    "kind": "defend",
+    "effects": [
+     {
+      "op": "block",
+      "amount": 8
+     }
+    ],
+    "text": "Block 8."
+   },
+   {
+    "id": "tail_sweep",
+    "name": "Tail Sweep",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 5
+     },
+     {
+      "op": "apply_status",
+      "status": "weak",
+      "stacks": 1,
+      "to": "target"
+     }
+    ],
+    "text": "Deal 5."
+   },
+   {
+    "id": "acid_wash",
+    "name": "Acid Wash",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "apply_status",
+      "status": "bleed",
+      "stacks": 4,
+      "to": "target"
+     }
+    ],
+    "text": "Bleed 4."
+   },
+   {
+    "id": "tremor",
+    "name": "Tremor",
+    "kind": "fear",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 4
+     },
+     {
+      "op": "sanity",
+      "amount": 2
+     }
+    ],
+    "text": "Deal 4."
+   },
+   {
+    "id": "collapse",
+    "name": "Collapse",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 4,
+      "hits": 2
+     }
+    ],
+    "text": "Deal 4 twice."
+   }
+  ],
+  "deck": [
+   "devour",
+   "burrow",
+   "tail_sweep",
+   "acid_wash",
+   "tremor",
+   "tremor"
+  ],
+  "phases": [
+   {
+    "below": 0.5,
+    "name": "The floor gives way",
+    "add": [
+     "collapse"
+    ],
+    "remove": [
+     "burrow"
+    ]
+   }
+  ]
+ }
+]

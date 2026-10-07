@@ -43,7 +43,10 @@ G="/d/Godot_v4.7.2-stable_win64_console.exe"
 |---|---|
 | Контент | `core/content/content_loader.gd`, `content_validator.gd`, `def_reader.gd`, `defs/*.gd`; данные `data/` |
 | Состояние | `core/state/run_state.gd` (день, деньги, район героя, `CityState`), `place_state.gd`, `save_migrations.gd` |
+| Встречи | `core/generation/encounter_rules.gd` (тварь района — заглушка до слухов/заказов), `seeded_rng.gd` |
 | Правила | `core/rules/time/calendar_rules.gd`, `day_rules.gd` (конец дня, аренда); `core/rules/city/map_region_rules.gd`, `district_state_rules.gd` (состояния районов GDD §14) |
+| Бой (GDD §9–10) | состояние `core/state/combat/` (`combat_state.gd`, `hero_combatant.gd`, `enemy_combatant.gd`, `part_state.gd`, `card_instance.gd`, `combat_target.gd`, `combat_setup.gd`); правила `core/rules/combat/` — `combat_rules.gd` (старт, сыграть карту, конец хода, победа/поражение), `effect_applier.gd` (оп-коды эффектов, список — `core/content/effect_schema.gd`), `damage_rules.gd` (уклонение → блок → HP; удар по части: часть получает всё, тело — `part_main_damage_mult`), `enemy_rules.gd` (колода ходов, намерения, фазы, поломка частей), `deck_rules.gd`, `status_rules.gd`, `capture_rules.gd`; данные `data/cards/*.json`, `data/monsters/*.json`; экран `scenes/combat/` |
+| Бот и баланс | `core/dev/combat_bot.gd` (честный игрок), `tests/bot/autoplay.gd` — отчёт по всем тварям: `"$G" --headless --path . -s res://tests/bot/autoplay.gd -- --fights=200 [--capture]` |
 | Автозагрузки | `EventBus`, `ContentDB`, `Rng`, `SaveService`, `GameState` (фасад-команды), `DevShots` |
 | Экраны | `scenes/boot`, `scenes/menu/main_menu`, `scenes/city_map/` (`map_view.gd`, `district_panel.gd`) |
 | UI | `ui/theme/palette.gd`, `ui_kit.gd` |

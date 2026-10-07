@@ -1,0 +1,14 @@
+[
+ { "id": "strike", "name": "Strike", "type": "attack", "cost": 1, "target": "enemy_or_part",
+   "text": "Deal 6 damage.", "effects": [ { "op": "damage", "amount": 6 } ] },
+ { "id": "guard", "name": "Guard", "type": "support", "cost": 1, "target": "self",
+   "text": "Gain 5 block.", "effects": [ { "op": "block", "amount": 5 } ] },
+ { "id": "shot", "name": "Shot", "type": "attack", "cost": 1, "ammo": 1, "target": "enemy_or_part",
+   "text": "Deal 9 damage. Uses 1 ammo.", "effects": [ { "op": "damage", "amount": 9 } ] },
+ { "id": "reload", "name": "Reload", "type": "support", "cost": 1, "target": "self",
+   "text": "Refill ammo. Draw 1 card.", "effects": [ { "op": "reload" }, { "op": "draw", "amount": 1 } ] },
+ { "id": "read_the_beast", "name": "Read the Beast", "type": "support", "cost": 0, "target": "self", "exhaust": true,
+   "text": "See the creature's next moves. Draw 1 card. Exhaust.", "effects": [ { "op": "foresight" }, { "op": "draw", "amount": 1 } ] },
+ { "id": "sidestep", "name": "Sidestep", "type": "support", "cost": 1, "target": "self",
+   "text": "Dodge the next attack.", "effects": [ { "op": "apply_status", "status": "dodge", "stacks": 1, "to": "self" } ] }
+]

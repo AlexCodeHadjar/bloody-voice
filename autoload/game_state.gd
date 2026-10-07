@@ -3,6 +3,7 @@ extends Node
 ## Screens call these commands; only this node changes RunState, always through rules, then emits signals.
 
 var run: RunState = null
+var combat: CombatState = null  ## the fight in progress (not saved)
 
 
 func has_run() -> bool:
@@ -50,3 +51,43 @@ func end_day() -> void:
 		EventBus.money_changed.emit(run.money)
 	EventBus.day_changed.emit(run.day)
 	save_game()
+
+
+## Placeholder for "Investigate a rumor" (GDD 8): a fight in the hero's district.
+func start_hunt(monster_id: StringName = &"", capture_allowed: bool = false) -> void:
+	if run == null:
+		return
+	var rng := Rng.stream(&"encounters", run.day)
+	var id := monster_id if monster_id != &"" else EncounterRules.pick_monster(ContentDB.data, run.hero_district, rng)
+	var setup := CombatSetup.from_balance(ContentDB.data.balance, id, Rng.stream(&"combat", run.day).randi())
+	setup.capture_allowed = capture_allowed
+	if capture_allowed:
+		setup.deck.append(&"iron_net")
+	combat = CombatRules.start(setup, ContentDB.data)
+	EventBus.combat_started.emit()
+
+
+## Returns "" or the reason the card can't be played.
+func combat_play(uid: int, target: CombatTarget) -> String:
+	if combat == null:
+		return "No fight."
+	var problem := CombatRules.play_card(combat, uid, target, ContentDB.data)
+	EventBus.combat_updated.emit()
+	return problem
+
+
+func combat_end_turn() -> void:
+	if combat == null:
+		return
+	CombatRules.end_turn(combat, ContentDB.data)
+	EventBus.combat_updated.emit()
+
+
+## Closes the fight; a hunt costs the day (GDD 3.3).
+func finish_combat() -> void:
+	if combat == null:
+		return
+	var outcome := combat.outcome()
+	combat = null
+	EventBus.combat_finished.emit(outcome)
+	end_day()

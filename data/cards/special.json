@@ -1,0 +1,12 @@
+[
+ { "id": "iron_net", "name": "Iron Net", "type": "capture", "cost": 1, "target": "enemy", "exhaust": true,
+   "text": "Try to capture the creature. Works better the more it is hurt.", "effects": [ { "op": "capture", "chance": 0.6 } ] },
+ { "id": "tonic_of_morrell", "name": "Tonic of Morrell", "type": "consumable", "cost": 0, "target": "self",
+   "text": "Heal 12 HP.", "effects": [ { "op": "heal", "amount": 12 } ] },
+ { "id": "hounds_rage", "name": "Hound's Rage", "type": "rage", "cost": 0, "target": "enemy_or_part",
+   "text": "Deal 12 damage. Lose 4 HP.", "effects": [ { "op": "damage", "amount": 12 }, { "op": "lose_hp", "amount": 4 } ] },
+ { "id": "panic", "name": "Panic", "type": "curse", "cost": 0, "target": "none", "unplayable": true,
+   "text": "Unplayable. Your hands are shaking.", "effects": [] },
+ { "id": "dread", "name": "Dread", "type": "curse", "cost": 1, "target": "self", "exhaust": true,
+   "text": "Lose 2 Sanity. Exhaust.", "effects": [ { "op": "sanity", "amount": 2, "to": "self" } ] }
+]

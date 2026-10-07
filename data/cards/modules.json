@@ -1,0 +1,10 @@
+[
+ { "id": "shock_harpoon", "name": "Shock Harpoon", "type": "attack", "cost": 2, "ammo": 1, "target": "enemy_or_part",
+   "text": "Deal 7 damage. Apply 2 Exposed.", "effects": [ { "op": "damage", "amount": 7 }, { "op": "apply_status", "status": "exposed", "stacks": 2, "to": "target" } ] },
+ { "id": "flash", "name": "Flash", "type": "support", "cost": 1, "target": "enemy",
+   "text": "Apply 2 Weak.", "effects": [ { "op": "apply_status", "status": "weak", "stacks": 2, "to": "target" } ] },
+ { "id": "smoke_screen", "name": "Smoke Screen", "type": "support", "cost": 1, "target": "self",
+   "text": "Gain 10 block.", "effects": [ { "op": "block", "amount": 10 } ] },
+ { "id": "serrated_edge", "name": "Serrated Edge", "type": "attack", "cost": 1, "target": "enemy_or_part",
+   "text": "Deal 4 damage. Apply 3 Bleed.", "effects": [ { "op": "damage", "amount": 4 }, { "op": "apply_status", "status": "bleed", "stacks": 3, "to": "target" } ] }
+]
