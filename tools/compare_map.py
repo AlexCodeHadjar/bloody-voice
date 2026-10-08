@@ -2,6 +2,7 @@
 Broken Hoist and the owner's style references (right column). One image, so a reviewer reads it in one go.
 
 Run from the project root:  python tools/compare_map.py <generated image> [<out.png>]
+A detail piece against its reference:  python tools/compare_map.py --piece r2c1 <painted piece>
 Default out: the system temp folder, compare_GREY.png. Used by the map-checker agent (.claude/agents/map-checker.md).
 """
 from __future__ import annotations
@@ -51,7 +52,28 @@ def compare(generated: Path) -> Image.Image:
     return out
 
 
+def compare_piece(tile: str, generated: Path) -> Image.Image:
+    """A detail piece: its reference crop (left), the painted piece (middle), both blended 50/50 (right) —
+    in the blend any building that moved shows up doubled."""
+    ref = Image.open(MAP / "detail" / "refs" / f"GREY_detail_{tile}_ref.jpg").convert("RGB")
+    gen = Image.open(generated).convert("RGB").resize(ref.size, Image.LANCZOS)
+    w, h = ref.width // 2, ref.height // 2
+    out = Image.new("RGB", (w * 3 + 40, h + 50), (24, 22, 22))
+    d = ImageDraw.Draw(out)
+    font = ImageFont.truetype("C:/Windows/Fonts/georgiab.ttf", 24)
+    for i, (im, title) in enumerate(((ref, "REFERENCE"), (gen, "PAINTED"), (Image.blend(ref, gen, 0.5), "BLEND 50/50"))):
+        out.paste(im.resize((w, h), Image.LANCZOS), (i * (w + 20), 50))
+        d.text((i * (w + 20) + 10, 12), f"{title} {tile}", font=font, fill=(217, 181, 106))
+    return out
+
+
 def main() -> None:
+    if "--piece" in sys.argv:  # python tools/compare_map.py --piece r2c1 <painted piece>
+        i = sys.argv.index("--piece")
+        out = Path(tempfile.gettempdir()) / f"compare_piece_{sys.argv[i + 1]}.png"
+        compare_piece(sys.argv[i + 1], Path(sys.argv[i + 2])).save(out)
+        print("written ->", out)
+        return
     if len(sys.argv) < 2:
         raise SystemExit(__doc__)
     out = Path(sys.argv[2]) if len(sys.argv) > 2 else Path(tempfile.gettempdir()) / "compare_GREY.png"

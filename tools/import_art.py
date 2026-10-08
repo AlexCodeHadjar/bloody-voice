@@ -26,7 +26,7 @@ DST = ROOT / "art"
 
 FOLDERS = {"districts": "city/districts", "map": "city/map", "ui": "ui", "modules": "gear/modules",
            "monsters": "monsters", "icons": "ui/icons"}
-# Not imported here: owner's style references; district map tiles (stitched by a later step, GDD 20.9).
+# Not imported file by file: owner's style references; district map pieces (stitched below, GDD 20.8).
 SKIP_FOLDERS = {"refs", "district_maps"}
 NAME_RE = re.compile(r"^[A-Z0-9_]+(__[a-z0-9_]+)+$")
 MAX_SIDE = 1672
@@ -267,6 +267,10 @@ def main(force: bool) -> int:
             img = fit_to_shape(img, shapes[code])
         save_webp(img.convert("RGBA" if img.mode in ("RGBA", "LA", "P") else "RGB"), out)
         written += 1
+    import district_detail_tiles  # the playable district map: overview + painted detail pieces
+    if force or district_detail_tiles.needs_stitch():
+        used = district_detail_tiles.stitch()
+        print(f"district map GREY: {len(used)} detail pieces on the scaled overview")
     for e in errors:
         print("ERROR", e)
     print(f"written {written}, up to date {skipped}, errors {len(errors)}")
