@@ -167,15 +167,24 @@ def aqueduct(d: ImageDraw.ImageDraw, a: Pt, b: Pt) -> None:
 
 
 def ringwall(d: ImageDraw.ImageDraw, inner: list[Pt], outer: list[Pt]) -> None:
-    """The Ringwall: massive band, buttress towers on the outside, the Edge Walk ledge with a railing inside."""
+    """The Ringwall as a fortress wall: about three houses thick, an inner face in deep shadow, a walkway with
+    crenellations on top, big square towers, the abyss fog beyond; the Edge Walk ledge at its inner foot."""
+    outer = [(p[0] + (q[0] - p[0]) * 2.0, p[1] + (q[1] - p[1]) * 2.0) for p, q in zip(inner, outer)]
     far = [(p[0] + 400, p[1]) for p in outer]
     d.polygon(outer + far[::-1], fill=(150, 152, 158))  # the abyss: fog
-    d.polygon(inner + outer[::-1], fill=(98, 92, 86), outline=INK)
-    for i in range(0, len(outer) - 1, 9):
-        o, nx = outer[i], outer[i + 1]
-        u, n, _ = _unit(o, nx)
-        d.polygon(_quad((o[0] - n[0] * 10, o[1] - n[1] * 10), u, n, 22, 22), fill=(88, 82, 76), outline=INK)
-    ledge = [(p[0] + (q[0] - p[0]) * 0.22, p[1] + (q[1] - p[1]) * 0.22) for p, q in zip(inner, outer)]
+    at = lambda f: [(p[0] + (q[0] - p[0]) * f, p[1] + (q[1] - p[1]) * f) for p, q in zip(inner, outer)]  # noqa: E731
+    d.polygon(inner + outer[::-1], fill=(112, 106, 98), outline=INK, width=3)
+    d.polygon(inner + at(0.18)[::-1], fill=(62, 58, 54))           # inner face, in shadow
+    d.polygon(at(0.35) + at(0.65)[::-1], fill=(132, 126, 116))     # walkway on top
+    for p in at(0.82)[::2]:                                         # crenellations on the outer parapet
+        d.rectangle([p[0] - 4, p[1] - 4, p[0] + 4, p[1] + 4], fill=(90, 84, 78), outline=INK)
+    for i in range(0, len(outer) - 1, 14):                         # big square towers
+        u, n, _ = _unit(outer[i], outer[i + 1])
+        c = ((inner[i][0] + outer[i][0]) / 2, (inner[i][1] + outer[i][1]) / 2)
+        d.polygon(_quad(c, u, n, 46, math.dist(inner[i], outer[i]) + 30), fill=(100, 94, 88), outline=INK, width=3)
+    inward = [(p[0] - (q[0] - p[0]) * 0.25, p[1] - (q[1] - p[1]) * 0.25) for p, q in zip(inner, outer)]
+    d.polygon(inner + inward[::-1], fill=(20, 18, 20, 90))          # the wall's shadow on the Edge Walk
+    ledge = [(p[0] - (q[0] - p[0]) * 0.12, p[1] - (q[1] - p[1]) * 0.12) for p, q in zip(inner, outer)]
     d.line(ledge, fill=(180, 172, 156), width=7)
     d.line(inner, fill=INK, width=2)
     for i in range(0, len(ledge), 3):
@@ -252,6 +261,13 @@ def landmark(d: ImageDraw.ImageDraw, c: Pt, w: float, h: float, kind: str, rnd: 
         for i in range(3):
             d.rectangle([x - w / 2 + i * w / 3 + 2, y - 8, x - w / 2 + (i + 1) * w / 3 - 2, y + 8], fill=(40, 40, 46),
                         outline=INK)
+    elif kind == "depot":  # long shed roofs, tracks running in from the west, a turntable in the yard
+        for i in range(3):
+            y0 = box[1] + i * h / 3
+            roof(d, [(box[0] + w * 0.3, y0 + 2), (box[2], y0 + 2), (box[2], y0 + h / 3 - 2), (box[0] + w * 0.3, y0 + h / 3 - 2)],
+                 (78, 74, 70))
+            d.line([(box[0] - 20, y0 + h / 6), (box[0] + w * 0.3, y0 + h / 6)], fill=(210, 205, 195), width=2)
+        d.ellipse([box[0] - 8, y - 14, box[0] + 20, y + 14], outline=(210, 205, 195), width=3)
     elif kind == "gate":
         d.rectangle(box, fill=(70, 64, 58), outline=INK, width=3)
         d.arc([x - w * 0.3, y - h * 0.6, x + w * 0.3, y + h * 0.6], 180, 360, fill=(200, 160, 90), width=3)

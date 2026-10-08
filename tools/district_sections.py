@@ -89,29 +89,33 @@ def aqueduct_panel(fonts: tuple) -> Image.Image:
 
 def wall_panel(fonts: tuple) -> Image.Image:
     img, d = _panel("C. Кольцевая стена и Дорожка над Бездной (разрез)",
-                    "Стена — сплошная, гладкая изнутри, дома к ней НЕ прилипают. Дорожка — уступ с перилами вдоль стены.", fonts)
+                    "Крепостная стена толщиной в три дома, выше домов втрое. Дома к ней НЕ прилипают.", fonts)
     ground = 420
     d.rectangle([0, ground, 520, H], fill=STONE)
     for x in (30, 140, 250):
         _house(d, x, ground, 90, 3)
     d.text((370, ground + 30), "улица", font=fonts[1], fill=INK)
-    d.rectangle([520, 120, 680, H], fill=(98, 92, 86), outline=INK)
+    d.rectangle([520, 110, 770, H], fill=(98, 92, 86), outline=INK)  # thick as three houses, much taller
+    d.rectangle([520, 110, 545, H], fill=(62, 58, 54))                   # inner face in shadow
+    for x in range(522, 770, 26):                                         # crenellations
+        d.rectangle([x, 88, x + 14, 110], fill=(98, 92, 86), outline=INK)
+    d.text((585, 150), "дорожка и зубцы", font=fonts[1], fill=PAPER)
+    d.text((585, 172), "наверху стены", font=fonts[1], fill=PAPER)
     d.rectangle([470, 330, 520, 350], fill=(180, 172, 156), outline=INK)
     d.line([(470, 300), (470, 330)], fill=INK, width=2)
     d.line([(470, 300), (520, 300)], fill=INK, width=2)
     for x in (480, 505):
         d.ellipse([x - 3, 310, x + 3, 316], fill=LAMP)
     d.text((300, 280), "Дорожка над Бездной (уступ)", font=fonts[1], fill=PAPER)
-    d.rectangle([680, 64, W, H], fill=FOG)
-    d.text((700, 300), "БЕЗДНА", font=fonts[0], fill=INK)
-    d.text((700, 330), "туман, обрыв вниз", font=fonts[1], fill=INK)
-    d.polygon([(680, 120), (700, 140), (680, 160)], fill=FOG)
+    d.rectangle([770, 64, W, H], fill=FOG)
+    d.text((780, 300), "БЕЗДНА", font=fonts[0], fill=INK)
+    d.text((780, 330), "туман", font=fonts[1], fill=INK)
     return img
 
 
 def border_panel(fonts: tuple) -> Image.Image:
     img, d = _panel("D. Границы района — СТЕНЫ НЕТ",
-                    "Запад — трамвайная насыпь, север — улица, юг — ж/д виадук. За ними дома соседей.", fonts)
+                    "Запад — насыпь (рельсы кончаются в депо), север — улица, юг — виадук с дорогой.", fonts)
     ground = 440
     d.rectangle([0, ground, W, H], fill=STONE)
     x0 = 20  # west: tram embankment
@@ -127,7 +131,7 @@ def border_panel(fonts: tuple) -> Image.Image:
     for x in (x2, x2 + 230):
         d.rectangle([x, 330, x + 30, ground], fill=BRICK, outline=INK)
     d.pieslice([x2 + 30, 320, x2 + 230, ground + 100], 180, 360, fill=SKY, outline=INK)
-    d.text((x2 + 60, 260), "виадук, проход под ним", font=fonts[1], fill=PAPER)
+    d.text((x2 + 20, 260), "виадук с дорогой, проход под ним", font=fonts[1], fill=PAPER)
     return img
 
 

@@ -9,6 +9,7 @@ From ONE layout (below) it writes, into docs/art-prompts/grey-chapels-map/ (for-
   tiles.png           the same plan with the generation grid (3 x 4 tiles, 128 px overlap)
   tile_refs/*.png     one reference per tile for ChatGPT: clean plan crop, numbers only (left) + city map crop (right)
   layout.json         contour, landmarks, street graph and tiles in district-map pixels (for the game)
+  atlas.md + atlas/   for the owner: zones in colour, borders, special objects, every zone and landmark
 
 Coordinates below are "C space": a 2x crop of the city map starting at CROP_ORIGIN (easy to read off
 art/city/map/HALLOWDEEP__map__normal.webp). The district map is FRAME_C scaled to WORLD.
@@ -101,6 +102,9 @@ def draw_plan(size: tuple[int, int], labels: bool = True) -> Image.Image:
     for a, b, kind, _ru, _en in BORDER:
         if kind != "ringwall":
             detail.border(d, [sk(CONTOUR[i % len(CONTOUR)]) for i in range(a, b + 1)], kind)
+    depot = next(lm for lm in LANDMARKS if lm[0] == "tram_depot")  # the tram line runs into the depot's west side
+    entry = (depot[4][0] - depot[5][0] / 2, depot[4][1] - depot[5][1] / 6)
+    detail.border(d, [sk(CONTOUR[18]), sk((entry[0] - 16, entry[1] - 8)), sk(entry)], "rail")
     detail.ringwall(d, inner, outer)
     free = _free_mask(district, streets, widths)
     detail.terraces(d, free, streets, widths, rnd)
@@ -322,21 +326,6 @@ def tile_refs(plan: Image.Image) -> None:
             ref.save(out / f"GREY_tile_r{r}c{c}_ref.png")
 
 
-def location() -> Image.Image:
-    img = Image.open(CITY_MAP).convert("RGB")
-    dark = Image.new("RGB", img.size, (12, 10, 10))
-    mask = Image.new("L", img.size, 175)
-    ImageDraw.Draw(mask).polygon([city(p) for p in outline_c()], fill=0)
-    img = Image.composite(dark, img, mask)
-    d = ImageDraw.Draw(img)
-    d.line([city(p) for p in outline_c() + outline_c()[:1]], fill=BRASS, width=4)
-    x0, y0 = city(FRAME_C)
-    x1, y1 = city((FRAME_C[0] + WORLD[0] / SCALE, FRAME_C[1] + WORLD[1] / SCALE))
-    d.rectangle([x0, y0, x1, y1], outline=(40, 120, 220), width=3)
-    d.text((x0 + 8, y0 + 6), "district map frame", font=font(18), fill=(40, 120, 220))
-    return img
-
-
 def layout_json() -> dict:
     def wp(p: tuple[float, float]) -> list[int]:
         return [round(v) for v in world(p)]
@@ -385,11 +374,13 @@ def main() -> None:
     sheet.save(OWNER / "sketch.png")
     tiles_overlay(plan).save(OWNER / "tiles.png")
     tile_refs(draw_plan(size, labels=False))
-    location().save(GPT / "location.png")
     sections(FONT_BOLD, FONT).save(OWNER / "sections.png")
     sections(FONT_BOLD, FONT, clean=True).save(GPT / "sections_clean.png")
     draw_plan(size, labels=False).save(GPT / "plan_clean.png")
     (OUT / "layout.json").write_text(json.dumps(layout_json(), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    import district_atlas  # here, not at the top: the atlas imports this module
+    district_atlas.location().save(GPT / "location.png")
+    district_atlas.build()
     print("written ->", OUT)
 
 

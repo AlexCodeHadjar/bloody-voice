@@ -10,7 +10,7 @@ The first overview (`examples/attempt_1.webp`, mistakes marked in `examples/atte
 
 | Problem in attempt 1 | Rule now |
 |---|---|
-| A crooked stone wall was drawn all round the district | **There is no wall between districts.** The edge is a street (north), the tram embankment (west) and a railway viaduct (south). Only the east side is a wall — the Ringwall. |
+| A crooked stone wall was drawn all round the district | **There is no wall between districts.** The edge is a street (north), the tram embankment (west, the line ends in a tram depot) and a road viaduct (south). Only the east side is a wall — the Ringwall. |
 | Houses of the neighbouring districts climb onto the Ringwall or melt into it | The Ringwall is one clean, continuous, massive wall with a smooth inner face. Nothing touches it except the Edge Walk ledge; nothing is built on top of it; outside it there is only fog. |
 | Neighbouring houses overlap the border | Neighbours have their own complete houses that stop one street before the border. Nothing crosses the border. |
 | The bridges look strange (a bridge over a round fog hole) | The Candle Bridge is a short stone bridge at street level crossing a long sunken gully (the Fog Hollow). The aqueduct is a long raised brick viaduct on piers with a shadow. See `sections_clean.png`. |
@@ -84,12 +84,18 @@ BORDERS (very important):
   neighbouring Nordhal quarter.
 - West edge: a raised tram embankment with two rails and a level crossing (landmark 20); across it the
   glass roofs and faint green light of the Lumen Campus and the market roofs of Rowan Market.
-- South edge: a brick railway viaduct on arches; one arch is a tunnel closed by a wooden barricade
-  (landmark 19); beyond it the industry smoke of Deepwright and the red lanterns of Scarlet Row.
-- East edge: the RINGWALL — one continuous, very thick, smooth stone city wall curving down the whole
-  right side, with a few square buttress towers on its outer side. Along its inner foot runs a narrow
-  railed ledge with lamps on chains (the Edge Walk, 14). Beyond the wall: only a sea of grey fog (the
-  abyss). No houses touch the wall, none are built on it, none appear beyond it.
+  The tram line ENDS in the south-west corner in a TRAM DEPOT (landmark 21): three long engine sheds,
+  the tracks fanning into them, a small turntable, a coal heap. The rails stop there — they never run on
+  along the south edge and never turn into a road.
+- South edge: an old brick viaduct on arches that carries a ROAD (no rails on it); one arch is a tunnel
+  closed by a wooden barricade (landmark 19); beyond it the industry smoke of Deepwright and the red
+  lanterns of Scarlet Row.
+- East edge: the RINGWALL — a massive fortress wall of dark stone, as thick as three houses side by side
+  and three times taller than the houses, curving down the whole right side. On its top: a walkway with
+  crenellations; big square towers every few hundred metres; its inner face lies in deep shadow and casts
+  a dark band across the street below it. Along its inner foot runs a narrow railed ledge with lamps on
+  chains (the Edge Walk, 14). Beyond the wall: only a sea of grey fog (the abyss). No houses touch the wall,
+  none are built on it, none appear beyond it. It must read clearly as a huge wall, not as a road or a kerb.
 - The neighbouring districts are complete and tidy: their houses stop at their side of the border street,
   embankment or viaduct and never overlap it.
 
@@ -106,7 +112,8 @@ HEIGHTS (side views A–D):
 | Look for | If wrong |
 |---|---|
 | A wall around the district or between districts | FIX-WALL |
-| Houses on, in or beyond the Ringwall; the wall not smooth and continuous | FIX-RINGWALL |
+| Houses on, in or beyond the Ringwall; the wall thin, not smooth or not continuous | FIX-RINGWALL |
+| Rails running on along the south viaduct or turning into a road; no depot | FIX-RAILS |
 | Neighbour houses crossing the border street / embankment / viaduct; stripes instead of houses | FIX-NEIGHBOURS |
 | A round hole with a bridge; a bridge over nothing; aqueduct without arches or shadow | FIX-BRIDGES |
 | Camera tilted like a street view, buildings leaning over streets | FIX-CAMERA |
@@ -139,8 +146,11 @@ refine these buildings by their numbers on the plan:
 - 13 the God in the Wall: a huge hooded face carved into the inner face of the Ringwall, candles and
   offerings at its foot.
 - Lower Yards (south): yards, sheds and shacks; 16 an infirmary house with white sheets in the windows and
-  a red lamp; 17 a walled paupers' graveyard with crooked wooden markers and open graves; 18 a collapsed
-  iron lift tower leaning out over the abyss at the south-east corner, snapped cables.
+  a red lamp; 17 a walled paupers' graveyard with crooked wooden markers and open graves; 18 the Broken
+  Hoist at the south-east corner — keep it exactly like the attached `examples/approved_18_broken_hoist.png`
+  (owner-approved): a tall timber-and-iron lift tower on the top of the Ringwall, leaning out over the abyss,
+  big pulley wheels, snapped cables hanging down into the fog, a few lamps; 21 the tram depot in
+  the south-west corner: three long sheds, tracks fanning in, a turntable, a coal heap, one old tram car.
 - Everywhere else: houses packed wall to wall in rows along the streets, small back yards, chimney smoke,
   gas lamps along the main streets (yellow dots on the plan), bonfires (orange dots).
 ```
@@ -150,13 +160,21 @@ refine these buildings by their numbers on the plan:
 ```text
 FIX-WALL: Remove every wall around the district and between districts. The only wall is the Ringwall on
 the east. Replace the other edges with: a cobbled street (north), a tram embankment with rails (west),
-a brick railway viaduct (south). Keep everything else exactly the same.
+a brick road viaduct (south, no rails on it). Keep everything else exactly the same.
 ```
 
 ```text
-FIX-RINGWALL: Redraw the Ringwall as one continuous, smooth, very thick stone wall curving down the right
-side. Nothing is built on it or merges into it; houses keep one street away from it, except the narrow
-railed Edge Walk at its foot. Beyond it only grey fog. Keep everything else the same.
+FIX-RINGWALL: Redraw the Ringwall as a massive fortress wall: dark stone, as thick as three houses side by
+side, three times taller than the houses, a walkway with crenellations on top, big square towers, its inner
+face in deep shadow casting a dark band on the street below. It must not look like a road or a thin band.
+Nothing is built on it or merges into it; houses keep one street away from it, except the narrow railed Edge
+Walk at its foot. Beyond it only grey fog. Keep everything else the same.
+```
+
+```text
+FIX-RAILS: The tram line on the west must END in the south-west corner in a tram depot: three long engine
+sheds, the tracks fanning into them, a small turntable, a coal heap. Remove the rails from the south viaduct;
+the south viaduct carries a cobbled road only. Rails never turn into a road. Keep everything else the same.
 ```
 
 ```text
@@ -209,8 +227,8 @@ This tile contains: {CONTENT}
 | r2c0 | South-west: the tram embankment and a strip of Rowan Market beyond it; the west end of the fog gully; the infirmary (16) |
 | r2c1 | The Fog Hollow — the long sunken gully full of fog, stairs down to the Fog Cellars (11), the start of the Old Aqueduct (15) on its arches |
 | r2c2 | The Crypt Scriptorium (12) south of the chapel, the Old Aqueduct (15) reaching the Ringwall, the Edge Walk (14) along the wall, the God in the Wall (13) at the top |
-| r3c0 | South-west corner: mostly the neighbouring districts (Rowan Market, Deepwright smoke) beyond the embankment and the viaduct; a few sheds inside |
-| r3c1 | The walled graveyard (17), the railway viaduct along the bottom with the barricaded tunnel (19), beyond it red lanterns of Scarlet Row and Deepwright smoke |
+| r3c0 | South-west corner: the end of the tram line; on the right the tram depot (21) with its sheds and turntable; beyond the embankment the neighbouring districts (Rowan Market, Deepwright smoke) inside |
+| r3c1 | The tram depot (21) on the left, the walled graveyard (17), the road viaduct along the bottom with the barricaded tunnel (19), no rails on it, beyond it red lanterns of Scarlet Row and Deepwright smoke |
 | r3c2 | South-east: the collapsed lift tower (18) leaning over the edge, the end of the Edge Walk, the Ringwall, a strip of Scarlet Row beyond the viaduct |
 
 ## Other images for the district view

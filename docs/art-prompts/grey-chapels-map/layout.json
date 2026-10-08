@@ -654,6 +654,17 @@
     1907
    ],
    "node": "west_crossing"
+  },
+  {
+   "id": "tram_depot",
+   "name_en": "The Tram Depot",
+   "name_ru": "Трамвайное депо",
+   "role": "end of the tram line: sheds, tracks, a turntable; later the way to other districts",
+   "pos": [
+    997,
+    3073
+   ],
+   "node": "depot"
   }
  ],
  "nodes": {
@@ -748,6 +759,10 @@
   "hoist": [
    2328,
    3098
+  ],
+  "depot": [
+   1173,
+   3051
   ]
  },
  "streets": [
@@ -880,6 +895,15 @@
    "nodes": [
     "yard",
     "hoist"
+   ],
+   "width": 1
+  },
+  {
+   "name_en": "Depot Lane",
+   "name_ru": "Деповской проулок",
+   "nodes": [
+    "yard",
+    "depot"
    ],
    "width": 1
   }

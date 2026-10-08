@@ -250,7 +250,7 @@ Each district is described with the same fields. **Code** is the stable identifi
 | Danger rank | P |
 | Look | Ruined chapels of a forgotten faith, shanty roofs, grey fog in cellars, bonfires. |
 | Areas (sub-zones) | Ash Quarter · Shanty Roofs · Chapel Close · Fog Hollow · Lower Yards · Edge Walk (GDD §20.5) |
-| Landmarks | 12 — The Old Grey Chapel (city map number). Inside the district: 20 places, see GDD §20.6 |
+| Landmarks | 12 — The Old Grey Chapel (city map number). Inside the district: 21 places, see GDD §20.6 |
 | Typical monsters | Fog corruption, cult summonings, rat swarms. |
 | Rumor flavour tags | grey fog in the cellar; prayers to the god in the wall; people with grey eyes |
 | Gameplay role | **Start district** — the game begins confined here (GDD §20): home, tavern, workshop, shop, library. Contact with the Grey Communion; ichor; secret path down in Chapter II. |

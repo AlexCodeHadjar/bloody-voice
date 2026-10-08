@@ -28,8 +28,9 @@ question 20.10).
   here: a house that was a 10 px dot on the city map is ~70 px — roofs, chimneys, washing lines are visible.
 - **Shape:** the district border follows the black outline of GREY on `HALLOWDEEP__map__normal` exactly
   (traced in `tools/gen_district_sketch.py`, `CONTOUR`). The east side is the **Ringwall**; beyond it, the abyss fog.
-- **Borders — no walls between districts:** north — a boundary street, west — the tram embankment, south — a
-  railway viaduct (the South Passage is a tunnel under it), east — the Ringwall with the Edge Walk ledge at its foot.
+- **Borders — no walls between districts:** north — a boundary street, west — the tram embankment (the line ends
+  in the Tram Depot, landmark 21), south — a brick road viaduct without rails (the South Passage is a tunnel under it),
+  east — the Ringwall, a fortress wall three houses thick with towers, the Edge Walk ledge at its foot.
   The Fog Hollow is a sunken gully two storeys deep; the Candle Bridge crosses it at street level; the Old Aqueduct
   is a raised viaduct on arches. Side views: `docs/art-prompts/grey-chapels-map/for-owner/sections.png`.
 - **Style (owner, 2026-10-08):** realistic painterly night after rain, desaturated, wet roofs, fog, warm lamp
@@ -101,6 +102,7 @@ question 20.10).
 | 18 | Сломанный подъёмник | The Broken Hoist | Lower Yards | Sealed way down to the under-slums (Chapter II) | Collapsed iron lift tower leaning over the edge, snapped cables, boarded cage, warning signs without text |
 | 19 | Южный проход | South Passage | border | Exit to Deepwright Lifts — **locked** | Tunnel under a viaduct closed with a wooden barricade and a chain |
 | 20 | Западный переезд | West Crossing | border | Rail crossing to Lumen / Rowan Market — **locked** | Level crossing over the tram rails with a lowered barrier and a signal lamp |
+| 21 | Трамвайное депо | The Tram Depot | Lower Yards | End of the tram line; later the way to other districts | Three long engine sheds, tracks fanning in, a small turntable, a coal heap, an old tram car |
 
 The hunter's buildings moved here from Nordhal: home, tavern, workshop, shop, library are all in the Ash
 Quarter and Chapel Close, a short walk apart, so the first week is learned inside one district.

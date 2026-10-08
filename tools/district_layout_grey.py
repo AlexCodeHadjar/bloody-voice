@@ -76,6 +76,8 @@ LANDMARKS = [
      "exit to Deepwright Lifts (locked at the start)", (430, 992), (40, 20), "gate"),
     ("west_crossing", "West Crossing", "Западный переезд",
      "rail crossing to Lumen / Rowan Market (locked)", (205, 610), (36, 22), "gate"),
+    ("tram_depot", "The Tram Depot", "Трамвайное депо",
+     "end of the tram line: sheds, tracks, a turntable; later the way to other districts", (372, 928), (78, 50), "depot"),
 ]
 
 NODES = {  # street graph (C space)
@@ -84,7 +86,7 @@ NODES = {  # street graph (C space)
     "roofs": (610, 360), "edge_n": (716, 446), "chapel": (560, 600), "bridge_w": (325, 562),
     "bridge_e": (445, 566), "west_crossing": (226, 628), "hollow": (470, 680), "scriptorium": (650, 690),
     "god_wall": (735, 610), "aqueduct_w": (520, 735), "edge_s": (775, 800), "infirmary": (340, 822),
-    "yard": (480, 910), "south_passage": (430, 978), "hoist": (735, 935),
+    "yard": (480, 910), "south_passage": (430, 978), "hoist": (735, 935), "depot": (420, 922),
 }
 STREETS = [  # name, Russian, nodes in order, width class (3 main, 2 street, 1 alley, 0 rope bridge)
     ("Ash Street", "Пепельная улица", ["north_gate", "market", "square", "chapel"], 3),
@@ -100,6 +102,7 @@ STREETS = [  # name, Russian, nodes in order, width class (3 main, 2 street, 1 a
     ("Aqueduct Walk", "Тропа по акведуку", ["aqueduct_w", "edge_s"], 1),
     ("Gutter Road", "Сточная дорога", ["hollow", "infirmary", "yard", "south_passage"], 2),
     ("Grave Path", "Кладбищенская тропа", ["yard", "hoist"], 1),
+    ("Depot Lane", "Деповской проулок", ["yard", "depot"], 1),
 ]
 HOME_NODE = "home"
 LANDMARK_NODE = {  # where the hero stands to use a landmark
@@ -108,7 +111,7 @@ LANDMARK_NODE = {  # where the hero stands to use a landmark
     "bonfire_square": "square", "candle_bridge": "bridge_e", "fog_cellars": "hollow",
     "crypt_scriptorium": "scriptorium", "god_in_the_wall": "god_wall", "edge_walk": "edge_s",
     "old_aqueduct": "aqueduct_w", "ash_sisters": "infirmary", "nameless_yard": "yard", "broken_hoist": "hoist",
-    "south_passage": "south_passage", "west_crossing": "west_crossing",
+    "south_passage": "south_passage", "west_crossing": "west_crossing", "tram_depot": "depot",
 }
 
 # What forms each stretch of the border (CONTOUR indices, inclusive). There is NO wall between districts:
@@ -116,8 +119,10 @@ LANDMARK_NODE = {  # where the hero stands to use a landmark
 BORDER = [
     (0, 7, "street", "Пограничная улица (к Нордхалу)", "boundary street towards Nordhal"),
     (7, 12, "ringwall", "Кольцевая стена — край платформы", "the Ringwall, edge of the platform"),
-    (12, 17, "viaduct", "Железнодорожный виадук (к югу)", "railway viaduct along the south"),
-    (17, 24, "rail", "Трамвайная насыпь (к западу)", "tram embankment along the west"),  # 24 = back to 0
+    (12, 17, "viaduct", "Кирпичный виадук с дорогой, без рельсов (к югу)", "brick road viaduct along the south, no rails"),
+    (17, 18, "street", "Улица у депо", "street past the depot"),
+    (18, 24, "rail", "Трамвайная насыпь (к западу), кончается в депо", "tram embankment along the west, ends in the depot"),
+    # 24 = back to 0. The tram line ENDS in the Tram Depot (landmark 21); no rails continue onto the viaduct.
 ]
 # The sunken gully of the Fog Hollow (two storeys below the streets); the Candle Bridge spans it.
 GULLY = [(348, 505), (352, 600), (382, 662), (468, 708), (560, 748), (578, 716), (492, 664), (418, 618),
