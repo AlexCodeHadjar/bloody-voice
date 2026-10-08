@@ -42,7 +42,7 @@ and warns before a node would cross a Voice stage.
 
 The screens work with the existing art (module art, icons, silhouettes) and drawn frames. The missing pieces —
 30 images for the three screens (background, web textures, list row, tabs, craft button and token, node frames of
-both webs, cards, buttons, the gauge tube); states, grids, web lines and gauge fills are drawn by code — are in one ChatGPT file: [`docs/art-prompts/workshop-and-skills-ui.md`](../art-prompts/workshop-and-skills-ui.md).
+both webs, cards, buttons, the gauge tube); states, grids, web lines and gauge fills are drawn by code — are in one ChatGPT file: [`docs/art-prompts/remaining-ui-transparent.md`](../art-prompts/remaining-ui-transparent.md) (transparent PNG).
 
 ## 23.4 Open questions for the owner
 

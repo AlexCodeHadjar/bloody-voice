@@ -193,8 +193,8 @@ def key_magenta(img: Image.Image) -> Image.Image:
     img = img.convert("RGBA")
     w, h = img.size
     corners = [img.getpixel(c) for c in ((0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1))]
-    if all(c[3] == 0 for c in corners):  # already transparent: only trim the empty margins
-        box = img.getchannel("A").getbbox()
+    if all(c[3] < 8 for c in corners):  # already transparent: only trim the (nearly) empty margins
+        box = img.getchannel("A").point(lambda v: 255 if v > 8 else 0).getbbox()
         return img.crop(box) if box else img
     if not all(is_magenta(c[:3]) for c in corners):
         return img

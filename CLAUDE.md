@@ -59,6 +59,6 @@
 | UI | `ui/theme/palette.gd`, `ui_kit.gd`, `icons.gd` (иконки по набору и id) |
 | Арт | `assets/` и `assets/png/` исходники (не в git) → `tools/import_art.py` → `art/` (твари, модули, иконки); контуры районов `data/city/map_regions.json` |
 | Иконки | каталог `data/ui/icons.json` |
-| Документы | `docs/gdd/` (GDD по разделам; §20 район, §21 бой v2, §22 обучение и русский, §23 мастерская и ветки), `docs/art-prompts/` (генерируется `tools/gen_art_prompts.py`, кроме `district-grey-chapels.md`, `combat-ui.md`, `workshop-and-skills-ui.md`), `docs/assets/` (эскизы: `map/`, `districts/GREY/`, `ui/`) |
+| Документы | `docs/gdd/` (GDD по разделам; §20 район, §21 бой v2, §22 обучение и русский, §23 мастерская и ветки), `docs/art-prompts/` (генерируется `tools/gen_art_prompts.py`, кроме `district-grey-chapels.md`, `combat-ui.md`, `remaining-ui-transparent.md`), `docs/assets/` (эскизы: `map/`, `districts/GREY/`, `ui/`) |
 | Инструменты | `tools/` (`check_all.sh`, `import_art.py`, `tune_monsters.py`, `gen_art_prompts.py`, `gen_art_templates.py`, `gen_city_sketch.py`, `gen_district_sketch.py` + `district_layout_grey.py`, `district_detail.py`, `district_sections.py` — карта района, `gen_ui_sketches.py`, `gen_screen_sketches.py` — эскизы экранов) |
 | Агенты | `.claude/agents/critic.md`, `design-critic.md` |
