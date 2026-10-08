@@ -11,6 +11,9 @@
 
 ## 16.2 Style bible
 
+> District close-up maps and ground-level scenes use **style v2** (owner, 2026-10-08): realistic painterly
+> rainy Victorian night — see `docs/art-prompts/district-grey-chapels.md`. Whether the rest of the art follows is an open question.
+
 | Aspect | Rule |
 |---|---|
 | Palette | Soot black #2B2420, parchment #ECE4D2, brass #B08A4A, steel blue #6E7A8A, blood red #8A1C1C, fog grey #BDBDB8, moon silver #C9CCD8 |

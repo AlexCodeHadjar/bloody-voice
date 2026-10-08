@@ -1,93 +1,197 @@
-# Art Prompts — Grey Chapels close-up map
+# Art Prompts — Grey Chapels close-up map (v2)
 
 Hand-written (not generated). Design: [GDD §20](../gdd/20-district-view-grey-chapels.md).
 References: `docs/assets/districts/GREY/` — run `python tools/gen_district_sketch.py` first.
 
+## What went wrong in attempt 1 and the rule that fixes it
+
+The first overview (owner's file `assets/refs/GREY_attempt_1.webp`) got the streets and landmarks roughly right, but:
+
+| Problem in attempt 1 | Rule now |
+|---|---|
+| A crooked stone wall was drawn all round the district | **There is no wall between districts.** The edge is a street (north), the tram embankment (west) and a railway viaduct (south). Only the east side is a wall — the Ringwall. |
+| Houses of the neighbouring districts climb onto the Ringwall or melt into it | The Ringwall is one clean, continuous, massive wall with a smooth inner face. Nothing touches it except the Edge Walk ledge; nothing is built on top of it; outside it there is only fog. |
+| Neighbouring houses overlap the border | Neighbours have their own complete houses that stop one street before the border. Nothing crosses the border. |
+| The bridges look strange (a bridge over a round fog hole) | The Candle Bridge is a short stone bridge at street level crossing a long sunken gully (the Fog Hollow). The aqueduct is a long raised brick viaduct on piers with a shadow. See `sections_clean.png`. |
+| Ink-and-watercolour "engraved map" look | **Style v2:** realistic painterly concept art of a rainy Victorian slum (owner's references `assets/refs/STYLE_ref_1–3.webp`). |
+
+## Files to attach
+
+| File | Why | Attach to |
+|---|---|---|
+| `docs/assets/districts/GREY/plan_clean.png` | The plan: border, streets, house rows, numbered landmarks — **numbers only, no words**. Diagonal hatching = neighbouring districts (not a texture to paint) | D0 |
+| `docs/assets/districts/GREY/sections_clean.png` | Side views without words (A bridge over the gully, B aqueduct, C Ringwall + Edge Walk, D borders without walls). `sections.png` is the same with Russian notes — for the owner only | D0, fix passes |
+| `docs/assets/districts/GREY/location.png` | Where the district is in the city | D0 |
+| `assets/refs/STYLE_ref_1.webp`, `_2`, `_3` (owner's, local only) | ONLY colours, light, rain, wet materials. They are street-level views — their camera angle must NOT be copied | D0 and every tile |
+| `docs/assets/districts/GREY/tile_refs/GREY_tile_r{r}c{c}_ref.png` | Clean plan of one tile + the same area on the old city map | each tile |
+
+Do **not** attach `sketch.png` or `sections.png` to ChatGPT — they have Russian labels that the model would copy.
+
 ## How to use
 
-1. Open **one chat** for the whole district so the style stays the same.
-2. Paste the STYLE BLOCK and the CLOSE-UP BLOCK, then prompt **D0** with `sketch.png` and `location.png` attached.
-   Repeat until the overview is good — it fixes the look of every landmark.
-3. Then the 12 tiles, **row by row, left to right** (r0c0, r0c1, r0c2, r1c0 …). For each tile attach:
-   its `tile_refs/GREY_tile_r{r}c{c}_ref.png`, the good overview (D0), and the tile to the **left** and the tile
-   **above** if they exist. Paste prompt **D1** with the tile's line from the table. If the neighbours exist, also attach the seam canvas
-   from `python tools/gen_district_sketch.py --canvas r{r}c{c}` (`assets/district_maps/canvas/`).
-4. Save as `assets/district_maps/GREY__map__r{r}c{c}.png` (exactly 1024 × 1024), run `python tools/import_art.py`.
-5. If a seam is visible, regenerate that tile with both neighbours attached and ask to "match the left 128 px to the
-   attached left tile and the top 128 px to the attached top tile".
+1. One chat for the whole district.
+2. Paste the STYLE BLOCK and the MAP BLOCK, attach the files for D0, then prompt **D0-A** (shape, borders, style).
+   Check it with the list «After D0-A». If something is wrong, use the matching FIX prompt in the same chat.
+3. Then prompt **D0-B** in the same chat (it only adds the landmark details by number).
+4. When D0 is good, save it as `assets/district_maps/GREY__overview.png` and send it to Claude for checking.
+5. Then the 12 tiles, row by row (r0c0, r0c1, r0c2, r1c0 …) with prompt **D1**; for continuity attach the tile on the
+   left and the tile above, or the seam canvas from `python tools/gen_district_sketch.py --canvas r{r}c{c}`.
+6. Save tiles as `assets/district_maps/GREY__map__r{r}c{c}.png` (1024 × 1024) and run `python tools/import_art.py`.
 
 ```text
-STYLE BLOCK:
-Dark gaslight-and-steel fantasy, Lovecraftian mysticism. Hand-painted illustration
-with ink linework, like an old engraved map coloured with muted watercolour.
-Palette: soot black #2B2420, parchment #ECE4D2, tarnished brass #B08A4A,
-cold steel blue #6E7A8A, dried blood red #8A1C1C, fog grey #BDBDB8,
-sickly moon silver #C9CCD8. Low saturation, strong value contrast,
-warm lamplight against cold fog. Late-19th-century architecture fused with
-advanced machinery (lifts, pipes, brass, rivets). Ominous, quiet, human-scale details.
-No text, no letters, no watermarks, no modern objects, no bright neon, no anime style.
+STYLE BLOCK (district v2):
+Realistic painterly concept art of a Victorian slum at night after rain, like a matte painting
+for a dark detective game. Desaturated cold palette: wet slate grey, soot black, blue-grey fog,
+dark brick brown; small warm amber points of gas lamps and lit windows; no bright colours.
+Wet glistening slate roofs and cobbles, puddles reflecting lamplight, chimney smoke, low fog
+lying in alleys. Crooked, cramped, overgrown with patches and planks; grime, moss, washing lines.
+Realistic proportions and textures, soft painted edges, atmospheric depth.
+The attached style references are street-level views: take from them ONLY the palette, the rain,
+the wet materials and the light — never their camera angle.
+No tabletop / RPG battle-map look, no saturated roof colours (no bright red, green or blue roofs),
+no ink outlines, no watercolour, no cartoon, no fantasy colours, no text, no letters, no numbers.
 ```
 
 ```text
-CLOSE-UP BLOCK:
-Strict top-down orthographic view, north is up, like a detailed city plan seen from a balloon.
-Close scale: every single house is clearly visible with its own roof, chimneys, skylights,
-washing lines between windows, barrels and crates in yards, bonfires, cobbles in the streets,
-tiny lamps along the streets. Streets are clearly readable paths between the houses.
-Dusk, grey fog lying in low places, warm windows. Same palette and ink-and-watercolour
-technique as the city overview map, but the camera looks straight down: we see roofs, not facades.
-No people larger than a fingernail, no text, no labels, no map frame, no compass.
+MAP BLOCK:
+Seen from straight above (top-down, like a photo from a balloon), north is up. Only a very slight
+perspective is allowed: buildings must not lean over the streets. Every single house has its own
+roof, chimneys, skylights; streets are clearly readable paths of wet cobbles between the houses.
+Scale: a house is about as wide as a street is wide. People, if any, are tiny dark dots.
+Follow the attached plan for: the district outline, the street network, which buildings face
+which streets, and where each numbered landmark is. The plan's lines are schematic — make streets
+slightly winding and organic, but keep every connection. Ignore all numbers in the plan; draw no text.
+Diagonal hatching on the plan marks the neighbouring districts — paint them as normal houses, never as stripes.
+The attached side views (A–D) only explain heights and shapes; do not draw them into the map.
+The plan is 3:4; on a 2:3 canvas fit the whole plan and fill the extra top and bottom with neighbouring roofs.
 ```
 
-## D0 — Overview of the district
+## D0 — Overview of the whole district (two messages)
+
+### D0-A — shape, borders, style
 
 ```text
-[STYLE BLOCK] [CLOSE-UP BLOCK]
-Portrait 3:4 image of one city district: Grey Chapels, the slums at the east edge of a giant city
-platform. Follow the attached plan (sketch.png): the district outline, which landmarks are connected
-by streets and where every numbered landmark is. The plan's straight street lines are schematic —
-paint organic, winding slum streets. Ignore all words, numbers and the legend; do not copy any text. The attached location.png shows where the district
-sits in the whole city; keep the same shapes as in that overview.
-Edges: on the east a massive curved city wall (the Ringwall) with the abyss fog beyond it.
-Outside the district outline (north, west, south) show a little of the neighbouring districts
-in their own style (warm forges in the north, a tram line and green-lit glass roofs in the west,
-industrial lifts and red lanterns in the south) — they will be darkened in the game.
-Inside, the landmarks (numbers from the plan):
-1 a large ruined Gothic chapel of grey stone, cross-shaped, one tall broken spire, half the roof
-  collapsed showing timber ribs, grey candles glowing inside, a walled yard with toppled saints;
-2 a very tall thin bell tower with no bell, scaffolding and a lantern on top;
-3 an iron gate in a brick arch, chained, a brazier;
-4 a market square of patched canvas stalls around three bonfires;
-5 a crooked shop with a scrap cart and hanging bones and lamps;
-6 a wide low tavern with a big iron lantern and a hunter's hook over the door, warm windows, barrels outside;
-7 a narrow tenement with one lit garret window and an iron outside stair (the hero's home);
-8 a brick workshop with a huge rusty cog over its gate, sparks from the chimney, scrap piles;
-9 a small square with a big bonfire and a tall post covered with pinned paper leaflets;
-10 an old stone arch bridge over a fog-filled gully, hundreds of candles on its parapets;
-11 sunken, half-flooded cellar entrances with stairs going down into grey fog;
-12 a crypt entrance beside the chapel with a reading lamp and stacks of books;
-13 a huge face-like relief carved into the inner face of the Ringwall, candles and offerings below;
-14 a narrow railed walkway along the wall, lamps on chains, fog pouring over the edge;
-15 a long brick aqueduct on high arches crossing the district diagonally, a path on top;
-16 an infirmary house with white sheets in the windows and a red lamp;
-17 a walled paupers' graveyard with crooked wooden markers and open graves;
-18 a collapsed iron lift tower leaning over the edge, snapped cables;
-19 a tunnel under a viaduct closed by a wooden barricade;
-20 a level crossing over tram rails with a lowered barrier and a signal lamp.
-Between the landmarks: dense shacks, tenements and shanties on rooftops linked by rope bridges
-(north-east), fog in the gully (centre-west), yards and sheds (south).
+[STYLE BLOCK] [MAP BLOCK]
+Portrait 2:3 image of one city district: the Grey Chapels, the poorest slum at the east edge of a
+giant city platform. Night, it has just rained. In this first pass get the shape right: the outline,
+the borders, the street network, the house rows, the gully, the bridge, the aqueduct, the Ringwall.
+Landmarks are only correct-sized buildings in their places for now.
+
+BORDERS (very important):
+- There is NO wall around the district and NO wall between districts.
+- North edge: a cobbled boundary street; across it begin the brick houses and warm forge glow of the
+  neighbouring Nordhal quarter.
+- West edge: a raised tram embankment with two rails and a level crossing (landmark 20); across it the
+  glass roofs and faint green light of the Lumen Campus and the market roofs of Rowan Market.
+- South edge: a brick railway viaduct on arches; one arch is a tunnel closed by a wooden barricade
+  (landmark 19); beyond it the industry smoke of Deepwright and the red lanterns of Scarlet Row.
+- East edge: the RINGWALL — one continuous, very thick, smooth stone city wall curving down the whole
+  right side, with a few square buttress towers on its outer side. Along its inner foot runs a narrow
+  railed ledge with lamps on chains (the Edge Walk, 14). Beyond the wall: only a sea of grey fog (the
+  abyss). No houses touch the wall, none are built on it, none appear beyond it.
+- The neighbouring districts are complete and tidy: their houses stop at their side of the border street,
+  embankment or viaduct and never overlap it.
+
+HEIGHTS (side views A–D):
+- Fog Hollow: a long, narrow sunken gully, two storeys below the streets, running south from the centre and
+  bending east; steep stone retaining walls; fog lying in it like water. Not a round hole.
+- Candle Bridge (10): short stone bridge AT STREET LEVEL across the gully's narrow northern neck.
+- Old Aqueduct (15): a brick viaduct with tall arched openings, a walkway on top, yards visible through the
+  arches, its long shadow falling across the roofs to the south-east.
+```
+
+### After D0-A — check before going on
+
+| Look for | If wrong |
+|---|---|
+| A wall around the district or between districts | FIX-WALL |
+| Houses on, in or beyond the Ringwall; the wall not smooth and continuous | FIX-RINGWALL |
+| Neighbour houses crossing the border street / embankment / viaduct; stripes instead of houses | FIX-NEIGHBOURS |
+| A round hole with a bridge; a bridge over nothing; aqueduct without arches or shadow | FIX-BRIDGES |
+| Camera tilted like a street view, buildings leaning over streets | FIX-CAMERA |
+| Bright, colourful roofs, ink outlines, "board game" look | FIX-STYLE |
+
+### D0-B — landmark details (same chat)
+
+```text
+Keep the whole image exactly as it is — the shape, borders, streets and light are right. Now only
+refine these buildings by their numbers on the plan:
+- Ash Quarter (north-west): tight rows of 2–3 storey soot-black brick tenements with patched slate and tin
+  roofs, washing lines between them. 4 Ash Market: a small square of patched canvas stalls round three
+  bonfires. 5 a crooked junk shop with a scrap cart. 6 the Lantern & Hook tavern: a wide low building with a
+  big iron lantern and a hook over the door, warm light in every window. 7 the hero's home: a narrow
+  tenement with one lit garret window and an outside iron stair. 8 a brick workshop with a huge rusty cog
+  over its yard gate and sparks from its chimney. 9 Bonfire Square: a small round square with one big
+  bonfire and a tall post covered with pinned paper leaflets. 2 a very tall thin bell tower with scaffolding
+  and a lantern on top, casting a long shadow. 3 an iron gate in an arch on the north boundary street.
+- Shanty Roofs (north-east): shacks built on top of older roofs, linked by rope bridges and ladders.
+- Chapel Close (centre-east): 1 the Old Grey Chapel — a large Gothic church of grey stone with a
+  cross-shaped plan; its west arm has lost its roof, so bare timber ribs and the dark nave are visible
+  from above; one square tower at the north end; a walled yard on its east side with toppled statues.
+  12 a crypt entrance south of it with a lit reading lamp.
+- Fog Hollow (centre-west): a long sunken gully two storeys below the streets, filled with lying grey fog,
+  steep stone retaining walls along its edges, old houses standing on the rims. 10 the Candle Bridge: a
+  short stone bridge AT STREET LEVEL crossing the gully from rim to rim, its parapets covered with small
+  candles. 11 stairs going down from the streets into the gully to half-flooded cellar doors.
+- 15 the Old Aqueduct: the brick viaduct with tall arched openings from the gully to the Ringwall, a
+  walkway with a railing on top, yards and shacks seen through and under the arches.
+- 13 the God in the Wall: a huge hooded face carved into the inner face of the Ringwall, candles and
+  offerings at its foot.
+- Lower Yards (south): yards, sheds and shacks; 16 an infirmary house with white sheets in the windows and
+  a red lamp; 17 a walled paupers' graveyard with crooked wooden markers and open graves; 18 a collapsed
+  iron lift tower leaning out over the abyss at the south-east corner, snapped cables.
+- Everywhere else: houses packed wall to wall in rows along the streets, small back yards, chimney smoke,
+  gas lamps along the main streets (yellow dots on the plan), bonfires (orange dots).
+```
+
+### FIX prompts (use in the same chat when a problem appears)
+
+```text
+FIX-WALL: Remove every wall around the district and between districts. The only wall is the Ringwall on
+the east. Replace the other edges with: a cobbled street (north), a tram embankment with rails (west),
+a brick railway viaduct (south). Keep everything else exactly the same.
+```
+
+```text
+FIX-RINGWALL: Redraw the Ringwall as one continuous, smooth, very thick stone wall curving down the right
+side. Nothing is built on it or merges into it; houses keep one street away from it, except the narrow
+railed Edge Walk at its foot. Beyond it only grey fog. Keep everything else the same.
+```
+
+```text
+FIX-NEIGHBOURS: The neighbouring districts must have complete, normal houses that stop at their side of
+the border street / embankment / viaduct. No house overlaps the border, the wall or another house.
+```
+
+```text
+FIX-BRIDGES: The Candle Bridge is a short stone bridge at street level that crosses a long, narrow sunken
+gully (two storeys deep, fog lying in it) from one rim to the other — see side view A. The Old Aqueduct is a
+long narrow brick viaduct on tall arches with a walkway on top and a long shadow — see side view B. Do not draw
+a round hole or a bridge over nothing.
+```
+
+```text
+FIX-CAMERA: Look straight down at the roofs, like a photo from a balloon. Buildings must not lean over the
+streets and no facades should be visible. Use the style references only for colour, rain and light.
+```
+
+```text
+FIX-STYLE: Keep the top-down camera and the layout; take from the attached references only colour, rain and light: realistic painterly, desaturated wet grey night,
+glistening roofs and cobbles, fog, small warm lamp lights. No ink outlines, no watercolour, no engraving look.
 ```
 
 ## D1 — One tile (repeat for each)
 
 ```text
-[STYLE BLOCK] [CLOSE-UP BLOCK]
+[STYLE BLOCK] [MAP BLOCK]
 Square 1024x1024 tile of the large Grey Chapels district map, tile {TILE} of a 3x4 grid.
-The left half of the attached reference is the plan of exactly this tile (streets, numbered
-landmarks, the district border, hatched = neighbouring district) — ignore the numbers, do not draw
-them. The right half is the same area on the old city overview: use it only for mood and colours,
-NOT for the camera angle — the camera looks straight down at roofs. Match the attached overview
-image of the whole district for every landmark's look.
+The left half of the attached reference is the plan of exactly this tile (streets, house rows,
+numbered landmarks, the border; hatched = neighbouring district) — ignore the numbers, draw no text.
+The right half is the same area on the old city overview: use it only for which buildings stand
+where, NOT for the style or the camera angle; ignore its ornamented wall and borders — the Ringwall is
+smooth and there are no walls between districts. Match the attached overview (D0) for the look of every
+landmark and the attached style references for colour and light.
+All border rules from D0 hold: no wall between districts; the Ringwall is one clean wall; nothing crosses the border.
 If a seam canvas is attached: keep its left and top strips exactly as they are and paint only the
 flat grey part so that roofs and streets continue across the strips.
 This tile contains: {CONTENT}
@@ -95,26 +199,25 @@ This tile contains: {CONTENT}
 
 | Tile | {CONTENT} |
 |---|---|
-| r0c0 | North-west corner: a strip of the neighbouring Nordhal district (warm forges, brick) in the top-left; the district border; the first tenements of the Ash Quarter; the corner of the Rag-and-Bone Shop (5) at the right edge |
-| r0c1 | North Gate (3) in the district border, the Silent Belfry (2), Ash Market (4) with bonfires, Rag-and-Bone Shop (5), Ash Street going south |
-| r0c2 | North-east: the Ringwall curving down the right side, a strip of Nordhal at the top, the Shanty Roofs — shacks on roofs linked by rope bridges |
-| r1c0 | West: the tram line and a strip of Lumen Campus (glass roofs, green light) on the left; the Lantern & Hook tavern (6); Ash Garret, the hero's home (7); West Crossing (20) on the left edge |
-| r1c1 | Centre: the Rusty Cog workshop (8), Bonfire Square with the leaflet post (9), the west end of the Candle Bridge (10), the west half of the Old Grey Chapel (1) |
-| r1c2 | East: the east half of the Old Grey Chapel (1) and its walled yard, Shanty Roofs to the north, the God in the Wall (13) carved into the Ringwall on the right |
-| r2c0 | South-west: the tram line and Rowan Market strip on the left; fog-filled gully; the Ash Sisters' Infirmary (16) |
-| r2c1 | The Fog Hollow full of grey fog, the Fog Cellars (11), the west end of the Old Aqueduct (15) |
-| r2c2 | Crypt Scriptorium (12) south of the chapel, the Old Aqueduct (15) reaching the wall, the Edge Walk (14) along the Ringwall, God in the Wall (13) at the top |
-| r3c0 | South-west corner: mostly the neighbouring Rowan Market / Deepwright strip (industry, smoke), the district border, a few sheds |
-| r3c1 | The Nameless Yard graveyard (17), the South Passage tunnel (19) in the border, a strip of Deepwright Lifts / Scarlet Lantern Row (red lanterns) at the bottom |
-| r3c2 | South-east: the Broken Hoist (18) leaning over the edge, the end of the Edge Walk, the Ringwall, a strip of Scarlet Lantern Row at the bottom |
+| r0c0 | North-west corner: across the boundary street, a strip of Nordhal (brick, warm forge glow) in the top-left; the first tenement rows of the Ash Quarter; the corner of the junk shop (5) at the right edge |
+| r0c1 | The North Gate (3) on the boundary street, the Silent Belfry (2) with its long shadow, Ash Market (4) with three bonfires, the junk shop (5), Ash Street going south |
+| r0c2 | North-east: the Ringwall curving down the right side (fog beyond it), a strip of Nordhal at the top across the street, the Shanty Roofs with rope bridges |
+| r1c0 | West: the tram embankment with rails and the level crossing (20); beyond it a strip of Lumen Campus (glass roofs, green light); the Lantern & Hook tavern (6); the hero's home (7) |
+| r1c1 | Centre: the workshop with the rusty cog (8), Bonfire Square with the leaflet post (9), the Candle Bridge (10) crossing the gully, the west arm of the Old Grey Chapel (1) with its collapsed roof |
+| r1c2 | East: the Old Grey Chapel (1) with its tower and walled yard, Shanty Roofs to the north, the God in the Wall (13) carved into the Ringwall on the right, the Edge Walk ledge |
+| r2c0 | South-west: the tram embankment and a strip of Rowan Market beyond it; the west end of the fog gully; the infirmary (16) |
+| r2c1 | The Fog Hollow — the long sunken gully full of fog, stairs down to the Fog Cellars (11), the start of the Old Aqueduct (15) on its arches |
+| r2c2 | The Crypt Scriptorium (12) south of the chapel, the Old Aqueduct (15) reaching the Ringwall, the Edge Walk (14) along the wall, the God in the Wall (13) at the top |
+| r3c0 | South-west corner: mostly the neighbouring districts (Rowan Market, Deepwright smoke) beyond the embankment and the viaduct; a few sheds inside |
+| r3c1 | The walled graveyard (17), the railway viaduct along the bottom with the barricaded tunnel (19), beyond it red lanterns of Scarlet Row and Deepwright smoke |
+| r3c2 | South-east: the collapsed lift tower (18) leaning over the edge, the end of the Edge Walk, the Ringwall, a strip of Scarlet Row beyond the viaduct |
 
 ## Other images for the district view
 
-The darkening veil and its hatching are drawn by the game (shader), no image needed.
-ChatGPT does not make reliable transparency: ask for a flat pure magenta (#FF00FF) background; the import tool
-cuts it out (planned with the combat UI import).
+The darkening veil and its hatching are drawn by the game (shader), no image needed. ChatGPT does not make
+reliable transparency: ask for a flat pure magenta (#FF00FF) background; `tools/import_art.py` cuts it out.
 
 | File (`assets/ui/`) | Prompt (after STYLE BLOCK) |
 |---|---|
-| `DISTRICT__landmark_ring.png` | A thin brass ring with small rivets, top view, on a flat pure magenta background, 1:1 — outlines a hovered building |
-| `DISTRICT__lock_badge.png` | A small iron padlock on a round brass plate, top view, on a flat pure magenta background, 1:1 |
+| `DISTRICT__landmark_ring.png` | A thin brass ring with small rivets, top view, opaque, on a flat pure magenta background, square — outlines a hovered building |
+| `DISTRICT__lock_badge.png` | A small iron padlock on a round brass plate, top view, opaque, on a flat pure magenta background, square |

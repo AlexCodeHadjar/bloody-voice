@@ -2,6 +2,9 @@
 
 From ONE layout (below) it writes, into docs/assets/districts/GREY/:
   location.png        the district on the city map; every other district darkened (locked at the start)
+  plan_clean.png      the plan with numbers only (no words) - the reference image for ChatGPT
+  sections.png        side views: Candle Bridge over the Fog Hollow, aqueduct, Ringwall + Edge Walk, borders
+  sections_clean.png  the same side views without words (letters A-D only) - for ChatGPT
   sketch.png          top-down plan: real contour, neighbours darkened, zones, streets, numbered landmarks
   tiles.png           the same plan with the generation grid (3 x 4 tiles, 128 px overlap)
   tile_refs/*.png     one reference per tile for ChatGPT: clean plan crop, numbers only (left) + city map crop (right)
@@ -22,11 +25,13 @@ import random
 import sys
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageChops, ImageDraw, ImageFont
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import district_detail as detail  # noqa: E402
+from district_sections import sections  # noqa: E402
 from district_layout_grey import (  # noqa: E402  (the layout lives next to this tool)
-    CONTOUR, HOME_NODE, LANDMARK_NODE, LANDMARKS, NEIGHBOURS, NODES, STREETS, ZONE_LABELS, ZONES)
+    AQUEDUCT, BONFIRES, BORDER, BRIDGE, GULLY, CONTOUR, HOME_NODE, LANDMARK_NODE, LANDMARKS, NEIGHBOURS, NODES, STREETS, ZONE_LABELS, ZONES)
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "assets" / "districts" / "GREY"
@@ -74,100 +79,131 @@ def sk(p: tuple[float, float]) -> tuple[float, float]:
 
 def draw_plan(size: tuple[int, int], labels: bool = True) -> Image.Image:
     """labels=False: numbers only (the reference for ChatGPT must not contain words)."""
+    rnd = random.Random(7)
     img = Image.new("RGB", size, LOCKED)
+    inner, outer = _wall_lines()
+    district = Image.new("L", size, 0)
+    ImageDraw.Draw(district).polygon(outline_sk(inner), fill=255)
+    beyond = Image.new("L", size, 0)
+    ImageDraw.Draw(beyond).polygon(inner + [(size[0] + 400, inner[-1][1]), (size[0] + 400, inner[0][1])], fill=255)
+    _neighbours(img, size, district, beyond, rnd)
+    img.paste(Image.new("RGB", size, GROUND), (0, 0), district)
     d = ImageDraw.Draw(img, "RGBA")
-    _locked_hatching(d, size)
+    for _, _en, _ru, poly, tint in ZONES:
+        d.polygon([sk(p) for p in poly], fill=tint + (30,))
+    detail.gully(d, [sk(p) for p in GULLY], rnd)
+    streets = [[sk(NODES[n]) for n in nodes] for _, _, nodes, _ in STREETS]
+    widths = [w for _, _, _, w in STREETS]
+    for pts, w in zip(streets, widths):
+        detail.street(d, pts, w)
+    for a, b, kind, _ru, _en in BORDER:
+        if kind != "ringwall":
+            detail.border(d, [sk(CONTOUR[i % len(CONTOUR)]) for i in range(a, b + 1)], kind)
+    detail.ringwall(d, inner, outer)
+    free = _free_mask(district, streets, widths)
+    detail.terraces(d, free, streets, widths, rnd)
+    detail.yards(d, free, rnd, 9000, streets=streets)
+    detail.aqueduct(d, sk(AQUEDUCT[0]), sk(AQUEDUCT[1]))
+    detail.bridge(d, sk(NODES[BRIDGE[0]]), sk(NODES[BRIDGE[1]]))
+    k = SCALE * SKETCH_SCALE
+    for _id, _en, _ru, _role, pos, (w, h), kind in LANDMARKS:
+        detail.landmark(d, sk(pos), w * k, h * k, kind, rnd)
+    for pts, w in zip(streets, widths):
+        detail.lamps(d, pts, w)
+    for p in BONFIRES:
+        detail.bonfire(d, sk(p))
+    badges = [_badge(d, i, lm) for i, lm in enumerate(LANDMARKS, 1)]
     if labels:
         for code, en, ru, pos in NEIGHBOURS:
-            _label(d, sk(pos), ru, "закрыто · locked", 24, (200, 190, 175))
-    _ringwall(d, labels)
-    mask = Image.new("L", size, 0)
-    ImageDraw.Draw(mask).polygon([sk(p) for p in CONTOUR], fill=255)
-    inside = Image.new("RGB", size, PARCHMENT)
-    img.paste(inside, (0, 0), mask)
-    d = ImageDraw.Draw(img, "RGBA")
-    for _, en, ru, poly, tint in ZONES:
-        d.polygon([sk(p) for p in poly], fill=tint + (70,), outline=tint + (200,))
-    _houses(d, mask)
-    for name, ru, nodes, width in STREETS:
-        _street(d, [sk(NODES[n]) for n in nodes], width)
-    d.line([sk(p) for p in CONTOUR + CONTOUR[:1]], fill=INK, width=8)
-    badges = [_landmark(d, i, lm) for i, lm in enumerate(LANDMARKS, 1)]
-    if labels:
+            _label(d, sk(pos), ru, "закрыто · locked", 24, (220, 210, 195))
+        _label(d, sk((790, 235)), "Кольцевая стена", "Ringwall · за ней Бездна", 22, (220, 210, 190))
         _place_labels(d, size, badges)
         _compass(d, size)
     return img
 
 
-def _locked_hatching(d: ImageDraw.ImageDraw, size: tuple[int, int]) -> None:
-    for x in range(-size[1], size[0], 26):
-        d.line([(x, 0), (x + size[1], size[1])], fill=(70, 64, 60), width=3)
+GROUND = (146, 138, 124)
+EAST = (7, 12)  # CONTOUR indices of the stretch that is replaced by the Ringwall's inner edge
 
 
-def _ringwall(d: ImageDraw.ImageDraw, labels: bool) -> None:
-    """The city wall and the abyss east of the district (from map_regions.json wall)."""
+def outline_sk(inner: list[tuple[float, float]]) -> list[tuple[float, float]]:
+    """The district outline in sketch px: CONTOUR, but on the east it runs along the Ringwall itself."""
+    top, bottom = sk(CONTOUR[EAST[0]])[1], sk(CONTOUR[EAST[1]])[1]
+    wall = [p for p in inner if top <= p[1] <= bottom]
+    return [sk(p) for p in CONTOUR[:EAST[0] + 1]] + wall + [sk(p) for p in CONTOUR[EAST[1]:]]
+
+
+def outline_c() -> list[tuple[float, float]]:
+    """The same outline in C space (for layout.json)."""
+    k = SCALE * SKETCH_SCALE
+    inner = _wall_lines()[0][::3]  # the wall arc is dense; every 3rd point keeps it within ~1 px
+    return [(x / k + FRAME_C[0], y / k + FRAME_C[1]) for x, y in outline_sk(inner)]
+
+
+def check_inside(outline: list[tuple[float, float]], tolerance: float = 12.0) -> None:
+    """Every street node and landmark must be inside the outline (gates may sit on it, within tolerance)."""
+    points = list(NODES.items()) + [(lm[0], lm[4]) for lm in LANDMARKS]
+    bad = [name for name, p in points if not detail.inside_or_near(outline, p, tolerance)]
+    if bad:
+        raise SystemExit(f"outside the district outline: {', '.join(bad)}")
+
+
+def _wall_lines() -> tuple[list[tuple[float, float]], list[tuple[float, float]]]:
+    """Inner and outer edge of the Ringwall east of the district (from map_regions.json wall), sketch px."""
     wall = json.loads(REGIONS.read_text(encoding="utf-8"))["wall"]
     (cx, cy), (rx, ry), t = wall["center"], wall["radius"], wall["thickness"]
-    pts_in, pts_out = [], []
+    inner, outer = [], []
     for i in range(0, 181):
         a = -1.2 + i * (2.4 / 180)  # east half only
-        for r_add, pts in ((-t / 2, pts_in), (t / 2, pts_out)):
+        for r_add, pts in ((-t / 2, inner), (t / 2, outer)):
             px = cx + (rx + r_add) * math.cos(a)
             py = cy + (ry + r_add) * math.sin(a)
-            c = ((px - CROP_ORIGIN[0]) * 2, (py - CROP_ORIGIN[1]) * 2)
-            pts.append(sk(c))
-    d.polygon(pts_in + pts_out[::-1], fill=(95, 88, 80, 255), outline=INK)
-    if labels:
-        _label(d, sk((790, 235)), "Кольцевая стена", "Ringwall · за ней Бездна", 22, (220, 210, 190))
+            pts.append(sk(((px - CROP_ORIGIN[0]) * 2, (py - CROP_ORIGIN[1]) * 2)))
+    return inner, outer
 
 
-def _houses(d: ImageDraw.ImageDraw, mask: Image.Image) -> None:
-    """Dense small roofs everywhere that is not a street or landmark: shows the scale."""
-    rnd = random.Random(7)
-    free = mask.copy()
+def _neighbours(img: Image.Image, size: tuple[int, int], district: Image.Image, beyond: Image.Image,
+                rnd: random.Random) -> None:
+    """Neighbouring districts: their own houses, stopping one street short of the border, then hatched."""
+    area = Image.new("L", size, 255)
+    area.paste(0, (0, 0), district)
+    area.paste(0, (0, 0), beyond)
+    gap = area.copy()
+    outline = outline_sk(_wall_lines()[0])
+    ImageDraw.Draw(gap).line(outline + outline[:1], fill=0, width=46)
+    d = ImageDraw.Draw(img, "RGBA")
+    d.rectangle([0, 0, size[0], size[1]], fill=(70, 66, 62))
+    detail.yards(d, gap, rnd, 5000, (16, 30))
+    hatch = Image.new("RGBA", size, (0, 0, 0, 0))
+    hd = ImageDraw.Draw(hatch)
+    for x in range(-size[1], size[0], 22):
+        hd.line([(x, 0), (x + size[1], size[1])], fill=(20, 18, 18, 150), width=3)
+    img.paste(Image.new("RGB", size, (20, 18, 18)), (0, 0), Image.eval(area, lambda v: v * 80 // 255))
+    img.paste(hatch.convert("RGB"), (0, 0), ImageChops.multiply(hatch.getchannel("A"), area))
+
+
+def _free_mask(district: Image.Image, streets: list, widths: list[int]) -> Image.Image:
+    """Where houses may stand: inside the district, off streets, gully, bridge, aqueduct and landmarks."""
+    free = district.copy()
     fd = ImageDraw.Draw(free)
-    for _, _, nodes, width in STREETS:
-        fd.line([sk(NODES[n]) for n in nodes], fill=0, width=18 + width * 8)
-    for _, _, _, _, pos, (w, h), _ in LANDMARKS:
+    for pts, w in zip(streets, widths):
+        fd.line(pts, fill=0, width={0: 4, 1: 15, 2: 23, 3: 33}[w])
+    fd.polygon([sk(p) for p in GULLY], fill=0)
+    fd.line([sk(AQUEDUCT[0]), sk(AQUEDUCT[1])], fill=0, width=30)
+    fd.line([sk(p) for p in CONTOUR + CONTOUR[:1]], fill=0, width=16)
+    fd.line(_wall_lines()[0], fill=0, width=130)  # a street's width along the Ringwall stays open (Edge Walk)
+    k = SCALE * SKETCH_SCALE
+    for _id, _en, _ru, _role, pos, (w, h), _kind in LANDMARKS:
         x, y = sk(pos)
-        fd.rectangle([x - w * SCALE * SKETCH_SCALE / 2 - 8, y - h * SCALE * SKETCH_SCALE / 2 - 8,
-                      x + w * SCALE * SKETCH_SCALE / 2 + 8, y + h * SCALE * SKETCH_SCALE / 2 + 8], fill=0)
-    for _ in range(5200):
-        x, y = rnd.uniform(0, mask.width), rnd.uniform(0, mask.height)
-        w, h = rnd.uniform(12, 26), rnd.uniform(10, 22)
-        if all(free.getpixel((int(min(max(px, 0), mask.width - 1)), int(min(max(py, 0), mask.height - 1)))) > 0
-               for px, py in ((x, y), (x + w, y), (x, y + h), (x + w, y + h))):
-            shade = rnd.randint(110, 150)
-            d.rectangle([x, y, x + w, y + h], fill=(shade, shade - 8, shade - 16, 255), outline=(70, 62, 56))
-            fd.rectangle([x - 3, y - 3, x + w + 3, y + h + 3], fill=0)
+        fd.rectangle([x - w * k / 2 - 6, y - h * k / 2 - 6, x + w * k / 2 + 6, y + h * k / 2 + 6], fill=0)
+    return free
 
 
-def _street(d: ImageDraw.ImageDraw, pts: list[tuple[float, float]], width: int) -> None:
-    if width == 0:  # rope bridge: dashed
-        for a, b in zip(pts, pts[1:]):
-            for k in range(0, 20, 2):
-                p = (a[0] + (b[0] - a[0]) * k / 20, a[1] + (b[1] - a[1]) * k / 20)
-                q = (a[0] + (b[0] - a[0]) * (k + 1) / 20, a[1] + (b[1] - a[1]) * (k + 1) / 20)
-                d.line([p, q], fill=(110, 80, 40), width=5)
-        return
-    w = {1: 12, 2: 20, 3: 30}[width]
-    d.line(pts, fill=INK, width=w + 6, joint="curve")
-    d.line(pts, fill=(205, 192, 168), width=w, joint="curve")
-
-
-def _landmark(d: ImageDraw.ImageDraw, number: int, lm: tuple) -> tuple:
-    _id, en, ru, _role, pos, (w, h), kind = lm
-    x, y = sk(pos)
-    hw, hh = w * SCALE * SKETCH_SCALE / 2, h * SCALE * SKETCH_SCALE / 2
-    fill = {"chapel": (120, 118, 135), "gate": (80, 70, 60), "home": BRASS, "tavern": (160, 90, 50),
-            "shop": (150, 110, 60), "workshop": (120, 100, 70), "graveyard": (95, 100, 85),
-            "bridge": (170, 150, 110), "aqueduct": (140, 130, 120)}.get(kind, (130, 120, 105))
-    d.rectangle([x - hw, y - hh, x + hw, y + hh], fill=fill + (235,), outline=INK, width=4)
-    if kind == "chapel":  # cross-shaped plan
-        d.rectangle([x - hw * 1.5, y - hh * 0.25, x + hw * 1.5, y + hh * 0.2], fill=fill + (235,), outline=INK, width=4)
-    r = 26
-    d.ellipse([x - r, y - r, x + r, y + r], fill=BLOOD if kind == "gate" else INK, outline=PARCHMENT, width=3)
-    d.text((x, y), str(number), font=font(26, True), fill=PARCHMENT, anchor="mm")
+def _badge(d: ImageDraw.ImageDraw, number: int, lm: tuple) -> tuple:
+    x, y = sk(lm[4])
+    r = 24
+    d.ellipse([x - r, y - r, x + r, y + r], fill=BLOOD if lm[6] == "gate" else INK, outline=PARCHMENT, width=3)
+    d.text((x, y), str(number), font=font(24, True), fill=PARCHMENT, anchor="mm")
     return (x - r, y - r, x + r, y + r)
 
 
@@ -239,8 +275,15 @@ def legend(height: int) -> Image.Image:
         d.text((80, y + 30), f"{en} — {role}", font=font(18), fill=(190, 180, 165))
         y += 66
     y += 10
-    for text in ("Штриховка — соседние районы, закрыты в начале игры.", "Пунктир — верёвочные мосты по крышам.",
-                 "Красный кружок — выход из района (закрыт).", "Улицы: шире = главнее. Герой ходит только по ним."):
+    for text in ("СТЕНЫ МЕЖДУ РАЙОНАМИ НЕТ: граница — улица (север), трамвайная",
+                 "насыпь (запад), ж/д виадук (юг); восток — Кольцевая стена.",
+                 "Штриховка — соседние районы (свои дома), закрыты в начале игры.",
+                 "Тёмный провал — Туманный лог, на 2 этажа ниже улиц, в тумане.",
+                 "Мост Свечей и акведук — см. разрезы в sections.png.",
+                 "Жёлтые точки — газовые фонари; оранжевые — костры.",
+                 "Коричневая линия с поперечинами — верёвочные мосты по крышам.",
+                 "Красный кружок — выход из района (закрыт).",
+                 "Улицы: шире = главнее. Герой ходит только по ним."):
         d.text((30, y), text, font=font(20), fill=(200, 190, 175))
         y += 32
     return img
@@ -281,10 +324,10 @@ def location() -> Image.Image:
     img = Image.open(CITY_MAP).convert("RGB")
     dark = Image.new("RGB", img.size, (12, 10, 10))
     mask = Image.new("L", img.size, 175)
-    ImageDraw.Draw(mask).polygon([city(p) for p in CONTOUR], fill=0)
+    ImageDraw.Draw(mask).polygon([city(p) for p in outline_c()], fill=0)
     img = Image.composite(dark, img, mask)
     d = ImageDraw.Draw(img)
-    d.line([city(p) for p in CONTOUR + CONTOUR[:1]], fill=BRASS, width=4)
+    d.line([city(p) for p in outline_c() + outline_c()[:1]], fill=BRASS, width=4)
     x0, y0 = city(FRAME_C)
     x1, y1 = city((FRAME_C[0] + WORLD[0] / SCALE, FRAME_C[1] + WORLD[1] / SCALE))
     d.rectangle([x0, y0, x1, y1], outline=(40, 120, 220), width=3)
@@ -298,7 +341,7 @@ def layout_json() -> dict:
     return {
         "_comment": "Generated by tools/gen_district_sketch.py. District map pixels (art 2816x3712).",
         "district": "GREY", "size": list(WORLD), "tile": TILE, "overlap": OVERLAP, "grid": [COLS, ROWS],
-        "contour": [wp(p) for p in CONTOUR],
+        "contour": [wp(p) for p in outline_c()],
         "neighbours": [{"district": c, "label": [wp(pos)[0], wp(pos)[1]]} for c, _, _, pos in NEIGHBOURS],
         "zones": [{"id": z, "name_en": en, "name_ru": ru, "polygon": [wp(p) for p in poly]}
                   for z, en, ru, poly, _ in ZONES],
@@ -326,6 +369,7 @@ def seam_canvas(tile: str) -> None:
 
 
 def main() -> None:
+    check_inside(outline_c())
     if "--canvas" in sys.argv:
         seam_canvas(sys.argv[sys.argv.index("--canvas") + 1])
         return
@@ -339,6 +383,9 @@ def main() -> None:
     tiles_overlay(plan).save(OUT / "tiles.png")
     tile_refs(draw_plan(size, labels=False))
     location().save(OUT / "location.png")
+    sections(FONT_BOLD, FONT).save(OUT / "sections.png")
+    sections(FONT_BOLD, FONT, clean=True).save(OUT / "sections_clean.png")
+    draw_plan(size, labels=False).save(OUT / "plan_clean.png")
     (OUT / "layout.json").write_text(json.dumps(layout_json(), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print("written ->", OUT)
 

@@ -81,8 +81,8 @@ LANDMARKS = [
 NODES = {  # street graph (C space)
     "north_gate": (385, 235), "belfry": (462, 240), "market": (455, 340), "shop": (365, 340),
     "tavern": (330, 432), "home": (255, 488), "workshop": (420, 445), "square": (495, 480),
-    "roofs": (610, 360), "edge_n": (730, 440), "chapel": (560, 600), "bridge_w": (325, 562),
-    "bridge_e": (445, 566), "west_crossing": (205, 625), "hollow": (470, 680), "scriptorium": (650, 690),
+    "roofs": (610, 360), "edge_n": (716, 446), "chapel": (560, 600), "bridge_w": (325, 562),
+    "bridge_e": (445, 566), "west_crossing": (226, 628), "hollow": (470, 680), "scriptorium": (650, 690),
     "god_wall": (735, 610), "aqueduct_w": (520, 735), "edge_s": (775, 800), "infirmary": (340, 822),
     "yard": (480, 910), "south_passage": (430, 978), "hoist": (735, 935),
 }
@@ -110,3 +110,18 @@ LANDMARK_NODE = {  # where the hero stands to use a landmark
     "old_aqueduct": "aqueduct_w", "ash_sisters": "infirmary", "nameless_yard": "yard", "broken_hoist": "hoist",
     "south_passage": "south_passage", "west_crossing": "west_crossing",
 }
+
+# What forms each stretch of the border (CONTOUR indices, inclusive). There is NO wall between districts:
+# the edge is a street, the tram line or a viaduct; the game darkens what lies beyond.
+BORDER = [
+    (0, 7, "street", "Пограничная улица (к Нордхалу)", "boundary street towards Nordhal"),
+    (7, 12, "ringwall", "Кольцевая стена — край платформы", "the Ringwall, edge of the platform"),
+    (12, 17, "viaduct", "Железнодорожный виадук (к югу)", "railway viaduct along the south"),
+    (17, 24, "rail", "Трамвайная насыпь (к западу)", "tram embankment along the west"),  # 24 = back to 0
+]
+# The sunken gully of the Fog Hollow (two storeys below the streets); the Candle Bridge spans it.
+GULLY = [(348, 505), (352, 600), (382, 662), (468, 708), (560, 748), (578, 716), (492, 664), (418, 618),
+         (412, 505)]
+BRIDGE = ("bridge_w", "bridge_e")               # Candle Bridge: stone deck at street level over the gully
+AQUEDUCT = ((505, 722), (790, 802))             # raised brick viaduct, walkway on top, houses under the arches
+BONFIRES = [(440, 318), (470, 318), (455, 345), (495, 470)]

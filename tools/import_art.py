@@ -26,6 +26,8 @@ DST = ROOT / "art"
 
 FOLDERS = {"districts": "city/districts", "map": "city/map", "ui": "ui", "modules": "gear/modules",
            "monsters": "monsters", "icons": "ui/icons"}
+# Not imported here: owner's style references; district map tiles (stitched by a later step, GDD 20.9).
+SKIP_FOLDERS = {"refs", "district_maps"}
 NAME_RE = re.compile(r"^[A-Z0-9_]+(__[a-z0-9_]+)+$")
 MAX_SIDE = 1672
 QUALITY = 88
@@ -218,6 +220,8 @@ def main(force: bool) -> int:
     icons = icon_sets()
     for key, src in sources().items():
         folder, _, stem = key.partition("/")
+        if folder in SKIP_FOLDERS:
+            continue
         if folder not in FOLDERS:
             errors.append(f"{src.relative_to(ROOT)}: unknown folder '{folder}' (expected {', '.join(FOLDERS)})")
             continue

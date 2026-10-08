@@ -9,7 +9,10 @@ Sketch files (regenerate with `python tools/gen_district_sketch.py`):
 
 | File | What it is |
 |---|---|
-| `docs/assets/districts/GREY/sketch.png` | The plan: real contour, darkened neighbours, zones, streets, 20 numbered landmarks, legend |
+| `docs/assets/districts/GREY/sketch.png` | The plan for the owner: outline (east side = the Ringwall), neighbours, zones, house rows, streets, lamps, 20 numbered landmarks, legend |
+| `docs/assets/districts/GREY/plan_clean.png` | The same plan with numbers only — the reference given to ChatGPT |
+| `docs/assets/districts/GREY/sections.png` | Side views: Candle Bridge over the gully, aqueduct, Ringwall + Edge Walk, borders |
+| `docs/assets/districts/GREY/sections_clean.png` | The same side views without words — given to ChatGPT |
 | `docs/assets/districts/GREY/location.png` | The district on the city map, all other districts darkened (the start of the game) |
 | `docs/assets/districts/GREY/tiles.png` | The plan with the 3 × 4 generation grid |
 | `docs/assets/districts/GREY/tile_refs/` | One reference per tile for ChatGPT: plan crop (left) + city map crop (right) |
@@ -32,6 +35,12 @@ question 20.10).
   here: a house that was a 10 px dot on the city map is ~70 px — roofs, chimneys, washing lines are visible.
 - **Shape:** the district border follows the black outline of GREY on `HALLOWDEEP__map__normal` exactly
   (traced in `tools/gen_district_sketch.py`, `CONTOUR`). The east side is the **Ringwall**; beyond it, the abyss fog.
+- **Borders — no walls between districts:** north — a boundary street, west — the tram embankment, south — a
+  railway viaduct (the South Passage is a tunnel under it), east — the Ringwall with the Edge Walk ledge at its foot.
+  The Fog Hollow is a sunken gully two storeys deep; the Candle Bridge crosses it at street level; the Old Aqueduct
+  is a raised viaduct on arches. Side views: `docs/assets/districts/GREY/sections.png`.
+- **Style (owner, 2026-10-08):** realistic painterly night after rain, desaturated, wet roofs, fog, warm lamp
+  points — owner's references in `assets/refs/` (local, not in git).
 - **Neighbours:** strips of Nordhal (north), Lumen Campus and Rowan Market (west), Deepwright Lifts and Scarlet
   Lantern Row (south) are inside the art but the game covers them with a dark veil (≈ 70 % black + diagonal
   hatching) and a label «Нордхал — закрыто». They cannot be clicked or walked.
