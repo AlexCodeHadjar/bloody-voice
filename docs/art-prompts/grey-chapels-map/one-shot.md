@@ -53,10 +53,11 @@ BORDERS (very important):
   green light of Lumen Campus and the market roofs of Rowan Market. The tram line ENDS in the south-west corner
   in a TRAM DEPOT (21): three long engine sheds, tracks fanning into them, a small turntable, a coal heap, one old
   tram car. The rails stop there; they never continue along the south and never turn into a road.
-- South: an old brick viaduct on arches carrying a ROAD (no rails); one arch is a tunnel closed by a wooden
-  barricade (19); beyond it Deepwright industry smoke and the red lanterns of Scarlet Row.
+- South: an old brick viaduct on arches carrying a ROAD (no rails), lower and plainer than the aqueduct so the
+  two never look alike; one arch is a tunnel closed by a wooden barricade (19); beyond it Deepwright industry smoke and the red lanterns of Scarlet Row.
 - East: the RINGWALL — a massive fortress wall of dark stone, as thick as three houses side by side and three
-  times taller than them, curving down the whole right side: a walkway with crenellations on top, big square
+  times taller than them, curving down the whole right side and running on beyond the top and bottom edges of the
+  image (it is a ring round the whole city): a walkway with crenellations on top, big square
   towers, its inner face in deep shadow casting a dark band onto the street below. At its inner foot a narrow
   railed ledge with lamps on chains (the Edge Walk, 14). Beyond the wall only a sea of grey fog (the abyss).
   Nothing is built on the wall or merges into it (except the Broken Hoist 18 and the Edge Walk ledge); it must
@@ -96,9 +97,33 @@ along the main streets, a few small fires in yards.
 | Если видишь | Отправь в тот же чат |
 |---|---|
 | Стену вокруг района или между районами | `Remove every wall around the district and between districts. Only the Ringwall on the east is a wall; the other edges are a street (north), the tram embankment (west), a road viaduct (south). Keep everything else the same.` |
-| Стена тонкая, похожа на дорогу; дома на ней или слились с ней | `Make the Ringwall a massive fortress wall: as thick as three houses, three times taller, crenellated walkway on top, big square towers, inner face in deep shadow. Nothing is built on it; houses keep one street away. Keep everything else the same.` |
+| Стена тонкая, похожа на дорогу; дома на ней или слились с ней | `Make the Ringwall a massive fortress wall: as thick as three houses, three times taller, crenellated walkway on top, big square towers, inner face in deep shadow, grey fog beyond its outer edge. Nothing is built on it; houses keep one street away. Only the carved face 13, the Edge Walk 14 and the Broken Hoist 18 stay on it. Keep everything else the same.` |
 | Рельсы идут дальше по югу или превращаются в дорогу, нет депо | `The tram line must END in the south-west corner in a tram depot: three long sheds, tracks fanning in, a turntable, a coal heap. Remove rails from the south viaduct; it carries a road only. Keep everything else the same.` |
 | Круглая дыра с мостом, мост в никуда, акведук без арок | `The Candle Bridge is a short stone bridge at street level across a long narrow sunken gully full of fog (side view S-A). The aqueduct is a brick viaduct with tall arched openings and a long shadow (S-B). Keep everything else the same.` |
 | Вид наклонён, как с улицы | `Look straight down at the roofs like a photo from a balloon; no facades, buildings do not lean. Use R1–R3 only for colour, rain and light.` |
 | Яркие крыши, контуры, «настольная игра» | `Keep the camera and layout; repaint only the style: realistic painterly wet night, desaturated grey, glistening roofs, fog, small warm lamp lights. No ink outlines.` |
 | Подъёмник 18 не такой | `Redraw landmark 18 exactly like panel H. Keep everything else the same.` |
+
+## Проверяющий
+
+**Лучше всего — у Claude.** Сохрани картинку (например, в `assets/district_maps/`) и напиши мне «проверь карту
+<путь>». Субагент `map-checker` сравнит её с планом, разрезами, одобренным подъёмником и твоими образцами стиля,
+проверит 8 правил, найдёт недостающие места, оценит красоту и стиль и выдаст **готовые английские сообщения**
+для ChatGPT (не больше двух за раз).
+
+**Быстрая самопроверка внутри ChatGPT** — после каждой картинки отправь в тот же чат:
+
+```text
+Now act as a strict art reviewer. Do NOT generate an image yet. Compare your last image with the attached
+reference sheet (P plan, S side views, H hoist, R1–R3 style) and answer as a checklist:
+1) No wall around the district or between districts? 2) Ringwall massive (three houses thick, crenellations,
+towers, shadow), nothing built on it except the hoist 18? 3) Tram rails end in the depot 21, no rails on the south
+viaduct? 4) Narrow fog gully with the Candle Bridge at street level? 5) Brick aqueduct with arches and shadow?
+6) Neighbour houses tidy, not crossing the border? 7) Top-down, no facades? 8) No text anywhere?
+9) Which landmarks 1–21 are missing or unrecognisable? 10) Does landmark 18 match panel H?
+11) Style vs R1–R3 (palette, wet roofs, fog, warm lamps) — score 0–10. 12) Beauty and readability — score 0–10.
+Then list at most two concrete fixes, most important first, and wait for my "go".
+```
+
+Когда ответит — напиши «go», и он исправит. Его самопроверка мягче, чем у Claude: он склонен хвалить
+собственную картинку, поэтому финальную версию всё равно присылай мне.

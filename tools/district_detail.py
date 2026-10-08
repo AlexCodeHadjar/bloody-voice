@@ -170,7 +170,7 @@ def ringwall(d: ImageDraw.ImageDraw, inner: list[Pt], outer: list[Pt]) -> None:
     """The Ringwall as a fortress wall: about three houses thick, an inner face in deep shadow, a walkway with
     crenellations on top, big square towers, the abyss fog beyond; the Edge Walk ledge at its inner foot."""
     outer = [(p[0] + (q[0] - p[0]) * 2.0, p[1] + (q[1] - p[1]) * 2.0) for p, q in zip(inner, outer)]
-    far = [(p[0] + 400, p[1]) for p in outer]
+    far = [(p[0] + 2000, p[1]) for p in outer]
     d.polygon(outer + far[::-1], fill=(150, 152, 158))  # the abyss: fog
     at = lambda f: [(p[0] + (q[0] - p[0]) * f, p[1] + (q[1] - p[1]) * f) for p, q in zip(inner, outer)]  # noqa: E731
     d.polygon(inner + outer[::-1], fill=(112, 106, 98), outline=INK, width=3)

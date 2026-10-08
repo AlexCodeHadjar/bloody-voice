@@ -49,8 +49,9 @@ CROP_ORIGIN = (780, 230)          # C space (x, y) -> city map (780 + x/2, 230 +
 TILE, OVERLAP, COLS, ROWS = 1024, 128, 3, 4
 STEP = TILE - OVERLAP
 WORLD = (COLS * STEP + OVERLAP, ROWS * STEP + OVERLAP)   # 2816 x 3712 px district map
-FRAME_C = (100.0, 90.0)           # top-left of the district map in C space
-SCALE = WORLD[0] / 768.0          # C px -> district map px
+FRAME_C = (100.0, 40.0)           # top-left of the district map in C space
+FRAME_W_C = 940.0                 # wide enough for the whole Ringwall, its towers and a strip of abyss fog
+SCALE = WORLD[0] / FRAME_W_C      # C px -> district map px
 SKETCH_SCALE = 0.5                # sketch.png is half the district map size
 
 INK = (43, 36, 32)

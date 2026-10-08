@@ -218,18 +218,18 @@ This tile contains: {CONTENT}
 
 | Tile | {CONTENT} |
 |---|---|
-| r0c0 | North-west corner: across the boundary street, a strip of Nordhal (brick, warm forge glow) in the top-left; the first tenement rows of the Ash Quarter; the corner of the junk shop (5) at the right edge |
-| r0c1 | The North Gate (3) on the boundary street, the Silent Belfry (2) with its long shadow, Ash Market (4) with three bonfires, the junk shop (5), Ash Street going south |
-| r0c2 | North-east: the Ringwall curving down the right side (fog beyond it), a strip of Nordhal at the top across the street, the Shanty Roofs with rope bridges |
-| r1c0 | West: the tram embankment with rails and the level crossing (20); beyond it a strip of Lumen Campus (glass roofs, green light); the Lantern & Hook tavern (6); the hero's home (7) |
-| r1c1 | Centre: the workshop with the rusty cog (8), Bonfire Square with the leaflet post (9), the Candle Bridge (10) crossing the gully, the west arm of the Old Grey Chapel (1) with its collapsed roof |
-| r1c2 | East: the Old Grey Chapel (1) with its tower and walled yard, Shanty Roofs to the north, the God in the Wall (13) carved into the Ringwall on the right, the Edge Walk ledge |
-| r2c0 | South-west: the tram embankment and a strip of Rowan Market beyond it; the west end of the fog gully; the infirmary (16) |
-| r2c1 | The Fog Hollow — the long sunken gully full of fog, stairs down to the Fog Cellars (11), the start of the Old Aqueduct (15) on its arches |
-| r2c2 | The Crypt Scriptorium (12) south of the chapel, the Old Aqueduct (15) reaching the Ringwall, the Edge Walk (14) along the wall, the God in the Wall (13) at the top |
-| r3c0 | South-west corner: the end of the tram line; on the right the tram depot (21) with its sheds and turntable; beyond the embankment the neighbouring districts (Rowan Market, Deepwright smoke) inside |
-| r3c1 | The tram depot (21) on the left, the walled graveyard (17), the road viaduct along the bottom with the barricaded tunnel (19), no rails on it, beyond it red lanterns of Scarlet Row and Deepwright smoke |
-| r3c2 | South-east: the collapsed lift tower (18) leaning over the edge, the end of the Edge Walk, the Ringwall, a strip of Scarlet Row beyond the viaduct |
+| r0c0 | North-west corner: across the boundary street a strip of Nordhal (brick, warm forge glow); the North Gate (3) on that street; the junk shop (5); the first tenement rows; the top of the tram embankment on the left |
+| r0c1 | The Silent Belfry (2) with its long shadow, Ash Market (4) with three bonfires, the start of the Shanty Roofs to the east, a strip of Nordhal at the top |
+| r0c2 | North-east: the massive Ringwall curving down with its towers and crenellations, grey abyss fog beyond it, a strip of Nordhal; only the edge of the Shanty Roofs at the lower left |
+| r1c0 | West: the tram embankment with the level crossing (20) and the glass roofs of Lumen beyond; the Lantern & Hook tavern (6), the hero's home (7), the workshop with the rusty cog (8), the Candle Bridge (10) over the gully's neck |
+| r1c1 | Centre: the Old Grey Chapel (1) with its collapsed west arm, tower and walled yard; Bonfire Square (9) with the leaflet post; stairs down to the Fog Cellars (11); the Crypt Scriptorium (12); Shanty Roofs to the north-east |
+| r1c2 | East: the Ringwall with the God in the Wall (13) carved into its inner face, the Edge Walk ledge at its foot, towers, abyss fog beyond |
+| r2c0 | South-west: the tram embankment with Rowan Market beyond; the infirmary (16); the tram depot (21) where the line ends — sheds, tracks, turntable |
+| r2c1 | The gully's southern bend full of fog, the Fog Cellars (11), the start of the Old Aqueduct (15) on its arches, the walled graveyard (17) |
+| r2c2 | The aqueduct reaching the Ringwall, the Edge Walk (14), the Broken Hoist (18) exactly as the approved sample, fog beyond the wall |
+| r3c0 | South-west corner: mostly the neighbouring districts (Rowan Market, Deepwright smoke) beyond the embankment; the west end of the road viaduct with the barricaded tunnel (19) at the right edge |
+| r3c1 | The road viaduct (no rails) with the barricaded tunnel (19); beyond it the red lanterns of Scarlet Row and Deepwright smoke |
+| r3c2 | South-east: the lower part of the Broken Hoist (18), the Ringwall curving away, abyss fog, a strip of Scarlet Row |
 
 ## Other images for the district view
 
