@@ -263,7 +263,7 @@ def _label(d: ImageDraw.ImageDraw, at: tuple[float, float], ru: str, en: str, si
 
 
 def _compass(d: ImageDraw.ImageDraw, size: tuple[int, int]) -> None:
-    x, y = 70, 150
+    x, y = 70, size[1] - 120  # bottom-left: clear of the neighbour labels
     d.polygon([(x, y - 60), (x - 18, y), (x + 18, y)], fill=INK)
     d.text((x, y - 80), "N / С", font=font(24, True), fill=PARCHMENT, anchor="mm")
     house_px = 35  # a typical house of the district art (~70 px at native size), in sketch px
