@@ -180,3 +180,34 @@ def build() -> None:
     objects_map(size).save(folder / "objects.png")
     crops(Image.open(g.OWNER / "sketch.png").convert("RGB"), folder)
     (g.OUT / "atlas.md").write_text(markdown(), encoding="utf-8", newline="\n")
+    reference_sheet([]).save(g.GPT / "reference_sheet.png")  # in git: no third-party images
+    refs = sorted((g.ROOT / "assets" / "refs").glob("STYLE_ref_*.webp"))
+    if refs:  # local only (assets/ is not in git): the same sheet with the owner's style references
+        reference_sheet(refs).save(g.ROOT / "assets" / "refs" / "GREY_reference_sheet_full.png")
+
+
+def reference_sheet(style_refs: list[Path]) -> Image.Image:
+    """Everything ChatGPT needs in ONE image, panels marked by letters only (no words to copy):
+    P plan, S side views (with their own small A-D), L location in the city, H approved Broken Hoist,
+    R1-R3 the owner's style references."""
+    sheet = Image.new("RGB", (2400, 1700), (24, 22, 22))
+    d = ImageDraw.Draw(sheet)
+
+    def put(path: Path, box: tuple[int, int, int, int], letter: str) -> None:
+        if not path.exists():
+            return
+        im = Image.open(path).convert("RGB")
+        im.thumbnail((box[2] - box[0], box[3] - box[1]), Image.LANCZOS)
+        x, y = box[0] + (box[2] - box[0] - im.width) // 2, box[1] + (box[3] - box[1] - im.height) // 2
+        sheet.paste(im, (x, y))
+        w, by = 40 + 30 * len(letter), y + im.height - 64  # bottom-left: clear of the side views' own A-D
+        d.rectangle([x, by, x + w, by + 64], fill=(176, 138, 74))
+        d.text((x + w / 2, by + 32), letter, font=g.font(44, True), fill=(24, 22, 22), anchor="mm")
+
+    put(g.GPT / "plan_clean.png", (20, 20, 1220, 1680), "P")
+    put(g.GPT / "sections_clean.png", (1240, 20, 2380, 680), "S")
+    put(g.GPT / "location.png", (1240, 700, 1800, 1180), "L")
+    put(g.OUT / "examples" / "approved_18_broken_hoist.png", (1820, 700, 2380, 1180), "H")
+    for i, ref in enumerate(style_refs[:3]):
+        put(ref, (1240 + i * 383, 1200, 1240 + (i + 1) * 383 - 10, 1680), f"R{i + 1}")
+    return sheet

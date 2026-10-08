@@ -95,7 +95,7 @@ BORDERS (very important):
   crenellations; big square towers every few hundred metres; its inner face lies in deep shadow and casts
   a dark band across the street below it. Along its inner foot runs a narrow railed ledge with lamps on
   chains (the Edge Walk, 14). Beyond the wall: only a sea of grey fog (the abyss). No houses touch the wall,
-  none are built on it, none appear beyond it. It must read clearly as a huge wall, not as a road or a kerb.
+  none are built on it (only the Broken Hoist 18 stands on it), none appear beyond it. It must read clearly as a huge wall, not as a road or a kerb.
 - The neighbouring districts are complete and tidy: their houses stop at their side of the border street,
   embankment or viaduct and never overlap it.
 
