@@ -6,6 +6,7 @@
   grid size and order come from data/ui/icons.json
 - single icons assets/icons/<SET>__<id>.png are centred on a transparent square of ICON_SIDE px
 - assets/png/<folder>/ is read like assets/<folder>/ (the owner's PNG drop folder)
+- UI pieces drawn on flat magenta (all four corners #FF00FF) get the magenta keyed out and empty margins trimmed
 - fits weapon-module art to its exact cell shape (data/gear/*.json): 256 px per cell, transparent outside
 - skips files whose output is newer than the source (use --force to redo all)
 
@@ -181,6 +182,29 @@ def _single_icon(stem: str, icons: dict[str, tuple[list[str], tuple[int, int]]])
     return "" if icon_id in icons[set_code][0] else f"no icon '{icon_id}' in set {set_code}"
 
 
+def is_magenta(rgb: tuple) -> bool:
+    return rgb[0] > 200 and rgb[2] > 200 and rgb[1] < 90
+
+
+def key_magenta(img: Image.Image) -> Image.Image:
+    """If the four corners are magenta: make magenta transparent (soft edge, no pink fringe) and trim margins."""
+    img = img.convert("RGBA")
+    w, h = img.size
+    if not all(is_magenta(img.getpixel(c)[:3]) for c in ((0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1))):
+        return img
+    px = img.load()
+    for y in range(h):
+        for x in range(w):
+            r, g, b, a = px[x, y]
+            m = min(r, b) - g  # how magenta the pixel is: 0 for neutral colours, ~255 for pure magenta
+            if m > 60:
+                k = min(1.0, (m - 60) / 120)
+                g2 = min(r, b) - m  # despill: pull red/blue back to the pixel's own grey level
+                px[x, y] = (int(r - (r - g2) * k), g, int(b - (b - g2) * k), int(a * (1 - k)))
+    box = img.getchannel("A").getbbox()
+    return img.crop(box) if box else img
+
+
 def _sheet_set(stem: str) -> str | None:
     """'STATUS__sheet' -> 'STATUS'."""
     parts = stem.split("__")
@@ -226,6 +250,8 @@ def main(force: bool) -> int:
                 errors.append(f"{src.relative_to(ROOT)}: {problem}")
                 continue
             img = square_icon(img)
+        if folder == "ui":
+            img = key_magenta(img)
         if folder == "modules":
             code = stem.split("__")[0]
             if code not in shapes:

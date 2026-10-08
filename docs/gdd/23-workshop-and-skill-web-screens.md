@@ -35,15 +35,14 @@ can be fitted at once via «К снаряжению». No craft is wasted: salva
 | 8 | Legend | Circle — passive, square — blueprint, hexagon — socket, diamond — keystone; gold ring — can be bought now; red dot — needs a blood sample |
 
 Node states: owned (filled with the web colour, bright line to its parent), available (pulsing gold ring),
-locked (dark). Keystones sit on the outer ring. The Monster web shows the Voice cost on every node card
+locked (dark). One image per node shape; states, web rings and links are drawn by code (tint, glow, `Line2D`). Keystones sit on the outer ring. The Monster web shows the Voice cost on every node card
 and warns before a node would cross a Voice stage.
 
 ## 23.3 Art to generate later
 
-The screens work with the existing art (module art, icons, silhouettes) and drawn frames. Optional pieces for
-`docs/art-prompts/` when the combat UI set is done (same UI BLOCK): a workbench background (top view of a
-cluttered work table, 16:9), a parchment blueprint sheet with an empty cell grid, node frames for both webs
-(brass for the Mechanic, bone-and-blood for the Monster), the Voice gauge tube.
+The screens work with the existing art (module art, icons, silhouettes) and drawn frames. The missing pieces —
+30 images for the three screens (background, web textures, list row, tabs, craft button and token, node frames of
+both webs, cards, buttons, the gauge tube); states, grids, web lines and gauge fills are drawn by code — are in one ChatGPT file: [`docs/art-prompts/workshop-and-skills-ui.md`](../art-prompts/workshop-and-skills-ui.md).
 
 ## 23.4 Open questions for the owner
 

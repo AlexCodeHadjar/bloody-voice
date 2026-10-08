@@ -8,8 +8,8 @@ Hand-written (not generated). Design: [GDD §21](../gdd/21-combat-screen-layout.
 1. One chat for all combat UI pieces. Paste the STYLE BLOCK (from [district-grey-chapels.md](district-grey-chapels.md)
    or GDD §16.2) and the UI BLOCK, then one prompt. Attach `combat_layout.png` once at the start so the model sees the screen.
 2. When one piece is good, attach it as a style reference for the next.
-3. Save into `assets/ui/` with the exact file name and run `python tools/import_art.py` (it will cut out the
-   magenta background — added together with the combat screen v2 code).
+3. Save into `assets/ui/` with the exact file name and run `python tools/import_art.py` (it cuts out the
+   magenta background when all four corners are magenta, and trims empty margins).
 
 ```text
 UI BLOCK:

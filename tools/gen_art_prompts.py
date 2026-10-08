@@ -2,7 +2,7 @@
 
 Reads data/gear/shapes.json, data/gear/modules.json, data/monsters/*.json, data/ui/icons.json.
 Writes docs/art-prompts/{README,modules,creatures,icons}.md.
-(district-grey-chapels.md and combat-ui.md in the same folder are hand-written.) Templates: python tools/gen_art_templates.py
+(district-grey-chapels.md, combat-ui.md, workshop-and-skills-ui.md in the same folder are hand-written.) Templates: python tools/gen_art_templates.py
 Run from the project root:  python tools/gen_art_prompts.py
 """
 from __future__ import annotations
@@ -222,6 +222,7 @@ see [GDD §16](../gdd/16-art-direction-and-generation-prompts.md).
 | [icons.md](icons.md) | {n_icons} icons in {len(ICONS)} sets — one image per set |
 | [district-grey-chapels.md](district-grey-chapels.md) | Hand-written: close-up map of the Grey Chapels (overview + 12 tiles) |
 | [combat-ui.md](combat-ui.md) | Hand-written: combat screen v2 pieces (card frames, medallions, vials, lamps…) |
+| [workshop-and-skills-ui.md](workshop-and-skills-ui.md) | Hand-written: workshop, Mechanic web and Monster web pieces (one file) |
 
 ## How to use
 
