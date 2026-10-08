@@ -5,18 +5,11 @@
 > edges but **darkened and locked**. The map is bigger than the screen and is **dragged with the held left
 > mouse button**. Movement: **click a place → the figurine walks along the streets**.
 
-Sketch files (regenerate with `python tools/gen_district_sketch.py`):
+Sketch files are regenerated with `python tools/gen_district_sketch.py`.
 
-| File | What it is |
-|---|---|
-| `docs/assets/districts/GREY/sketch.png` | The plan for the owner: outline (east side = the Ringwall), neighbours, zones, house rows, streets, lamps, 20 numbered landmarks, legend |
-| `docs/assets/districts/GREY/plan_clean.png` | The same plan with numbers only — the reference given to ChatGPT |
-| `docs/assets/districts/GREY/sections.png` | Side views: Candle Bridge over the gully, aqueduct, Ringwall + Edge Walk, borders |
-| `docs/assets/districts/GREY/sections_clean.png` | The same side views without words — given to ChatGPT |
-| `docs/assets/districts/GREY/location.png` | The district on the city map, all other districts darkened (the start of the game) |
-| `docs/assets/districts/GREY/tiles.png` | The plan with the 3 × 4 generation grid |
-| `docs/assets/districts/GREY/tile_refs/` | One reference per tile for ChatGPT: plan crop (left) + city map crop (right) |
-| `docs/assets/districts/GREY/layout.json` | Contour, landmarks, street graph in district-map pixels — becomes game data |
+Everything for generating the map — steps, prompts, reference images for ChatGPT, labelled sketches for the
+owner, examples — is in one folder: [`docs/art-prompts/grey-chapels-map/`](../art-prompts/grey-chapels-map/README.md).
+`layout.json` there (contour, landmarks, street graph) becomes the game data.
 
 ## 20.1 Two levels of map
 
@@ -38,7 +31,7 @@ question 20.10).
 - **Borders — no walls between districts:** north — a boundary street, west — the tram embankment, south — a
   railway viaduct (the South Passage is a tunnel under it), east — the Ringwall with the Edge Walk ledge at its foot.
   The Fog Hollow is a sunken gully two storeys deep; the Candle Bridge crosses it at street level; the Old Aqueduct
-  is a raised viaduct on arches. Side views: `docs/assets/districts/GREY/sections.png`.
+  is a raised viaduct on arches. Side views: `docs/art-prompts/grey-chapels-map/for-owner/sections.png`.
 - **Style (owner, 2026-10-08):** realistic painterly night after rain, desaturated, wet roofs, fog, warm lamp
   points — owner's references in `assets/refs/` (local, not in git).
 - **Neighbours:** strips of Nordhal (north), Lumen Campus and Rowan Market (west), Deepwright Lifts and Scarlet
@@ -132,7 +125,7 @@ Quarter and Chapel Close, a short walk apart, so the first week is learned insid
 
 ## 20.8 Generating the art (ChatGPT)
 
-Full prompts: [`docs/art-prompts/district-grey-chapels.md`](../art-prompts/district-grey-chapels.md).
+Full prompts: [`docs/art-prompts/grey-chapels-map/`](../art-prompts/grey-chapels-map/README.md).
 
 1. **Overview** (one image, 3:4) — the whole district from the plan, to lock the look of every landmark.
 2. **12 tiles** (1024 × 1024 each, rows r0–r3, columns c0–c2), row by row. Each gets its `tile_refs/` image

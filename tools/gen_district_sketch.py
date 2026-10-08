@@ -1,6 +1,6 @@
 """Bloody Voice - close-up district map sketch (GDD 20). First district: Grey Chapels (GREY).
 
-From ONE layout (below) it writes, into docs/assets/districts/GREY/:
+From ONE layout (below) it writes, into docs/art-prompts/grey-chapels-map/ (for-gpt/, for-owner/):
   location.png        the district on the city map; every other district darkened (locked at the start)
   plan_clean.png      the plan with numbers only (no words) - the reference image for ChatGPT
   sections.png        side views: Candle Bridge over the Fog Hollow, aqueduct, Ringwall + Edge Walk, borders
@@ -34,7 +34,9 @@ from district_layout_grey import (  # noqa: E402  (the layout lives next to this
     AQUEDUCT, BONFIRES, BORDER, BRIDGE, GULLY, CONTOUR, HOME_NODE, LANDMARK_NODE, LANDMARKS, NEIGHBOURS, NODES, STREETS, ZONE_LABELS, ZONES)
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "docs" / "assets" / "districts" / "GREY"
+OUT = ROOT / "docs" / "art-prompts" / "grey-chapels-map"
+GPT = OUT / "for-gpt"      # files attached in ChatGPT (no words in them)
+OWNER = OUT / "for-owner"  # labelled sketches for the owner
 CITY_MAP = ROOT / "art" / "city" / "map" / "HALLOWDEEP__map__normal.webp"
 REGIONS = ROOT / "data" / "city" / "map_regions.json"
 FONT = "C:/Windows/Fonts/georgia.ttf"
@@ -304,7 +306,7 @@ def tiles_overlay(plan: Image.Image) -> Image.Image:
 def tile_refs(plan: Image.Image) -> None:
     """plan: the clean version (numbers only, no words)."""
     city_img = Image.open(CITY_MAP).convert("RGB")
-    out = OUT / "tile_refs"
+    out = GPT / "tile_refs"
     out.mkdir(parents=True, exist_ok=True)
     for r in range(ROWS):
         for c in range(COLS):
@@ -373,19 +375,20 @@ def main() -> None:
     if "--canvas" in sys.argv:
         seam_canvas(sys.argv[sys.argv.index("--canvas") + 1])
         return
-    OUT.mkdir(parents=True, exist_ok=True)
+    for folder in (GPT, OWNER):
+        folder.mkdir(parents=True, exist_ok=True)
     size = (int(WORLD[0] * SKETCH_SCALE), int(WORLD[1] * SKETCH_SCALE))
     plan = draw_plan(size)
     sheet = Image.new("RGB", (size[0] + 900, size[1]), (30, 26, 24))
     sheet.paste(plan, (0, 0))
     sheet.paste(legend(size[1]), (size[0], 0))
-    sheet.save(OUT / "sketch.png")
-    tiles_overlay(plan).save(OUT / "tiles.png")
+    sheet.save(OWNER / "sketch.png")
+    tiles_overlay(plan).save(OWNER / "tiles.png")
     tile_refs(draw_plan(size, labels=False))
-    location().save(OUT / "location.png")
-    sections(FONT_BOLD, FONT).save(OUT / "sections.png")
-    sections(FONT_BOLD, FONT, clean=True).save(OUT / "sections_clean.png")
-    draw_plan(size, labels=False).save(OUT / "plan_clean.png")
+    location().save(GPT / "location.png")
+    sections(FONT_BOLD, FONT).save(OWNER / "sections.png")
+    sections(FONT_BOLD, FONT, clean=True).save(GPT / "sections_clean.png")
+    draw_plan(size, labels=False).save(GPT / "plan_clean.png")
     (OUT / "layout.json").write_text(json.dumps(layout_json(), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print("written ->", OUT)
 

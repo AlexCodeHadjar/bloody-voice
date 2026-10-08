@@ -1,6 +1,6 @@
 """Side views (cross-sections) for the Grey Chapels map, so ChatGPT understands heights: the Candle Bridge over
 the Fog Hollow, the Old Aqueduct, the Ringwall with the Edge Walk, and the district borders (no walls).
-Called by tools/gen_district_sketch.py -> docs/assets/districts/GREY/sections.png
+Called by tools/gen_district_sketch.py -> docs/art-prompts/grey-chapels-map/for-owner/sections.png (+ for-gpt/sections_clean.png)
 """
 from __future__ import annotations
 

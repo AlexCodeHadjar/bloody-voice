@@ -2,7 +2,7 @@
 
 Reads data/gear/shapes.json, data/gear/modules.json, data/monsters/*.json, data/ui/icons.json.
 Writes docs/art-prompts/{README,modules,creatures,icons}.md.
-(district-grey-chapels.md, combat-ui.md, remaining-ui-transparent.md in the same folder are hand-written.) Templates: python tools/gen_art_templates.py
+(grey-chapels-map/, combat-ui.md, remaining-ui-transparent.md in the same folder are hand-written.) Templates: python tools/gen_art_templates.py
 Run from the project root:  python tools/gen_art_prompts.py
 """
 from __future__ import annotations
@@ -220,7 +220,7 @@ see [GDD §16](../gdd/16-art-direction-and-generation-prompts.md).
 | [modules.md](modules.md) | {len(MODULES)} weapon modules in {len(SHAPES)} cell shapes |
 | [creatures.md](creatures.md) | {len(MONSTERS)} creatures × 4 images (combat art, phase 2, leaflet silhouette, cracked) |
 | [icons.md](icons.md) | {n_icons} icons in {len(ICONS)} sets — one image per set |
-| [district-grey-chapels.md](district-grey-chapels.md) | Hand-written: close-up map of the Grey Chapels (overview + 12 tiles) |
+| [grey-chapels-map/](grey-chapels-map/README.md) | Hand-written folder: close-up map of the Grey Chapels — steps, prompts, every reference image, examples |
 | [combat-ui.md](combat-ui.md) | Hand-written: combat screen v2 pieces (card frames, medallions, vials, lamps…) |
 | [remaining-ui-transparent.md](remaining-ui-transparent.md) | Hand-written: all remaining UI pieces (workshop, both skill webs) as transparent PNG |
 

@@ -12,7 +12,7 @@
 ## 16.2 Style bible
 
 > District close-up maps and ground-level scenes use **style v2** (owner, 2026-10-08): realistic painterly
-> rainy Victorian night — see `docs/art-prompts/district-grey-chapels.md`. Whether the rest of the art follows is an open question.
+> rainy Victorian night — see `docs/art-prompts/grey-chapels-map/`. Whether the rest of the art follows is an open question.
 
 | Aspect | Rule |
 |---|---|
