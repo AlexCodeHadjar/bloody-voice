@@ -1,5 +1,7 @@
 # 6. Workshop and Crafting
 
+Screen layout: GDD §23.1.
+
 ## 6.1 Resources
 
 | Icon | Resource | Main sources | Used for |

@@ -26,6 +26,8 @@
 
 ## 4.4 Skill webs
 
+Screen layout: GDD §23.2.
+
 Each web is a **graph** (spider-web) growing outward from the centre. A node can be bought when it is connected to an owned node. Both webs have the same directions:
 
 | Direction | Content |
