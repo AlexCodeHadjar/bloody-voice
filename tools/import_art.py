@@ -192,17 +192,20 @@ def key_magenta(img: Image.Image) -> Image.Image:
     """If the four corners are magenta: make magenta transparent (soft edge, no pink fringe) and trim margins."""
     img = img.convert("RGBA")
     w, h = img.size
-    if not all(is_magenta(img.getpixel(c)[:3]) for c in ((0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1))):
+    corners = [img.getpixel(c) for c in ((0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1))]
+    if all(c[3] == 0 for c in corners):  # already transparent: only trim the empty margins
+        box = img.getchannel("A").getbbox()
+        return img.crop(box) if box else img
+    if not all(is_magenta(c[:3]) for c in corners):
         return img
     px = img.load()
     for y in range(h):
         for x in range(w):
             r, g, b, a = px[x, y]
             m = min(r, b) - g  # how magenta the pixel is: 0 for neutral colours, ~255 for pure magenta
-            if m > 60:
-                k = min(1.0, (m - 60) / 120)
-                g2 = min(r, b) - m  # despill: pull red/blue back to the pixel's own grey level
-                px[x, y] = (int(r - (r - g2) * k), g, int(b - (b - g2) * k), int(a * (1 - k)))
+            if m > 20:  # despill down to a faint tint; the stronger the magenta, the more transparent
+                k = min(1.0, max(0.0, (m - 60) / 120))
+                px[x, y] = (r - (m - 20), g, b - (m - 20), int(a * (1 - k)))
     box = img.getchannel("A").getbbox()
     return img.crop(box) if box else img
 
