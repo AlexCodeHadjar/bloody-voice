@@ -1,6 +1,6 @@
 # D. Game Icons
 
-Every icon of the game: **152 icons in 22 sets**, catalog `data/ui/icons.json`.
+Every icon of the game: **160 icons in 23 sets**, catalog `data/ui/icons.json`.
 
 ## One image per set
 
@@ -73,6 +73,7 @@ Front view, thick dark outline, aged metal. No letters, no numbers.
 | DISTRICT | 12 | 4 × 3 | Crest | `DISTRICT__sheet.png` |
 | KNOWLEDGE | 5 | 5 × 1 | Symbol icon | `KNOWLEDGE__sheet.png` |
 | UI | 14 | 5 × 3 | Symbol icon | `UI__sheet.png` |
+| PLACE | 8 | 4 × 2 | Object icon | `PLACE__sheet.png` |
 
 ### RESOURCE — 6 icons · grid 3×2 · Object icon · DONE
 
@@ -863,4 +864,42 @@ Leave the last 1 slot empty.
 Transparent background. Do not draw the guide lines or slot numbers.
 No text, no labels, no numbers, no frames or circles around the icons.
 Output: transparent PNG, 3:2 landscape (1536×1024). Save as UI__sheet.png.
+```
+
+### PLACE — 8 icons · grid 4×2 · Object icon · DONE
+
+District map buttons and landmark roles (GDD 20). Already generated — keep for re-generation.
+
+| # | File | Name | Where it is used | Look |
+|---|---|---|---|---|
+| 1 | `PLACE__hunter` | To the hunter | District map: «К охотнику» (camera to the hero) | a wide-brimmed hunter's hat over a long iron hook |
+| 2 | `PLACE__home` | Home | District map: «Домой» (camera to Ash Garret) | a narrow tenement house with one lit garret window under a steep roof |
+| 3 | `PLACE__city_map` | City map | District map: «Карта города» | a folded old paper map with a ring-shaped city drawn on it and a brass pin |
+| 4 | `PLACE__shop` | Shop | Landmark: Rag-and-Bone Shop | a hanging shop sign shaped like a bone, with two old coins below it |
+| 5 | `PLACE__infirmary` | Infirmary | Landmark: Ash Sisters' Infirmary | a small red glass lamp with a rolled white bandage |
+| 6 | `PLACE__market` | Market | Landmark: Ash Market | a patched canvas market stall with a crate of turnips |
+| 7 | `PLACE__shrine` | Shrine | Landmark: The God in the Wall | three grey candles in front of a carved stone face |
+| 8 | `PLACE__leaflets` | Leaflet post | Landmark: Bonfire Square leaflet post (rumors) | a wooden post with pinned paper leaflets and a nail |
+
+```text
+[STYLE BLOCK]
+[ICON STYLE — OBJECT]
+Attached: RESOURCE icons (style reference), PLACE__grid.png (layout guide).
+ONE image with ALL 8 icons of this set: District map buttons and landmark roles (GDD 20). Already generated — keep for re-generation.
+Lay them out as a grid of 4 columns × 2 rows, exactly like the attached layout guide:
+each icon centred in its own slot, all the same size and style, clear empty space between
+them (they must not touch). Order: left to right, top to bottom.
+Row 1:
+  1. To the hunter — a wide-brimmed hunter's hat over a long iron hook
+  2. Home — a narrow tenement house with one lit garret window under a steep roof
+  3. City map — a folded old paper map with a ring-shaped city drawn on it and a brass pin
+  4. Shop — a hanging shop sign shaped like a bone, with two old coins below it
+Row 2:
+  5. Infirmary — a small red glass lamp with a rolled white bandage
+  6. Market — a patched canvas market stall with a crate of turnips
+  7. Shrine — three grey candles in front of a carved stone face
+  8. Leaflet post — a wooden post with pinned paper leaflets and a nail
+Transparent background. Do not draw the guide lines or slot numbers.
+No text, no labels, no numbers, no frames or circles around the icons.
+Output: transparent PNG, 3:2 landscape (1536×1024). Save as PLACE__sheet.png.
 ```

@@ -1174,5 +1174,65 @@
     "look": "a red wax stamp"
    }
   ]
+ },
+ {
+  "set": "PLACE",
+  "style": "object",
+  "about": "District map buttons and landmark roles (GDD 20). Already generated — keep for re-generation.",
+  "status": "done",
+  "grid": [
+   4,
+   2
+  ],
+  "icons": [
+   {
+    "id": "hunter",
+    "name": "To the hunter",
+    "use": "District map: «К охотнику» (camera to the hero)",
+    "look": "a wide-brimmed hunter's hat over a long iron hook"
+   },
+   {
+    "id": "home",
+    "name": "Home",
+    "use": "District map: «Домой» (camera to Ash Garret)",
+    "look": "a narrow tenement house with one lit garret window under a steep roof"
+   },
+   {
+    "id": "city_map",
+    "name": "City map",
+    "use": "District map: «Карта города»",
+    "look": "a folded old paper map with a ring-shaped city drawn on it and a brass pin"
+   },
+   {
+    "id": "shop",
+    "name": "Shop",
+    "use": "Landmark: Rag-and-Bone Shop",
+    "look": "a hanging shop sign shaped like a bone, with two old coins below it"
+   },
+   {
+    "id": "infirmary",
+    "name": "Infirmary",
+    "use": "Landmark: Ash Sisters' Infirmary",
+    "look": "a small red glass lamp with a rolled white bandage"
+   },
+   {
+    "id": "market",
+    "name": "Market",
+    "use": "Landmark: Ash Market",
+    "look": "a patched canvas market stall with a crate of turnips"
+   },
+   {
+    "id": "shrine",
+    "name": "Shrine",
+    "use": "Landmark: The God in the Wall",
+    "look": "three grey candles in front of a carved stone face"
+   },
+   {
+    "id": "leaflets",
+    "name": "Leaflet post",
+    "use": "Landmark: Bonfire Square leaflet post (rumors)",
+    "look": "a wooden post with pinned paper leaflets and a nail"
+   }
+  ]
  }
 ]

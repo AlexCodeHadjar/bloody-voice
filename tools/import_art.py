@@ -7,6 +7,7 @@
 - single icons assets/icons/<SET>__<id>.png are centred on a transparent square of ICON_SIDE px
 - assets/png/<folder>/ is read like assets/<folder>/ (the owner's PNG drop folder)
 - UI pieces drawn on flat magenta (all four corners #FF00FF) get the magenta keyed out and empty margins trimmed
+- textures assets/ui/TEX__*.png are made seamless (edges cross-faded with the image shifted by half)
 - fits weapon-module art to its exact cell shape (data/gear/*.json): 256 px per cell, transparent outside
 - skips files whose output is newer than the source (use --force to redo all)
 
@@ -210,6 +211,21 @@ def key_magenta(img: Image.Image) -> Image.Image:
     return img.crop(box) if box else img
 
 
+def make_tileable(img: Image.Image, band: float = 0.25) -> Image.Image:
+    """Seamless texture: near the edges show the image shifted by half (its edges then meet the opposite ones),
+    cross-faded into the original over `band` of the half-size; the shifted copy's own seam stays hidden."""
+    # Textures are opaque: the output is RGB (alpha would be dropped).
+    import numpy as np
+    a = np.asarray(img.convert("RGB"), np.float32)
+    h, w = a.shape[:2]
+    shifted = np.roll(a, (h // 2, w // 2), axis=(0, 1))
+    tent_x = 1 - np.abs(np.linspace(-1, 1, w, dtype=np.float32))
+    tent_y = 1 - np.abs(np.linspace(-1, 1, h, dtype=np.float32))
+    t = np.clip(np.minimum.outer(tent_y, tent_x) / band, 0, 1)
+    k = (t * t * (3 - 2 * t))[..., None]  # smoothstep: 0 on the edges, 1 inside
+    return Image.fromarray((a * k + shifted * (1 - k)).clip(0, 255).astype(np.uint8))
+
+
 def _sheet_set(stem: str) -> str | None:
     """'STATUS__sheet' -> 'STATUS'."""
     parts = stem.split("__")
@@ -258,7 +274,7 @@ def main(force: bool) -> int:
                 continue
             img = square_icon(img)
         if folder == "ui":
-            img = key_magenta(img)
+            img = make_tileable(img) if stem.startswith("TEX__") else key_magenta(img)
         if folder == "modules":
             code = stem.split("__")[0]
             if code not in shapes:
