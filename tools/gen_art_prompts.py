@@ -223,6 +223,7 @@ see [GDD §16](../gdd/16-art-direction-and-generation-prompts.md).
 | [grey-chapels-map/](grey-chapels-map/README.md) | Hand-written folder: close-up map of the Grey Chapels — steps, prompts, every reference image, examples |
 | [combat-ui.md](combat-ui.md) | Hand-written: combat screen v2 pieces (card frames, medallions, vials, lamps…) |
 | [remaining-ui-transparent.md](remaining-ui-transparent.md) | Hand-written: all remaining UI pieces (workshop, both skill webs) as transparent PNG |
+| [next-art-pack.md](next-art-pack.md) | Hand-written: the next art pack in one file — district screen, tutorial, cursors, menu, fight backgrounds, textures, interiors, portraits |
 
 ## How to use
 
