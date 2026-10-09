@@ -224,6 +224,7 @@ see [GDD §16](../gdd/16-art-direction-and-generation-prompts.md).
 | [combat-ui.md](combat-ui.md) | Hand-written: combat screen v2 pieces (card frames, medallions, vials, lamps…) |
 | [remaining-ui-transparent.md](remaining-ui-transparent.md) | Hand-written: all remaining UI pieces (workshop, both skill webs) as transparent PNG |
 | [next-art-pack.md](next-art-pack.md) | Hand-written: the next art pack in one file — district screen, tutorial, cursors, menu, fight backgrounds, textures, interiors, portraits |
+| [art-backlog.md](art-backlog.md) | Hand-written: everything else the game will need — small UI, combat VFX, card art, icons, investigation, results, bestiary, story, events, app icon |
 
 ## How to use
 
