@@ -7,9 +7,10 @@
 
 Sketch files are regenerated with `python tools/gen_district_sketch.py`.
 
-**Status (2026-10-08):** the overview is approved; the playable map is 4000 × 6000 (3× the overview), repainted in
-21 pieces of 1536 × 1024 — `docs/art-prompts/grey-chapels-map/detail/detail-pass.md`. Until a piece is painted, the
-scaled overview stands in for it (`art/city/district_maps/GREY__map.webp`, built by `tools/import_art.py`).
+**Status (2026-10-10):** the playable map is done — 4000 × 6000 (3× the approved overview), all 21 pieces of
+1536 × 1024 painted (`docs/art-prompts/grey-chapels-map/detail/detail-pass.md`), north Ringwall continuity repaired,
+stitched by `tools/import_art.py` into `art/city/district_maps/GREY__map.webp`. Next: calibrate nodes, landmark
+spots and the contour to this art (§20.8 step 5) while building the screen.
 
 Everything for generating the map — steps, prompts, reference images for ChatGPT, labelled sketches for the
 owner, examples — is in one folder: [`docs/art-prompts/grey-chapels-map/`](../art-prompts/grey-chapels-map/README.md).

@@ -119,6 +119,49 @@ def _ramp(x: int, y: int) -> "np.ndarray":
     return np.outer(wy, wx)
 
 
+LEVEL_W, LEVEL_BLOCK, LEVEL_MAX, LEVEL_MAD = 96, 32, 20.0, 6.0  # seam levelling: fade width, block, limits
+
+
+def _seam_lines() -> tuple[set[int], set[int]]:
+    """Every x and y on the map where a piece starts or ends (inside the map)."""
+    xs, ys = set(), set()
+    for r in range(ROWS):
+        for c in range(COLS):
+            x, y = origin(r, c)
+            xs |= {v for v in (x, x + TW) if 0 < v < SIZE[0]}
+            ys |= {v for v in (y, y + TH) if 0 < v < SIZE[1]}
+    return xs, ys
+
+
+def _level_line(img: "np.ndarray", x: int) -> None:
+    """Remove a smooth tone step across the vertical line x (two pieces painted the same fog a little differently):
+    the step is measured in blocks along the line and kept only where it is steady (flat fog, sky), then faded out
+    over LEVEL_W px on both sides. Steps over houses and streets vary a lot and are left alone."""
+    d = img[:, x + 1:x + 4].mean(1) - img[:, x - 4:x - 1].mean(1)
+    h = d.shape[0] // LEVEL_BLOCK * LEVEL_BLOCK
+    blocks = d[:h].reshape(-1, LEVEL_BLOCK, 3)
+    med = np.median(blocks, axis=1)
+    mad = np.median(np.abs(blocks - med[:, None]), axis=1).max(axis=1)
+    med[mad > LEVEL_MAD] = 0
+    centres = np.arange(len(med)) * LEVEL_BLOCK + LEVEL_BLOCK / 2
+    step = np.stack([np.interp(np.arange(d.shape[0]), centres, med[:, i]) for i in range(3)], axis=1)
+    step = step.clip(-LEVEL_MAX, LEVEL_MAX)
+    fade = (1 - np.arange(LEVEL_W, dtype=np.float32) / LEVEL_W) / 2
+    img[:, x:x + LEVEL_W] -= step[:, None] * fade[None, :len(img[0, x:x + LEVEL_W]), None]
+    left = img[:, max(0, x - LEVEL_W):x]
+    left += step[:, None] * fade[:left.shape[1]][::-1][None, :, None]
+
+
+def level_seams(img: "np.ndarray") -> None:
+    """Heuristic: a long flat real tone edge lying exactly on a piece boundary would be softened too (rare)."""
+    xs, ys = _seam_lines()
+    for x in sorted(xs):
+        _level_line(img, x)
+    turned = img.transpose(1, 0, 2)  # a view: horizontal lines become vertical ones
+    for y in sorted(ys):
+        _level_line(turned, y)
+
+
 def stitch() -> list[str]:
     """Build the playable map: painted pieces averaged by weight in their overlaps; where the weights add up to
     less than 1 (next to a piece not painted yet) the scaled overview shows through. Returns the pieces used."""
@@ -143,6 +186,7 @@ def stitch() -> list[str]:
     cover = np.minimum(weight, 1.0)[..., None]
     painted = acc / np.maximum(weight, 1e-6)[..., None]
     out = painted * cover + base * (1 - cover)
+    level_seams(out)
     Image.fromarray(out.clip(0, 255).astype(np.uint8)).save(MAP_OUT, "WEBP", quality=88)
     return used
 
