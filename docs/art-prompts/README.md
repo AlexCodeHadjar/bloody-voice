@@ -15,6 +15,7 @@ see [GDD §16](../gdd/16-art-direction-and-generation-prompts.md).
 | [next-art-pack.md](next-art-pack.md) | Hand-written: the next art pack in one file — district screen, tutorial, cursors, menu, fight backgrounds, textures, interiors, portraits |
 | [art-backlog.md](art-backlog.md) | Hand-written: everything else the game will need — small UI, combat VFX, card art, icons, investigation, results, bestiary, story, events, app icon |
 | [map-life.md](map-life.md) | Hand-written: life on the district map — people at work (sheets), vehicles, scenes by landmarks, glowing and moving decor, district-state props, map cartography and UI decor |
+| [map-life-people.md](map-life-people.md) | Hand-written: people of the Grey Chapels — passers-by, 20 local characters with routines, nameless roles, animals, groups, little stories, emotes |
 
 ## How to use
 

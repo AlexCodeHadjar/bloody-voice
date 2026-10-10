@@ -24,7 +24,7 @@ Hand-written; prompts in English, instructions in Russian. Карта — [grey-
 
 | Часть | Что | Картинок | Когда |
 |---|---|---|---|
-| **A** | Жители: 7 листов по 8 фигур (торговля, улица, закон, тени, учёные и врачи, работяги и охотники, животные) | 7 листов (56 фигур) | с экраном района |
+| **A** | Жители — в отдельном файле [map-life-people.md](map-life-people.md): прохожие, 20 местных персонажей, роли, животные, группы, сюжеты | 25 листов + 10 сцен | с экраном района |
 | **B** | Транспорт: трамвай, телега с лошадью, тачка, катафалк, полицейский фургон, ручная тележка | 6 | с экраном района |
 | **C** | Сценки у мест: концерт барда, торг, круг культистов, очередь в лазарет, драка у таверны, место преступления, похороны, картёжники, гадалка, расчёт пушки на стене | 10 | с экраном района |
 | **D** | Живой декор карты: костры, огни, искры, дым, бельё, флаги, мелочи на улицах | 16 | с экраном района |
@@ -51,7 +51,7 @@ Transparent background (real alpha channel). No ground, no floor, no cast shadow
 Each element is complete and not cut off, with a clear empty margin around it.
 ```
 
-Для листов (часть A) добавь к ним:
+Для листов (в [map-life-people.md](map-life-people.md)) добавь к ним:
 
 ```text
 SHEET: one image with eight separate figures on a 4 x 2 grid, exactly in the numbered slots of the attached layout
@@ -70,103 +70,10 @@ BLACK BLOCK (части D и F8) — в [art-backlog.md](art-backlog.md), ост
 пары кадров (бард 1–2, бельё D8–D9, флаг D10–D11) импорт будет обрезать по общей рамке, чтобы они не «прыгали».
 Группы в одном слоте (две торговки, стражники парой, крысы, вороны) — одна картинка: ходит или стоит целиком.
 
-## A. Жители — 7 листов (чат «Map life — people»)
+## A. Жители — отдельный файл
 
-LIFE STYLE + SPRITE + SHEET, холст **wide**. «→ к нам» = walking towards the viewer and to the left;
-«→ от нас» = the same person walking away from the viewer and to the right (seen from behind).
-
-### A1 `LIFE__trade__sheet.png` — торговля (Пепельный рынок, Крюков переулок)
-
-```text
-1 a chestnut seller standing behind a small iron brazier cart, glowing coals, paper cones.
-2 a candle seller with a wide tray of grey candles hanging from her neck.
-3 a rag-picker with a huge sack over the shoulder, walking towards the viewer and to the left.
-4 the same rag-picker walking away from the viewer and to the right, seen from behind.
-5 a porter bent under a stack of crates on his back, walking towards the viewer and to the left.
-6 the same porter walking away from the viewer and to the right, seen from behind.
-7 two women haggling over a basket of turnips, one pointing, as ONE figure group.
-8 a butcher in a stained apron standing at a small stall with meat on iron hooks.
-```
-
-### A2 `LIFE__street__sheet.png` — улица и музыка (Костровая площадь, таверна)
-
-```text
-1 a wandering bard playing a hurdy-gurdy, standing, cranking arm DOWN (pose A).
-2 exactly the same bard, cranking arm UP (pose B); nothing else changes.
-3 a thin fiddler playing, eyes closed, hat on the ground in front of him (no coins drawn as text).
-4 a street preacher standing on a crate, one arm raised to the sky.
-5 a beggar sitting against a wall with a tin cup, blanket over the knees.
-6 a drunkard leaning on a gas-lamp post with a bottle.
-7 two ragged children running towards the viewer and to the left, one with a hoop and a stick.
-8 a washerwoman carrying a basket of wet laundry on her hip.
-```
-
-### A3 `LIFE__law__sheet.png` — закон и порядок (Железное Бдение, городская стража, сыщики)
-
-```text
-1 two Iron Vigil watchmen in dark iron half-armour and helmets with halberds, patrolling side by side towards the
-  viewer and to the left (one figure group).
-2 the same pair walking away from the viewer and to the right, seen from behind.
-3 a night constable with a bull's-eye lantern and a whistle, walking towards the viewer and to the left.
-4 the same constable walking away from the viewer and to the right, seen from behind.
-5 a detective in an Inverness cape and deerstalker crouching, examining the ground with a brass magnifier.
-6 the same detective walking towards the viewer and to the left, hands behind his back.
-7 a Ringwall guard in a long grey coat and steel helmet with a long musket on his shoulder, standing.
-8 a bill-poster with a bucket and brush pasting a blank paper notice on a wall.
-```
-
-### A4 `LIFE__shadow__sheet.png` — тени (воришки, контрабанда, культ, похитители тел)
-
-```text
-1 a hunched pickpocket sneaking towards the viewer and to the left, one hand reaching out.
-2 the same pickpocket sneaking away from the viewer and to the right, seen from behind.
-3 a young thief running towards the viewer and to the left clutching a stolen purse, coat flying.
-4 a lookout leaning in a dark doorway, hat low, smoking.
-5 a Scarlet Supper smuggler with a red scarf carrying a small crate, walking towards the viewer and to the left.
-6 a hooded Grey Communion cultist in grey robes holding a grey candle, walking towards the viewer and to the left.
-7 the same cultist walking away from the viewer and to the right, seen from behind.
-8 a body-snatcher pushing a handcart with a shrouded body, walking towards the viewer and to the left.
-```
-
-### A5 `LIFE__learned__sheet.png` — учёные и врачи (Коллегия Люмен, Дом Моррелл, Пепельные сёстры)
-
-```text
-1 a Lumen Collegium scholar in a gown with a stack of books and a small brass instrument, walking towards the viewer
-  and to the left.
-2 the same scholar walking away from the viewer and to the right, seen from behind.
-3 a House Morrell plague doctor in a long black coat and beaked mask with a cane, walking towards the viewer and to the left.
-4 the same plague doctor walking away from the viewer and to the right, seen from behind.
-5 an Ash Sister nun in a grey habit with a basket of bandages, walking towards the viewer and to the left.
-6 the same nun walking away from the viewer and to the right, seen from behind.
-7 a Register surveyor standing at a brass tripod instrument, taking a measurement.
-8 an alchemist standing and holding up a glowing green flask, examining it.
-```
-
-### A6 `LIFE__workers__sheet.png` — работяги и охотники
-
-```text
-1 a lamplighter with a long brass pole walking towards the viewer and to the left.
-2 the same lamplighter standing, pole raised high, lighting a lamp (a tiny flame at the pole tip).
-3 a chimney sweep standing with brushes and a rope coil, soot-black face.
-4 a gravedigger digging with a spade, a pile of earth beside him.
-5 a coal heaver carrying a sack of coal on his back, walking towards the viewer and to the left.
-6 a Pale Hounds hunter with a fur collar and a big grey hound on a chain, walking towards the viewer and to the left.
-7 a Weavers hunter in a long coat with a weighted net over the shoulder, walking towards the viewer and to the left.
-8 a Rusty Cog mechanic in goggles carrying a big brass gear, walking towards the viewer and to the left.
-```
-
-### A7 `LIFE__animals__sheet.png` — животные
-
-```text
-1 a skinny stray dog trotting towards the viewer and to the left.
-2 a black cat sitting, seen from above as if on a roof ridge.
-3 three crows standing together.
-4 one crow flying, wings spread, seen from above.
-5 a pack of four rats running towards the viewer and to the left.
-6 a small group of grey pigeons pecking.
-7 two thin chickens.
-8 a big grey hound lying down, head on its paws.
-```
+Все люди и животные — подробно, с именами, характерами, распорядком, группами и маленькими сюжетами:
+**[map-life-people.md](map-life-people.md)** (прохожие, местные персонажи, роли, группы, значки над головой).
 
 ## B. Транспорт — 6 картинок (чат «Map life — vehicles»)
 
@@ -252,27 +159,12 @@ UI STYLE BLOCK + TRANSPARENT BLOCK (из [next-art-pack.md](next-art-pack.md)), 
 | F8 | `UI__dust.png` | square | Пылинки в свете ламп (игра медленно двигает) | BLACK BLOCK instead of TRANSPARENT: tiny floating dust motes and specks of soft warm light scattered evenly. |
 | F9 | `UI__ink_blot.png` | square | Переход между экранами (клякса растекается) | A big black ink blot with splashes and drips, solid black, the edges sharp. |
 
-## Где кого ставить (предложение для экрана района)
+## Где кого ставить
 
-| Зона | Днём | Ночью |
-|---|---|---|
-| Пепельный квартал | торговцы, носильщики, тряпичники, дети, бард, прачки, собаки | фонарщик, пьяницы, карманники, патруль, кошки |
-| Хибары на крышах | трубочисты, голуби, дети на верёвочных мостах | контрабандисты, воришки, кошки |
-| Часовенный двор | паломники, писарь, вороны | культисты, круг культа (сценка), свечи |
-| Туманный лог | почти пусто, крысы | культист, похититель тел, крысы |
-| Нижние дворы | могильщики, сёстры и очередь в лазарет, угольщики у депо, трамвай | похороны (по событию), катафалк, крысы |
-| Дорожка над Бездной | стража стены, расчёт пушки, флаги | прожектор, редкий скорбящий у Бога в стене |
-
-Чужие для трущоб люди (учёные Люмена, врачи Моррелла, Бдение, охотники Нордхала) — **редкие гости**, их появление
-можно привязать к контрактам и событиям.
+Таблица «зона × день/ночь» и сколько людей — в [map-life-people.md](map-life-people.md).
 
 ## Вопросы владельцу
 
 1. **Стиль героя.** Герой сейчас — каменная фигурка на подставке, а жители будут живыми нарисованными людьми.
    Оставить так (герой выделяется как «фишка игрока») или сделать героя тоже живым человеком в том же стиле?
-2. **Жители — только декор или с ними можно что-то делать?**
-   - а) только декор;
-   - б) по клику короткая фраза-сплетня (иногда с подсказкой к слуху);
-   - в) редкие события: карманник крадёт пару монет, если пройти рядом; место преступления = новый слух.
-3. **Время суток.** Менять жителей днём и ночью по таблице выше — да?
-4. **Сколько людей на карте одновременно:** немного (≈ 20, тихо и мрачно) или много (≈ 50–60, шумные трущобы)?
+2. Вопросы о жителях (имена, сколько людей, какие сюжеты влияют на игру) — в [map-life-people.md](map-life-people.md).
