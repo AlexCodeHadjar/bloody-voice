@@ -1,7 +1,11 @@
-# Art Prompts — remaining UI as transparent PNG (Workshop, Mechanic web, Monster web)
+# Art Prompts — Workshop, Mechanic web, Monster web (one pack, 28 images)
 
-All UI pieces still to be generated, written for **PNG with a transparent background**.
-Combat UI and the district pieces are done (`art/ui/COMBAT__*`, `DISTRICT__*`).
+> **Один файл — весь набор: 28 картинок** (A мастерская — 8, B ветка Механика — 10, C ветка Твари — 10). Блоки стиля,
+> правила, таблицы и проверка — всё здесь; в ChatGPT по нему открываются три чата (A, B, C), в Codex можно отдать
+> файл целиком. Результат сохрани в `assets/ui/` с точными именами и напиши мне «импортируй арт».
+
+All the remaining pieces for these three screens, written for **PNG with a transparent background**.
+Everything else is done: combat UI, district, tutorial, common UI and the backlog (`art/ui/`).
 
 Hand-written (not generated). One file for all three screens. Design: [GDD §23](../gdd/23-workshop-and-skill-web-screens.md);
 sketches `docs/assets/ui/workshop_layout.png`, `skills_mechanic_layout.png`, `skills_monster_layout.png`
@@ -16,7 +20,9 @@ sketches `docs/assets/ui/workshop_layout.png`, `skills_mechanic_layout.png`, `sk
 | Node states: owned / available / locked; selected rows, pressed buttons, spent tokens, empty tier pips | One image per piece, the state is a tint, glow or darkening applied by code |
 | Liquid in the XP bar and the Voice gauge, the «можно купить» glow | Coloured fill / shader inside the tube images |
 | Missing resource | The number turns red |
-| Top bar, side panels, plain buttons («В район», «Разобрать», «К снаряжению») | `COMBAT__plate` from [combat-ui.md](combat-ui.md) (9-slice) |
+| Top bar, side panels | `COMBAT__plate` from [combat-ui.md](combat-ui.md) (9-slice) |
+| Plain buttons («В район», «Разобрать», «К снаряжению»), «Изучить» in the Mechanic web | `UI__button__brass` / `UI__button__iron` (already generated) |
+| Blueprint rows (zone 4) and stash items (zone 8) in the workshop; selected = brighter tint | `UI__tooltip_dark` (already generated, 9-slice) |
 
 ## Already exists — do not generate
 
@@ -27,13 +33,18 @@ sketches `docs/assets/ui/workshop_layout.png`, `skills_mechanic_layout.png`, `sk
 | Icons in the middle of skill nodes | `art/ui/icons/SKILL__*` (passive, blueprint, socket, keystone) |
 | Blood samples | `art/monsters/*__silhouette__leaflet` + count and «чист.» as text |
 
-Shared with the combat screen and already generated: `COMBAT__plate` (panels, plain buttons), the card frames
-`COMBAT__card_frame__*` (mini-cards in «Что даст в колоде») and `COMBAT__hunter_portrait`.
+Shared with other screens and already generated: `COMBAT__plate` (panels), `UI__button__brass` / `UI__button__iron`
+(plain buttons), `UI__panel__parchment`, `UI__header_plate`, `UI__divider`, `UI__corner`, `UI__tooltip_dark`,
+`UI__scroll_track` / `UI__scroll_grip`, textures `TEX__parchment`, `TEX__dark_wood`, `TEX__iron`, the card frames
+`COMBAT__card_frame__*` (mini-cards in «Что даст в колоде»), `COMBAT__hunter_portrait` and its Voice stages
+`COMBAT__hunter_portrait__voice1..3`. For a consistent look, attach `art/ui/UI__button__brass.webp` and
+`art/ui/COMBAT__plate.webp` at the start of each chat as style references.
 
 ## How to use
 
 1. **Three chats**, one per part below (A Workshop, B Mechanic web, C Monster web). Inside a chat the style holds.
-2. At the start of each chat paste the STYLE BLOCK and attach the screen's sketch with this sentence:
+2. At the start of each chat paste the STYLE BLOCK, attach `art/ui/UI__button__brass.webp` and
+   `art/ui/COMBAT__plate.webp` as style references, and attach the screen's sketch with this sentence:
    «The attached sketch is only a composition guide for the screen these pieces belong to. Do not reproduce its
    text, numbers or labels.»
 3. A **background or texture** (A1, B1, C1): STYLE BLOCK + the prompt — a full image, no transparency.
@@ -41,7 +52,7 @@ Shared with the combat screen and already generated: `COMBAT__plate` (panels, pl
 4. **Canvas:** ChatGPT makes only 1024×1024 (square), 1536×1024 (wide) or 1024×1536 (tall). Each row names the
    canvas to ask for. Long thin pieces are drawn across the whole width of a wide canvas with empty margins
    above and below — the import crops them. The game scales everything; exact pixel sizes do not matter.
-5. Rows marked «with A2 / B2 / C2 attached» must be made with that image attached as the style reference, so a
+5. Rows that say «with … attached» (a named image) must be made with that image attached as the style reference, so a
    family (all node frames of one web, both tabs…) looks like one set.
 6. **Check the transparency** before saving: open the PNG on a dark and on a light background — there must be no
    white or checkerboard square around the element. If ChatGPT drew a background (or a fake checkerboard), reply:
@@ -71,7 +82,9 @@ Engraved, hand-painted look matching the style block. Even soft light from the t
 No text, no letters, no numbers.
 ```
 
-## A. Workshop «Ржавая Шестерня» (9 images)
+## A. Workshop «Ржавая Шестерня» (8 images)
+
+A3 is not needed — rows use the existing `UI__tooltip_dark`; B9 likewise — «Изучить» is `UI__button__brass`.
 
 Mood: a cramped slum workshop — soot, oil, brass shavings, one hanging lamp, sparks.
 
@@ -79,15 +92,14 @@ Mood: a cramped slum workshop — soot, oil, brass shavings, one hanging lamp, s
 |---|---|---|---|---|
 | A1 | `WORKSHOP__background.png` | wide | Behind the panels (low priority: panels cover most of it) | **Background, no TRANSPARENT BLOCK.** Interior of a cramped workshop in a slum, seen slightly from above: a heavy workbench under one hanging oil lamp, vices, gear wheels, rifle parts, scrap piles in the corners, a forge glowing at the back left, tools on a pegboard, soot on brick walls. The centre is calm and darker so panels can sit on top. |
 | A2 | `WORKSHOP__blueprint_sheet.png` | wide | Workbench (zone 5) | An unrolled sheet of aged blueprint parchment pinned flat with four brass tacks, faint blue millimetre grid only near the edges, the middle completely plain and empty, oil and coffee stains at the corners, slightly curled corners. The sheet fills most of the canvas. |
-| A3 | `WORKSHOP__list_row.png` | wide | Blueprint row (zone 4), stash item (zone 8); selected = brighter tint | A long horizontal plate of dark oiled wood with a thin brass edge and two small rivets at each end, empty. Draw it across the whole width of the canvas, about one quarter of the canvas tall, transparent above and below. Uniform border so it can be stretched. |
-| A4 | `WORKSHOP__tab.png` | square | Blueprint tabs (zone 2); idle = darker tint | Small tab of brass sheet with a bent top edge, empty. Wide shape (about 3 times wider than tall) in the middle of the canvas. With A3 attached. |
-| A5 | `WORKSHOP__craft_button.png` | wide | «Изготовить» (zone 7) | A large heavy brass stamping-press button: a round domed plunger on a riveted rectangular base plate with an empty area for a word. With A3 attached. |
+| A4 | `WORKSHOP__tab.png` | square | Blueprint tabs (zone 2); idle = darker tint | Small tab of brass sheet with a bent top edge, empty. Wide shape (about 3 times wider than tall) in the middle of the canvas. With `art/ui/UI__tooltip_dark.webp` attached. |
+| A5 | `WORKSHOP__craft_button.png` | wide | «Изготовить» (zone 7) | A large heavy brass stamping-press button: a round domed plunger on a riveted rectangular base plate with an empty area for a word. With `art/ui/UI__tooltip_dark.webp` attached. |
 | A6 | `WORKSHOP__craft_token.png` | square | «Изготовлений сегодня» (zone 1); spent = dark tint | A brass gear-shaped token with an amber enamel centre, like a work ticket. |
 | A7 | `WORKSHOP__tier_pip.png` | square | Tier I–III marks; not reached = dark tint | One round polished brass rivet head, filling the middle third of the canvas. |
 | A8 | `WORKSHOP__icon_upgrade.png` | square | «Улучшить» (zone 9) | Icon: a brass gear with a riveted upward arrow plate on it. Same icon style as the attached `art/ui/icons/DIRECTION__equipment.webp`. |
 | A9 | `WORKSHOP__icon_salvage.png` | square | «Разобрать» (zone 9) | Icon: pliers taking a small module apart, two gears and screws falling out. Same icon style as A8. |
 
-## B. Mechanic web «Ветка Механика» (11 images)
+## B. Mechanic web «Ветка Механика» (10 images)
 
 Mood: an engineer's precise schematic — brass, blueprint paper, cold steel and warm brass.
 
@@ -101,7 +113,6 @@ Mood: an engineer's precise schematic — brass, blueprint paper, cold steel and
 | B6 | `SKILLS__start_mechanic.png` | square | «Старт» in the centre | A large round brass medallion with a central gear and four short spokes pointing up, right, down and left. With B2 attached. |
 | B7 | `SKILLS__tab__mechanic.png` | wide | Web tab (zone 2); inactive = dark tint | A wide brass name plate with a small gear emblem at the left end, empty space for a word, across the canvas width, transparent above and below. |
 | B8 | `SKILLS__node_card__mechanic.png` | tall | Node card (zone 6) | A tall parchment card in a thin brass frame with corner rivets, a faint blueprint grid on the paper, empty. Uniform border so it can be stretched. |
-| B9 | `SKILLS__button__mechanic.png` | wide | «Изучить» (zone 6) | A brass push-button plate with a raised rim and an empty face for a word. With B7 attached. |
 | B10 | `SKILLS__tube.png` | wide | XP bar (zone 1) and, tinted, the Voice gauge frame (zone 7, Monster) | A long thin horizontal tube holder of blackened brass with end caps and three small notches, the inside a plain solid dark slot (the game fills it). Across the canvas width, transparent above and below. |
 | B11 | `SKILLS__attribute_plus.png` | square | «+» next to attributes (zone 4) — **shared by both webs** | A small round brass knob with a raised plus-shaped cross, filling the middle third of the canvas. |
 
@@ -119,7 +130,7 @@ Mood: the same web, but alive — bone, sinew, dried blood, veins. Unsettling, n
 | C6 | `SKILLS__start_monster.png` | square | «Старт» in the centre | A round bone medallion with a dark red heart-like gem in the middle and four short veins going up, right, down and left. With C2 attached. |
 | C7 | `SKILLS__tab__monster.png` | wide | Web tab (zone 2); inactive = dark tint | A wide plate of dark bone and leather with a small fang emblem at the left end, empty space for a word, across the canvas width, transparent above and below. Same shape as the attached B7. |
 | C8 | `SKILLS__node_card__monster.png` | tall | Node card (zone 6) | A tall parchment card in a thin dark-red bone frame, faint brown stains on the paper, empty. Same shape as the attached B8. |
-| C9 | `SKILLS__button__monster.png` | wide | «Изучить» (zone 6) | A push-button plate of dark bone with a dried-blood red face, raised rim, empty face for a word. Same shape as the attached B9. |
+| C9 | `SKILLS__button__monster.png` | wide | «Изучить» (zone 6) | A push-button plate of dark bone with a dried-blood red face, raised rim, empty face for a word. Same shape as the attached `art/ui/UI__button__brass.webp`. |
 | C10 | `SKILLS__voice_warning.png` | square | Warning before a Voice stage | A dark red wax seal with a howling beast mark, slightly cracked, filling the middle half of the canvas. |
 
 ## Checklist after generation
