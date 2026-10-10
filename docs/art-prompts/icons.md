@@ -1,6 +1,6 @@
 # D. Game Icons
 
-Every icon of the game: **160 icons in 23 sets**, catalog `data/ui/icons.json`.
+Every icon of the game: **169 icons in 25 sets**, catalog `data/ui/icons.json`.
 
 ## One image per set
 
@@ -74,6 +74,8 @@ Front view, thick dark outline, aged metal. No letters, no numbers.
 | KNOWLEDGE | 5 | 5 × 1 | Symbol icon | `KNOWLEDGE__sheet.png` |
 | UI | 14 | 5 × 3 | Symbol icon | `UI__sheet.png` |
 | PLACE | 8 | 4 × 2 | Object icon | `PLACE__sheet.png` |
+| MECHANISM | 4 | 4 × 1 | Object icon | `MECHANISM__sheet.png` |
+| SETTINGS | 5 | 5 × 1 | Symbol icon | `SETTINGS__sheet.png` |
 
 ### RESOURCE — 6 icons · grid 3×2 · Object icon · DONE
 
@@ -902,4 +904,64 @@ Row 2:
 Transparent background. Do not draw the guide lines or slot numbers.
 No text, no labels, no numbers, no frames or circles around the icons.
 Output: transparent PNG, 3:2 landscape (1536×1024). Save as PLACE__sheet.png.
+```
+
+### MECHANISM — 4 icons · grid 4×1 · Object icon · DONE
+
+Armor mechanisms (GDD 5). Already generated — keep for re-generation.
+
+| # | File | Name | Where it is used | Look |
+|---|---|---|---|---|
+| 1 | `MECHANISM__lantern_of_revealing` | Lantern of Revealing | Armor mechanism (GDD 5) | a small brass hunter's lantern with a lens shutter, cold pale light inside |
+| 2 | `MECHANISM__smoke_bellows` | Smoke Bellows | Armor mechanism (GDD 5) | small leather-and-brass bellows with a nozzle, a puff of grey smoke |
+| 3 | `MECHANISM__riveted_plates` | Riveted Plates | Armor mechanism (GDD 5) | two overlapping riveted iron armour plates |
+| 4 | `MECHANISM__quick_holster` | Quick Holster | Armor mechanism (GDD 5) | a leather holster with brass buckles and a cartridge loop |
+
+```text
+[STYLE BLOCK]
+[ICON STYLE — OBJECT]
+Attached: RESOURCE icons (style reference), MECHANISM__grid.png (layout guide).
+ONE image with ALL 4 icons of this set: Armor mechanisms (GDD 5). Already generated — keep for re-generation.
+Lay them out as a grid of 4 columns × 1 row, exactly like the attached layout guide:
+each icon centred in its own slot, all the same size and style, clear empty space between
+them (they must not touch). Order: left to right, top to bottom.
+Row 1:
+  1. Lantern of Revealing — a small brass hunter's lantern with a lens shutter, cold pale light inside
+  2. Smoke Bellows — small leather-and-brass bellows with a nozzle, a puff of grey smoke
+  3. Riveted Plates — two overlapping riveted iron armour plates
+  4. Quick Holster — a leather holster with brass buckles and a cartridge loop
+Transparent background. Do not draw the guide lines or slot numbers.
+No text, no labels, no numbers, no frames or circles around the icons.
+Output: transparent PNG, 3:2 landscape (1536×1024). Save as MECHANISM__sheet.png.
+```
+
+### SETTINGS — 5 icons · grid 5×1 · Symbol icon · DONE
+
+Settings screen. Already generated — keep for re-generation.
+
+| # | File | Name | Where it is used | Look |
+|---|---|---|---|---|
+| 1 | `SETTINGS__sound` | Sound | Settings: sound volume | a brass horn speaker with three sound waves |
+| 2 | `SETTINGS__music` | Music | Settings: music volume | a brass music box with a small crank |
+| 3 | `SETTINGS__language` | Language | Settings: language | an open book with a quill across it |
+| 4 | `SETTINGS__fullscreen` | Fullscreen | Settings: fullscreen | four brass corner brackets pointing outwards |
+| 5 | `SETTINGS__hints` | Hints | Settings: tutorial hints on/off | a brass hand lantern with a small curled flame and a keyhole on its base |
+
+```text
+[STYLE BLOCK]
+[ICON STYLE — SYMBOL]
+Attached: RESOURCE icons (style reference), SETTINGS__grid.png (layout guide).
+ONE image with ALL 5 icons of this set: Settings screen. Already generated — keep for re-generation.
+Lay them out as a grid of 5 columns × 1 row, exactly like the attached layout guide:
+each icon centred in its own slot, all the same size and style, clear empty space between
+them (they must not touch). Order: left to right, top to bottom.
+Row 1:
+  1. Sound — a brass horn speaker with three sound waves
+  2. Music — a brass music box with a small crank
+  3. Language — an open book with a quill across it
+  4. Fullscreen — four brass corner brackets pointing outwards
+  5. Hints — a brass hand lantern with a small curled flame and a keyhole on its base
+Transparent background. Do not draw the guide lines or slot numbers.
+No text, no labels, no numbers, no frames or circles around the icons.
+Output: transparent PNG, 3:2 landscape (1536×1024). Save as SETTINGS__sheet.png.
 ```

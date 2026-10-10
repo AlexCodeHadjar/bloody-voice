@@ -31,6 +31,8 @@ FOLDERS = {"districts": "city/districts", "map": "city/map", "ui": "ui", "module
 SKIP_FOLDERS = {"refs", "district_maps"}
 NAME_RE = re.compile(r"^[A-Z0-9_]+(__[a-z0-9_]+)+$")
 MAX_SIDE = 1672
+# Smaller caps for art shown small on screen (card art window ~176x98 px, crisp at 2x).
+MAX_SIDE_BY_PREFIX = {"CARD__art__": 768}
 QUALITY = 88
 # Sheets made before the naming rule: stem -> (set, (cols, rows)).
 LEGACY_SHEETS = {"RESOURCES__six_icons": ("RESOURCE", (6, 1))}
@@ -92,8 +94,9 @@ def sources() -> dict[str, Path]:
 
 
 def save_webp(img: Image.Image, out: Path) -> None:
-    if max(img.size) > MAX_SIDE:
-        img.thumbnail((MAX_SIDE, MAX_SIDE), Image.LANCZOS)
+    side = next((v for k, v in MAX_SIDE_BY_PREFIX.items() if out.stem.startswith(k)), MAX_SIDE)
+    if max(img.size) > side:
+        img.thumbnail((side, side), Image.LANCZOS)
     out.parent.mkdir(parents=True, exist_ok=True)
     img.save(out, "WEBP", quality=QUALITY, method=6)
 

@@ -1234,5 +1234,83 @@
     "look": "a wooden post with pinned paper leaflets and a nail"
    }
   ]
+ },
+ {
+  "set": "MECHANISM",
+  "style": "object",
+  "about": "Armor mechanisms (GDD 5). Already generated — keep for re-generation.",
+  "status": "done",
+  "grid": [
+   4,
+   1
+  ],
+  "icons": [
+   {
+    "id": "lantern_of_revealing",
+    "name": "Lantern of Revealing",
+    "use": "Armor mechanism (GDD 5)",
+    "look": "a small brass hunter's lantern with a lens shutter, cold pale light inside"
+   },
+   {
+    "id": "smoke_bellows",
+    "name": "Smoke Bellows",
+    "use": "Armor mechanism (GDD 5)",
+    "look": "small leather-and-brass bellows with a nozzle, a puff of grey smoke"
+   },
+   {
+    "id": "riveted_plates",
+    "name": "Riveted Plates",
+    "use": "Armor mechanism (GDD 5)",
+    "look": "two overlapping riveted iron armour plates"
+   },
+   {
+    "id": "quick_holster",
+    "name": "Quick Holster",
+    "use": "Armor mechanism (GDD 5)",
+    "look": "a leather holster with brass buckles and a cartridge loop"
+   }
+  ]
+ },
+ {
+  "set": "SETTINGS",
+  "style": "symbol",
+  "about": "Settings screen. Already generated — keep for re-generation.",
+  "status": "done",
+  "grid": [
+   5,
+   1
+  ],
+  "icons": [
+   {
+    "id": "sound",
+    "name": "Sound",
+    "use": "Settings: sound volume",
+    "look": "a brass horn speaker with three sound waves"
+   },
+   {
+    "id": "music",
+    "name": "Music",
+    "use": "Settings: music volume",
+    "look": "a brass music box with a small crank"
+   },
+   {
+    "id": "language",
+    "name": "Language",
+    "use": "Settings: language",
+    "look": "an open book with a quill across it"
+   },
+   {
+    "id": "fullscreen",
+    "name": "Fullscreen",
+    "use": "Settings: fullscreen",
+    "look": "four brass corner brackets pointing outwards"
+   },
+   {
+    "id": "hints",
+    "name": "Hints",
+    "use": "Settings: tutorial hints on/off",
+    "look": "a brass hand lantern with a small curled flame and a keyhole on its base"
+   }
+  ]
  }
 ]

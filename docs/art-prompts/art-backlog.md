@@ -1,5 +1,9 @@
 # Art Prompts — full art backlog (everything else the game will need)
 
+> **Готово (2026-10-10):** части G–Q (93 картинки, +3 наброска R) сгенерированы и импортированы в `art/`; листы иконок `MECHANISM` и
+> `SETTINGS` разрезаны (наборы добавлены в `data/ui/icons.json`). Наброски тварей R лежат в `assets/refs/CONCEPT__*` —
+> в игру не идут, ждут решения владельца. Q1 (значок) — из `art/ui/WAX__seal.webp`, когда понадобится.
+
 Всё, что ещё понадобится игре из арта, **кроме** уже расписанного:
 - [next-art-pack.md](next-art-pack.md) — экран района, обучение, курсоры, меню, фоны боя, текстуры, интерьеры, портреты жителей;
 - [remaining-ui-transparent.md](remaining-ui-transparent.md) — мастерская и ветки развития;
@@ -100,6 +104,8 @@ UI STYLE BLOCK + TRANSPARENT BLOCK. Папка `assets/ui/` (не путать �
 | H13 | `VFX__crack.png` | Сломанная часть тела | A star-shaped crack like shattered bone or stone, black fracture lines from the centre with a dark red glow inside the cracks. |
 
 ## I. Картинки на картах (19) — чат «Card art»
+
+На экране окно картинки около 176×98 px; импорт уменьшает `CARD__art__*` до 768 px по длинной стороне.
 
 Окно картинки — верхние 40 % рамки карты (`art/ui/COMBAT__card_frame__*`). UI STYLE BLOCK, **без прозрачности**,
 холст **wide**. Приложи готовую рамку `COMBAT__card_frame__attack.webp`: «This art goes into the window in the upper
