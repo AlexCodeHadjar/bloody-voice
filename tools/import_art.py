@@ -8,6 +8,7 @@
 - assets/png/<folder>/ is read like assets/<folder>/ (the owner's PNG drop folder)
 - UI pieces drawn on flat magenta (all four corners #FF00FF) get the magenta keyed out and empty margins trimmed
 - textures assets/ui/TEX__*.png are made seamless (edges cross-faded with the image shifted by half)
+- cuts map-life sheets assets/ui/LIFE__*__sheet.png into single figures (tools/life_sprites.py)
 - fits weapon-module art to its exact cell shape (data/gear/*.json): 256 px per cell, transparent outside
 - skips files whose output is newer than the source (use --force to redo all)
 
@@ -21,6 +22,8 @@ from pathlib import Path
 
 from PIL import Image
 
+import life_sprites  # tools/ is on sys.path when the script is run directly
+
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "assets"
 DST = ROOT / "art"
@@ -32,7 +35,7 @@ SKIP_FOLDERS = {"refs", "district_maps"}
 NAME_RE = re.compile(r"^[A-Z0-9_]+(__[a-z0-9_]+)+$")
 MAX_SIDE = 1672
 # Smaller caps for art shown small on screen (card art window ~176x98 px, crisp at 2x).
-MAX_SIDE_BY_PREFIX = {"CARD__art__": 768}
+MAX_SIDE_BY_PREFIX = {"CARD__art__": 768, "LIFE__group__": 512}  # group scenes ~ two houses on the map
 QUALITY = 88
 # Sheets made before the naming rule: stem -> (set, (cols, rows)).
 LEGACY_SHEETS = {"RESOURCES__six_icons": ("RESOURCE", (6, 1))}
@@ -235,6 +238,23 @@ def _sheet_set(stem: str) -> str | None:
     return parts[0] if len(parts) == 2 and parts[1] == "sheet" else None
 
 
+def _cut_icon_sheet(src: Path, set_code: str, icons: dict, legacy: tuple | None, errors: list[str]) -> int:
+    """One icon sheet -> art/ui/icons/<SET>__<id>.webp; returns the number of icons written."""
+    if set_code not in icons:
+        errors.append(f"{src.relative_to(ROOT)}: no icon set '{set_code}' in data/ui/icons.json")
+        return 0
+    ids, grid = icons[set_code]
+    cols, rows = legacy[1] if legacy else grid
+    written = 0
+    for icon_id, icon in zip(ids, slice_grid(Image.open(src).convert("RGBA"), cols, rows, len(ids))):
+        if icon is None:
+            errors.append(f"{src.relative_to(ROOT)}: no icon found for '{icon_id}' (grid {cols}x{rows})")
+            continue
+        save_webp(icon, DST / "ui/icons" / f"{set_code}__{icon_id}.webp")
+        written += 1
+    return written
+
+
 def main(force: bool) -> int:
     errors: list[str] = []
     written = skipped = 0
@@ -253,17 +273,12 @@ def main(force: bool) -> int:
         legacy = LEGACY_SHEETS.get(stem)
         set_code = legacy[0] if legacy else _sheet_set(stem) if folder == "icons" else None
         if set_code is not None:
-            if set_code not in icons:
-                errors.append(f"{src.relative_to(ROOT)}: no icon set '{set_code}' in data/ui/icons.json")
-                continue
-            ids, grid = icons[set_code]
-            cols, rows = legacy[1] if legacy else grid
-            for icon_id, icon in zip(ids, slice_grid(Image.open(src).convert("RGBA"), cols, rows, len(ids))):
-                if icon is None:
-                    errors.append(f"{src.relative_to(ROOT)}: no icon found for '{icon_id}' (grid {cols}x{rows})")
-                    continue
-                save_webp(icon, DST / "ui/icons" / f"{set_code}__{icon_id}.webp")
-                written += 1
+            written += _cut_icon_sheet(src, set_code, icons, legacy, errors)
+            continue
+        if folder == "ui" and life_sprites.is_sheet(stem):  # people on the district map: 4 x 2 figures
+            count, problems = life_sprites.cut(src, stem, force)
+            written, skipped = written + count, skipped + (count == 0 and not problems)
+            errors += problems
             continue
         out = DST / FOLDERS[folder] / f"{stem}.webp"
         if not force and out.exists() and out.stat().st_mtime >= src.stat().st_mtime:
