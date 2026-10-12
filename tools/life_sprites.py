@@ -5,6 +5,7 @@ Poses of one person share one crop box, so switching poses does not make the fig
   pass_* and groups_* sheets — slot pairs (walking towards / walking away);
   locals_* sheets — slots 1–4 and 5–8 (one local character in four poses);
   other sheets (roles, animals, emotes) — every slot on its own.
+Two-frame pieces LIFE__*_a / LIFE__*_b (laundry, banner) are cropped by one shared box as well (pair_crop).
 Called by tools/import_art.py.
 """
 from __future__ import annotations
@@ -62,3 +63,18 @@ def cut(src: Path, stem: str, force: bool) -> tuple[int, list[str]]:
             sprite.resize(size, Image.LANCZOS).save(outs[i], "WEBP", quality=QUALITY, method=6)
             written += 1
     return written, problems
+
+
+def pair_crop(src: Path, stem: str) -> Image.Image | None:
+    """Frame A or B of a two-frame piece, cropped by the box shared with its partner; None if not such a piece.
+    Pairs must already be transparent PNGs (no magenta keying here)."""
+    if not (stem.startswith("LIFE__") and stem[-2:] in ("_a", "_b")):
+        return None
+    partner = src.with_name(stem[:-1] + ("b" if stem.endswith("a") else "a") + src.suffix)
+    if not partner.exists():
+        return None
+    img, other = Image.open(src).convert("RGBA"), Image.open(partner).convert("RGBA")
+    boxes = [im.getchannel("A").point(lambda v: 255 if v > 8 else 0).getbbox() for im in (img, other)]
+    if img.size != other.size or None in boxes:
+        return None
+    return img.crop(_union(boxes))
