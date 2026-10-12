@@ -36,4 +36,4 @@
 | Prompt file | Named | Missing |
 |---|---|---|
 | `art-backlog.md` | 112 | 20: ABYSS_THING__combat__normal, ABYSS_THING__combat__phase2, ABYSS_THING__silhouette__cracked, ABYSS_THING__silhouette__leaflet, GHOUL__combat__normal, GHOUL__combat__phase2, GHOUL__silhouette__cracked, GHOUL__silhouette__leaflet, GREY__map__festival, GREY__map__fog_breach, GREY__map__quarantine, MECHANISM__blood_pump … |
-| `map-life-people.md` | 13 | 3: GREY__detail__r0c1, GREY__detail__r1c1, GREY__detail__r4c1 |
+| `map-life-people.md` | 13 | 0 |

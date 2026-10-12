@@ -20,7 +20,8 @@ static func validate(data: ContentData, errs: ErrorLog) -> void:
 			if problem != "":
 				errs.add(w + "/move", problem)
 		for id: StringName in data.monster_order:
-			if data.monster(id).moves.has(a.move.id):
+			var m := data.monster(id)
+			if m != null and m.moves.has(a.move.id):
 				errs.add(w + "/move", "move id '%s' is used by %s" % [a.move.id, id])
 	var b := data.balance.affixes
 	if b.per_week < 0.0 or b.per_rank < 0.0 or b.max_affixes < 0 or b.max_affixes > data.affixes.size():

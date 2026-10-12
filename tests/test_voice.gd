@@ -55,15 +55,16 @@ func test_stages_cards_and_will() -> void:
 	var data := load_content(false)
 	var run := _run(data)
 	var v := data.balance.voice
+	var th := VoiceRules.thresholds(run, data)  # the start Will already pushes the stages back
 	eq(VoiceRules.stage(run, data), 0, "silent")
 	check(VoiceRules.fight_cards(run, data).is_empty(), "no cards while silent")
-	run.voice = v.stages[0]
+	run.voice = th[0]
 	eq(VoiceRules.stage(run, data), 1, "Whispers")
 	eq(VoiceRules.fight_cards(run, data), [v.rage_card] as Array[StringName], "a rage card")
 	eq(VoiceRules.hunger_chance(run, data), 0.0, "no Hunger yet")
-	run.voice = v.stages[1]
+	run.voice = th[1]
 	eq(VoiceRules.hunger_chance(run, data), v.hunger_chance, "Hunger")
-	run.voice = v.stages[2]
+	run.voice = th[2]
 	check(VoiceRules.fight_cards(run, data).has(v.beast_card), "the Beast's card")
 	run.progress.attributes[&"will"] = run.progress.attribute(&"will") + 1
 	eq(VoiceRules.stage(run, data), 2, "Will pushes the stages back")

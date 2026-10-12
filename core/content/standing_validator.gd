@@ -55,5 +55,6 @@ static func _register(data: ContentData, errs: ErrorLog) -> void:
 	if r.exam_days < 1:
 		errs.add("balance.json/register", "exam_days must be >= 1")
 	for id: StringName in data.monster_order:
-		if not r.ranks.has(data.monster(id).rank):
-			errs.add("monsters/%s" % id, "rank '%s' is not in balance.json/register" % data.monster(id).rank)
+		var m := data.monster(id)
+		if m != null and not r.ranks.has(m.rank):  # the loader fills monster_order; only a broken test order has unknown ids
+			errs.add("monsters/%s" % id, "rank '%s' is not in balance.json/register" % m.rank)
