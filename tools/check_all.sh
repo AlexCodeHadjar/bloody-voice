@@ -23,6 +23,9 @@ while [ $# -gt 0 ]; do
 	shift
 done
 
+echo "== reference (docs/reference/)"
+python tools/gen_reference.py >/dev/null || { echo "REFERENCE FAILED"; exit 1; }
+
 echo "== import"
 timeout 600 "$G" --headless --path . --import >/dev/null 2>&1 || { echo "IMPORT FAILED"; exit 1; }
 
