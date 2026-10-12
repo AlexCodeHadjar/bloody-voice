@@ -27,6 +27,12 @@ var _dragging := false
 var _press_pos := Vector2.ZERO
 var _hovered: DistrictMapDef.LandmarkDef = null
 var _jump: Tween = null
+var _edit_node: StringName = &""  ## F3 markup: the street node being dragged (debug builds)
+var _edit_landmark: DistrictMapDef.LandmarkDef = null  ## ... or the landmark spot
+var _dev_label: Label = null  ## F3 markup help and the last save, over the map
+var _edit_offset := Vector2.ZERO  ## the grabbed point minus the art point under the mouse: no jump on grab
+
+const EDIT_PICK := 18.0  ## screen px around a node or a landmark centre that grabs it in F3 markup
 
 
 func setup(district_map: DistrictMapDef) -> void:
@@ -105,6 +111,8 @@ func _on_button(mb: InputEventMouseButton) -> void:
 		MOUSE_BUTTON_WHEEL_DOWN when mb.pressed:
 			_zoom_at(mb.position, _zoom / ZOOM_STEP)
 		MOUSE_BUTTON_LEFT:
+			if _markup_button(mb):
+				return
 			if mb.pressed:
 				_pressed = true
 				_dragging = false
@@ -120,6 +128,15 @@ func _on_button(mb: InputEventMouseButton) -> void:
 
 
 func _on_motion(mm: InputEventMouseMotion) -> void:
+	if _edit_node != &"" or _edit_landmark != null:  # F3 markup: the grabbed point follows the mouse
+		var p := (screen_to_art(mm.position) + _edit_offset).round()
+		if _edit_node != &"":
+			map.nodes[_edit_node] = p
+		else:
+			_edit_landmark.pos = p
+		set_dev_text(Loc.t("ui.dev.map_point", {"id": _edit_node if _edit_node != &"" else _edit_landmark.id, "x": p.x, "y": p.y}))
+		overlay.queue_redraw()
+		return
 	if _pressed and not _dragging and mm.position.distance_to(_press_pos) > DRAG_THRESHOLD:
 		_dragging = true
 		if _jump != null:
@@ -179,3 +196,39 @@ func _apply(pos: Vector2) -> void:
 func _clamped(pos: Vector2) -> Vector2:
 	var art := map.image_size * _zoom
 	return Vector2(clampf(pos.x, minf(0.0, size.x - art.x), 0.0), clampf(pos.y, minf(0.0, size.y - art.y), 0.0))
+
+
+## F3 markup (debug builds): a press on a street node (red dot) or a landmark centre (white ring) grabs it, the release
+## drops it. True when the press or release was the markup's.
+func _markup_button(mb: InputEventMouseButton) -> bool:
+	if not mb.pressed:
+		var was := _edit_node != &"" or _edit_landmark != null
+		_edit_node = &""
+		_edit_landmark = null
+		return was
+	if overlay == null or not overlay.debug_visible:
+		return false
+	for id: StringName in map.nodes:
+		if art_to_screen(map.nodes[id]).distance_to(mb.position) <= EDIT_PICK:
+			_edit_node = id
+			_edit_offset = map.nodes[id] - screen_to_art(mb.position)
+			return true
+	for lm: DistrictMapDef.LandmarkDef in map.landmarks:
+		if art_to_screen(lm.pos).distance_to(mb.position) <= EDIT_PICK:
+			_edit_landmark = lm
+			_edit_offset = lm.pos - screen_to_art(mb.position)
+			return true
+	return false
+
+
+## The F3 markup line over the map ("" hides it).
+func set_dev_text(text: String) -> void:
+	if _dev_label == null:
+		_dev_label = UiKit.label("", 18, Palette.PARCHMENT)
+		_dev_label.position = Vector2(16, 12)
+		_dev_label.add_theme_constant_override("outline_size", 6)
+		_dev_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+		_dev_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(_dev_label)
+	_dev_label.text = text
+	_dev_label.visible = text != ""

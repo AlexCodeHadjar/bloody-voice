@@ -153,3 +153,11 @@ Done 2026-10-12 — see §20.11 and CLAUDE.md («Район»).
 | Residents | About 40 people + animals, scenes at places, living decor (`data/city/district_life/GREY.json`, `scenes/district_map/life/`): they walk, look around, chat with an emote, work at their spots, step aside for the hero. Only atmosphere; the little stories of map-life-people.md part D are the next step |
 | Sound | Music «Deep Humidity» + rain; a second layer by the place under the camera: cellars in the Fog Hollow, wind at the Ringwall, fire by the tavern, the market and Bonfire Square (`sound_spots` / zone `ambience` in the map data) |
 
+## 20.10 Markup editing (debug builds, owner 2026-10-12)
+
+F3 on the district screen shows the markup (streets, nodes, landmark rings, zones, contour). In it the red node dots
+and the landmark centres can be **dragged**; the line at the top shows the point's id and coordinates. **Ctrl+S** writes
+the new numbers into `data/city/district_maps/<ID>.json` (only the numbers change, the layout of the file stays;
+`scenes/district_map/map_markup_saver.gd`; an exported build writes `user://district_maps/<ID>.json`). Streets keep
+their node order — moving a node bends every street through it. Keep nodes inside the contour (the validator stops the game otherwise); check with `tools/check_district_map.py`. The hero and residents standing still keep their old spot until they next move.
+

@@ -81,3 +81,14 @@ func test_bad_tutorial_data_is_reported() -> void:
 	check(text.contains("unknown anchor"), "unknown anchor reported")
 	check(text.contains("unknown action"), "unknown action reported")
 	check(text.contains("no Russian text"), "missing texts reported")
+
+
+func test_old_profiles_go_full_screen_once() -> void:
+	check(ProfileState.new().fullscreen, "a new profile is full screen")
+	var old := ConfigFile.new()
+	old.set_value(ProfileState.SECTION, "fullscreen", false)
+	check(ProfileState.from_config(old).fullscreen, "a profile from before: full screen once")
+	var now := ConfigFile.new()
+	now.set_value(ProfileState.SECTION, "fullscreen", false)
+	now.set_value(ProfileState.SECTION, "version", ProfileState.VERSION)
+	check(not ProfileState.from_config(now).fullscreen, "a chosen window stays")
