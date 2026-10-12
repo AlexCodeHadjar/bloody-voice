@@ -1,7 +1,8 @@
 # Карта Серых Часовен (трущобы) — всё для генерации
 
 **Готово (2026-10-10):** общий вид (`assets/district_maps/GREY__overview.png`) и игровая карта 4000×6000 из 21 куска —
-`art/city/district_maps/GREY__map.webp`. Перерисовать кусок — [detail/detail-pass.md](detail/detail-pass.md).
+`art/city/district_maps/GREY__map.webp`. С 2026-10-12 в игре — твоя готовая карта из Photoshop (`assets/district_maps/GREY__map.png`): она важнее склейки кусков.
+Заменить карту — положи новый `GREY__map.png`; вернуть склейку — убери его и запусти `python tools/import_art.py --force`. Перерисовать кусок — [detail/detail-pass.md](detail/detail-pass.md).
 Следующий шаг — по коду: подогнать точки улиц, места и контур под эту картинку (GDD §20.8, шаг 5) и сделать экран района.
 Исходники кусков (`assets/district_maps/GREY__detail__r*c*.png`) в git не хранятся — копия у владельца (папка Codex).
 

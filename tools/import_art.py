@@ -304,7 +304,8 @@ def main(force: bool) -> int:
     import district_detail_tiles  # the playable district map: overview + painted detail pieces
     if force or district_detail_tiles.needs_stitch():
         used = district_detail_tiles.stitch()
-        print(f"district map GREY: {len(used)} detail pieces on the scaled overview")
+        print("district map GREY: " + ("the finished map assets/district_maps/GREY__map.png" if used == ["final"]
+                                       else f"{len(used)} detail pieces on the scaled overview"))
     for e in errors:
         print("ERROR", e)
     print(f"written {written}, up to date {skipped}, errors {len(errors)}")

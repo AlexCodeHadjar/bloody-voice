@@ -7,6 +7,8 @@
   stitch()  (called by tools/import_art.py)        -> art/city/district_maps/GREY__map.webp
 
 Pieces not generated yet are filled from the overview scaled up, so the game map is always complete.
+If the owner hands in a finished map (assets/district_maps/GREY__map.png, e.g. retouched in Photoshop), it wins:
+stitch() only converts it, the pieces are kept as sources.
 """
 from __future__ import annotations
 
@@ -19,6 +21,7 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "assets" / "district_maps"
 OVERVIEW = SRC / "GREY__overview.png"
+FINAL = SRC / "GREY__map.png"  # a finished map from the owner overrides the stitched pieces
 OUT = ROOT / "docs" / "art-prompts" / "grey-chapels-map" / "detail"
 MAP_OUT = ROOT / "art" / "city" / "district_maps" / "GREY__map.webp"
 OVERVIEW_OUT = ROOT / "art" / "city" / "district_maps" / "GREY__overview.webp"
@@ -98,7 +101,7 @@ def needs_stitch() -> bool:
         return False
     if not MAP_OUT.exists():
         return True
-    newest = max(p.stat().st_mtime for p in [OVERVIEW, *SRC.glob("GREY__detail__r*c*.png")])
+    newest = max(p.stat().st_mtime for p in [OVERVIEW, *SRC.glob("GREY__detail__r*c*.png"), *([FINAL] if FINAL.exists() else [])])
     return newest > MAP_OUT.stat().st_mtime
 
 
@@ -164,11 +167,18 @@ def level_seams(img: "np.ndarray") -> None:
 
 def stitch() -> list[str]:
     """Build the playable map: painted pieces averaged by weight in their overlaps; where the weights add up to
-    less than 1 (next to a piece not painted yet) the scaled overview shows through. Returns the pieces used."""
+    less than 1 (next to a piece not painted yet) the scaled overview shows through. Returns the pieces used,
+    or ["final"] when the owner's finished map (FINAL) is converted instead."""
     if not OVERVIEW.exists():
         return []
     MAP_OUT.parent.mkdir(parents=True, exist_ok=True)
     Image.open(OVERVIEW).convert("RGB").save(OVERVIEW_OUT, "WEBP", quality=90)
+    if FINAL.exists():
+        final = Image.open(FINAL).convert("RGB")
+        if final.size != SIZE:
+            print(f"WARNING {FINAL.name} is {final.size[0]}x{final.size[1]}, resized to {SIZE[0]}x{SIZE[1]}")
+        (final if final.size == SIZE else final.resize(SIZE, Image.LANCZOS)).save(MAP_OUT, "WEBP", quality=88)
+        return ["final"]
     base = np.asarray(base_map(), np.float32)
     acc = np.zeros_like(base)
     weight = np.zeros(base.shape[:2], np.float32)
