@@ -101,11 +101,19 @@ func test_lose_control_only_at_the_beast() -> void:
 func test_hunger_plays_an_attack_card() -> void:
 	var data := load_content(false)
 	var setup := DeckBuilder.default_setup(data, &"vigil_hound", 4)
+	var attack: StringName = &""
+	for c: StringName in setup.deck:
+		if data.card(c).type == &"attack" and data.card(c).needs_enemy_target() and data.card(c).ammo <= setup.max_ammo:
+			attack = c
+			break
+	check(attack != &"", "the start deck has an attack card")
+	setup.deck.assign([attack, attack, attack, attack, attack, attack, attack, attack])  # every hand holds it
 	setup.hunger_chance = 1.0
 	var s := CombatRules.start(setup, data)
-	var played := s.events.any(func(e: CombatEvent) -> bool: return e.kind == &"hunger")
-	var has_attack := s.hand.any(func(c: CardInstance) -> bool: return c.def.type == &"attack")
-	check(played or not has_attack, "Hunger played a card when one was there")
+	check(s.events.any(func(e: CombatEvent) -> bool: return e.kind == &"hunger"), "Hunger played a card")
+	setup.hunger_chance = 0.0
+	s = CombatRules.start(setup, data)
+	check(not s.events.any(func(e: CombatEvent) -> bool: return e.kind == &"hunger"), "no Hunger at chance 0")
 
 
 func test_samples_sell_and_survive_save() -> void:

@@ -37,14 +37,14 @@ static func balance(d: Dictionary, errs: ErrorLog) -> Balance:
 	var ranks := DefReader.dict(d, "xp_by_rank", errs, w)
 	for r: Variant in ranks:
 		b.xp_by_rank[str(r)] = int(ranks[r])
-	b.bonus_point_levels = _ints(DefReader.array(d, "bonus_point_levels", errs, w))
-	b.agility_hand_at = _ints(DefReader.array(d, "agility_hand_at", errs, w))
-	b.cunning_preview_at = _ints(DefReader.array(d, "cunning_preview_at", errs, w))
+	b.bonus_point_levels = ints(DefReader.array(d, "bonus_point_levels", errs, w))
+	b.agility_hand_at = ints(DefReader.array(d, "agility_hand_at", errs, w))
+	b.cunning_preview_at = ints(DefReader.array(d, "cunning_preview_at", errs, w))
 	b.start_attributes = WorkshopDefs.amounts(DefReader.dict(d, "start_attributes", errs, w))
 	return b
 
 
-static func _ints(a: Array) -> Array[int]:
+static func ints(a: Array) -> Array[int]:
 	var out: Array[int] = []
 	for v: Variant in a:
 		out.append(int(v))

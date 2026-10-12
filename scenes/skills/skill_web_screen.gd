@@ -89,6 +89,7 @@ func _build_top() -> Control:
 func _switch(web_id: StringName) -> void:
 	_web = ContentDB.data.webs[web_id]
 	_picked = &"start"
+	_views[web_id].selected = &"start"  # the ring follows the card
 	_bg.texture = UiKit.texture("res://art/ui/SKILLS__texture_%s.webp" % web_id)
 	for id: StringName in WEBS:
 		_views[id].visible = id == web_id

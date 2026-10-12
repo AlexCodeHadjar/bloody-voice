@@ -42,7 +42,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/content/defs/map_regions_def.gd` | MapRegionsDef | Clickable district regions traced over the city map art (data/city/map_regions.json). | from_dict |
 | `core/content/defs/module_def.gd` | ModuleDef | A weapon module (data/gear/modules.json): shape, cell type, cards, passive mods, links with neighbours. | cards_at, capture_cards_at, mods_at, effect_at, art_path, from_dict |
 | `core/content/defs/monster_def.gd` | MonsterDef | A creature: stats, body parts, its own deck of moves and phases (data/monsters/*.json, GDD 9.4). | art_path, from_dict, part |
-| `core/content/defs/progress_defs.gd` | ProgressDefs | The "progress" block of balance.json (GDD 4.1–4.3): XP, levels, points, what each attribute does. | balance |
+| `core/content/defs/progress_defs.gd` | ProgressDefs | The "progress" block of balance.json (GDD 4.1–4.3): XP, levels, points, what each attribute does. | balance, ints |
 | `core/content/defs/rumor_defs.gd` | RumorDefs | Rumor content (GDD 8): witnesses and per-zone pictures and tags (data/rumors/rumors.json), and the rumor numbers | from_dict, balance |
 | `core/content/defs/shop_defs.gd` | ShopDefs | The "shop" and "tavern" blocks of balance.json (GDD 11.1, 3.3): stock slots, prices, trophy prices, the bag, | balance, tavern |
 | `core/content/defs/skill_defs.gd` | SkillDefs | Skill webs (data/skills/*.json, GDD 4.4, 23.2): nodes with a type, a place on the web, links and an effect; | web, balance |

@@ -20,7 +20,7 @@ class Balance:
 static func balance(d: Dictionary, errs: ErrorLog) -> Balance:
 	var b := Balance.new()
 	var w := "balance.json/voice"
-	b.stages = ProgressDefs._ints(DefReader.array(d, "stages", errs, w))
+	b.stages = ProgressDefs.ints(DefReader.array(d, "stages", errs, w))
 	b.per_will = DefReader.integer(d, "per_will", errs, w, 3)
 	b.rage_card = DefReader.id(d, "rage_card", errs, w)
 	b.beast_card = DefReader.id(d, "beast_card", errs, w)

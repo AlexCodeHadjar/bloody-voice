@@ -225,7 +225,7 @@ func finish_combat() -> void:
 	var paid := ContractRules.resolve_fight(run, combat.contract_uid, outcome)
 	var xp := ProgressRules.fight_xp(ContentDB.data, combat) + (ContentDB.data.balance.progress.contract_xp if paid > 0 else 0)
 	var loot := LootRules.fight_loot(ContentDB.data, combat)
-	var beast := lost_control()  # rolled before the loot: a new sample can't change it
+	var beast := lost_control()  # one roll a day (the result panel shows the same); before the loot
 	LootRules.take(run, ContentDB.data, loot)
 	ShopRules.spend_bag(run, combat)
 	HealthRules.after_fight(run, combat)
