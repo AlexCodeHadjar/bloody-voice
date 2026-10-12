@@ -157,6 +157,7 @@ ui.contract.type.exam,Экзамен Реестра,Register exam
 ui.contract.rank,Ранг {rank},Rank {rank}
 ui.contract.signs,Известные приметы,Known signs
 ui.contract.last_seen,Видели:,Last seen:
+ui.contract.affixes,Особенности:,Affixes:
 ui.contract.deadline,Срок:,Deadline:
 ui.contract.reward,Награда:,Reward:
 ui.contract.days_left,осталось {n} {n:день|дня|дней},{n} d left
@@ -1053,6 +1054,9 @@ tag.tremors,дрожь под ногами,Tremors underfoot
 tag.floors_collapse,проваливаются полы,Floors cave in
 tag.acid,лужи кислоты,Pools of acid
 tag.knocking_below,стук снизу,Knocking from below
+tag.savaged_victims,Растерзанные жертвы,Victims savaged
+tag.scraped_stone,Царапины на камне,Scraped stone
+tag.empty_larders,Опустошённые кладовые,Emptied larders
 petition.laundress_widow.from,"Мара, вдова прачки","Mara, a laundress's widow"
 petition.laundress_widow.text,Соседский мальчишка пошёл за водой и не вернулся. Стража к нам не спускается. Я скопила немного — найдите эту тварь и покончите с ней.,The neighbour's boy went for water and never came back. The watch does not come down here. I have saved a little: find the thing and put an end to it.
 petition.gravedigger.from,"Старый Йонас, могильщик","Old Jonas, gravedigger"
@@ -1163,6 +1167,16 @@ skill.monster.b_sw.name,Беспокойная кровь,Restless Blood
 skill.monster.b_sw.text,В первый ход берите на 1 карту больше.,Draw 1 more card on the first turn.
 skill.monster.b_nw.name,Горькая кровь,Bitter Blood
 skill.monster.b_nw.text,Ваше Кровотечение на 1 сильнее.,Bleed you apply is 1 stack stronger.
+affix.frenzy,Бешенство,Frenzy
+affix.frenzy.move,Бешеный удар,Frenzied Rend
+affix.carapace,Панцирь,Carapace
+affix.carapace.move,Затвердеть,Harden
+affix.fogborn,Туман в крови,Fog in the Blood
+affix.fogborn.move,Пелена тумана,Fog Veil
+affix.starving,Ненасытность,Insatiable
+affix.starving.move,Пожрать,Devour
+affix.venom,Яд,Venom
+affix.venom.move,Ядовитый плевок,Venom Spit
 event.fog_breach.name,Прорыв тумана,Fog Breach
 event.fog_breach.news,"Туман перевалил через северную стену. Фонари едва тлеют, а то, что бродит в нём, голоднее обычного. Реестр платит больше за каждую тварь, взятую в эти дни.","The fog has come over the north wall. Lamps burn low, and what walks in it is hungrier than usual. The Register pays more for every creature taken in these days."
 event.fog_breach.end_news,Туман отступил за стену. Фонари снова горят ясно.,The fog has drawn back past the wall. The lamps burn clear again.

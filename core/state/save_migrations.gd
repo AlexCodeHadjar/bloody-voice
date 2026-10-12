@@ -35,6 +35,8 @@ static func migrate(d: Dictionary, start_loadout: Dictionary = {}) -> Dictionary
 				_from_12(d)
 			13:
 				_from_13(d)
+			14:
+				_from_14(d)
 			_:
 				push_warning("[save] no migration from version %d" % version)
 		version += 1
@@ -128,3 +130,9 @@ static func _from_12(d: Dictionary) -> void:
 ## v13 -> v14: district events (GDD 15). No event yet; the first roll comes on the next Monday.
 static func _from_13(d: Dictionary) -> void:
 	d["events"] = {"checked_week": 0, "active": "", "ended_week": 0, "news": []}
+
+
+## v14 -> v15: creature affixes on contracts (GDD 17). Old contracts have none.
+static func _from_14(d: Dictionary) -> void:
+	for c: Variant in (d.get("contracts", {}) as Dictionary).get("items", []) as Array:
+		(c as Dictionary)["affixes"] = []

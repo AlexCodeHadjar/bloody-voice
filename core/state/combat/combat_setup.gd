@@ -21,5 +21,6 @@ var capture_allowed: bool = false
 var rng_seed: int = 0
 var backdrop: String = ""  ## res:// path of the fight's background picture ("" = none)
 var contract_uid: int = 0  ## the contract this fight counts for (0 = none, GDD 7)
+var affixes: Array[StringName] = []  ## the creature's affixes (GDD 17)
 var enemy_hp_mult: float = 1.0  ## > 1 when the contract is overdue: the creature got stronger
 var enemy_damage_bonus: int = 0  ## added to every hit of the creature (overdue contract)

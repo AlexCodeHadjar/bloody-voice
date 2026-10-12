@@ -91,6 +91,11 @@ static func _part(d: Dictionary, errs: ErrorLog, w: String) -> PartDef:
 	return p
 
 
+## A move read from data (also creature affixes).
+static func move_from(d: Dictionary, errs: ErrorLog, w: String) -> MoveDef:
+	return _move(d, errs, w)
+
+
 static func _move(d: Dictionary, errs: ErrorLog, w: String) -> MoveDef:
 	var m := MoveDef.new()
 	m.id = DefReader.id(d, "id", errs, w + "/moves")

@@ -360,5 +360,11 @@
   "rest_weeks": 1,
   "danger_hp_mult": 1.2,
   "danger_damage": 1
+ },
+ "affixes": {
+  "_comment": "Creature affixes (GDD 17, owner 2026-10-12: by week and the hunter's Register rank). threat = per_week × (week − 1) + per_rank × rank; the whole part is the number of affixes, the rest the chance of one more; at most max. No extra reward for an affixed creature.",
+  "per_week": 0.15,
+  "per_rank": 0.25,
+  "max": 2
  }
 }

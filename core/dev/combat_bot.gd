@@ -69,7 +69,7 @@ static func _part_worth_breaking(s: CombatState, dmg: int) -> StringName:
 		if p.broken or p.hp > dmg * 2:
 			continue
 		for mv: StringName in p.def.removes:
-			if e.intents.has(mv) or e.def.moves[mv].kind == &"attack":
+			if e.intents.has(mv) or e.move(mv).kind == &"attack":
 				return id
 	return &""
 

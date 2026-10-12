@@ -166,6 +166,8 @@ func _start_fight(id: StringName, contract: ContractsState.Contract, zone: Strin
 		capture_allowed = true
 	var setup := DeckBuilder.setup(run.loadout, data, id, Rng.stream(&"combat", run.day).randi(), capture_allowed)
 	ContractRules.prepare_fight(setup, contract, run.day, data.balance)
+	setup.affixes = contract.affixes.duplicate() if contract != null \
+		else AffixGenerator.roll(data, AffixGenerator.threat(run, data), Rng.stream(&"affixes", run.day))  # GDD 17
 	EventRules.strengthen(setup, run, data)  # a fog breach makes creatures stronger (GDD 14)
 	var has_net := setup.deck.any(func(c: StringName) -> bool: return data.card(c).type == &"capture")
 	if capture_allowed and not has_net:  # the contract issues a net unless the gear already brings one

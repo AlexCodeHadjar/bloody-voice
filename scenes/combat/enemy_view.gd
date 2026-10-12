@@ -101,7 +101,7 @@ func _refresh_intents(s: CombatState) -> void:
 	var e := s.enemy
 	var b := ContentDB.data.balance
 	for mv_id: StringName in e.intents:
-		var mv := e.def.moves[mv_id]
+		var mv := e.move(mv_id)
 		var view := IntentView.new()
 		view.setup(mv, IntentView.number_of(mv, e, s.hero, b), not e.move_available(mv_id))
 		_intents.add_child(view)
@@ -109,7 +109,7 @@ func _refresh_intents(s: CombatState) -> void:
 	if ahead > 0:
 		for mv_id: StringName in EnemyRules.peek(s, ahead):
 			var next_view := IntentView.new()
-			var mv := e.def.moves[mv_id]
+			var mv := e.move(mv_id)
 			next_view.setup(mv, IntentView.number_of(mv, e, s.hero, b), false, true)
 			_intents.add_child(next_view)
 

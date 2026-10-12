@@ -58,6 +58,8 @@ func _init() -> void:
 ## capture: chance 0-1 of the best capture card, or a negative number when capture is not allowed.
 func refresh(e: EnemyCombatant, capture: float) -> void:
 	_title.text = "%s   [%s]" % [e.display_name, e.def.rank]
+	if not e.affixes.is_empty():  # a stronger creature (GDD 17)
+		_title.text = "%s · %s   [%s]" % [e.display_name, AffixGenerator.names(ContentDB.data, e.affixes), e.def.rank]
 	var rank_name := Loc.t("ui.register.rank_name.%s" % e.def.rank)
 	_title.tooltip_text = Loc.t("ui.combat.rank_tip", {"rank": e.def.rank, "name": rank_name})
 	_title.mouse_filter = Control.MOUSE_FILTER_PASS

@@ -133,8 +133,9 @@ static func _cross_out(run: RunState, data: ContentData, r: RumorsState.Rumor, o
 	if c == null:
 		return
 	var m := data.monster(c.monster)
+	var affix_tags := AffixGenerator.tags(data, c.affixes)  # signs of its affixes are its own too (GDD 17)
 	for t: StringName in r.tags:
-		if not m.tags.has(t) and not c.crossed_tags.has(t):
+		if not m.tags.has(t) and not affix_tags.has(t) and not c.crossed_tags.has(t):
 			c.crossed_tags.append(t)
 			o.crossed = t
 			o.crossed_contract = c.uid

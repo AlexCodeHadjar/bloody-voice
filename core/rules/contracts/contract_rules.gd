@@ -19,6 +19,7 @@ static func refresh_board(run: RunState, data: ContentData, rng: RandomNumberGen
 	var opts := ContractGenerator.Options.new()  # the hunter's standing (GDD 12): rank, Vigil dossiers, rewards
 	opts.monsters = RegisterRules.board_pool(run, data, run.hero_district)
 	opts.extra_signs = FactionRules.bonus(run, data, &"extra_signs")
+	opts.threat = AffixGenerator.threat(run, data)
 	opts.reward_mult = RegisterRules.reward_mult(run, data) * FactionRules.mult(run, data, &"reward_mult") \
 		* EventRules.state_def(run, data).contract_reward_mult  # dangerous days pay more (GDD 14)
 	var fresh := ContractGenerator.generate(data, run.hero_district, run.day, rng, cs.next_uid, opts)

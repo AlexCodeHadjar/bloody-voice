@@ -2,13 +2,15 @@ class_name ContractGenerator
 extends RefCounted
 ## The tavern board of a week (GDD 17.2 ContractGenerator v1): 3–5 side contracts on creatures of the district.
 ## Pure: the same seed, day, data and options give the same board. The caller passes what the hunter's standing
-## changes (GDD 12): the creatures allowed by rank, extra known signs and the reward multiplier.
+## changes (GDD 12): the creatures allowed by rank, extra known signs and the reward multiplier; the threat that gives
+## creatures affixes (GDD 17).
 
 
 class Options:
 	var monsters: Array[StringName] = []  ## creatures the board may offer
 	var extra_signs: int = 0
 	var reward_mult: float = 1.0
+	var threat: float = 0.0  ## creature affixes (AffixGenerator)
 
 
 ## New leaflets for the board of `day`'s week. uids start at `first_uid`.
@@ -30,6 +32,10 @@ static func generate(data: ContentData, district: StringName, day: int, rng: Ran
 		per_monster[x.monster] = per_monster.get(x.monster, 0) + 1
 		fill(x, data, district, day, rng)
 		x.known_tags = _more_signs(x, data, opts.extra_signs)
+		x.affixes = AffixGenerator.roll(data, opts.threat, rng)  # a stronger creature shows its affixes' signs too
+		for t: StringName in AffixGenerator.tags(data, x.affixes):
+			if not x.known_tags.has(t):
+				x.known_tags.append(t)
 		x.reward = maxi(c.reward_step, roundi(x.reward * opts.reward_mult / c.reward_step) * c.reward_step)
 		out.append(x)
 	return out

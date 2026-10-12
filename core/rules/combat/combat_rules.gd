@@ -27,6 +27,7 @@ static func start(setup: CombatSetup, data: ContentData) -> CombatState:
 	h.preview = setup.preview
 	h.mods = setup.mods.duplicate()
 	EnemyRules.setup(s, data.monster(setup.monster_id))
+	AffixRules.apply(s, data, setup.affixes)
 	EnemyRules.strengthen(s.enemy, setup.enemy_hp_mult, setup.enemy_damage_bonus)
 	DeckRules.build(s, setup.deck, data)
 	s.log_event(&"start", Loc.t("log.start", {"enemy": s.enemy.display_name}))

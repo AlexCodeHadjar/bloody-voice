@@ -35,3 +35,13 @@ func generate_rumor(rng, district, contracts, data) -> Rumor:
         tags.append(data.tags.random_not_in(source.tags, rng))
     return Rumor.new(kind, source.id, tags, district.random_point(rng))
 ```
+
+## 17.4 Creature affixes now (Phase 8 step 1, owner 2026-10-12)
+
+| Rule | Value |
+|---|---|
+| Threat | per_week × (week − 1) + per_rank × the hunter's Register rank (0.15 and 0.25, `balance.json/affixes`). The whole part is the number of affixes, the rest the chance of one more; at most 2. Week 1 at rank A: none. |
+| Affixes | `data/affixes/affixes.json`: Frenzy (a 4×3 rend), Carapace (Harden: 12 block; HP ×1.2), Fog in the Blood (dodge + Sanity −3; HP ×1.1), Insatiable (Devour: 7 damage, heals 6), Venom (Bleed 3 + Weak). Each adds its move to the creature's deck at a random place, multiplies its HP and has a sign (`tags.json`). |
+| Where | Leaflets roll them when pinned (the board's stream): shown on the leaflet and the tablet («Особенности»), their signs join the known signs and the target rumors. Fights outside contracts roll at the fight (stream `affixes` by day) and show them only in the fight. Register exams have none (they are already stronger). The creature's plate reads «name · affixes» (the fight log keeps the short name). False leads never cross out an affix's sign. |
+| Reward | Nothing extra (owner). |
+

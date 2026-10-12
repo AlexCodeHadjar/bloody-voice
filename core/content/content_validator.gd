@@ -20,6 +20,7 @@ static func validate(data: ContentData, errs: ErrorLog, check_files: bool = true
 	ShopValidator.validate(data, errs)
 	SkillValidator.validate(data, errs)
 	StandingValidator.validate(data, errs)
+	AffixValidator.validate(data, errs)
 	if check_files:
 		_art(data, errs)
 

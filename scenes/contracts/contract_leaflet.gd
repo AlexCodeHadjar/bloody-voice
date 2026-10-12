@@ -30,6 +30,8 @@ func setup(c: ContractsState.Contract) -> void:
 	box.add_child(_head())
 	box.add_child(UiKit.picture(ContractKit.silhouette(c), Vector2(0, 130)))
 	box.add_child(_line(ContractKit.monster_name(c), 19, INK))
+	if not c.affixes.is_empty():  # a stronger creature (GDD 17)
+		box.add_child(_line(AffixGenerator.names(ContentDB.data, c.affixes), 14, Palette.ALARM))
 	box.add_child(Icons.with_text("RESOURCE", &"money", str(c.reward), 26, 20, INK))
 	box.add_child(_line(ContractKit.deadline_text(c), 15, ContractKit.deadline_color(c, INK)))
 	if c.accepted or c.done:

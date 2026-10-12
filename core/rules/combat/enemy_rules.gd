@@ -12,6 +12,7 @@ static func setup(state: CombatState, def: MonsterDef) -> void:
 	for p: MonsterDef.PartDef in def.parts:
 		e.parts[p.id] = PartState.create(p)
 		e.part_order.append(p.id)
+	e.moves.assign(def.moves)
 	e.move_draw = def.deck.duplicate()
 	_shuffle(state, e.move_draw)
 
@@ -49,7 +50,7 @@ static func run_turn(state: CombatState, data: ContentData) -> void:
 	if e.is_dead():
 		return
 	for move_id: StringName in e.intents:
-		var move: MonsterDef.MoveDef = e.def.moves[move_id]
+		var move: MonsterDef.MoveDef = e.move(move_id)
 		if not e.move_available(move_id):
 			state.log_event(&"cancelled", Loc.t("log.cancelled", {"enemy": e.display_name, "move": move.name}), 0, move_id)
 			continue
@@ -103,7 +104,7 @@ static func incoming_damage(state: CombatState, b: BalanceDef) -> int:
 	for move_id: StringName in e.intents:
 		if not e.move_available(move_id):
 			continue
-		for effect: Dictionary in e.def.moves[move_id].effects:
+		for effect: Dictionary in e.move(move_id).effects:
 			if StringName(str(effect["op"])) == &"damage":
 				var hits := int(effect.get("hits", 1))
 				total += DamageRules.compute(int(effect["amount"]), e, state.hero, b) * hits

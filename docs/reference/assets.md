@@ -35,5 +35,5 @@
 
 | Prompt file | Named | Missing |
 |---|---|---|
-| `art-backlog.md` | 95 | 3: GREY__map__festival, GREY__map__fog_breach, GREY__map__quarantine |
+| `art-backlog.md` | 107 | 15: ABYSS_THING__combat__normal, ABYSS_THING__combat__phase2, ABYSS_THING__silhouette__cracked, ABYSS_THING__silhouette__leaflet, GHOUL__combat__normal, GHOUL__combat__phase2, GHOUL__silhouette__cracked, GHOUL__silhouette__leaflet, GREY__map__festival, GREY__map__fog_breach, GREY__map__quarantine, RAT_SWARM__combat__normal … |
 | `map-life-people.md` | 13 | 3: GREY__detail__r0c1, GREY__detail__r1c1, GREY__detail__r4c1 |

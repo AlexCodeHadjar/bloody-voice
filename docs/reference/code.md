@@ -22,13 +22,15 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 
 | File | Class | What | Public functions |
 |---|---|---|---|
+| `core/content/affix_validator.gd` | AffixValidator | Checks creature affixes (GDD 17): unique ids, a known sign, a sane HP multiplier and weight, a move with valid | validate |
 | `core/content/audio_validator.gd` | AudioValidator | Checks data/audio/sounds.json against the files in res://audio/ and the creatures (GDD 24). | validate |
-| `core/content/content_data.gd` | ContentData | All loaded game content. Read-only after loading; rules receive it as a parameter. | district, district_map, life, card, monster, weapon, module, mechanism, blueprint, trophy_ids, tag, event, faction, petition |
+| `core/content/content_data.gd` | ContentData | All loaded game content. Read-only after loading; rules receive it as a parameter. | district, district_map, life, card, monster, weapon, module, mechanism, blueprint, trophy_ids, tag, affix, event, faction, petition |
 | `core/content/content_loader.gd` | ContentLoader | Reads data/*.json into a ContentData. Never stops at the first problem: everything goes to the ErrorLog. | load_all, read_folder, read_json, read_object, read_array |
 | `core/content/content_loc.gd` | ContentLoc | Puts the game-language texts into loaded content (GDD 22.5). Data JSON keeps ids, numbers and the English working | apply, fields, area_keys |
 | `core/content/content_validator.gd` | ContentValidator | Cross-checks loaded content. Any error here stops the game at boot (GDD 19.6). | validate |
 | `core/content/contract_validator.gd` | ContractValidator | Checks contract content (GDD 7, 8.2): every creature tag is in the catalogue, petitions cover the generated | validate |
 | `core/content/def_reader.gd` | DefReader | Typed, checked reads from JSON dictionaries. Every problem goes to the ErrorLog with its location, | string, id, number, integer, flag, dict, array, ids |
+| `core/content/defs/affix_defs.gd` | AffixDefs | Creature affixes (GDD 17 MonsterVariant): data/affixes/affixes.json and the "affixes" block of balance.json. | affix, balance |
 | `core/content/defs/audio_def.gd` | AudioDef | Which sound plays on which game event (data/audio/sounds.json, GDD 24). Files live under res://audio/. | from_dict, monster_files |
 | `core/content/defs/balance_def.gd` | BalanceDef | All tuning numbers from data/balance.json. Code reads them from here, never hard-codes them. | from_dict |
 | `core/content/defs/card_def.gd` | CardDef | A hunter card (data/cards/*.json, GDD 9.3). Effects are data ops run by EffectApplier. | from_dict, needs_enemy_target |
@@ -42,7 +44,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/content/defs/health_defs.gd` | HealthDefs | The "health" block of balance.json (GDD 4, owner 2026-10-12): rest, infirmary prices, the Hunter's Fall fee. | balance |
 | `core/content/defs/map_regions_def.gd` | MapRegionsDef | Clickable district regions traced over the city map art (data/city/map_regions.json). | from_dict |
 | `core/content/defs/module_def.gd` | ModuleDef | A weapon module (data/gear/modules.json): shape, cell type, cards, passive mods, links with neighbours. | cards_at, capture_cards_at, mods_at, effect_at, art_path, from_dict |
-| `core/content/defs/monster_def.gd` | MonsterDef | A creature: stats, body parts, its own deck of moves and phases (data/monsters/*.json, GDD 9.4). | art_path, from_dict, part |
+| `core/content/defs/monster_def.gd` | MonsterDef | A creature: stats, body parts, its own deck of moves and phases (data/monsters/*.json, GDD 9.4). | art_path, from_dict, part, move_from |
 | `core/content/defs/progress_defs.gd` | ProgressDefs | The "progress" block of balance.json (GDD 4.1–4.3): XP, levels, points, what each attribute does. | balance, ints |
 | `core/content/defs/rumor_defs.gd` | RumorDefs | Rumor content (GDD 8): witnesses and per-zone pictures and tags (data/rumors/rumors.json), and the rumor numbers | from_dict, balance |
 | `core/content/defs/shop_defs.gd` | ShopDefs | The "shop" and "tavern" blocks of balance.json (GDD 11.1, 3.3): stock slots, prices, trophy prices, the bag, | balance, tavern |
@@ -67,6 +69,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/content/workshop_validator.gd` | WorkshopValidator | Checks workshop content (GDD 6): every module and mechanism has a blueprint, costs name known resources or | validate |
 | `core/dev/combat_bot.gd` | CombatBot | A simple, honest player for balance testing (GDD 18.1 "bots test balance"). | run_fight, play_turn |
 | `core/dev/dev_shots.gd` |  | Developer auto-screenshots. Does nothing unless started with: |  |
+| `core/generation/affix_generator.gd` | AffixGenerator | Creature affixes (GDD 17 MonsterVariant; owner 2026-10-12): how many by the week and the hunter's Register rank, | threat, roll, tags, names |
 | `core/generation/contract_generator.gd` | ContractGenerator | The tavern board of a week (GDD 17.2 ContractGenerator v1): 3–5 side contracts on creatures of the district. | generate, fill, reward |
 | `core/generation/encounter_rules.gd` | EncounterRules | Which creatures live in a district, a creature for a developer fight, a zone for a fight background. | pool, pick_monster, pick_zone |
 | `core/generation/rumor_generator.gd` | RumorGenerator | Makes rumor diamonds (GDD 17.2 RumorGenerator v1, 17.3). A rumor about a creature shows 1–2 of its true tags and | make_target, make_random, all_tags |
@@ -77,6 +80,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/rules/city/district_state_rules.gd` | DistrictStateRules | Changing and ticking district / area / landmark states (GDD 14.3). | apply, tick |
 | `core/rules/city/event_rules.gd` | EventRules | District events (GDD 15, owner 2026-10-12: random by weeks, the Grey Chapels only). Each Monday an event of the | state_def, weekly, start, after_tick, next_news, read_news, is_closed, strengthen |
 | `core/rules/city/map_region_rules.gd` | MapRegionRules | Hit-testing on the city map. Points are in source-image pixels (MapRegionsDef.image_size). | region_at, district_at, home_region |
+| `core/rules/combat/affix_rules.gd` | AffixRules | Puts a creature's affixes into its fight (GDD 17): each adds its move to the creature's deck (at a random place) | apply |
 | `core/rules/combat/capture_rules.gd` | CaptureRules | Capture chance (GDD 10.1). Pure functions. | chance, roll |
 | `core/rules/combat/combat_rules.gd` | CombatRules | The fight's flow (GDD 9): start, play a card, end the turn, win / lose. | start, can_play, play_card, end_turn, check_end |
 | `core/rules/combat/damage_rules.gd` | DamageRules | Damage numbers and dealing damage (dodge -> block -> hp; body parts; phases). | compute, deal |
@@ -112,7 +116,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/state/combat/combat_state.gd` | CombatState | The whole fight as data. Changed only by core/rules/combat; screens read it. | is_over, log_event, find_in_hand, outcome |
 | `core/state/combat/combat_target.gd` | CombatTarget | Where a card is aimed: the creature, one of its body parts, or the hunter. | enemy, part, self_target |
 | `core/state/combat/combatant.gd` | Combatant | Shared fight data of the hunter and the creature. | status, add_status, is_dead |
-| `core/state/combat/enemy_combatant.gd` | EnemyCombatant | The creature during a fight: its move deck, visible intents, parts and phases. | broken_parts, move_available |
+| `core/state/combat/enemy_combatant.gd` | EnemyCombatant | The creature during a fight: its move deck, visible intents, parts and phases. | move, broken_parts, move_available |
 | `core/state/combat/hero_combatant.gd` | HeroCombatant | The hunter during a fight (GDD 4.2). | mod |
 | `core/state/combat/part_state.gd` | PartState | A body part of the creature during a fight. | create |
 | `core/state/contracts_state.gd` | ContractsState | The tavern board and the hunter's contracts (GDD 7). Saved. One list: this week's leaflets plus contracts | find, to_dict, from_dict, names |
@@ -212,6 +216,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 |---|---|---|---|
 | `tests/bot/autoplay.gd` |  | Balance report: the bot fights every creature N times with the starter deck. |  |
 | `tests/run_tests.gd` |  | Headless test runner: |  |
+| `tests/test_affixes.gd` |  | Creature affixes (GDD 17): the threat by week and rank, the roll, their moves and HP in a fight, their signs on | test_threat_grows_with_week_and_rank, test_affixes_in_a_fight, test_leaflets_and_rumors_show_affix_signs, test_affixes_survive_save_and_v14_has_none, test_affix_signs_are_never_crossed_out_or_studied_as_missing |
 | `tests/test_calendar.gd` |  | Calendar: weekdays, weeks, rent and shop days (GDD 3.2). | test_weeks_and_weekdays, test_rent_and_shop_days, test_chapter_week_wraps |
 | `tests/test_combat.gd` |  | Combat core (GDD 9–10). | test_start_draws_hand_and_reveals_intents, test_start_carries_backdrop, test_same_seed_same_fight, test_strike_damages_and_costs_ap, test_not_enough_ap, test_shot_needs_ammo_and_reload_refills, test_breaking_a_part_removes_its_move, test_broken_part_cannot_be_targeted, test_phase_triggers_below_threshold, test_block_absorbs_and_dodge_negates, test_weak_and_exposed_modify_damage, test_enemy_turn_hits_hero_and_new_turn_starts, test_fear_to_zero_causes_panic, test_capture_chance_formula, test_every_effect_op_is_implemented, test_bot_finishes_every_fight, test_move_text_is_built_from_effects |
 | `tests/test_content.gd` |  | Real content is valid; the validator catches typical mistakes. | test_real_content_is_valid, test_every_icon_has_art, test_missing_creature_art_is_reported, test_bad_weekday_is_reported, test_unknown_region_district_is_reported, test_duplicate_symbol_is_reported, test_missing_normal_state_is_reported, test_broken_json_is_reported, test_move_text_field_is_rejected, test_part_spot_is_checked, test_pick_zone, test_missing_sound_is_reported |

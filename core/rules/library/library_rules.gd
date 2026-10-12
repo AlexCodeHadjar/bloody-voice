@@ -43,7 +43,8 @@ static func contracts_to_teach(run: RunState, data: ContentData, monster: String
 	var out: Array[ContractsState.Contract] = []
 	var m := data.monster(monster)
 	for c: ContractsState.Contract in run.contracts.items:
-		if c.monster == monster and not c.done and c.known_tags.size() < m.tags.size():
+		var known := c.known_tags.filter(func(t: StringName) -> bool: return m.tags.has(t)).size()  # affix signs aside
+		if c.monster == monster and not c.done and known < m.tags.size():
 			out.append(c)
 	return out
 

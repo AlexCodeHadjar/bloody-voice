@@ -45,6 +45,7 @@ var skills: SkillDefs.Balance = SkillDefs.Balance.new()  ## skill webs (GDD 4.4)
 var voice: VoiceDefs.Balance = VoiceDefs.Balance.new()  ## the Voice and blood samples (GDD 4.2)
 var factions: StandingDefs.FactionBalance = StandingDefs.FactionBalance.new()  ## reputation (GDD 12)
 var register: StandingDefs.RegisterBalance = StandingDefs.RegisterBalance.new()  ## the hunter's rank (GDD 12.1)
+var affixes: AffixDefs.Balance = AffixDefs.Balance.new()  ## creature affixes (GDD 17)
 var events: EventDefs.Balance = EventDefs.Balance.new()  ## district events (GDD 15)
 var bestiary: StandingDefs.BestiaryBalance = StandingDefs.BestiaryBalance.new()  ## knowledge bonuses (GDD 10.3)
 
@@ -88,7 +89,7 @@ static func from_dict(d: Dictionary, errs: ErrorLog) -> BalanceDef:
 
 
 ## The blocks with their own def classes: contracts, rumors, workshop, shop, tavern, health, progress, skills, voice,
-## factions, register, bestiary, events.
+## factions, register, bestiary, events, affixes.
 static func _blocks(b: BalanceDef, d: Dictionary, errs: ErrorLog) -> void:
 	var w := "balance.json"
 	b.contracts = ContractDefs.balance(DefReader.dict(d, "contracts", errs, w), errs)
@@ -104,3 +105,4 @@ static func _blocks(b: BalanceDef, d: Dictionary, errs: ErrorLog) -> void:
 	b.register = StandingDefs.register_balance(DefReader.dict(d, "register", errs, w), errs)
 	b.bestiary = StandingDefs.bestiary_balance(DefReader.dict(d, "bestiary", errs, w), errs)
 	b.events = EventDefs.balance(DefReader.dict(d, "events", errs, w), errs)
+	b.affixes = AffixDefs.balance(DefReader.dict(d, "affixes", errs, w), errs)

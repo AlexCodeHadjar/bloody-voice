@@ -18,12 +18,13 @@ class Contract:
 	var done: bool = false
 	var next_rumor_day: int = 0  ## the morning its next true rumor appears (0 = at once, GDD 17.2)
 	var crossed_tags: Array[StringName] = []  ## signs proven not to be the creature's (false leads, GDD 8.2)
+	var affixes: Array[StringName] = []  ## the creature's affixes (GDD 17), shown on the leaflet
 	var exam: bool = false  ## a Register exam (GDD 12.1): a stronger creature, no slot used, fails at the deadline
 
 	func to_dict() -> Dictionary:
 		return {"uid": uid, "monster": monster, "type": type, "petition": petition, "known_tags": known_tags,
 			"zone": zone, "week": week, "deadline_day": deadline_day, "reward": reward, "accepted": accepted, "done": done,
-			"next_rumor_day": next_rumor_day, "crossed_tags": crossed_tags, "exam": exam}
+			"next_rumor_day": next_rumor_day, "crossed_tags": crossed_tags, "exam": exam, "affixes": affixes}
 
 	static func from_dict(d: Dictionary) -> Contract:
 		var c := Contract.new()
@@ -41,6 +42,7 @@ class Contract:
 		c.next_rumor_day = int(d.get("next_rumor_day", 0))
 		c.crossed_tags = ContractsState.names(d.get("crossed_tags", []) as Array)
 		c.exam = bool(d.get("exam", false))
+		c.affixes = ContractsState.names(d.get("affixes", []) as Array)
 		return c
 
 

@@ -32,5 +32,8 @@
  "tremors": {"category": "sound", "name": "Tremors underfoot"},
  "floors_collapse": {"category": "trace", "name": "Floors cave in"},
  "acid": {"category": "trace", "name": "Pools of acid"},
- "knocking_below": {"category": "sound", "name": "Knocking from below"}
+ "knocking_below": {"category": "sound", "name": "Knocking from below"},
+ "savaged_victims": {"category": "victims", "name": "Victims savaged"},
+ "scraped_stone": {"category": "trace", "name": "Scraped stone"},
+ "empty_larders": {"category": "trace", "name": "Emptied larders"}
 }

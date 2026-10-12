@@ -13,6 +13,9 @@ static func make_target(data: ContentData, district: StringName, c: ContractsSta
 	r.monster = c.monster
 	r.contract_uid = c.uid
 	_creature_tags(r, data, rng)
+	for t: StringName in AffixGenerator.tags(data, c.affixes):  # the affixed creature leaves its affixes' signs
+		if not r.tags.has(t):
+			r.tags.append(t)
 	return _place(r, data, district, rng, used_nodes)
 
 

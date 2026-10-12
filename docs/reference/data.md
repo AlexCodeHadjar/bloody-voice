@@ -4,8 +4,9 @@
 
 | File | Entries | Ids (or top-level keys) |
 |---|---|---|
+| `data/affixes/affixes.json` | 1 | affixes |
 | `data/audio/sounds.json` | 6 | sounds, music, ambience, screens, monster_events, combat_log |
-| `data/balance.json` | 19 | calendar, economy, hero, capture, combat, gear, contracts, rumors, workshop, shop, tavern, health, progress, skills, voice, factions, register, bestiary … |
+| `data/balance.json` | 20 | calendar, economy, hero, capture, combat, gear, contracts, rumors, workshop, shop, tavern, health, progress, skills, voice, factions, register, bestiary … |
 | `data/cards/base.json` | 6 | strike, guard, shot, reload, read_the_beast, sidestep |
 | `data/cards/consumables.json` | 3 | bandage, fire_flask, signal_flare |
 | `data/cards/modules.json` | 8 | shock_harpoon, flash, smoke_screen, serrated_edge, harpoon_shot, gout_of_flame, overcharge, bayonet_thrust |
@@ -19,7 +20,7 @@
 | `data/city/events.json` | 1 | events |
 | `data/city/map_regions.json` | 4 | image, image_size, wall, regions |
 | `data/contracts/petitions.json` | 9 | laundress_widow, gravedigger, chapel_deacon, tavern_keeper, tinker_odi, watch_corporal, ash_sisters, crypt_copyist, register_exam |
-| `data/contracts/tags.json` | 33 | children_singing, wet_handprints, near_water, during_rain, drowned_shallow, dust_on_sleepers, moonlight, never_wake, silent_wings, lamps_die, too_tall, only_in_fog, burnt_eyes, grinding_metal, acid_burns, foundries, eats_machinery, covered_mirrors … |
+| `data/contracts/tags.json` | 36 | children_singing, wet_handprints, near_water, during_rain, drowned_shallow, dust_on_sleepers, moonlight, never_wake, silent_wings, lamps_die, too_tall, only_in_fog, burnt_eyes, grinding_metal, acid_burns, foundries, eats_machinery, covered_mirrors … |
 | `data/factions/factions.json` | 1 | factions |
 | `data/gear/armor.json` | 4 | helmet, chestplate, gauntlets, greaves |
 | `data/gear/blueprints.json` | 1 | blueprints |
@@ -34,6 +35,6 @@
 | `data/tutorial/sequences.json` | 11 | combat_intro, equipment_intro, district_intro, first_part_broken, first_panic, first_no_ammo, first_rent, contract_board, contract_taken, first_rumor, workshop_intro |
 | `data/ui/icons.json` | 25 | RESOURCE 6, STAT 8, ATTRIBUTE 3, STATUS 6, INTENT 7, CARD_TYPE 6, CELL 3, SECTION 5, ARMOR 5, SKILL 6, DIRECTION 4, CONTRACT 6, OUTCOME 5, TAG 6, ACTION 8, FACTION 15, RANK 4, REPUTATION 5 … |
 
-## Locale `locale/strings.csv` — 1177 keys
+## Locale `locale/strings.csv` — 1191 keys
 
-`armor.*` 4 · `card.*` 82 · `card_type.*` 6 · `cell.*` 3 · `district.*` 103 · `district_map.*` 63 · `effect.*` 17 · `event.*` 9 · `faction.*` 4 · `intent.*` 7 · `log.*` 29 · `mechanism.*` 8 · `mod.*` 12 · `module.*` 80 · `monster.*` 73 · `petition.*` 18 · `resource.*` 4 · `rule.*` 58 · `rumor_gossip.*` 8 · `rumor_witness.*` 8 · `section.*` 5 · `shape.*` 11 · `skill.*` 84 · `state.*` 14 · `status.*` 5 · `tag.*` 33 · `trophy.*` 14 · `tutorial.*` 62 · `ui.*` 347 · `weapon.*` 6
+`affix.*` 10 · `armor.*` 4 · `card.*` 82 · `card_type.*` 6 · `cell.*` 3 · `district.*` 103 · `district_map.*` 63 · `effect.*` 17 · `event.*` 9 · `faction.*` 4 · `intent.*` 7 · `log.*` 29 · `mechanism.*` 8 · `mod.*` 12 · `module.*` 80 · `monster.*` 73 · `petition.*` 18 · `resource.*` 4 · `rule.*` 58 · `rumor_gossip.*` 8 · `rumor_witness.*` 8 · `section.*` 5 · `shape.*` 11 · `skill.*` 84 · `state.*` 14 · `status.*` 5 · `tag.*` 36 · `trophy.*` 14 · `tutorial.*` 62 · `ui.*` 348 · `weapon.*` 6

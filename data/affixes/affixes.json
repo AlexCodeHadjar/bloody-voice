@@ -1,0 +1,114 @@
+{
+ "_comment": "Creature affixes (GDD 17 MonsterVariant; owner 2026-10-12: by week and the hunter's rank, a move and a sign, no extra reward). A creature gets 0..max affixes (balance.json/affixes): each adds its move to the creature's deck, multiplies its HP and adds its sign (contracts.tags.json) to the leaflet and to target rumors. Move format as in monsters/*.json.",
+ "affixes": [
+  {
+   "id": "frenzy",
+   "name": "Frenzy",
+   "weight": 3,
+   "hp_mult": 1.0,
+   "tag": "savaged_victims",
+   "move": {
+    "id": "affix_frenzy",
+    "name": "Frenzied Rend",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 4,
+      "hits": 3
+     }
+    ]
+   }
+  },
+  {
+   "id": "carapace",
+   "name": "Carapace",
+   "weight": 3,
+   "hp_mult": 1.2,
+   "tag": "scraped_stone",
+   "move": {
+    "id": "affix_carapace",
+    "name": "Harden",
+    "kind": "defend",
+    "effects": [
+     {
+      "op": "block",
+      "amount": 12
+     }
+    ]
+   }
+  },
+  {
+   "id": "fogborn",
+   "name": "Fog in the Blood",
+   "weight": 2,
+   "hp_mult": 1.1,
+   "tag": "only_in_fog",
+   "move": {
+    "id": "affix_fogborn",
+    "name": "Fog Veil",
+    "kind": "debuff",
+    "effects": [
+     {
+      "op": "apply_status",
+      "status": "dodge",
+      "stacks": 1,
+      "to": "self"
+     },
+     {
+      "op": "sanity",
+      "amount": 3
+     }
+    ]
+   }
+  },
+  {
+   "id": "starving",
+   "name": "Insatiable",
+   "weight": 2,
+   "hp_mult": 1.0,
+   "tag": "empty_larders",
+   "move": {
+    "id": "affix_starving",
+    "name": "Devour",
+    "kind": "attack",
+    "effects": [
+     {
+      "op": "damage",
+      "amount": 7
+     },
+     {
+      "op": "heal",
+      "amount": 6
+     }
+    ]
+   }
+  },
+  {
+   "id": "venom",
+   "name": "Venom",
+   "weight": 2,
+   "hp_mult": 1.05,
+   "tag": "acid_burns",
+   "move": {
+    "id": "affix_venom",
+    "name": "Venom Spit",
+    "kind": "debuff",
+    "effects": [
+     {
+      "op": "apply_status",
+      "status": "bleed",
+      "stacks": 3,
+      "to": "target"
+     },
+     {
+      "op": "apply_status",
+      "status": "weak",
+      "stacks": 1,
+      "to": "target"
+     }
+    ]
+   }
+  }
+ ]
+}

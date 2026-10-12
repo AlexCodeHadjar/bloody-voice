@@ -7,6 +7,7 @@ var districts: Dictionary[StringName, DistrictDef] = {}
 var district_order: Array[StringName] = []
 var district_states: Dictionary[StringName, DistrictStateDef] = {}
 var events: Array[EventDefs.EventDef] = []  ## district events (GDD 15)
+var affixes: Array[AffixDefs.AffixDef] = []  ## creature affixes (GDD 17)
 var map_regions: MapRegionsDef = MapRegionsDef.new()
 var district_maps: Dictionary[StringName, DistrictMapDef] = {}
 var district_life: Dictionary[StringName, DistrictLifeDef] = {}
@@ -77,6 +78,13 @@ func trophy_ids() -> Array[StringName]:
 
 func tag(id: StringName) -> ContractDefs.TagDef:
 	return tags.get(id) as ContractDefs.TagDef
+
+
+func affix(id: StringName) -> AffixDefs.AffixDef:
+	for a: AffixDefs.AffixDef in affixes:
+		if a.id == id:
+			return a
+	return null
 
 
 func event(id: StringName) -> EventDefs.EventDef:

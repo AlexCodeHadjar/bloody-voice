@@ -161,6 +161,8 @@ func _fill_facts(c: ContractsState.Contract) -> void:
 		l.add_theme_color_override("default_color", Palette.INK_MUTED)
 		l.text = "%s %s" % [Loc.t("ui.contract.crossed"), ", ".join(crossed)]
 		_body.add_child(l)
+	if not c.affixes.is_empty():  # a stronger creature: its affixes add moves and HP (GDD 17)
+		_body.add_child(_fact("INTENT", &"buff", "ui.contract.affixes", AffixGenerator.names(ContentDB.data, c.affixes), Palette.ALARM))
 	_body.add_child(_fact("CONTRACT", &"region", "ui.contract.last_seen", ContractKit.last_seen(c), Palette.PARCHMENT))
 	_body.add_child(_fact("CONTRACT", &"deadline", "ui.contract.deadline", ContractKit.deadline_text(c),
 		ContractKit.deadline_color(c, Palette.PARCHMENT)))

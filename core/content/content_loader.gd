@@ -22,6 +22,7 @@ const TUTORIAL := "tutorial/sequences.json"
 const TAGS := "contracts/tags.json"
 const PETITIONS := "contracts/petitions.json"
 const FACTIONS := "factions/factions.json"
+const AFFIXES := "affixes/affixes.json"
 const RUMORS := "rumors/rumors.json"
 const SKILLS_DIR := "skills"
 
@@ -119,6 +120,8 @@ static func _load_investigation(root: String, data: ContentData, errs: ErrorLog)
 	data.rumor_data = RumorDefs.from_dict(read_object(root.path_join(RUMORS), errs), errs)
 	for d: Variant in DefReader.array(read_object(root.path_join(FACTIONS), errs), "factions", errs, FACTIONS):
 		data.factions.append(StandingDefs.faction(d as Dictionary, errs))
+	for d: Variant in DefReader.array(read_object(root.path_join(AFFIXES), errs), "affixes", errs, AFFIXES):
+		data.affixes.append(AffixDefs.affix(d as Dictionary, errs))
 	var dir := DirAccess.open(root.path_join(SKILLS_DIR))
 	if dir == null:
 		errs.add(SKILLS_DIR, "folder not found")
