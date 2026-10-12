@@ -48,9 +48,10 @@ static func lower(run: RunState, amount: int) -> void:
 	run.voice = maxi(0, run.voice - amount)
 
 
-## The sisters' price for calming the blood; the Grey Communion's standing changes it (GDD 12).
+## The sisters' price for calming the blood; the Grey Communion's standing and the district state change it.
 static func calm_cost(run: RunState, data: ContentData) -> int:
-	return maxi(1, roundi(data.balance.voice.calm_cost * FactionRules.mult(run, data, &"infirmary_mult")))
+	var mult := FactionRules.mult(run, data, &"infirmary_mult") * EventRules.state_def(run, data).infirmary_mult
+	return maxi(1, roundi(data.balance.voice.calm_cost * mult))
 
 
 ## "" or why the sisters can't calm the blood now (no credit).

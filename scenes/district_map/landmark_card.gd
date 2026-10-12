@@ -78,6 +78,9 @@ func _button_for(action: StringName) -> Button:
 		var spec: Array = BUTTONS[action]
 		b = Icons.button(spec[1] as String, spec[2] as StringName, Loc.t(spec[0] as String), 20)
 		b.pressed.connect(func() -> void: action_chosen.emit(action))
+		if EventRules.is_closed(GameState.run, ContentDB.data, action):  # shut by the district state (GDD 14)
+			b.disabled = true
+			b.tooltip_text = Loc.t("ui.event.closed", {"state": Loc.t("state.%s.name" % GameState.run.city.state_of(GameState.run.hero_district))})
 	else:
 		var key := "ui.district.action.locked" if action == &"locked" else "ui.district.action.soon"
 		b = UiKit.button(Loc.t(key), 20)

@@ -33,6 +33,8 @@ static func migrate(d: Dictionary, start_loadout: Dictionary = {}) -> Dictionary
 				_from_11(d)
 			12:
 				_from_12(d)
+			13:
+				_from_13(d)
 			_:
 				push_warning("[save] no migration from version %d" % version)
 		version += 1
@@ -121,3 +123,8 @@ static func _from_11(d: Dictionary) -> void:
 static func _from_12(d: Dictionary) -> void:
 	d["bestiary"] = {"marks": {}}
 	d["standing"] = {"reputation": {}, "rank": 0, "rank_contracts": 0, "exam_block_week": 0}
+
+
+## v13 -> v14: district events (GDD 15). No event yet; the first roll comes on the next Monday.
+static func _from_13(d: Dictionary) -> void:
+	d["events"] = {"checked_week": 0, "active": "", "ended_week": 0, "news": []}

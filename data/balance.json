@@ -351,5 +351,13 @@
     "shot_damage": 2
    }
   }
+ },
+ "events": {
+  "_comment": "District events (GDD 15, owner 2026-10-12): no event before first_week; each Monday chance to start one if none is on and rest_weeks have passed since the last ended. danger_hp_mult / danger_damage: creatures of a district with danger_delta > 0, per point.",
+  "first_week": 2,
+  "chance": 0.5,
+  "rest_weeks": 1,
+  "danger_hp_mult": 1.2,
+  "danger_damage": 1
  }
 }

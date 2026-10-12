@@ -1,0 +1,50 @@
+{
+ "_comment": "District events (GDD 15, 17; owner 2026-10-12: random by weeks, Grey Chapels only for now). Each Monday from balance.json/events.first_week, after rest_weeks quiet weeks since the last one ended, an event of the hero's district may start (chance) — weighted pick — and puts the district into its state for days [min, max]. news / end_news: the morning leaflet.",
+ "events": [
+  {
+   "id": "fog_breach",
+   "state": "fog_breach",
+   "districts": [
+    "GREY"
+   ],
+   "weight": 3,
+   "days": [
+    3,
+    6
+   ],
+   "name": "Fog Breach",
+   "news": "The fog has come over the north wall. Lamps burn low, and what walks in it is hungrier than usual. The Register pays more for every creature taken in these days.",
+   "end_news": "The fog has drawn back past the wall. The lamps burn clear again."
+  },
+  {
+   "id": "grey_plague",
+   "state": "quarantine",
+   "districts": [
+    "GREY"
+   ],
+   "weight": 2,
+   "days": [
+    4,
+    6
+   ],
+   "name": "Grey Plague Scare",
+   "news": "Chalk crosses on the doors: the Ash Sisters fear the grey plague. The Lantern & Hook takes no extra hands, prices climb, and the infirmary is crowded.",
+   "end_news": "The chalk crosses are washed off. The sisters say the scare is over."
+  },
+  {
+   "id": "dusk_night",
+   "state": "festival",
+   "districts": [
+    "GREY"
+   ],
+   "weight": 2,
+   "days": [
+    2,
+    3
+   ],
+   "name": "Dusk Night",
+   "news": "Lanterns on every rope and bonfires in the square: the Grey Chapels keep Dusk Night. The tavern needs every hand, and the streets are full of talk.",
+   "end_news": "The last lanterns are taken down. Dusk Night is over."
+  }
+ ]
+}

@@ -5,6 +5,7 @@ extends RefCounted
 const BALANCE := "balance.json"
 const DISTRICTS := "city/districts.json"
 const DISTRICT_STATES := "city/district_states.json"
+const EVENTS := "city/events.json"
 const MAP_REGIONS := "city/map_regions.json"
 const DISTRICT_MAPS_DIR := "city/district_maps"
 const DISTRICT_LIFE_DIR := "city/district_life"
@@ -40,6 +41,8 @@ static func load_all(root: String, errs: ErrorLog) -> ContentData:
 			continue
 		var sid := StringName(str(key))
 		data.district_states[sid] = DistrictStateDef.from_dict(sid, states[key] as Dictionary, errs)
+	for d: Variant in DefReader.array(read_object(root.path_join(EVENTS), errs), "events", errs, EVENTS):
+		data.events.append(EventDefs.event(d as Dictionary, errs))
 	data.map_regions = MapRegionsDef.from_dict(read_object(root.path_join(MAP_REGIONS), errs), errs)
 	_load_district_maps(root, data, errs)
 	_load_district_life(root, data, errs)

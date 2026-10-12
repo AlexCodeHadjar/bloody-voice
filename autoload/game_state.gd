@@ -84,7 +84,7 @@ func investigate_rumor(uid: int) -> RumorRules.Outcome:
 
 ## Day action (GDD 3.3): a shift behind the bar. The day ends; the morning brings the overheard rumor. null if not now.
 func work_shift() -> ShiftRules.Report:
-	if run == null or combat != null:
+	if run == null or combat != null or EventRules.is_closed(run, ContentDB.data, &"shift"):
 		return null
 	var report := ShiftRules.work(run, ContentDB.data, Rng.stream(&"shift", run.day))
 	EventBus.money_changed.emit(run.money)
@@ -225,3 +225,10 @@ func _skills_changed() -> void:
 	EventBus.progress_changed.emit()
 	EventBus.stock_changed.emit()
 	_loadout_changed()
+
+
+## The morning news leaflet was read (GDD 15).
+func read_news() -> void:
+	if run != null and EventRules.next_news(run) != "":
+		EventRules.read_news(run)
+		save_game()

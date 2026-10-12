@@ -76,8 +76,21 @@ static func _states(data: ContentData, errs: ErrorLog) -> void:
 	for s: DistrictStateDef in data.district_states.values():
 		if s.next != &"" and not data.district_states.has(s.next):
 			errs.add("district_states.json/%s" % s.id, "next state '%s' does not exist" % s.next)
-		if s.ring_growth_mult <= 0.0 or s.shop_price_mult <= 0.0:
+		if s.ring_growth_mult <= 0.0 or s.shop_price_mult <= 0.0 or s.infirmary_mult <= 0.0 or s.shift_pay_mult <= 0.0 \
+				or s.contract_reward_mult <= 0.0:
 			errs.add("district_states.json/%s" % s.id, "multipliers must be > 0")
+		for a: StringName in s.closed_actions:
+			if not DistrictMapDef.ACTIONS.has(a) and a != &"shift":  # shift: the tavern's second button
+				errs.add("district_states.json/%s" % s.id, "unknown action '%s'" % a)
+	for e: EventDefs.EventDef in data.events:
+		if not data.district_states.has(e.state) or e.weight <= 0.0:
+			errs.add("city/events.json/%s" % e.id, "needs an existing state and a weight > 0")
+		for dist: StringName in e.districts:
+			if not data.districts.has(dist):
+				errs.add("city/events.json/%s" % e.id, "unknown district '%s'" % dist)
+	var eb := data.balance.events
+	if eb.chance < 0.0 or eb.chance > 1.0 or eb.first_week < 1 or eb.rest_weeks < 0 or eb.danger_hp_mult <= 0.0:
+		errs.add("balance.json/events", "chance in 0..1, first_week >= 1, rest_weeks >= 0, danger_hp_mult > 0")
 
 
 static func _regions(data: ContentData, errs: ErrorLog, check_files: bool) -> void:

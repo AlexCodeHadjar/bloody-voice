@@ -51,6 +51,8 @@ static func fields(data: ContentData) -> Array[Dictionary]:
 	for web: SkillDefs.WebDef in data.webs.values():
 		for nd: SkillDefs.NodeDef in web.nodes.values():
 			_add(out, nd, "skill.%s.%s" % [web.id, nd.id], ["name", "text"])
+	for e: EventDefs.EventDef in data.events:
+		_add(out, e, "event.%s" % e.id, ["name", "news", "end_news"])
 	for f: StandingDefs.FactionDef in data.factions:
 		_add(out, f, "faction.%s" % f.id, ["name", "text"])
 	for g: RumorDefs.Witness in data.rumor_data.gossip:

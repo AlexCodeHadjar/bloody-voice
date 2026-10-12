@@ -184,6 +184,16 @@ ui.rumor.money,+{n},+{n}
 ui.rumor.crossed,Примета {tag} зачёркнута в заказе «{name}».,The sign {tag} is crossed out on the contract «{name}».
 ui.rumor.day_over,День прошёл.,The day is over.
 ui.rumor.next,Дальше,Next
+ui.event.title,Новости: {name},News: {name}
+ui.event.badge,{state} · ещё {n} дн.,{state} · {n} more days
+ui.event.closed,Закрыто: {state},Closed: {state}
+ui.event.effect.danger,"Твари сильнее: здоровье {hp}, урон +{n} за удар","Creatures are stronger: HP {hp}, +{n} damage per hit"
+ui.event.effect.shop,Цены лавки: {v},Shop prices: {v}
+ui.event.effect.infirmary,Цены лазарета: {v},Infirmary prices: {v}
+ui.event.effect.shift,Плата за смену: {v},Shift pay: {v}
+ui.event.effect.rewards,Награды новых заказов: {v},New contract rewards: {v}
+ui.event.effect.rumors,Слухов каждое утро: +{n},Rumors each morning: +{n}
+ui.event.effect.closed,Закрыто: {list},Closed: {list}
 ui.rumor.post_title,Столб со слухами,Rumor post
 ui.rumor.post_empty,"Слухов нет. Новые появляются по утрам, а по каждому заказу — свой.","No rumors. New ones come in the morning, and every contract brings its own."
 ui.rumor.go,Идти,Go
@@ -1148,6 +1158,15 @@ skill.monster.b_sw.name,Беспокойная кровь,Restless Blood
 skill.monster.b_sw.text,В первый ход берите на 1 карту больше.,Draw 1 more card on the first turn.
 skill.monster.b_nw.name,Горькая кровь,Bitter Blood
 skill.monster.b_nw.text,Ваше Кровотечение на 1 сильнее.,Bleed you apply is 1 stack stronger.
+event.fog_breach.name,Прорыв тумана,Fog Breach
+event.fog_breach.news,"Туман перевалил через северную стену. Фонари едва тлеют, а то, что бродит в нём, голоднее обычного. Реестр платит больше за каждую тварь, взятую в эти дни.","The fog has come over the north wall. Lamps burn low, and what walks in it is hungrier than usual. The Register pays more for every creature taken in these days."
+event.fog_breach.end_news,Туман отступил за стену. Фонари снова горят ясно.,The fog has drawn back past the wall. The lamps burn clear again.
+event.grey_plague.name,Страх Серой чумы,Grey Plague Scare
+event.grey_plague.news,"Меловые кресты на дверях: Пепельные Сёстры боятся серой чумы. «Фонарь и Крюк» не берёт лишних рук, цены ползут вверх, в лазарете тесно.","Chalk crosses on the doors: the Ash Sisters fear the grey plague. The Lantern & Hook takes no extra hands, prices climb, and the infirmary is crowded."
+event.grey_plague.end_news,"Меловые кресты смыты. Сёстры говорят, что страх миновал.",The chalk crosses are washed off. The sisters say the scare is over.
+event.dusk_night.name,Ночь Сумерек,Dusk Night
+event.dusk_night.news,"Фонарики на каждой верёвке и костры на площади: Серые Часовни празднуют Ночь Сумерек. Таверне нужны все руки, а улицы полны разговоров.","Lanterns on every rope and bonfires in the square: the Grey Chapels keep Dusk Night. The tavern needs every hand, and the streets are full of talk."
+event.dusk_night.end_news,Последние фонарики сняты. Ночь Сумерек позади.,The last lanterns are taken down. Dusk Night is over.
 faction.grey_communion.name,Серое Причастие,The Grey Communion
 faction.grey_communion.text,"Старая паства часовен и её Пепельные Сёстры. Им нужно, чтобы тварей понимали — и лучше живыми.","The chapels' old congregation and its Ash Sisters. They want the creatures understood, and preferably alive."
 faction.vigil.name,Железное Бдение,The Iron Vigil

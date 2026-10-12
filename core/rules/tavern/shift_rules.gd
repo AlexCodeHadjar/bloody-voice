@@ -13,7 +13,7 @@ class Report:
 static func work(run: RunState, data: ContentData, rng: RandomNumberGenerator) -> Report:
 	var t := data.balance.tavern
 	var r := Report.new()
-	r.money = rng.randi_range(t.shift_money_min, t.shift_money_max)
+	r.money = roundi(rng.randi_range(t.shift_money_min, t.shift_money_max) * EventRules.state_def(run, data).shift_pay_mult)
 	run.money += r.money
 	var lines := data.rumor_data.gossip
 	if not lines.is_empty():

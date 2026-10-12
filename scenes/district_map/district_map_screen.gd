@@ -24,6 +24,8 @@ var _day_label: Label
 var _money_label: Label
 var _stock_row: HBoxContainer
 var _health_label: Label
+var _state_box: HBoxContainer  ## the district state and its days left (GDD 14), hidden when normal
+var _weather: DistrictWeather
 var _voice_box: HBoxContainer  ## the Voice and its stage (GDD 4.2), hidden while silent
 var _spot: DistrictMapRules.Spot  ## where the hero stands or walks to
 var _target: DistrictMapDef.LandmarkDef = null  ## the card opens when the hero gets there
@@ -46,7 +48,9 @@ func _ready() -> void:
 	EventBus.money_changed.connect(func(_m: int) -> void: _refresh_bar())
 	EventBus.stock_changed.connect(_refresh_stock)
 	EventBus.progress_changed.connect(_refresh_bar)
+	EventBus.district_state_changed.connect(func(_k: StringName, _o: StringName, _n: StringName) -> void: _refresh_bar())
 	_refresh_bar()
+	_panels.show_news.call_deferred()  # the morning leaflet of a district event (GDD 15)
 	_refresh_stock()
 	_place_hero()
 	_view.center_on.call_deferred(_hero.position)
@@ -75,9 +79,7 @@ func _build() -> void:
 	_view.add_layer(_hero)
 	_life.hero = _hero
 	_view.follow = _hero
-	var overlay := DistrictOverlay.new()
-	overlay.setup(_map)
-	_view.add_overlay(overlay)
+	_build_overlays()
 	_view.landmark_hovered.connect(_on_hovered)
 	_view.landmark_clicked.connect(_on_landmark_clicked)
 	_view.street_clicked.connect(_on_street_clicked)
@@ -92,6 +94,15 @@ func _build() -> void:
 	add_child(_panels)
 	_build_tracker()
 	_build_tip()
+
+
+## The veil and hover outline over the map, and the district state's look (fog, chalk, lanterns, GDD 14.6).
+func _build_overlays() -> void:
+	var overlay := DistrictOverlay.new()
+	overlay.setup(_map)
+	_view.add_overlay(overlay)
+	_weather = DistrictWeather.new()
+	_view.add_child(_weather)
 
 
 func _build_bar() -> Control:
@@ -113,6 +124,9 @@ func _build_bar() -> Control:
 	_voice_box = Icons.with_text("STAT", &"voice", "", 30, 20)
 	_voice_box.mouse_filter = Control.MOUSE_FILTER_PASS
 	row.add_child(_voice_box)
+	_state_box = Icons.with_text("STATE", &"fog_breach", "", 30, 20, Palette.ALARM)
+	_state_box.mouse_filter = Control.MOUSE_FILTER_PASS
+	row.add_child(_state_box)
 	_stock_row = HBoxContainer.new()  # resources (GDD 6.1)
 	_stock_row.add_theme_constant_override("separation", 10)
 	row.add_child(_stock_row)
@@ -185,11 +199,23 @@ func _refresh_bar() -> void:
 	_health_label.add_theme_color_override("font_color", Palette.ALARM if low else Palette.PARCHMENT)
 	_money_label.add_theme_color_override("font_color", Palette.ALARM if run.money < 0 else Palette.BRASS_LIGHT)
 	_money_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	_refresh_state(run, data)
 	var stage := VoiceRules.stage(run, data)
 	_voice_box.visible = run.voice > 0
 	(_voice_box.get_child(1) as Label).text = Loc.t("ui.voice.now", {"n": run.voice, "stage": Loc.t("ui.voice.stage.%d" % stage)})
 	_voice_box.tooltip_text = Loc.t("ui.voice.effect.%d" % stage)
 	_money_label.tooltip_text = "" if run.money >= 0 else Loc.t("ui.district.debt", {"n": run.debt_strikes, "of": b.debt_strikes})
+
+
+## The district state on the bar (icon, name, days left, what it changes) and over the map.
+func _refresh_state(run: RunState, data: ContentData) -> void:
+	var state := run.city.state_of(run.hero_district)
+	var days := (run.city.places[run.hero_district] as PlaceState).days_left if run.city.places.has(run.hero_district) else 0
+	_state_box.visible = state != &"normal"
+	(_state_box.get_child(0) as TextureRect).texture = Icons.texture("STATE", state)
+	(_state_box.get_child(1) as Label).text = Loc.t("ui.event.badge", {"state": Loc.t("state.%s.name" % state), "n": days})
+	_state_box.tooltip_text = NewsPanel.effects_text(EventRules.state_def(run, data), data)
+	_weather.show_state(EventRules.state_def(run, data))
 
 
 ## Resources on the bar, rebuilt only when the stock changes.
@@ -279,6 +305,7 @@ func _on_arrived() -> void:
 
 func _on_day_changed(_day: int) -> void:
 	_refresh_bar()
+	_panels.show_news()
 	if CalendarRules.days_until_rent(GameState.run.day, ContentDB.data.balance) == 1:
 		Tutorial.trigger(&"rent_tomorrow")
 

@@ -39,8 +39,9 @@ static func new_morning(run: RunState, data: ContentData, rng: RandomNumberGener
 	_drop_stale(run)
 	seed_targets(run, data, rng)
 	var b := data.balance.rumors
-	for i: int in rng.randi_range(b.new_min, b.new_max):
-		if visible(rs).size() >= b.max_on_map:
+	var bonus := EventRules.state_def(run, data).rumor_bonus  # a festival is noisier (GDD 14)
+	for i: int in rng.randi_range(b.new_min, b.new_max) + bonus:
+		if visible(rs).size() >= b.max_on_map + bonus:
 			break
 		_add(rs, RumorGenerator.make_random(data, run.hero_district, run.day, rng, rs.next_uid, _used_nodes(rs),
 			ContractRules.targets(run.contracts)))

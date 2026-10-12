@@ -70,6 +70,7 @@ func end_day() -> void:
 	if run == null:
 		return
 	var report := DayRules.end_day(run, ContentDB.data)
+	EventRules.after_tick(run, ContentDB.data, report.state_changes)  # an event that ran out leaves a leaflet
 	for c: DistrictStateRules.Change in report.state_changes:
 		EventBus.district_state_changed.emit(c.key, c.old_state, c.new_state)
 	if report.rent_taken != 0:
@@ -81,9 +82,12 @@ func end_day() -> void:
 
 
 ## Every Monday the tavern board gets new leaflets and the shop a new table (GDD 3.2, 7.1, 11.1); every morning
-## the Register fails a missed exam or pins a due one (GDD 12.1).
+## the Register fails a missed exam or pins a due one (GDD 12.1); on Mondays a district event may start (GDD 15).
 func _refresh_board() -> void:
 	var week := CalendarRules.week(run.day, ContentDB.data.balance)
+	var started := EventRules.weekly(run, ContentDB.data, Rng.stream(&"events", week))  # before the board: its rewards
+	if started != null:
+		EventBus.district_state_changed.emit(started.key, started.old_state, started.new_state)
 	var changed := ContractRules.refresh_board(run, ContentDB.data, Rng.stream(&"contracts", week))
 	if RegisterRules.update(run, ContentDB.data, Rng.stream(&"register", run.day)) or changed:  # the Register exam
 		EventBus.contracts_changed.emit()
@@ -162,6 +166,7 @@ func _start_fight(id: StringName, contract: ContractsState.Contract, zone: Strin
 		capture_allowed = true
 	var setup := DeckBuilder.setup(run.loadout, data, id, Rng.stream(&"combat", run.day).randi(), capture_allowed)
 	ContractRules.prepare_fight(setup, contract, run.day, data.balance)
+	EventRules.strengthen(setup, run, data)  # a fog breach makes creatures stronger (GDD 14)
 	var has_net := setup.deck.any(func(c: StringName) -> bool: return data.card(c).type == &"capture")
 	if capture_allowed and not has_net:  # the contract issues a net unless the gear already brings one
 		setup.deck.append(&"iron_net")

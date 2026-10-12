@@ -6,6 +6,7 @@ var balance: BalanceDef = BalanceDef.new()
 var districts: Dictionary[StringName, DistrictDef] = {}
 var district_order: Array[StringName] = []
 var district_states: Dictionary[StringName, DistrictStateDef] = {}
+var events: Array[EventDefs.EventDef] = []  ## district events (GDD 15)
 var map_regions: MapRegionsDef = MapRegionsDef.new()
 var district_maps: Dictionary[StringName, DistrictMapDef] = {}
 var district_life: Dictionary[StringName, DistrictLifeDef] = {}
@@ -76,6 +77,13 @@ func trophy_ids() -> Array[StringName]:
 
 func tag(id: StringName) -> ContractDefs.TagDef:
 	return tags.get(id) as ContractDefs.TagDef
+
+
+func event(id: StringName) -> EventDefs.EventDef:
+	for e: EventDefs.EventDef in events:
+		if e.id == id:
+			return e
+	return null
 
 
 func faction(id: StringName) -> StandingDefs.FactionDef:

@@ -1,7 +1,7 @@
 class_name DistrictPanels
 extends Node
 ## Full-screen panels over the district map (one at a time): the contract board and tablets, the rumor post and
-## tablets, the shop, the tavern-shift result, the infirmary and the Scriptorium. Adds them to the district screen
+## tablets, the shop, the tavern-shift result, the infirmary, the Scriptorium and the morning news. Adds them to the district screen
 ## and tells it what happened.
 
 signal rumor_chosen(uid: int)  ## the rumor post's «Идти»
@@ -49,6 +49,16 @@ func open_for(action: StringName) -> bool:
 	return true
 
 
+## The morning news leaflets (GDD 15), one after another; nothing while another panel is open.
+func show_news() -> void:
+	var news := EventRules.next_news(GameState.run)
+	if news == "" or current != null:
+		return
+	var panel := NewsPanel.new()
+	panel.news = news
+	open(panel)
+
+
 func open_contract(list: Array[ContractsState.Contract], index: int) -> void:
 	if current != null:
 		return
@@ -69,5 +79,8 @@ func open_rumor(uid: int) -> void:
 func _on_closed() -> void:
 	var was := current
 	current = null
+	if was is NewsPanel:
+		GameState.read_news()
+	show_news.call_deferred()  # news that came while a panel was open (a day action) or the next leaflet
 	if (was is ContractBoard or was is ContractTablet) and not ContractRules.active(GameState.run.contracts).is_empty():
 		Tutorial.trigger.call_deferred(&"contract_taken")

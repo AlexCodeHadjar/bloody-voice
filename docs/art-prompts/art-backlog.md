@@ -260,6 +260,17 @@ SCENE STYLE BLOCK, wide, без прозрачности, `assets/ui/`, имя `
 | `EVENT__art__grey_plague.png` | Серая чума | A quarantined street, doors marked with grey chalk crosses, a plague doctor in a beaked mask. |
 | `EVENT__art__masked_moon.png` | Маска луны | An eclipse over the city, a dark moon with a pale ring, faces at every window looking up. |
 
+## P2. Состояния Серых Часовен на карте (3) — чат «Events» (фаза 7, пока вместо них — наложения в игре)
+
+Та же итоговая карта района `assets/district_maps/GREY__map.png`, перерисованная в состоянии; тот же ракурс и размер,
+`assets/district_maps/`, имя `GREY__map__<state>.png`. Дать ChatGPT исходную карту и попросить «same map, same framing».
+
+| Файл | Состояние | Промт |
+|---|---|---|
+| `GREY__map__fog_breach.png` | Прорыв тумана | The same district map at night, thick grey fog rolling in from the north wall and filling the low streets, lamps dimmed to faint halos, roofs and the chapel spire rising out of the mist. |
+| `GREY__map__quarantine.png` | Карантин | The same district map, grey chalk crosses on doors, wooden barricades across two streets, a plague cart, few people, smoke from burning rags in braziers. |
+| `GREY__map__festival.png` | Ночь Сумерек | The same district map at dusk, strings of paper lanterns between houses, bonfires on the square, crowds in the streets, warm orange light. |
+
 ## Q. Значок и Steam — фаза 10
 
 | # | Файл | Холст | Промт |

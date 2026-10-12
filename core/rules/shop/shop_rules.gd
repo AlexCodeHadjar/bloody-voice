@@ -15,9 +15,10 @@ static func refresh(run: RunState, data: ContentData, rng: RandomNumberGenerator
 	return true
 
 
-## What the hunter pays: the table price less Cunning's discount (GDD 4.1), rounded.
+## What the hunter pays: the table price less Cunning's discount (GDD 4.1), times the district state's (GDD 14).
 static func price(run: RunState, data: ContentData, x: ShopState.Item) -> int:
-	return maxi(1, roundi(x.price * (1.0 - ProgressRules.discount(run, data))))
+	var mult := (1.0 - ProgressRules.discount(run, data)) * EventRules.state_def(run, data).shop_price_mult
+	return maxi(1, roundi(x.price * mult))
 
 
 ## "" or why the item can't be bought now (shown to the player).

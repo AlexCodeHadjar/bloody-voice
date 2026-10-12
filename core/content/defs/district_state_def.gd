@@ -12,6 +12,11 @@ var next: StringName = &""
 var permanent: bool = false
 var monster_pool_add: Array[StringName] = []
 var rumor_tag_weights: Dictionary[StringName, float] = {}
+var infirmary_mult: float = 1.0  ## the Ash Sisters' prices
+var shift_pay_mult: float = 1.0  ## a tavern shift's pay
+var contract_reward_mult: float = 1.0  ## rewards of leaflets pinned while the state lasts
+var rumor_bonus: int = 0  ## more rumor diamonds each morning (and room for them)
+var closed_actions: Array[StringName] = []  ## place actions shut while the state lasts
 
 
 static func from_dict(state_id: StringName, d: Dictionary, errs: ErrorLog) -> DistrictStateDef:
@@ -26,6 +31,11 @@ static func from_dict(state_id: StringName, d: Dictionary, errs: ErrorLog) -> Di
 	x.next = DefReader.id(d, "next", errs, w, false)
 	x.permanent = DefReader.flag(d, "permanent")
 	x.monster_pool_add = DefReader.ids(d, "monster_pool_add", errs, w)
+	x.infirmary_mult = DefReader.number(d, "infirmary_mult", errs, w, 1.0, false)
+	x.shift_pay_mult = DefReader.number(d, "shift_pay_mult", errs, w, 1.0, false)
+	x.contract_reward_mult = DefReader.number(d, "contract_reward_mult", errs, w, 1.0, false)
+	x.rumor_bonus = DefReader.integer(d, "rumor_bonus", errs, w, 0, false)
+	x.closed_actions = DefReader.ids(d, "closed_actions", errs, w)
 	var weights := DefReader.dict(d, "rumor_tag_weights", errs, w, false)
 	for tag: Variant in weights:
 		x.rumor_tag_weights[StringName(str(tag))] = float(weights[tag])
