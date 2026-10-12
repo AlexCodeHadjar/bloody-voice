@@ -189,6 +189,13 @@ func sell_stock(id: StringName) -> int:
 	return paid
 
 
+## The morning news leaflet was read (GDD 15).
+func read_news() -> void:
+	if run != null and EventRules.next_news(run) != "":
+		EventRules.read_news(run)
+		save_game()
+
+
 ## Spends an attribute point (GDD 4.3). "" or why not.
 func raise_attribute(attribute: StringName) -> String:
 	if run == null or combat != null:
@@ -225,10 +232,3 @@ func _skills_changed() -> void:
 	EventBus.progress_changed.emit()
 	EventBus.stock_changed.emit()
 	_loadout_changed()
-
-
-## The morning news leaflet was read (GDD 15).
-func read_news() -> void:
-	if run != null and EventRules.next_news(run) != "":
-		EventRules.read_news(run)
-		save_game()

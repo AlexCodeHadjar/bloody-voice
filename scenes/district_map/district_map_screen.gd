@@ -305,7 +305,7 @@ func _on_arrived() -> void:
 
 func _on_day_changed(_day: int) -> void:
 	_refresh_bar()
-	_panels.show_news()
+	_panels.show_news.call_deferred()  # after the panel of the day's action opens: the leaflet waits for it to close
 	if CalendarRules.days_until_rent(GameState.run.day, ContentDB.data.balance) == 1:
 		Tutorial.trigger(&"rent_tomorrow")
 

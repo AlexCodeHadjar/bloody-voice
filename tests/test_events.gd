@@ -63,6 +63,30 @@ func test_state_effects() -> void:
 	eq(EventRules.state_def(run, data).rumor_bonus, 1, "a noisier festival")
 
 
+func test_prices_rewards_and_rumors_follow_the_state() -> void:
+	var data := load_content(false)
+	var run := _run(data)
+	var x := ShopState.Item.new()
+	x.price = 100
+	var normal_price := ShopRules.price(run, data, x)
+	run.hero_district = &"GREY"
+	var calm := RunState.create(31, data.balance)
+	ContractRules.refresh_board(calm, data, SeededRng.make_stream(5, &"contracts", 1))
+	_start(run, data, &"fog_breach")
+	check(ShopRules.price(run, data, x) > normal_price, "the fog raises shop prices")
+	ContractRules.refresh_board(run, data, SeededRng.make_stream(5, &"contracts", 1))
+	var a := ContractRules.board(calm.contracts)
+	var b := ContractRules.board(run.contracts)
+	check(a.size() == b.size() and b[0].reward >= a[0].reward, "leaflets pinned in the fog pay more")
+	run.city = CityState.new()
+	_start(run, data, &"dusk_night")
+	var quiet := RunState.create(31, data.balance)
+	RumorRules.new_morning(quiet, data, SeededRng.make_stream(7, &"rumors", 1))
+	run.rumors = RumorsState.new()
+	RumorRules.new_morning(run, data, SeededRng.make_stream(7, &"rumors", 1))
+	check(RumorRules.visible(run.rumors).size() > RumorRules.visible(quiet.rumors).size(), "a festival brings more rumors")
+
+
 func test_event_ends_with_news_and_rest_weeks() -> void:
 	var data := load_content(false)
 	var run := _run(data)

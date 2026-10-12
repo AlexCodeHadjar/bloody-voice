@@ -8,7 +8,8 @@ extends RefCounted
 ## What the hero's district's state does now.
 static func state_def(run: RunState, data: ContentData) -> DistrictStateDef:
 	var def: DistrictStateDef = data.district_states.get(run.city.state_of(run.hero_district))
-	return def if def != null else data.district_states.get(&"normal")
+	var normal: DistrictStateDef = data.district_states.get(&"normal")
+	return def if def != null else normal
 
 
 ## The Monday roll (once a week). Returns the change when an event started, else null.
@@ -18,9 +19,9 @@ static func weekly(run: RunState, data: ContentData, rng: RandomNumberGenerator)
 	var week := CalendarRules.week(run.day, data.balance)
 	if ev.checked_week == week:
 		return null
-	ev.checked_week = week
+	ev.checked_week = week  # marked even when not Monday: a save loaded mid-week waits for the next Monday
 	if CalendarRules.weekday(run.day, data.balance) != 0 or ev.active != &"" or week < b.first_week:
-		return null  # a save loaded mid-week waits for the next Monday
+		return null
 	if ev.ended_week > 0 and week <= ev.ended_week + b.rest_weeks:
 		return null
 	if rng.randf() >= b.chance:

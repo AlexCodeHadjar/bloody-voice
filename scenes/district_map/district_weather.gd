@@ -23,6 +23,7 @@ func _ready() -> void:
 	_particles.emitting = false
 	_particles.lifetime = 9.0
 	_particles.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
+	_particles.texture = _soft_dot()  # round, fading puffs instead of squares
 	add_child(_particles)
 	resized.connect(_fit)
 	visible = false
@@ -43,9 +44,23 @@ func show_state(def: DistrictStateDef) -> void:
 	_particles.initial_velocity_min = 20.0 if rising else 8.0
 	_particles.initial_velocity_max = 45.0 if rising else 22.0
 	_particles.gravity = Vector2.ZERO
-	_particles.scale_amount_min = 2.0 if rising else 40.0
-	_particles.scale_amount_max = 4.0 if rising else 90.0
+	_particles.scale_amount_min = 0.08 if rising else 1.0  # of the 64 px dot
+	_particles.scale_amount_max = 0.15 if rising else 2.5
 	_fit()
+
+
+static func _soft_dot() -> GradientTexture2D:
+	var g := Gradient.new()
+	g.set_color(0, Color(1, 1, 1, 1))
+	g.set_color(1, Color(1, 1, 1, 0))
+	var t := GradientTexture2D.new()
+	t.gradient = g
+	t.fill = GradientTexture2D.FILL_RADIAL
+	t.fill_from = Vector2(0.5, 0.5)
+	t.fill_to = Vector2(1.0, 0.5)
+	t.width = 64
+	t.height = 64
+	return t
 
 
 func _fit() -> void:
