@@ -219,9 +219,7 @@ func _on_abandon() -> void:
 	GameState.abandon_contract(c.uid)
 	UiKit.sound(&"paper.map")
 	if _list.is_empty():
-		close_tablet()
-		return
-	_show_current()
+		close_tablet()  # otherwise contracts_changed has already redrawn the tablet
 
 
 func close_tablet() -> void:
