@@ -11,6 +11,8 @@ static func migrate(d: Dictionary, start_loadout: Dictionary = {}) -> Dictionary
 		match version:
 			1:
 				_from_1(d, start_loadout)
+			2:
+				_from_2(d)
 			_:
 				push_warning("[save] no migration from version %d" % version)
 		version += 1
@@ -22,3 +24,11 @@ static func migrate(d: Dictionary, start_loadout: Dictionary = {}) -> Dictionary
 static func _from_1(d: Dictionary, start_loadout: Dictionary) -> void:
 	if not d.has("loadout"):
 		d["loadout"] = LoadoutState.from_dict(start_loadout).to_dict()
+
+
+## v2 -> v3: the game starts confined to GREY; saves get hero_node and open_districts.
+static func _from_2(d: Dictionary) -> void:
+	d["hero_node"] = ""
+	d["open_districts"] = ["GREY"]
+	if str(d.get("hero_district", "")) != "GREY":
+		d["hero_district"] = "GREY"

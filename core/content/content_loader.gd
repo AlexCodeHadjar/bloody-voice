@@ -6,6 +6,8 @@ const BALANCE := "balance.json"
 const DISTRICTS := "city/districts.json"
 const DISTRICT_STATES := "city/district_states.json"
 const MAP_REGIONS := "city/map_regions.json"
+const DISTRICT_MAPS_DIR := "city/district_maps"
+const DISTRICT_LIFE_DIR := "city/district_life"
 const CARDS_DIR := "cards"
 const MONSTERS_DIR := "monsters"
 const WEAPONS := "gear/weapons.json"
@@ -33,6 +35,8 @@ static func load_all(root: String, errs: ErrorLog) -> ContentData:
 		var sid := StringName(str(key))
 		data.district_states[sid] = DistrictStateDef.from_dict(sid, states[key] as Dictionary, errs)
 	data.map_regions = MapRegionsDef.from_dict(read_object(root.path_join(MAP_REGIONS), errs), errs)
+	_load_district_maps(root, data, errs)
+	_load_district_life(root, data, errs)
 	for item: Array in read_folder(root.path_join(CARDS_DIR), errs):
 		var card := CardDef.from_dict(item[1] as Dictionary, errs, item[0] as String)
 		if data.cards.has(card.id):
@@ -52,6 +56,42 @@ static func load_all(root: String, errs: ErrorLog) -> ContentData:
 			data.tutorial[StringName(key)] = TutorialDef.from_dict(StringName(key), seqs[key] as Dictionary, errs)
 	ContentLoc.apply(data)  # shown texts in the game language (GDD 22.5)
 	return data
+
+
+## Every *.json in data/city/district_maps/ is ONE district map object (not an array), keyed by its `district`.
+static func _load_district_maps(root: String, data: ContentData, errs: ErrorLog) -> void:
+	var dir_path := root.path_join(DISTRICT_MAPS_DIR)
+	var dir := DirAccess.open(dir_path)
+	if dir == null:
+		errs.add(dir_path, "folder not found")
+		return
+	var files := Array(dir.get_files())
+	files.sort()
+	for f: String in files:
+		if not f.ends_with(".json"):
+			continue
+		var def := DistrictMapDef.from_dict(read_object(dir_path.path_join(f), errs), errs, "district_maps/" + f)
+		if data.district_maps.has(def.district):
+			errs.add("district_maps/" + f, "duplicate district map '%s'" % def.district)
+		data.district_maps[def.district] = def
+
+
+## Every *.json in data/city/district_life/ is ONE district life object, keyed by its `district`.
+static func _load_district_life(root: String, data: ContentData, errs: ErrorLog) -> void:
+	var dir_path := root.path_join(DISTRICT_LIFE_DIR)
+	var dir := DirAccess.open(dir_path)
+	if dir == null:
+		errs.add(dir_path, "folder not found")
+		return
+	var files := Array(dir.get_files())
+	files.sort()
+	for f: String in files:
+		if not f.ends_with(".json"):
+			continue
+		var def := DistrictLifeDef.from_dict(read_object(dir_path.path_join(f), errs), errs, "district_life/" + f)
+		if data.district_life.has(def.district):
+			errs.add("district_life/" + f, "duplicate district life '%s'" % def.district)
+		data.district_life[def.district] = def
 
 
 static func _load_gear(root: String, data: ContentData, errs: ErrorLog) -> void:

@@ -19,7 +19,7 @@
 
 | Folder | Files | Prefixes |
 |---|---|---|
-| `audio/ambience` | 4 | AMB 4 |
+| `audio/ambience` | 5 | AMB 5 |
 | `audio/monsters/BURROW_WYRM` | 9 | BURROW_WYRM 9 |
 | `audio/monsters/CLAY_SAINT` | 9 | CLAY_SAINT 9 |
 | `audio/monsters/GUTTER_CHOIR` | 9 | GUTTER_CHOIR 9 |

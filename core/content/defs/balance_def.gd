@@ -11,6 +11,7 @@ var start_money: int = 0
 var weekly_rent: int = 0
 
 var start_district: StringName = &""
+var open_districts: Array[StringName] = []  ## districts open at the start; the rest are locked until story events
 var base_hp: int = 0
 var hp_per_level: int = 0
 var base_ap: int = 0
@@ -46,6 +47,7 @@ static func from_dict(d: Dictionary, errs: ErrorLog) -> BalanceDef:
 	b.weekly_rent = DefReader.integer(eco, "weekly_rent", errs, w + "/economy")
 	var hero := DefReader.dict(d, "hero", errs, w)
 	b.start_district = DefReader.id(hero, "start_district", errs, w + "/hero")
+	b.open_districts = DefReader.ids(hero, "open_districts", errs, w + "/hero")
 	b.base_hp = DefReader.integer(hero, "base_hp", errs, w + "/hero")
 	b.hp_per_level = DefReader.integer(hero, "hp_per_level", errs, w + "/hero")
 	b.base_ap = DefReader.integer(hero, "base_ap", errs, w + "/hero")

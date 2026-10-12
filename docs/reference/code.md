@@ -10,11 +10,11 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 |---|---|---|---|
 | `autoload/content_db.gd` |  | Loads and validates all content once at start-up. If `errors` is not empty the game must not start. | reload, is_ok |
 | `autoload/event_bus.gd` |  | Global signals. Systems talk through these instead of holding references to each other. |  |
-| `autoload/game_state.gd` |  | Facade between the screens and the game rules (GDD 19.3). | has_run, new_game, continue_game, save_game, move_hero, end_day, equip_module, unequip_module, set_socket, dev_grant_all_gear, start_hunt, combat_play, combat_end_turn, finish_combat |
+| `autoload/game_state.gd` |  | Facade between the screens and the game rules (GDD 19.3). | has_run, new_game, continue_game, save_game, move_hero, is_open, set_hero_node, end_day, equip_module, unequip_module, set_socket, dev_grant_all_gear, start_hunt, combat_play, combat_end_turn, finish_combat |
 | `autoload/profile_service.gd` |  | The player profile (ProfileState in user://profile.cfg): settings screen and tutorial read and change it here. | save, apply, apply_volumes, set_volume, set_fullscreen, set_hints, reset_tutorial |
 | `autoload/rng_service.gd` |  | Seeded randomness (GDD 17.1). One master seed per playthrough; every system draws from its own | set_seed, stream |
 | `autoload/save_service.gd` |  | Save / load of RunState as JSON, with versioned migrations (GDD 19.1). | has_save, save_run, load_run |
-| `autoload/sound_service.gd` |  | Plays the game's sounds (GDD 24): short sounds by id, creature voices, music and ambience per screen. | play, play_monster, screen |
+| `autoload/sound_service.gd` |  | Plays the game's sounds (GDD 24): short sounds by id, creature voices, music and ambience per screen. | play, play_monster, screen, zone |
 | `autoload/tutorial_service.gd` |  | Tutorial hints (GDD 22): screens call Tutorial.trigger(&"combat_start") and Tutorial.action(&"end_turn"); fight | trigger, action |
 
 ## core/
@@ -22,7 +22,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | File | Class | What | Public functions |
 |---|---|---|---|
 | `core/content/audio_validator.gd` | AudioValidator | Checks data/audio/sounds.json against the files in res://audio/ and the creatures (GDD 24). | validate |
-| `core/content/content_data.gd` | ContentData | All loaded game content. Read-only after loading; rules receive it as a parameter. | district, card, monster, weapon, module, mechanism |
+| `core/content/content_data.gd` | ContentData | All loaded game content. Read-only after loading; rules receive it as a parameter. | district, district_map, life, card, monster, weapon, module, mechanism |
 | `core/content/content_loader.gd` | ContentLoader | Reads data/*.json into a ContentData. Never stops at the first problem: everything goes to the ErrorLog. | load_all, read_folder, read_json, read_object, read_array |
 | `core/content/content_loc.gd` | ContentLoc | Puts the game-language texts into loaded content (GDD 22.5). Data JSON keeps ids, numbers and the English working | apply, fields, area_keys |
 | `core/content/content_validator.gd` | ContentValidator | Cross-checks loaded content. Any error here stops the game at boot (GDD 19.6). | validate |
@@ -31,6 +31,8 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/content/defs/balance_def.gd` | BalanceDef | All tuning numbers from data/balance.json. Code reads them from here, never hard-codes them. | from_dict |
 | `core/content/defs/card_def.gd` | CardDef | A hunter card (data/cards/*.json, GDD 9.3). Effects are data ops run by EffectApplier. | from_dict, needs_enemy_target |
 | `core/content/defs/district_def.gd` | DistrictDef | One district of the Upper City (data/city/districts.json, GDD 13.5). | from_dict, art_path |
+| `core/content/defs/district_life_def.gd` | DistrictLifeDef | Life on one district map (data/city/district_life/<ID>.json, map-life-people.md): passers-by, groups, local | from_dict, kinds_for, figure_path, prop_path |
+| `core/content/defs/district_map_def.gd` | DistrictMapDef | Walkable map of one district (data/city/district_maps/<ID>.json, GDD 20): border contour, street graph of nodes, | from_dict, landmark, node_pos, has_node_id |
 | `core/content/defs/district_state_def.gd` | DistrictStateDef | What a district state does (data/city/district_states.json, GDD 14.2). | from_dict |
 | `core/content/defs/gear_misc_defs.gd` | GearDefs | Small gear definitions: cell shapes, armor pieces, mechanisms (data/gear/*.json, GDD 5). | shape, armor, mechanism |
 | `core/content/defs/map_regions_def.gd` | MapRegionsDef | Clickable district regions traced over the city map art (data/city/map_regions.json). | from_dict |
@@ -38,6 +40,8 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/content/defs/monster_def.gd` | MonsterDef | A creature: stats, body parts, its own deck of moves and phases (data/monsters/*.json, GDD 9.4). | art_path, from_dict, part |
 | `core/content/defs/tutorial_def.gd` | TutorialDef | One tutorial hint sequence (data/tutorial/sequences.json, GDD 22). | from_dict |
 | `core/content/defs/weapon_def.gd` | WeaponDef | A weapon: base cards, magazine and its sections with typed cells (data/gear/weapons.json, GDD 5.2). | from_dict, section |
+| `core/content/district_life_validator.gd` | DistrictLifeValidator | Checks district life (data/city/district_life, map-life-people.md): art files, nodes, positions inside the contour. | validate |
+| `core/content/district_map_validator.gd` | DistrictMapValidator | Checks district maps (data/city/district_maps, GDD 20): nodes, street graph, landmarks, zones, sounds. | validate |
 | `core/content/effect_schema.gd` | EffectSchema | The effect language of cards and monster moves: op name -> required parameters. | check |
 | `core/content/effect_text.gd` | EffectText | Human-readable text built from effect ops, so a move's text can never disagree with its numbers. | describe, status_name |
 | `core/content/error_log.gd` | ErrorLog | Collects content problems with their location. Passed by reference into loaders and validators | add, is_empty |
@@ -48,6 +52,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/dev/dev_shots.gd` |  | Developer auto-screenshots. Does nothing unless started with: |  |
 | `core/generation/encounter_rules.gd` | EncounterRules | Which creature the hunter meets in a district (placeholder until rumors/contracts, GDD 8). | pick_monster |
 | `core/generation/seeded_rng.gd` | SeededRng | Pure helpers behind the Rng autoload, usable from tests and generators without the scene tree. | make_stream, new_master_seed |
+| `core/rules/city/district_map_rules.gd` | DistrictMapRules | Walking on a district map (GDD 20): shortest street paths, spots on the streets, routes, and what lies under a point | spot_at_node, nearest_spot, shortest_path, route, nearest_node, landmark_at, zone_at, ambience_at, inside |
 | `core/rules/city/district_state_rules.gd` | DistrictStateRules | Changing and ticking district / area / landmark states (GDD 14.3). | apply, tick |
 | `core/rules/city/map_region_rules.gd` | MapRegionRules | Hit-testing on the city map. Points are in source-image pixels (MapRegionsDef.image_size). | region_at, district_at, home_region |
 | `core/rules/combat/capture_rules.gd` | CaptureRules | Capture chance (GDD 10.1). Pure functions. | chance, roll |
@@ -87,7 +92,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `scenes/boot/boot.gd` |  | First scene: content is already loaded by ContentDB. Broken content -> error list, never the game. |  |
 | `scenes/city_map/city_map_screen.gd` |  | City map screen (vertical-slice shell): map + district card + calendar bar. |  |
 | `scenes/city_map/district_panel.gd` | DistrictPanel | Right-side card about one district: establishing art + facts from DistrictDef. | show_district |
-| `scenes/city_map/map_view.gd` | MapView | Draws the city map art, highlights the district under the mouse and shows the hero figure. | setup, set_hero_district, image_to_global |
+| `scenes/city_map/map_view.gd` | MapView | Draws the city map art, highlights the district under the mouse and shows the hero figure. | setup, set_hero_district, set_locked, image_to_global |
 | `scenes/combat/card_view.gd` | CardView | One card in the hand: cost, name, type, text. Emits `chosen` when clicked. | setup |
 | `scenes/combat/combat_screen.gd` |  | Fight screen (GDD 9.1). Reads GameState.combat, sends commands through GameState, redraws on signals. |  |
 | `scenes/combat/combat_sounds.gd` | CombatSounds | Turns new combat log events into sounds (data/audio/sounds.json/combat_log, GDD 24): card plays, hits, |  |
@@ -95,6 +100,17 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `scenes/combat/hero_view.gd` | HeroView | The hunter's side: HP, Sanity, block, statuses, AP, and the weapon card with ammo (GDD 9.1). | refresh |
 | `scenes/combat/intent_view.gd` | IntentView | A planned move of the creature, shown beside it (GDD 9.1). | setup |
 | `scenes/combat/stat_bar.gd` | StatBar | Label + coloured bar (HP, Sanity, body part HP). | setup, show_value |
+| `scenes/district_map/district_map_screen.gd` |  | District screen (GDD 20): the Grey Chapels up close. The hunter walks the streets by click, the map is dragged with |  |
+| `scenes/district_map/district_overlay.gd` | DistrictOverlay | Drawn over the district art (GDD 20.2): the veil over the locked neighbours (70 % black with diagonal hatching, | setup, set_hovered, toggle_debug |
+| `scenes/district_map/district_view.gd` | DistrictView | The district map in a camera (GDD 20.3): drag with the held left button, zoom with the wheel, clicks on landmarks | setup, add_layer, add_overlay, zoom_level, camera_center, screen_to_art, art_to_screen, center_on |
+| `scenes/district_map/hero_walker.gd` | HeroWalker | The hunter on the district map: a stone figurine on a stand (owner, 2026-10-12). Walks a route along the streets | is_walking, place, walk |
+| `scenes/district_map/landmark_card.gd` | LandmarkCard | The card of a place the hero has walked to (owner, 2026-10-12): name, zone, a line about it and what can be done | show_landmark, close_card |
+| `scenes/district_map/life/life_context.gd` | LifeContext | What every resident of the district map shares: the map, the life data, the random stream and the hero to step aside for. | texture, random_node |
+| `scenes/district_map/life/life_facing.gd` | LifeFacing | Which picture and mirroring a walker shows for a direction (map-life-people.md): the sheets hold "towards" (down-left) | is_towards, is_flipped, weighted_index |
+| `scenes/district_map/life/life_layer.gd` | LifeLayer | All the life of a district map (map-life-people.md): passers-by, local characters, animals, standing scenes and | setup |
+| `scenes/district_map/life/life_prop.gd` | LifeProp | A picture on the district map that only moves a little: bonfire flicker, drifting smoke, ripples, swaying laundry, | setup |
+| `scenes/district_map/life/life_spawn.gd` | LifeSpawn | Builds the residents, scenes and effects of a district map from its life data (all random choices from the context). | build, walkers |
+| `scenes/district_map/life/resident.gd` | Resident | One person or animal on the district map (map-life-people.md): walks the street graph, looks around, chats, works, | setup, is_walking, can_chat, start_chat |
 | `scenes/equipment/equipment_screen.gd` |  | Equipment (GDD 5): weapon cells with modules, armor sockets with mechanisms, and the deck they make. |  |
 | `scenes/equipment/shape_icon.gd` | ShapeIcon | Small picture of a module's cell shape (for the spare-module list). | setup |
 | `scenes/equipment/weapon_tablet_view.gd` | WeaponTabletView | Draws the weapon's sections as cell grids, the placed modules (their art, rotated) and a ghost of the | setup, set_ghost, refresh |
@@ -107,7 +123,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 |---|---|---|---|
 | `ui/theme/icons.gd` | Icons | Game icons (data/ui/icons.json, imported to art/ui/icons/<SET>__<id>.webp) and small icon widgets. | path, texture, rect, with_text, fill_statuses, button |
 | `ui/theme/palette.gd` | Palette | Colours of the style bible (GDD 16.2). UI code uses these names, never raw hex values. |  |
-| `ui/theme/ui_kit.gd` | UiKit | Small factory for themed UI pieces so screens stay short and consistent. | theme, serif, heading_font, label, paragraph, button, sound, screen_sound, monster_sound, panel_box, texture |
+| `ui/theme/ui_kit.gd` | UiKit | Small factory for themed UI pieces so screens stay short and consistent. | theme, serif, heading_font, label, paragraph, button, sound, screen_sound, zone_sound, monster_sound, panel_box, texture |
 | `ui/tutorial/tutorial_anchors.gd` | TutorialAnchors | Elements a tutorial hint can light up (GDD 22.4). Screens register their nodes by id; the overlay asks for the | register, alive, rect |
 | `ui/tutorial/tutorial_flow.gd` | TutorialFlow | Which hint is on screen (GDD 22.2): starts a sequence on its trigger (once, if hints are on), waits for «Далее» | current, trigger, next, action, abort, skip_all |
 | `ui/tutorial/tutorial_overlay.gd` | TutorialOverlay | The hint on screen (GDD 22.1): 70 % veil with a lit cut-out around the explained element, a pulsing brass frame, | show_step, hide_hint |
@@ -122,12 +138,14 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `tests/test_combat.gd` |  | Combat core (GDD 9–10). | test_start_draws_hand_and_reveals_intents, test_same_seed_same_fight, test_strike_damages_and_costs_ap, test_not_enough_ap, test_shot_needs_ammo_and_reload_refills, test_breaking_a_part_removes_its_move, test_broken_part_cannot_be_targeted, test_phase_triggers_below_threshold, test_block_absorbs_and_dodge_negates, test_weak_and_exposed_modify_damage, test_enemy_turn_hits_hero_and_new_turn_starts, test_fear_to_zero_causes_panic, test_capture_chance_formula, test_every_effect_op_is_implemented, test_bot_finishes_every_fight, test_move_text_is_built_from_effects |
 | `tests/test_content.gd` |  | Real content is valid; the validator catches typical mistakes. | test_real_content_is_valid, test_every_icon_has_art, test_missing_creature_art_is_reported, test_bad_weekday_is_reported, test_unknown_region_district_is_reported, test_duplicate_symbol_is_reported, test_missing_normal_state_is_reported, test_broken_json_is_reported, test_move_text_field_is_rejected, test_missing_sound_is_reported |
 | `tests/test_day_rules.gd` |  | End of day: rent, time passing, district state changes (GDD 3). | test_rent_is_taken_on_rentday, test_no_rent_on_other_days, test_day_ticks_district_states |
+| `tests/test_district_life.gd` |  | District life (map-life-people.md): the Grey Chapels life data loads and validates, the validator catches a missing | test_grey_life_loads_and_is_valid, test_validator_reports_broken_life, test_facing_picks_view_and_mirror, test_weighted_index, test_layer_builds_and_runs |
+| `tests/test_district_map.gd` |  | District map (GDD 20): the Grey Chapels map loads and validates, the validator catches broken maps, walking | test_grey_map_loads_and_is_valid, test_path_from_home_to_every_landmark, test_shortest_path_picks_the_shorter_route, test_route_on_same_edge_and_across_edges, test_nearest_spot_respects_max_dist, test_lookups_on_grey, test_validator_catches_broken_maps, test_validator_catches_duplicate_landmark_and_bad_district, test_bad_district_map_json_is_reported |
 | `tests/test_district_states.gd` |  | District states and their transitions (GDD 14). | test_timed_state_returns_to_previous, test_chain_goes_to_next_state, test_untimed_state_stays, test_unknown_place_is_normal |
 | `tests/test_gear.gd` |  | Weapon cells, modules, links, armor sockets, deck building and gear bonuses in combat (GDD 5). | test_rotation, test_start_loadout_is_valid_and_builds_the_starter_deck, test_placement_rules, test_every_gear_module_fits_the_starting_rifle, test_links_swap_cards_when_modules_touch, test_armor_sockets_add_cards_and_mods, test_gear_bonuses_in_combat, test_reload_draw_and_rage_discount, test_loadout_survives_save_and_old_saves_get_start_gear, test_rotation_with_offset_and_touching_edges_only, test_replacing_a_socket_frees_the_old_mechanism, test_duplicate_modules_stack, test_capture_cards_only_on_capture_contracts, test_invalid_saved_placements_are_dropped |
 | `tests/test_locale.gd` |  | The game speaks Russian (GDD 22.5): every key used by code and data has a Russian text, placeholders agree with | test_russian_plural_forms, test_every_content_text_has_russian, test_key_families_exist, test_keys_written_in_code_exist, test_placeholders_agree_with_english |
 | `tests/test_map_regions.gd` |  | Known points of the city map art must land in the right district. | test_samples, test_every_anchor_is_inside_its_region |
 | `tests/test_rng.gd` |  | Seeded randomness: the same seed gives the same streams (GDD 17.1). | test_same_inputs_same_sequence, test_streams_are_independent |
-| `tests/test_save.gd` |  | Save / load round trip and save migrations (GDD 19.1). | test_round_trip_through_json, test_save_service_file |
+| `tests/test_save.gd` |  | Save / load round trip and save migrations (GDD 19.1). | test_round_trip_through_json, test_new_run_starts_in_grey_only, test_migrate_v2_to_v3, test_save_service_file |
 | `tests/test_scripts.gd` |  | Every script in the project must compile. | test_all_scripts_compile |
 | `tests/test_suite.gd` | TestSuite | Base class for test suites. Every method named test_* is a test. | check, eq, near, load_content |
 | `tests/test_tutorial.gd` |  | Tutorial hints (GDD 22): sequences are valid data, play once, wait for «do» actions, queue, can be skipped; | test_sequences_are_loaded, test_sequence_plays_once_and_waits_for_actions, test_hints_off_and_skip_all, test_one_off_hint_waits_in_queue, test_profile_round_trip, test_abort_keeps_the_hint_for_later, test_bad_tutorial_data_is_reported |
@@ -136,6 +154,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 
 | File | What |
 |---|---|
+| `tools/check_district_map.py` | Render a district map's data (data/city/district_maps/<ID>.json) over its art to check the calibration (GDD 20.9 step 6b). |
 | `tools/check_map_regions.py` | Render data/city/map_regions.json over the city map art to check the traced regions. |
 | `tools/compare_map.py` | Side-by-side for checking a generated district map: the plan (left), the generated image (middle), the approved |
 | `tools/district_atlas.py` | Atlas of the Grey Chapels map for the owner: the plan with zones in strong colours, borders by type, |

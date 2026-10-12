@@ -3,7 +3,7 @@ extends Control
 ## Free and instant, anywhere outside a fight. Click a spare module, right-click / R to rotate,
 ## click a cell to install; click an installed module to pick it up.
 
-const CITY_MAP := "res://scenes/city_map/city_map_screen.tscn"
+const DISTRICT := "res://scenes/district_map/district_map_screen.tscn"
 const TABLET_ART := "res://art/ui/WEAPON__tablet.webp"
 
 var _tablet: WeaponTabletView
@@ -59,7 +59,7 @@ func _build_left() -> Control:
 		top.add_child(grant)
 	var back := UiKit.button(Loc.t("ui.equip.back"), 18)
 	back.custom_minimum_size = Vector2(220, 40)
-	back.pressed.connect(func() -> void: get_tree().change_scene_to_file(CITY_MAP))
+	back.pressed.connect(func() -> void: get_tree().change_scene_to_file(DISTRICT))
 	top.add_child(back)
 	left.add_child(top)
 	var art := TextureRect.new()

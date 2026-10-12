@@ -1,7 +1,7 @@
 extends Control
 ## Fight screen (GDD 9.1). Reads GameState.combat, sends commands through GameState, redraws on signals.
 
-const CITY_MAP := "res://scenes/city_map/city_map_screen.tscn"
+const DISTRICT := "res://scenes/district_map/district_map_screen.tscn"
 const LOG_WIDTH := 380
 
 var _enemy_view: EnemyView
@@ -269,4 +269,4 @@ func _show_result(s: CombatState) -> void:
 
 func _return_to_city() -> void:
 	GameState.finish_combat()
-	get_tree().change_scene_to_file(CITY_MAP)
+	get_tree().change_scene_to_file(DISTRICT)

@@ -7,11 +7,11 @@
 
 Sketch files are regenerated with `python tools/gen_district_sketch.py`.
 
-**Status (2026-10-10):** the playable map is done — 4000 × 6000 (3× the approved overview), all 21 pieces of
-1536 × 1024 painted (`docs/art-prompts/grey-chapels-map/detail/detail-pass.md`), north Ringwall continuity repaired,
-stitched by `tools/import_art.py` into `art/city/district_maps/GREY__map.webp`. **2026-10-12:** the owner's
-finished retouched map (`assets/district_maps/GREY__map.png`, 4000 × 6000) replaces the stitch; the pieces stay as sources. Next: calibrate nodes, landmark
-spots and the contour to this art (§20.8 step 5) while building the screen.
+**Status (2026-10-12):** the playable map is the owner's retouched art (`art/city/district_maps/GREY__map.webp`,
+4000 × 6000). **The district screen is built** (`scenes/district_map/`): street graph, landmark spots, zones and contour
+were re-traced on the final art into `data/city/district_maps/GREY.json` (the old `layout.json` plan does not match the
+art and is no longer used by the game). Check the calibration with F3 in the game (debug builds) or
+`python tools/check_district_map.py GREY`. Owner decisions for this step — see §20.11.
 
 Everything for generating the map — steps, prompts, reference images for ChatGPT, labelled sketches for the
 owner, examples — is in one folder: [`docs/art-prompts/grey-chapels-map/`](../art-prompts/grey-chapels-map/README.md).
@@ -30,8 +30,8 @@ question 20.10).
 
 ## 20.2 The district map
 
-- **Size:** 2816 × 3712 px art (3 × 4 tiles of 1024 px with 128 px overlap). One pixel of the city map ≈ 7.3 px
-  here: a house that was a 10 px dot on the city map is ~70 px — roofs, chimneys, washing lines are visible.
+- **Size:** 4000 × 6000 px art (owner's retouched map). Houses are ~150–200 px — roofs, chimneys, washing lines are
+  visible; painted people are ~22 px.
 - **Shape:** the district border follows the black outline of GREY on `HALLOWDEEP__map__normal` exactly
   (traced in `tools/gen_district_sketch.py`, `CONTOUR`). The east side is the **Ringwall**; beyond it, the abyss fog.
 - **Borders — no walls between districts:** north — a boundary street, west — the tram embankment (the line ends
@@ -54,10 +54,10 @@ question 20.10).
 | Hold **left button** and move (more than 6 px) | Drag the map. Releasing does not count as a click |
 | **Left click** (no drag) on a landmark / street | The hero walks there along the streets |
 | Hover a landmark | Its name and action in a tooltip; the building gets a brass outline |
-| Mouse wheel | Zoom 0.7 – 1.25 (1.0 = native art; at 0.7 the map is as wide as the screen) |
+| Mouse wheel | Zoom from "the map is as wide as the screen" (≈ 0.48) to 1.25 (1.0 = native art); start 0.8 |
 | Space / double-click the hero | Centre the camera on the hero |
 | Buttons «К охотнику» and «Домой» (top bar) | Jump the camera to the hero / to Ash Garret, so the player never gets lost |
-| Buttons «К охотнику» and «Домой» (top bar) | Jump the camera to the hero / to Ash Garret, so the player never gets lost |
+| F3 (debug builds) | Calibration overlay: street graph, landmark spots, zones, contour |
 
 - The camera is clamped to the map; at the start it centres on the hero's home (Ash Garret).
 - While the hero walks the camera follows, unless the player is dragging.
@@ -167,7 +167,25 @@ Full prompts: [`docs/art-prompts/grey-chapels-map/`](../art-prompts/grey-chapels
 
 ## 20.10 Open questions for the owner
 
+(Answered so far: tavern name stays «Фонарь и Крюк» by default; walking is free; no mini-map — see
+`docs/reference/decisions.md`.)
+
 - When and how do other districts unlock (story contract per district, or a rank, or a key item)?
 - Should walking inside the district really be free, or cost a little time (e.g. crossing the whole district = 1 hour)?
 - Tavern name: «Фонарь и Крюк» (as in GDD §2, §7 — chosen by default) or a new slum tavern?
 - Mini-map of the district, or are dragging and the «К охотнику» / «Домой» buttons enough?
+
+## 20.11 The screen as built (step 1, owner decisions 2026-10-12)
+
+| Topic | What the game does |
+|---|---|
+| Flow | New game / Continue / back from a fight or the equipment screen → the district screen. «Карта города» opens the city map; only open districts (`RunState.open_districts`, start `["GREY"]`) are lit, the rest are dark «закрыто»; «К району» returns |
+| Places | Click a place → the hero walks there → a card: name, zone, a line about it. **Ash Garret** — «Отдохнуть до утра» (ends the day); **Rusty Cog** — «Снаряжение»; **Bonfire Square** — «Выйти на охоту» (a fight as before); gates (North Gate, South Passage, West Crossing) — «Закрыто»; the rest — «Откроется позже» |
+| Hover | A brass ring round the place and a tooltip: name + what it does |
+| Streets | A click on a street (≤ 110 px from it) sends the hero there; the hero's node is saved (`RunState.hero_node`, save v3). Old v2 saves are moved to GREY and every other district is locked — on purpose (the game starts confined to GREY) |
+| Hero | The stone figurine (four views), 350 px/s, footsteps; the camera follows unless the player drags |
+| Neighbours | Veil 70 % black + diagonal hatching outside the contour, «Нордхал — закрыто» labels |
+| Time of day | Always evening for now (the art is a night scene); real day / night comes with hours (phase 7) |
+| Residents | About 40 people + animals, scenes at places, living decor (`data/city/district_life/GREY.json`, `scenes/district_map/life/`): they walk, look around, chat with an emote, work at their spots, step aside for the hero. Only atmosphere; the little stories of map-life-people.md part D are the next step |
+| Sound | Music «Deep Humidity» + rain; a second layer by the place under the camera: cellars in the Fog Hollow, wind at the Ringwall, fire by the tavern, the market and Bonfire Square (`sound_spots` / zone `ambience` in the map data) |
+

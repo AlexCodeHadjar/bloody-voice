@@ -3,7 +3,7 @@ extends Control
 ## Talks to the game only through GameState commands and EventBus signals.
 
 const MAIN_MENU := "res://scenes/menu/main_menu.tscn"
-const COMBAT := "res://scenes/combat/combat_screen.tscn"
+const DISTRICT := "res://scenes/district_map/district_map_screen.tscn"
 const EQUIPMENT := "res://scenes/equipment/equipment_screen.tscn"
 
 var _map_view: MapView
@@ -23,6 +23,7 @@ func _ready() -> void:
 	EventBus.money_changed.connect(func(_m: int) -> void: _refresh_bar())
 	_refresh_bar()
 	_map_view.set_hero_district(GameState.run.hero_district)
+	_map_view.set_locked(_locked_districts())
 	_show(GameState.run.hero_district)
 
 
@@ -46,7 +47,7 @@ func _build() -> void:
 	body.add_child(_map_view)
 	_map_view.setup(ContentDB.data.map_regions)
 	_map_view.district_hovered.connect(_on_hovered)
-	_map_view.district_clicked.connect(GameState.move_hero)
+	_map_view.district_clicked.connect(_on_clicked)
 	_panel = DistrictPanel.new()
 	body.add_child(_panel)
 
@@ -71,14 +72,10 @@ func _build_bar() -> Control:
 	gear.custom_minimum_size = Vector2(190, 40)
 	gear.pressed.connect(func() -> void: get_tree().change_scene_to_file(EQUIPMENT))
 	row.add_child(gear)
-	var hunt := Icons.button("ACTION", &"investigate", Loc.t("ui.city.hunt"), 18)
-	hunt.custom_minimum_size = Vector2(250, 40)
-	hunt.pressed.connect(_hunt)
-	row.add_child(hunt)
-	var end_day := Icons.button("ACTION", &"rest", Loc.t("ui.city.rest"), 18)
-	end_day.custom_minimum_size = Vector2(225, 40)
-	end_day.pressed.connect(GameState.end_day)
-	row.add_child(end_day)
+	var back := Icons.button("PLACE", &"hunter", Loc.t("ui.city.back_to_district"), 18)
+	back.custom_minimum_size = Vector2(200, 40)
+	back.pressed.connect(_to_district)
+	row.add_child(back)
 	var menu := Icons.button("UI", &"menu", Loc.t("ui.city.menu"), 18)
 	menu.custom_minimum_size = Vector2(140, 40)
 	menu.pressed.connect(_to_menu)
@@ -99,7 +96,23 @@ func _refresh_bar() -> void:
 func _show(district: StringName) -> void:
 	var d := ContentDB.data.district(district)
 	if d != null:
-		_panel.show_district(d, GameState.run.city.state_of(district), district == GameState.run.hero_district)
+		_panel.show_district(d, GameState.run.city.state_of(district), district == GameState.run.hero_district,
+			not GameState.is_open(district))
+
+
+func _locked_districts() -> Array[StringName]:
+	var out: Array[StringName] = []
+	for id: StringName in ContentDB.data.districts:
+		if not GameState.is_open(id):
+			out.append(id)
+	return out
+
+
+func _on_clicked(district: StringName) -> void:
+	if GameState.is_open(district):
+		GameState.move_hero(district)
+	else:
+		UiKit.sound(&"ui.error")
 
 
 func _on_hovered(district: StringName) -> void:
@@ -118,9 +131,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		SettingsPanel.open(self, true)
 
 
-func _hunt() -> void:
-	GameState.start_hunt()
-	get_tree().change_scene_to_file(COMBAT)
+## Back to the close-up map of the hero's district (hunts and rest happen there now, GDD 20).
+func _to_district() -> void:
+	GameState.save_game()
+	get_tree().change_scene_to_file(DISTRICT)
 
 
 func _on_day_changed(_day: int) -> void:

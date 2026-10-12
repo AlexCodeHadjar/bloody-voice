@@ -10,6 +10,7 @@ const FIGURE := "res://art/ui/HERO__figurine__front.webp"
 const FIGURE_HEIGHT := 120.0
 const HOVER_FILL := Color(1.0, 0.85, 0.5, 0.16)
 const HOVER_LINE := Color(0.85, 0.7, 0.4, 0.95)
+const LOCKED_FILL := Color(0, 0, 0, 0.6)
 const HERO_LINE := Color(0.45, 0.65, 1.0, 0.75)
 
 var _map: MapRegionsDef
@@ -20,6 +21,7 @@ var _screen_polys: Dictionary[StringName, PackedVector2Array] = {}  # region id 
 var _fillable: Dictionary[StringName, bool] = {}
 var _hovered: StringName = &""
 var _hero_district: StringName = &""
+var _locked: Array[StringName] = []  # district ids drawn dark
 var _time := 0.0
 
 
@@ -34,6 +36,11 @@ func setup(map: MapRegionsDef) -> void:
 
 func set_hero_district(district: StringName) -> void:
 	_hero_district = district
+	queue_redraw()
+
+
+func set_locked(districts: Array[StringName]) -> void:
+	_locked = districts
 	queue_redraw()
 
 
@@ -96,11 +103,23 @@ func _draw() -> void:
 	if _texture != null:
 		draw_texture_rect(_texture, _draw_rect, false)
 	for r: MapRegionsDef.Region in _map.regions if _map != null else []:
+		if _locked.has(r.district):
+			_draw_locked(r)
 		if r.district == _hovered:
 			_draw_region(r.id, HOVER_FILL, HOVER_LINE, 3.0)
 		elif r.district == _hero_district:
 			_draw_region(r.id, Color(0, 0, 0, 0), HERO_LINE, 2.0)
 	_draw_figure()
+
+
+func _draw_locked(r: MapRegionsDef.Region) -> void:
+	var pts: PackedVector2Array = _screen_polys[r.id]
+	if _fillable[r.id]:
+		draw_colored_polygon(pts, LOCKED_FILL)
+	var font := get_theme_default_font()
+	var text := Loc.t("ui.district.locked_short")
+	var w := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+	draw_string(font, _to_screen(r.center) - Vector2(w * 0.5, 0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Palette.FOG)
 
 
 func _draw_region(region_id: StringName, fill: Color, line: Color, width: float) -> void:

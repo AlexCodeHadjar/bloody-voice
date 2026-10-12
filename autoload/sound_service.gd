@@ -9,8 +9,10 @@ var _pool: Array[AudioStreamPlayer] = []
 var _next := 0
 var _music: AudioStreamPlayer
 var _ambience: AudioStreamPlayer
+var _zone: AudioStreamPlayer  ## second ambience layer: the zone under the camera (district map)
 var _music_id: StringName = &"-"
 var _ambience_id: StringName = &"-"
+var _zone_id: StringName = &""
 var _last_played: Dictionary[StringName, int] = {}  ## sound id -> msec
 var _rng: RandomNumberGenerator
 var _fades: Dictionary[AudioStreamPlayer, Tween] = {}
@@ -28,6 +30,7 @@ func _ready() -> void:
 		_pool.append(p)
 	_music = _looping_player(&"Music")
 	_ambience = _looping_player(&"Ambience")
+	_zone = _looping_player(&"Ambience")
 	_rng = Rng.stream(&"audio")
 
 
@@ -56,6 +59,15 @@ func screen(screen_id: StringName) -> void:
 	if amb_id != _ambience_id:
 		_ambience_id = amb_id
 		_switch(_ambience, _audio().ambience.get(amb_id) as AudioDef.TrackDef)
+	zone(&"")  # a screen starts without a zone layer; the district map adds its own
+
+
+## Ambience of the place under the camera on top of the screen's own (fire by the tavern, cellars in the hollow).
+func zone(ambience_id: StringName) -> void:
+	if ambience_id == _zone_id:
+		return
+	_zone_id = ambience_id
+	_switch(_zone, _audio().ambience.get(ambience_id) as AudioDef.TrackDef)
 
 
 func _audio() -> AudioDef:

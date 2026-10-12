@@ -8,6 +8,7 @@ signal run_loaded
 signal day_changed(day: int)
 signal money_changed(money: int)
 signal hero_moved(district: StringName)
+signal hero_node_changed(node: StringName)
 signal district_state_changed(target: StringName, old_state: StringName, new_state: StringName)
 signal loadout_changed
 signal combat_started

@@ -7,6 +7,8 @@ var districts: Dictionary[StringName, DistrictDef] = {}
 var district_order: Array[StringName] = []
 var district_states: Dictionary[StringName, DistrictStateDef] = {}
 var map_regions: MapRegionsDef = MapRegionsDef.new()
+var district_maps: Dictionary[StringName, DistrictMapDef] = {}
+var district_life: Dictionary[StringName, DistrictLifeDef] = {}
 var cards: Dictionary[StringName, CardDef] = {}
 var monsters: Dictionary[StringName, MonsterDef] = {}
 var monster_order: Array[StringName] = []
@@ -21,6 +23,14 @@ var tutorial: Dictionary[StringName, TutorialDef] = {}
 
 func district(id: StringName) -> DistrictDef:
 	return districts.get(id) as DistrictDef
+
+
+func district_map(id: StringName) -> DistrictMapDef:
+	return district_maps.get(id) as DistrictMapDef
+
+
+func life(id: StringName) -> DistrictLifeDef:
+	return district_life.get(id) as DistrictLifeDef
 
 
 func card(id: StringName) -> CardDef:

@@ -20,6 +20,23 @@ Danger: {danger}
 Areas: {areas}"
 ui.district.hunter_here,Охотник здесь.,The hunter is here.
 ui.district.send,"Нажмите, чтобы отправить охотника сюда.",Click to send the hunter here.
+ui.district.locked,Район закрыт.,The district is closed.
+ui.district.locked_short,закрыто,closed
+ui.district.closed_label,{name} — закрыто,{name} — closed
+ui.district.to_hero,К охотнику,To the hunter
+ui.district.to_home,Домой,Home
+ui.district.city_map,Карта города,City map
+ui.district.action.rest,Отдохнуть до утра,Rest until morning
+ui.district.action.equipment,Снаряжение,Equipment
+ui.district.action.hunt,Выйти на охоту,Go hunting
+ui.district.action.locked,Закрыто,Closed
+ui.district.action.soon,Откроется позже,Opens later
+ui.district.hint.rest,Дом: отдых до утра,Home: rest until morning
+ui.district.hint.equipment,Мастерская: снаряжение,Workshop: equipment
+ui.district.hint.hunt,Отсюда уходят на охоту,Hunts start here
+ui.district.hint.locked,Закрыто,Closed
+ui.district.hint.soon,Откроется позже,Opens later
+ui.city.back_to_district,К району,To the district
 ui.combat.outcome.slain,Тварь убита,The creature is slain
 ui.combat.outcome.captured,Тварь поймана,The creature is captured
 ui.combat.outcome.fallen,Охотник пал,The hunter falls
@@ -171,6 +188,103 @@ state.festival.name,Праздник,Festival
 state.eclipse.name,Затмение,Eclipse
 state.collapsed.name,Обрушение,Collapsed
 state.cleansed.name,Очищен,Cleansed
+rule.on_self,Эту карту играют на себя.,Play this on yourself.
+rule.aim_creature,Цельтесь в тварь.,Aim at the creature.
+ui.combat.hp,Здоровье,HP
+ui.combat.none,нет,none
+section.sight,Прицел,Sight
+section.magazine,Магазин,Magazine
+section.stock,Приклад,Stock
+section.frame,Рама,Frame
+section.barrel,Ствол,Barrel
+trophy.black_lace,Чёрное кружево,Black lace
+trophy.chitin,Хитин,Chitin
+trophy.clay_mask,Глиняная маска,Clay mask
+trophy.fang,Клык,Fang
+trophy.finger_bone,Кость пальца,Finger bone
+trophy.lantern_glass,Стекло фонаря,Lantern glass
+trophy.mirror_shard,Осколок зеркала,Mirror shard
+trophy.scythe,Коса,Scythe
+trophy.sinew,Сухожилие,Sinew
+trophy.spark_core,Искровое ядро,Spark core
+trophy.tail_spike,Шип хвоста,Tail spike
+trophy.throat,Горло,Throat
+trophy.wing_dust,Пыльца с крыльев,Wing dust
+trophy.wyrm_tooth,Зуб змея,Wyrm tooth
+rule.card_unplayable,«{card}» нельзя разыграть.,{card} cannot be played.
+rule.fits_only,«{module}» ставится только в секцию «{section}».,{module} fits only into the {section}.
+rule.not_now,Не сейчас.,Not now.
+rule.no_fight,Боя нет.,No fight.
+intent.attack,Атака,Attack
+intent.defend,Защита,Defend
+intent.fear,Страх,Fear
+intent.debuff,Ослабление,Debuff
+intent.buff,Усиление,Buff
+intent.heal,Лечение,Heal
+intent.unknown,Неизвестно,Unknown
+ui.boot.content_errors,Ошибки в данных — исправьте data/ и перезапустите,Content errors — fix data/ and restart
+ui.tutorial.next,Далее,Next
+ui.tutorial.skip_step,Пропустить шаг,Skip step
+ui.tutorial.skip_all,Пропустить обучение,Skip tutorial
+ui.tutorial.ask_title,Пройти обучение?,Play the tutorial?
+ui.tutorial.ask_text,"Подсказки покажут бой, снаряжение и город по шагам. Их можно отключить в любой момент.","Hints will walk you through combat, equipment and the city. You can turn them off at any time."
+ui.tutorial.ask_yes,"Да, с подсказками","Yes, with hints"
+ui.tutorial.ask_no,"Нет, я уже умею","No, I know how to play"
+ui.menu.settings,Настройки,Settings
+ui.settings.title,Настройки,Settings
+ui.settings.master,Общая громкость,Master volume
+ui.settings.music,Музыка и фон,Music and ambience
+ui.settings.sounds,Звуки,Sounds
+ui.settings.hints,Подсказки обучения,Tutorial hints
+ui.settings.reset_tutorial,Сбросить обучение,Reset tutorial
+ui.settings.reset_done,Обучение начнётся заново.,The tutorial will start again.
+ui.settings.fullscreen,Полный экран,Full screen
+ui.settings.close,Продолжить,Resume
+ui.settings.to_menu,В главное меню,Main menu
+tutorial.combat_intro.1.title,Тварь,The creature
+tutorial.combat_intro.1.text,"Ваш противник. Её сила, здоровье и части тела — здесь.","Your enemy: its strength, health and body parts."
+tutorial.combat_intro.2.title,Намерения,Intents
+tutorial.combat_intro.2.text,Что тварь сделает в свой ход. Число — сила удара или урон рассудку. Готовьтесь заранее.,What the creature does on its turn. The number is the hit or the Sanity damage. Prepare in advance.
+tutorial.combat_intro.3.title,Рука,Hand
+tutorial.combat_intro.3.text,Ваши карты на этот ход. Красная цифра в углу — сколько очков действия стоит карта.,Your cards for this turn. The red number is the card's cost in action points.
+tutorial.combat_intro.4.title,Очки действия,Action points
+tutorial.combat_intro.4.text,Три очка за ход. Каждая сыгранная карта тратит свою цену.,Three points a turn. Every card you play spends its cost.
+tutorial.combat_intro.5.title,Атака,Attack
+tutorial.combat_intro.5.text,"Нажмите карту атаки, например «Удар», затем тварь.","Click an attack card, for example Strike, then the creature."
+tutorial.combat_intro.6.title,Части тела,Body parts
+tutorial.combat_intro.6.text,Атаку можно направить в часть тела. Сломанная часть отключает ходы твари.,You can aim an attack at a body part. A broken part takes the creature's moves away.
+tutorial.combat_intro.7.title,Патроны,Ammo
+tutorial.combat_intro.7.text,Выстрелы тратят патроны. Карта «Перезарядка» возвращает их.,Shots use ammo. The Reload card brings it back.
+tutorial.combat_intro.8.title,Здоровье и рассудок,Health and Sanity
+tutorial.combat_intro.8.text,"Красная полоса — здоровье, фиолетовая — рассудок. Без рассудка придёт паника.","The red bar is health, the violet one Sanity. Without Sanity panic comes."
+tutorial.combat_intro.9.title,Конец хода,End turn
+tutorial.combat_intro.9.text,"Когда сделали всё, что хотели, — нажмите «Конец хода».","When you have done all you wanted, press End Turn."
+tutorial.equipment_intro.1.title,Ружьё,The rifle
+tutorial.equipment_intro.1.text,"Модули ставятся в ячейки своих секций: приклад, рама, магазин, прицел, ствол.","Modules go into the cells of their sections: stock, frame, magazine, sight, barrel."
+tutorial.equipment_intro.2.title,Ячейки,Cells
+tutorial.equipment_intro.2.text,"Модуль встаёт только на ячейки своего типа: шестерня, искра или кровь.","A module fits only cells of its type: gear, spark or blood."
+tutorial.equipment_intro.3.title,Запасные модули,Spare modules
+tutorial.equipment_intro.3.text,"Выберите модуль справа, правой кнопкой поверните, нажмите ячейку.","Pick a module on the right, rotate it with the right mouse button, click a cell."
+tutorial.equipment_intro.4.title,Колода,Deck
+tutorial.equipment_intro.4.text,Снаряжение и есть колода: каждый модуль добавляет карты или усиливает их.,Your gear is your deck: every module adds cards or makes them stronger.
+tutorial.equipment_intro.5.title,Броня,Armor
+tutorial.equipment_intro.5.text,В гнёзда брони ставятся механизмы — ещё карты и бонусы.,Mechanisms go into the armor sockets: more cards and bonuses.
+tutorial.district_intro.1.title,Серые Часовни,The Grey Chapels
+tutorial.district_intro.1.text,"Это ваш район — трущобы у края платформы. Зажмите левую кнопку мыши и тяните, чтобы осмотреться; колесо приближает.","This is your district, the slums at the platform edge. Hold the left mouse button and drag to look around; the wheel zooms."
+tutorial.district_intro.2.title,Не потеряйтесь,Do not get lost
+tutorial.district_intro.2.text,"«К охотнику» и «Домой» вернут взгляд к фигурке охотника или к его чердаку. Пробел — тоже к охотнику.","«To the hunter» and «Home» bring the view back to the hunter's figure or the garret. Space works too."
+tutorial.district_intro.3.title,Прогулка,A walk
+tutorial.district_intro.3.text,Нажмите на улицу или здание — охотник пойдёт туда по улицам. Ходьба по району не тратит время.,Click a street or a building and the hunter walks there along the streets. Walking in the district costs no time.
+tutorial.district_intro.4.title,Места,Places
+tutorial.district_intro.4.text,"Дойдите до места, чтобы открыть его карточку. Пепельный чердак — отдых до утра, «Ржавая Шестерня» — снаряжение, Костровая площадь — охота.","Walk to a place to open its card. Ash Garret: rest until morning; the Rusty Cog: equipment; Bonfire Square: the hunt."
+tutorial.first_part_broken.1.title,Часть сломана,A part is broken
+tutorial.first_part_broken.1.text,Сломанная часть больше не действует: тварь потеряла связанные с ней ходы.,A broken part no longer works: the creature lost the moves tied to it.
+tutorial.first_panic.1.title,Паника,Panic
+tutorial.first_panic.1.text,Рассудок кончился. До конца боя в руку будут приходить бесполезные карты паники.,Sanity is gone. Until the end of the fight useless panic cards come to your hand.
+tutorial.first_no_ammo.1.title,Нет патронов,Out of ammo
+tutorial.first_no_ammo.1.text,"Магазин пуст. Сыграйте «Перезарядку», чтобы снова стрелять.",The magazine is empty. Play Reload to shoot again.
+tutorial.first_rent.1.title,Аренда,Rent
+tutorial.first_rent.1.text,Завтра день аренды. Держите деньги на оплату комнаты.,Rent is due tomorrow. Keep money for the room.
 card.strike.name,Удар,Strike
 card.strike.text,Нанесите 6 урона.,Deal 6 damage.
 card.guard.name,Защита,Guard
@@ -454,92 +568,66 @@ district.SCARLET.look,"Узкие переулки под красными фо�
 district.SCARLET.area.lantern_alley,Фонарный переулок,Lantern Alley
 district.SCARLET.area.the_auction_house,Аукционный дом,The Auction House
 district.SCARLET.area.velvet_steps,Бархатные ступени,Velvet Steps
-rule.on_self,Эту карту играют на себя.,Play this on yourself.
-rule.aim_creature,Цельтесь в тварь.,Aim at the creature.
-ui.combat.hp,Здоровье,HP
-ui.combat.none,нет,none
-section.sight,Прицел,Sight
-section.magazine,Магазин,Magazine
-section.stock,Приклад,Stock
-section.frame,Рама,Frame
-section.barrel,Ствол,Barrel
-trophy.black_lace,Чёрное кружево,Black lace
-trophy.chitin,Хитин,Chitin
-trophy.clay_mask,Глиняная маска,Clay mask
-trophy.fang,Клык,Fang
-trophy.finger_bone,Кость пальца,Finger bone
-trophy.lantern_glass,Стекло фонаря,Lantern glass
-trophy.mirror_shard,Осколок зеркала,Mirror shard
-trophy.scythe,Коса,Scythe
-trophy.sinew,Сухожилие,Sinew
-trophy.spark_core,Искровое ядро,Spark core
-trophy.tail_spike,Шип хвоста,Tail spike
-trophy.throat,Горло,Throat
-trophy.wing_dust,Пыльца с крыльев,Wing dust
-trophy.wyrm_tooth,Зуб змея,Wyrm tooth
-rule.card_unplayable,«{card}» нельзя разыграть.,{card} cannot be played.
-rule.fits_only,«{module}» ставится только в секцию «{section}».,{module} fits only into the {section}.
-rule.not_now,Не сейчас.,Not now.
-rule.no_fight,Боя нет.,No fight.
-intent.attack,Атака,Attack
-intent.defend,Защита,Defend
-intent.fear,Страх,Fear
-intent.debuff,Ослабление,Debuff
-intent.buff,Усиление,Buff
-intent.heal,Лечение,Heal
-intent.unknown,Неизвестно,Unknown
-ui.boot.content_errors,Ошибки в данных — исправьте data/ и перезапустите,Content errors — fix data/ and restart
-ui.tutorial.next,Далее,Next
-ui.tutorial.skip_step,Пропустить шаг,Skip step
-ui.tutorial.skip_all,Пропустить обучение,Skip tutorial
-ui.tutorial.ask_title,Пройти обучение?,Play the tutorial?
-ui.tutorial.ask_text,"Подсказки покажут бой, снаряжение и город по шагам. Их можно отключить в любой момент.","Hints will walk you through combat, equipment and the city. You can turn them off at any time."
-ui.tutorial.ask_yes,"Да, с подсказками","Yes, with hints"
-ui.tutorial.ask_no,"Нет, я уже умею","No, I know how to play"
-ui.menu.settings,Настройки,Settings
-ui.settings.title,Настройки,Settings
-ui.settings.master,Общая громкость,Master volume
-ui.settings.music,Музыка и фон,Music and ambience
-ui.settings.sounds,Звуки,Sounds
-ui.settings.hints,Подсказки обучения,Tutorial hints
-ui.settings.reset_tutorial,Сбросить обучение,Reset tutorial
-ui.settings.reset_done,Обучение начнётся заново.,The tutorial will start again.
-ui.settings.fullscreen,Полный экран,Full screen
-ui.settings.close,Продолжить,Resume
-ui.settings.to_menu,В главное меню,Main menu
-tutorial.combat_intro.1.title,Тварь,The creature
-tutorial.combat_intro.1.text,"Ваш противник. Её сила, здоровье и части тела — здесь.","Your enemy: its strength, health and body parts."
-tutorial.combat_intro.2.title,Намерения,Intents
-tutorial.combat_intro.2.text,Что тварь сделает в свой ход. Число — сила удара или урон рассудку. Готовьтесь заранее.,What the creature does on its turn. The number is the hit or the Sanity damage. Prepare in advance.
-tutorial.combat_intro.3.title,Рука,Hand
-tutorial.combat_intro.3.text,Ваши карты на этот ход. Красная цифра в углу — сколько очков действия стоит карта.,Your cards for this turn. The red number is the card's cost in action points.
-tutorial.combat_intro.4.title,Очки действия,Action points
-tutorial.combat_intro.4.text,Три очка за ход. Каждая сыгранная карта тратит свою цену.,Three points a turn. Every card you play spends its cost.
-tutorial.combat_intro.5.title,Атака,Attack
-tutorial.combat_intro.5.text,"Нажмите карту атаки, например «Удар», затем тварь.","Click an attack card, for example Strike, then the creature."
-tutorial.combat_intro.6.title,Части тела,Body parts
-tutorial.combat_intro.6.text,Атаку можно направить в часть тела. Сломанная часть отключает ходы твари.,You can aim an attack at a body part. A broken part takes the creature's moves away.
-tutorial.combat_intro.7.title,Патроны,Ammo
-tutorial.combat_intro.7.text,Выстрелы тратят патроны. Карта «Перезарядка» возвращает их.,Shots use ammo. The Reload card brings it back.
-tutorial.combat_intro.8.title,Здоровье и рассудок,Health and Sanity
-tutorial.combat_intro.8.text,"Красная полоса — здоровье, фиолетовая — рассудок. Без рассудка придёт паника.","The red bar is health, the violet one Sanity. Without Sanity panic comes."
-tutorial.combat_intro.9.title,Конец хода,End turn
-tutorial.combat_intro.9.text,"Когда сделали всё, что хотели, — нажмите «Конец хода».","When you have done all you wanted, press End Turn."
-tutorial.equipment_intro.1.title,Ружьё,The rifle
-tutorial.equipment_intro.1.text,"Модули ставятся в ячейки своих секций: приклад, рама, магазин, прицел, ствол.","Modules go into the cells of their sections: stock, frame, magazine, sight, barrel."
-tutorial.equipment_intro.2.title,Ячейки,Cells
-tutorial.equipment_intro.2.text,"Модуль встаёт только на ячейки своего типа: шестерня, искра или кровь.","A module fits only cells of its type: gear, spark or blood."
-tutorial.equipment_intro.3.title,Запасные модули,Spare modules
-tutorial.equipment_intro.3.text,"Выберите модуль справа, правой кнопкой поверните, нажмите ячейку.","Pick a module on the right, rotate it with the right mouse button, click a cell."
-tutorial.equipment_intro.4.title,Колода,Deck
-tutorial.equipment_intro.4.text,Снаряжение и есть колода: каждый модуль добавляет карты или усиливает их.,Your gear is your deck: every module adds cards or makes them stronger.
-tutorial.equipment_intro.5.title,Броня,Armor
-tutorial.equipment_intro.5.text,В гнёзда брони ставятся механизмы — ещё карты и бонусы.,Mechanisms go into the armor sockets: more cards and bonuses.
-tutorial.first_part_broken.1.title,Часть сломана,A part is broken
-tutorial.first_part_broken.1.text,Сломанная часть больше не действует: тварь потеряла связанные с ней ходы.,A broken part no longer works: the creature lost the moves tied to it.
-tutorial.first_panic.1.title,Паника,Panic
-tutorial.first_panic.1.text,Рассудок кончился. До конца боя в руку будут приходить бесполезные карты паники.,Sanity is gone. Until the end of the fight useless panic cards come to your hand.
-tutorial.first_no_ammo.1.title,Нет патронов,Out of ammo
-tutorial.first_no_ammo.1.text,"Магазин пуст. Сыграйте «Перезарядку», чтобы снова стрелять.",The magazine is empty. Play Reload to shoot again.
-tutorial.first_rent.1.title,Аренда,Rent
-tutorial.first_rent.1.text,Завтра день аренды. Держите деньги на оплату комнаты.,Rent is due tomorrow. Keep money for the room.
+district_map.GREY.landmark.old_grey_chapel.name,Старая Серая Часовня,The Old Grey Chapel
+district_map.GREY.landmark.old_grey_chapel.desc,Полуразрушенная серая часовня с одним сломанным шпилем; в дырах крыши теплятся свечи.,A ruined grey chapel with one broken spire; candles glow through the holes in its roof.
+district_map.GREY.landmark.silent_belfry.name,Безмолвная колокольня,The Silent Belfry
+district_map.GREY.landmark.silent_belfry.desc,"Высокая узкая башня без колокола, с лесами и фонарём на вершине.","A tall narrow tower with no bell, scaffolding, and a lantern at the top."
+district_map.GREY.landmark.north_gate.name,Северные ворота,North Gate
+district_map.GREY.landmark.north_gate.desc,"Железные ворота в кирпичной арке, закованные цепью; за ними светятся огни Нордхала.","An iron gate in a brick arch, chained shut; the lights of Nordhal glow beyond it."
+district_map.GREY.landmark.ash_market.name,Пепельный рынок,Ash Market
+district_map.GREY.landmark.ash_market.desc,"Площадь с заплатанными палатками вокруг трёх костров, повозками и тенями толпы.","A square of patched canvas stalls around three bonfires, carts, and crowd shapes."
+district_map.GREY.landmark.rag_and_bone.name,Лавка старьёвщика,Rag-and-Bone Shop
+district_map.GREY.landmark.rag_and_bone.desc,Кривая двухэтажная лавка с тележкой хлама у входа и вывеской в форме кости.,A crooked two-storey shop with a cart of scrap outside and a bone-shaped sign.
+district_map.GREY.landmark.lantern_and_hook.name,Таверна «Фонарь и Крюк»,The Lantern & Hook
+district_map.GREY.landmark.lantern_and_hook.desc,Низкая широкая таверна: тёплый свет в каждом окне и охотничий крюк над дверью.,A wide low tavern with warm light in every window and a hunter's hook over the door.
+district_map.GREY.landmark.ash_garret.name,Пепельный чердак,Ash Garret
+district_map.GREY.landmark.ash_garret.desc,"Узкий доходный дом с чердачным окном, где горит одна лампа.",A narrow tenement with a garret window where a single lamp burns.
+district_map.GREY.landmark.rusty_cog.name,Мастерская «Ржавая Шестерня»,The Rusty Cog
+district_map.GREY.landmark.rusty_cog.desc,Кирпичная мастерская с огромной ржавой шестерней над воротами и искрами из трубы.,A brick workshop with a huge rusty cog over the gate and sparks from the chimney.
+district_map.GREY.landmark.bonfire_square.name,Костровая площадь,Bonfire Square
+district_map.GREY.landmark.bonfire_square.desc,"Маленькая площадь с большим костром и столбом, обклеенным листовками.",A small square with a big bonfire and a post covered in pinned leaflets.
+district_map.GREY.landmark.candle_bridge.name,Мост Свечей,Candle Bridge
+district_map.GREY.landmark.candle_bridge.desc,Старый каменный мост над туманом; сотни свечей на парапетах помнят мёртвых.,An old stone bridge over the fog; hundreds of candles on its parapets mark the dead.
+district_map.GREY.landmark.fog_cellars.name,Туманные подвалы,The Fog Cellars
+district_map.GREY.landmark.fog_cellars.desc,"Полузатопленные входы в подвалы и лестницы, уходящие вниз, в серый туман.",Half-flooded cellar entrances and stairs going down into grey fog.
+district_map.GREY.landmark.crypt_scriptorium.name,Склеп-скрипторий,Crypt Scriptorium
+district_map.GREY.landmark.crypt_scriptorium.desc,Вход в склеп у часовни: лампа для чтения и стопки книг под сводом.,A crypt entrance beside the chapel with a reading lamp and stacks of books under the vault.
+district_map.GREY.landmark.god_in_the_wall.name,Бог в стене,The God in the Wall
+district_map.GREY.landmark.god_in_the_wall.desc,"Огромный лик, вырезанный в стене Кольца; у его подножия свечи и серые лоскуты.","A huge face carved into the Ringwall, with candles and grey cloth strips at its base."
+district_map.GREY.landmark.edge_walk.name,Дорожка над Бездной,Edge Walk
+district_map.GREY.landmark.edge_walk.desc,Узкая дорожка с перилами вдоль стены; туман льётся через край.,A narrow railed walkway along the wall; fog pours over the edge.
+district_map.GREY.landmark.old_aqueduct.name,Старый акведук,The Old Aqueduct
+district_map.GREY.landmark.old_aqueduct.desc,"Длинный кирпичный акведук на высоких арках, с плющом и капающей водой.","A long brick aqueduct on high arches, with ivy and dripping water."
+district_map.GREY.landmark.ash_sisters.name,Лазарет Пепельных сестёр,Ash Sisters' Infirmary
+district_map.GREY.landmark.ash_sisters.desc,Бывший дом при часовне: белые простыни в окнах и красная лампа.,A former chapel house with white sheets in the windows and a red lamp.
+district_map.GREY.landmark.nameless_yard.name,Безымянное кладбище,The Nameless Yard
+district_map.GREY.landmark.nameless_yard.desc,"Кладбище за стеной: покосившиеся деревянные кресты, свежие раскрытые могилы и вороны.","A walled graveyard with crooked wooden markers, open fresh graves, and crows."
+district_map.GREY.landmark.broken_hoist.name,Сломанный подъёмник,The Broken Hoist
+district_map.GREY.landmark.broken_hoist.desc,"Рухнувшая железная башня лифта, наклонённая над краем; тросы оборваны, клеть заколочена.","A collapsed iron lift tower leaning over the edge, with snapped cables and a boarded cage."
+district_map.GREY.landmark.south_passage.name,Южный проход,South Passage
+district_map.GREY.landmark.south_passage.desc,"Тоннель под виадуком, перегороженный деревянной баррикадой и цепью.","A tunnel under a viaduct, closed with a wooden barricade and a chain."
+district_map.GREY.landmark.west_crossing.name,Западный переезд,West Crossing
+district_map.GREY.landmark.west_crossing.desc,Железнодорожный переезд с опущенным шлагбаумом и сигнальной лампой.,A level crossing with a lowered barrier and a signal lamp.
+district_map.GREY.landmark.tram_depot.name,Трамвайное депо,The Tram Depot
+district_map.GREY.landmark.tram_depot.desc,"Три длинных ангара, рельсы веером, поворотный круг и старый трамвайный вагон.","Three long engine sheds, fanned tracks, a turntable, and an old tram car."
+district_map.GREY.street.ash_street,Пепельная улица,Ash Street
+district_map.GREY.street.north_road,Северная дорога,North Road
+district_map.GREY.street.belfry_steps,Ступени колокольни,Belfry Steps
+district_map.GREY.street.hook_lane,Крюков переулок,Hook Lane
+district_map.GREY.street.rail_track_lane,Путейский проулок,Rail Track Lane
+district_map.GREY.street.bridge_lane,Мостовой переулок,Bridge Lane
+district_map.GREY.street.rope_bridges,Верёвочные мосты,Rope Bridges
+district_map.GREY.street.railing_path,Тропа у перил,Railing Path
+district_map.GREY.street.cloister_path,Монастырская тропа,Cloister Path
+district_map.GREY.street.hollow_stair,Лестница в лог,Hollow Stair
+district_map.GREY.street.aqueduct_walk,Тропа по акведуку,Aqueduct Walk
+district_map.GREY.street.gutter_road,Сточная дорога,Gutter Road
+district_map.GREY.street.grave_path,Кладбищенская тропа,Grave Path
+district_map.GREY.street.yard_road,Дворовая улица,Yard Road
+district_map.GREY.street.viaduct_road,Дорога у виадука,Viaduct Road
+district_map.GREY.zone.edge_walk,Дорожка над Бездной,Edge Walk
+district_map.GREY.zone.fog_hollow,Туманный лог,Fog Hollow
+district_map.GREY.zone.chapel_close,Часовенный двор,Chapel Close
+district_map.GREY.zone.shanty_roofs,Хибары на крышах,Shanty Roofs
+district_map.GREY.zone.ash_quarter,Пепельный квартал,Ash Quarter
+district_map.GREY.zone.lower_yards,Нижние дворы,Lower Yards

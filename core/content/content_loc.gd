@@ -38,6 +38,8 @@ static func fields(data: ContentData) -> Array[Dictionary]:
 		_add(out, sh, "shape.%s" % sh.id, ["name"])
 	for d: DistrictDef in data.districts.values():
 		_add(out, d, "district.%s" % d.id, ["name", "district_class", "controller", "danger", "look"])
+	for dm: DistrictMapDef in data.district_maps.values():
+		_district_map(out, dm)
 	return out
 
 
@@ -48,6 +50,16 @@ static func area_keys(data: ContentData) -> Dictionary[String, String]:
 		for area: StringName in d.area_names.keys():
 			out["district.%s.area.%s" % [d.id, area]] = d.area_names[area]
 	return out
+
+
+static func _district_map(out: Array[Dictionary], dm: DistrictMapDef) -> void:
+	var base := "district_map.%s" % dm.district
+	for l: DistrictMapDef.LandmarkDef in dm.landmarks:
+		_add(out, l, "%s.landmark.%s" % [base, l.id], ["name", "desc"])
+	for st: DistrictMapDef.StreetDef in dm.streets:
+		_add(out, st, "%s.street.%s" % [base, st.id], [""])
+	for z: DistrictMapDef.ZoneDef in dm.zones:
+		_add(out, z, "%s.zone.%s" % [base, z.id], [""])
 
 
 static func _monster(out: Array[Dictionary], m: MonsterDef) -> void:

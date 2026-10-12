@@ -6,6 +6,7 @@ extends Node
 const CITY_MAP := "res://scenes/city_map/city_map_screen.tscn"
 const COMBAT := "res://scenes/combat/combat_screen.tscn"
 const EQUIPMENT := "res://scenes/equipment/equipment_screen.tscn"
+const DISTRICT := "res://scenes/district_map/district_map_screen.tscn"
 
 var _dir := ""
 
@@ -23,6 +24,7 @@ func _run() -> void:
 	await _wait(1.5)
 	await _shot("01_main_menu")
 	GameState.new_game(1)
+	await _district_shots()
 	get_tree().change_scene_to_file(CITY_MAP)
 	await _wait(1.5)
 	await _shot("02_city_map")
@@ -35,13 +37,35 @@ func _run() -> void:
 		_hover(view, &"LUMEN")
 		await _wait(0.5)
 		await _shot("03_hover_lumen")
-		GameState.move_hero(&"SCARLET")
 		_hover(view, &"SCARLET")
 		await _wait(0.5)
-		await _shot("04_hero_in_scarlet")
+		await _shot("04_hover_locked")
 	await _equipment_shots()
 	await _combat_shots()
 	get_tree().quit()
+
+
+## The district map (GDD 20): start at home, walk to the Rusty Cog, its card, then the calibration overlay (F3).
+func _district_shots() -> void:
+	get_tree().change_scene_to_file(DISTRICT)
+	await _wait(2.0)
+	await _shot("11_district_map")
+	var screen := get_tree().current_scene
+	var map := ContentDB.data.district_map(GameState.run.hero_district)
+	screen.call("_on_landmark_clicked", map.landmark(&"rusty_cog"))
+	await _wait(0.8)
+	await _shot("12_district_walk")
+	await _wait(2.5)
+	await _shot("13_district_card")
+	for n: Node in screen.find_children("*", "Control", true, false):
+		if n is DistrictView:
+			var v := n as DistrictView
+			v.overlay.toggle_debug()
+			v.call("_zoom_at", v.size * 0.5, 0.1)
+			v.follow = null
+			v.center_on(map.node_pos(&"square"))
+	await _wait(0.5)
+	await _shot("14_district_calibration")
 
 
 func _equipment_shots() -> void:
@@ -58,6 +82,7 @@ func _equipment_shots() -> void:
 
 
 func _combat_shots() -> void:
+	GameState.run.open_districts.append(&"NORDHAL")  # dev run only: unlock the district the shots use (bypasses GameState on purpose)
 	GameState.move_hero(&"NORDHAL")
 	GameState.start_hunt(&"vigil_hound")
 	get_tree().change_scene_to_file(COMBAT)

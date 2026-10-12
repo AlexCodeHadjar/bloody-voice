@@ -27,17 +27,21 @@
  "music": {
   "menu": {"file": "music/MUSIC__graveyard.ogg", "db": -14},
   "city": {"file": "music/MUSIC__investigation.ogg", "db": -16},
-  "combat": {"file": "music/MUSIC__horror.ogg", "db": -14}
+  "combat": {"file": "music/MUSIC__horror.ogg", "db": -14},
+  "district": {"file": "music/MUSIC__deep_humidity.ogg", "db": -18}
  },
  "ambience": {
   "rain": {"file": "ambience/AMB__rain_night.ogg", "db": -20},
-  "cellar": {"file": "ambience/AMB__dungeon.ogg", "db": -18}
+  "cellar": {"file": "ambience/AMB__dungeon.ogg", "db": -18},
+  "fire": {"file": "ambience/AMB__fire.wav", "db": -20},
+  "wind": {"file": "ambience/AMB__cavern.ogg", "db": -22}
  },
  "screens": {
   "menu": {"music": "menu", "ambience": ""},
   "city": {"music": "city", "ambience": "rain"},
   "equipment": {"music": "city", "ambience": "rain"},
-  "combat": {"music": "combat", "ambience": ""}
+  "combat": {"music": "combat", "ambience": ""},
+  "district": {"music": "district", "ambience": "rain"}
  },
  "monster_events": {
   "_comment": "Creature voices: res://audio/monsters/<ID>/<ID>__<event>_NN.ogg, a random variant each time.",

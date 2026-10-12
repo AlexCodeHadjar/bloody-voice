@@ -38,7 +38,7 @@ func _ready() -> void:
 	box.add_child(_hint)
 
 
-func show_district(d: DistrictDef, state: StringName, is_hero_here: bool) -> void:
+func show_district(d: DistrictDef, state: StringName, is_hero_here: bool, locked: bool = false) -> void:
 	if d == null:
 		return
 	_art.texture = UiKit.texture(d.art_path("scene", String(state)))
@@ -56,4 +56,7 @@ func show_district(d: DistrictDef, state: StringName, is_hero_here: bool) -> voi
 	_facts.text = Loc.t("ui.district.facts", {"class": d.district_class, "controller": d.controller, "danger": d.danger,
 		"areas": ", ".join(areas)})
 	_look.text = d.look
-	_hint.text = Loc.t("ui.district.hunter_here") if is_hero_here else Loc.t("ui.district.send")
+	if locked:
+		_hint.text = Loc.t("ui.district.locked")
+	else:
+		_hint.text = Loc.t("ui.district.hunter_here") if is_hero_here else Loc.t("ui.district.send")

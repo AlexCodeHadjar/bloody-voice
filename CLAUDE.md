@@ -23,6 +23,8 @@
 ## Экономия контекста
 
 Общие правила (git diff, git log, чтение частями) — в `~/.claude/CLAUDE.md`. Здесь только своё:
+- **Картинки не открывать без прямой просьбы владельца.** Для проверки сначала текст (страница, лог, данные, тесты);
+  скриншот — только если без него никак, и уменьшенный.
 - Критикам — задача, «что сделано» коротким списком, файлы и `git diff --stat`; код не пересказывать (diff смотрят сами).
 - **Справочник — сначала он, потом поиск:** `docs/reference/code.md` (все скрипты: класс, назначение, функции),
   `data.md` (файлы данных и id, ключи перевода), `assets.md` (арт и звук в игре, чего не прислали) — их обновляет
@@ -53,8 +55,9 @@
 |---|---|
 | Контент | `core/content/` (`content_loader`, `content_validator`, `def_reader`, `effect_schema`, `effect_text` — текст хода из эффектов, `loc` + `content_loc` — русский текст, `defs/`); `data/` |
 | Перевод | `locale/strings.csv` (keys, ru, en; `.translation` создаёт импорт) · `tools/gen_locale.py` · тест `tests/test_locale.gd` |
-| Состояние | `core/state/run_state.gd` (день, деньги, район, `CityState`, `LoadoutState`; `SAVE_VERSION` 2), `save_migrations.gd`; бой — `core/state/combat/` |
-| Время, город | `core/rules/time/` (календарь, конец дня, аренда); `core/rules/city/` (попадание по карте, состояния районов) |
+| Состояние | `core/state/run_state.gd` (день, деньги, район, `hero_node`, `open_districts`, `CityState`, `LoadoutState`; `SAVE_VERSION` 3), `save_migrations.gd`; бой — `core/state/combat/` |
+| Время, город | `core/rules/time/` (календарь, конец дня, аренда); `core/rules/city/` (попадание по карте, состояния районов, `district_map_rules` — путь по улицам района) |
+| Район (GDD §20) | данные `data/city/district_maps/GREY.json` (улицы, места, зоны, звук; размечено по итоговой карте) и `data/city/district_life/GREY.json` (жители, сценки, декор); defs `district_map_def`, `district_life_def`; экран `scenes/district_map/` (камера, герой, карточка места, F3 — разметка; `life/` — жители); проверка разметки `tools/check_district_map.py` |
 | Бой | `core/rules/combat/` (`combat_rules` поток, `effect_applier`, `damage_rules`, `enemy_rules`, `deck_rules`, `status_rules`, `capture_rules`, `gear_effect_rules` — бонусы снаряжения) |
 | Снаряжение (GDD §5) | состояние `core/state/loadout_state.gd`; правила `core/rules/gear/` (`weapon_grid_rules` ячейки/поворот/связки, `armor_rules` гнёзда, `deck_builder` колода и бонусы → `CombatSetup`); defs `weapon_def`, `module_def`, `gear_misc_defs`, `gear_mods.gd`, `gear_validator.gd`; данные `data/gear/`, старт — `balance.json/gear`; экран `scenes/equipment/` |
 | Генерация | `core/generation/` (`seeded_rng`, `encounter_rules` — заглушка до слухов) |
@@ -62,7 +65,7 @@
 | Автозагрузки | `EventBus`, `ContentDB`, `Rng`, `SaveService`, `GameState` (фасад-команды), `Sound` (звук, GDD §24), `Profile` (настройки игрока, `user://profile.cfg`), `Tutorial` (подсказки), `DevShots` |
 | Обучение (GDD §22) | данные `data/tutorial/sequences.json`; `ui/tutorial/` (`tutorial_flow` логика, `tutorial_anchors` — экраны регистрируют подсвечиваемое, `tutorial_overlay`); `Tutorial.trigger()/action()` из экранов; настройки `scenes/settings/settings_panel.gd` |
 | Звук | `audio/` (из набора владельца: `tools/import_audio.py`), что где звучит — `data/audio/sounds.json` (`AudioDef`, `AudioValidator`); экраны — `UiKit.sound()/screen_sound()/monster_sound()`, бой — `scenes/combat/combat_sounds.gd`; титры `docs/credits.md` |
-| Экраны | `scenes/boot`, `menu`, `city_map` (карта, карточка района), `equipment` (оружие, броня), `combat` (бой) |
+| Экраны | `scenes/boot`, `menu`, `district_map` (главный экран: район), `city_map` (карта города, закрытые районы), `equipment` (оружие, броня), `combat` (бой) |
 | UI | `ui/theme/palette.gd`, `ui_kit.gd` (тема, шрифты `ui/fonts/` — PT Serif, заголовки Old Standard TT), `icons.gd` (иконки по набору и id) |
 | Арт | `assets/` и `assets/png/` исходники (не в git) → `tools/import_art.py` → `art/` (твари, модули, иконки; `TEX__*` — бесшовные текстуры; листы жителей `LIFE__*__sheet` → `art/ui/life/` через `tools/life_sprites.py`); контуры районов `data/city/map_regions.json` |
 | Иконки | каталог `data/ui/icons.json` |

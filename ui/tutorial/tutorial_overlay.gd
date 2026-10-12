@@ -76,9 +76,12 @@ func _place() -> void:
 			pos.y = h.end.y + 16.0
 		elif h.position.y - size.y - 24.0 > 0.0:
 			pos.y = h.position.y - size.y - 16.0
-		else:
-			pos = Vector2(h.end.x + 16.0 if h.end.x + size.x + 16.0 < screen.x else h.position.x - size.x - 16.0,
-				clampf(h.position.y, 16.0, screen.y - size.y - 16.0))
+		elif h.end.x + size.x + 16.0 < screen.x:
+			pos = Vector2(h.end.x + 16.0, clampf(h.position.y, 16.0, screen.y - size.y - 16.0))
+		elif h.position.x - size.x - 16.0 > 0.0:
+			pos = Vector2(h.position.x - size.x - 16.0, clampf(h.position.y, 16.0, screen.y - size.y - 16.0))
+		else:  # the cut-out fills the screen (a whole map): the bubble sits inside it, near the bottom
+			pos.y = clampf(h.end.y - size.y - 40.0, 16.0, screen.y - size.y - 16.0)
 	_bubble.position = pos
 
 

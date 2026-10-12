@@ -18,4 +18,5 @@ Thumbs.db
 # Tools
 __pycache__/
 map_regions_check.png
+*_calibration.png
 

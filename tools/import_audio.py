@@ -29,6 +29,7 @@ FILES = {
     "02_Ambience/dungeon/dungeon_ambient_1_0.ogg": "ambience/AMB__dungeon.ogg",
     "02_Ambience/dark_cavern/dark_cavern_ambient_001.ogg": "ambience/AMB__cavern.ogg",
     "02_Ambience/wind_chimes/Free Wind Chimes Ogg/wind_chimes_loop_1.ogg": "ambience/AMB__wind_chimes.ogg",
+    "02_Ambience/fireplace/fire.wav": "ambience/AMB__fire.wav",
     "05_Creatures_and_Body/heartbeat/heartbeat_fast_0.wav": "sfx/BODY__heartbeat.wav",
     "05_Creatures_and_Body/crow/crow_caw.wav": "sfx/WORLD__crow.wav",
 }

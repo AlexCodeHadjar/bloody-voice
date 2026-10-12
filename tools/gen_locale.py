@@ -3,7 +3,7 @@
 Run from the project root:  python tools/gen_locale.py
 
 - adds a row for every content text found in data/*.json (card names and texts, creatures with their parts, moves and
-  phases, weapons, modules, mechanisms, armor, shapes, districts with their areas); the en column is refreshed from
+  phases, weapons, modules, mechanisms, armor, shapes, districts with their areas, district maps: landmarks, streets, zones); the en column is refreshed from
   the JSON (the English working name), the ru column is kept;
 - keeps every other row (ui.*, effect.*, status.*, log.*) as it is;
 - prints the keys that still have no Russian text (tests/test_locale.gd fails on them).
@@ -18,6 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CSV = ROOT / "locale" / "strings.csv"
 DATA = ROOT / "data"
+KEEP_EN = None  # the JSON has no English text for this key: keep the en column of the table as it is
 
 
 def _json(rel: str):
@@ -61,6 +62,16 @@ def content_rows() -> dict[str, str]:
             rows[f"{base}.{field}"] = d[field]
         for a in d.get("areas", []):
             rows[f"{base}.area.{a['id']}"] = a["name"]
+    for f in sorted((DATA / "city" / "district_maps").glob("*.json")):
+        m = json.loads(f.read_text(encoding="utf-8"))
+        base = f"district_map.{m['district']}"
+        for lm in m.get("landmarks", []):
+            rows[f"{base}.landmark.{lm['id']}.name"] = lm["name"]
+            rows[f"{base}.landmark.{lm['id']}.desc"] = lm.get("desc", KEEP_EN)
+        for st in m.get("streets", []):
+            rows[f"{base}.street.{st['id']}"] = st["name"]
+        for z in m.get("zones", []):
+            rows[f"{base}.zone.{z['id']}"] = z.get("name", KEEP_EN)
     return rows
 
 
@@ -87,7 +98,8 @@ def main() -> None:
     content = content_rows()
     merged = {k: v for k, v in table.items() if k not in content}
     for key, en in content.items():
-        merged[key] = [table.get(key, ["", ""])[0], en]
+        old = table.get(key, ["", ""])
+        merged[key] = [old[0], old[1] if en is KEEP_EN else en]
     write_table(merged)
     missing = [k for k, (ru, _) in merged.items() if not ru]
     print(f"{len(merged)} keys, {len(missing)} without Russian text")

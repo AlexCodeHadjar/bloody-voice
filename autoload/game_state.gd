@@ -36,10 +36,24 @@ func save_game() -> void:
 
 ## Free action (GDD 3.3): move the hero figure to another district.
 func move_hero(district: StringName) -> void:
-	if run == null or district == run.hero_district or ContentDB.data.district(district) == null:
+	if run == null or district == run.hero_district or ContentDB.data.district(district) == null or not is_open(district):
 		return
 	run.hero_district = district
+	run.hero_node = &""
 	EventBus.hero_moved.emit(district)
+
+
+## Locked districts cannot be entered until story events open them.
+func is_open(district: StringName) -> bool:
+	return run != null and run.open_districts.has(district)
+
+
+## Where the hero stands on the district map. Not saved here: the district screen saves when it wants.
+func set_hero_node(node: StringName) -> void:
+	if run == null or node == &"" or node == run.hero_node:
+		return
+	run.hero_node = node
+	EventBus.hero_node_changed.emit(node)
 
 
 ## Ends the current day (the main day actions will call this after their effect).

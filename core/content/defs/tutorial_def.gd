@@ -7,9 +7,9 @@ const TRIGGERS: Array[StringName] = [&"combat_start", &"equipment_open", &"part_
 	&"rent_tomorrow", &"district_open", &"first_rumor"]
 ## Elements a step can highlight (screens register them in TutorialAnchors).
 const ANCHORS: Array[StringName] = [&"enemy", &"intents", &"hand", &"ap", &"parts", &"weapon", &"vials", &"end_turn",
-	&"weapon_grid", &"spares", &"deck", &"armor", &"day_bar", &"battle"]
+	&"weapon_grid", &"spares", &"deck", &"armor", &"day_bar", &"battle", &"district_map", &"camera_buttons"]
 ## Player actions a `do` step waits for.
-const ACTIONS: Array[StringName] = [&"attack_played", &"end_turn", &"module_installed"]
+const ACTIONS: Array[StringName] = [&"attack_played", &"end_turn", &"module_installed", &"hero_walked"]
 
 
 class StepDef:

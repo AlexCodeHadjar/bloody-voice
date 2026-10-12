@@ -24,6 +24,15 @@
    {"anchor": "armor"}
   ]
  },
+ "district_intro": {
+  "trigger": "district_open",
+  "steps": [
+   {"anchor": "district_map"},
+   {"anchor": "camera_buttons"},
+   {"anchor": "district_map", "do": "hero_walked"},
+   {"anchor": "district_map"}
+  ]
+ },
  "first_part_broken": {"trigger": "part_broken", "steps": [{"anchor": "parts"}]},
  "first_panic": {"trigger": "panic", "steps": [{"anchor": "vials"}]},
  "first_no_ammo": {"trigger": "no_ammo", "steps": [{"anchor": "weapon"}]},

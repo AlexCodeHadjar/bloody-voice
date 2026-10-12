@@ -1,7 +1,7 @@
 extends Control
 ## Title screen: New game / Continue / Quit over the city map.
 
-const CITY_MAP := "res://scenes/city_map/city_map_screen.tscn"
+const DISTRICT := "res://scenes/district_map/district_map_screen.tscn"
 const BACKGROUND := "res://art/city/map/HALLOWDEEP__map__normal.webp"
 
 
@@ -98,9 +98,9 @@ func _start_new(with_hints: bool) -> void:
 		Profile.set_hints(false)
 	GameState.new_game()
 	GameState.save_game()
-	get_tree().change_scene_to_file(CITY_MAP)
+	get_tree().change_scene_to_file(DISTRICT)
 
 
 func _on_continue() -> void:
 	if GameState.continue_game():
-		get_tree().change_scene_to_file(CITY_MAP)
+		get_tree().change_scene_to_file(DISTRICT)

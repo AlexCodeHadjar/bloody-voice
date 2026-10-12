@@ -66,6 +66,13 @@ static func screen_sound(screen_id: StringName) -> void:
 		s.call("screen", screen_id)
 
 
+## The second ambience layer of the zone under the camera ("" = none).
+static func zone_sound(ambience_id: StringName) -> void:
+	var s := _sound_service()
+	if s != null:
+		s.call("zone", ambience_id)
+
+
 ## A creature's own voice (select / attack / hit / idle / phase2).
 static func monster_sound(monster: StringName, event: StringName) -> void:
 	var s := _sound_service()

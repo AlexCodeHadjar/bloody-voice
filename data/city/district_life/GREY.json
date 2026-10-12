@@ -1,0 +1,90 @@
+{
+ "_comment": "Life on the Grey Chapels map (map-life-people.md): passers-by, groups, local characters, roles, animals, standing scenes and effects. Positions are art pixels of the 4000 x 6000 map and must be inside the district contour; 'nodes' are street-graph ids. Atmosphere only. mode: wander | stand | work | circle | dash. slot = first picture of the sheet (towards; away = slot+1; work alternates slot and slot+1); single = one picture only.",
+ "district": "GREY",
+ "period": "evening",
+ "scales": {"figure": 0.22, "scene": 0.28, "emote": 0.3, "shadow": 0.42, "variation": {"scale": 0.05, "speed": 0.2, "value": 0.1}},
+ "walkers": {
+  "count": 20,
+  "kinds": [
+   {"set": "pass_workers", "weight": 5, "speed": 72, "periods": ["day", "evening"]},
+   {"set": "pass_burdens", "weight": 4, "speed": 62, "periods": ["day", "evening"]},
+   {"set": "pass_elders", "weight": 3, "speed": 40, "periods": ["day", "evening"]},
+   {"set": "pass_pairs", "weight": 3, "speed": 60, "periods": ["day", "evening", "night"]},
+   {"set": "pass_children", "weight": 3, "speed": 110, "periods": ["day", "evening"]},
+   {"set": "pass_night", "weight": 4, "speed": 70, "periods": ["evening", "night"]},
+   {"set": "pass_rain", "weight": 3, "speed": 70, "periods": ["rain"]},
+   {"set": "pass_visitors", "weight": 1, "speed": 65, "periods": ["day", "evening", "night"]}
+  ]
+ },
+ "walking_groups": [
+  {"id": "hunters", "art": "groups_1", "slot": 5, "mode": "wander", "speed": 48, "nodes": ["tavern", "workshop", "lane_e", "square", "sq_e", "ch_w"]},
+  {"id": "vigil_patrol", "art": "groups_2", "slot": 1, "mode": "wander", "speed": 45, "nodes": ["north_gate", "n_lane", "market", "mk_s", "lane_e", "square", "ch_w", "chapel"]},
+  {"id": "drunk_choir", "art": "groups_2", "slot": 3, "mode": "wander", "speed": 32, "nodes": ["tavern", "home", "workshop", "shop", "lane_e"]}
+ ],
+ "locals": [
+  {"id": "tobias", "art": "locals_1", "slot": 3, "mode": "work", "pos": [2240, 2060]},
+  {"id": "grisl", "art": "locals_1", "slot": 5, "mode": "wander", "speed": 52, "chat": true, "nodes": ["market", "mk_nw", "mk_s", "mk_ne"]},
+  {"id": "pip", "art": "locals_2", "slot": 1, "mode": "wander", "speed": 125, "chat": true, "nodes": ["square", "lane_e", "mk_s", "sq_s"]},
+  {"id": "maddock", "art": "locals_2", "slot": 5, "mode": "wander", "speed": 44, "chat": true, "nodes": ["market", "mk_s", "lane_e", "square", "gate_lane"]},
+  {"id": "aldric", "art": "locals_3", "slot": 5, "mode": "wander", "speed": 50, "nodes": ["north_gate", "gate_lane", "n_lane", "mk_nw", "market", "mk_s", "lane_e", "square"]},
+  {"id": "nell", "art": "locals_4", "slot": 7, "mode": "work", "pos": [985, 1835]},
+  {"id": "horn", "art": "locals_5", "slot": 3, "mode": "stand", "pos": [1060, 1745]},
+  {"id": "agatha", "art": "locals_5", "slot": 7, "mode": "work", "pos": [1985, 3560]},
+  {"id": "mortimer", "art": "locals_6", "slot": 3, "mode": "work", "pos": [2640, 2720]},
+  {"id": "corvina", "art": "locals_7", "slot": 1, "mode": "wander", "speed": 42, "nodes": ["chapel", "ch_w", "ch_e"]},
+  {"id": "rebb", "art": "locals_7", "slot": 7, "mode": "work", "pos": [1760, 4250]},
+  {"id": "izzy", "art": "locals_8", "slot": 3, "mode": "work", "pos": [1400, 1800]},
+  {"id": "ezekiah", "art": "locals_8", "slot": 7, "mode": "work", "pos": [1880, 1330]},
+  {"id": "humbert", "art": "locals_9", "slot": 1, "mode": "wander", "speed": 58, "nodes": ["ly_1", "ly_2", "ly_3", "ly_4", "depot"]},
+  {"id": "sparrows", "art": "locals_10", "slot": 1, "mode": "wander", "speed": 125, "nodes": ["square", "roofs", "sq_e"]},
+  {"id": "grey_stranger", "art": "locals_10", "slot": 5, "mode": "stand", "pos": [1640, 2760], "fade_near": 350, "fade_back": [8, 20]}
+ ],
+ "roles": [
+  {"id": "chestnut_seller", "art": "roles_trade", "slot": 1, "mode": "stand", "pos": [2120, 1290]},
+  {"id": "candle_seller", "art": "roles_trade", "slot": 2, "mode": "stand", "pos": [2450, 2560]},
+  {"id": "butcher", "art": "roles_trade", "slot": 3, "mode": "stand", "pos": [1930, 1070]},
+  {"id": "beggar", "art": "roles_trade", "slot": 4, "mode": "stand", "pos": [1040, 1800]},
+  {"id": "bill_poster", "art": "roles_trade", "slot": 7, "mode": "stand", "pos": [2050, 1880]},
+  {"id": "lookout", "art": "roles_trade", "slot": 8, "mode": "stand", "pos": [1300, 1690]},
+  {"id": "cultist", "art": "roles_shadow", "slot": 1, "mode": "wander", "speed": 38, "nodes": ["chapel", "ch_w", "ch_e", "edge_c"]},
+  {"id": "chimney_sweep", "art": "roles_shadow", "slot": 7, "mode": "stand", "pos": [2450, 900]},
+  {"id": "ringwall_guard", "art": "roles_guards", "slot": 3, "mode": "stand", "pos": [3250, 1650]},
+  {"id": "pale_hound_hunter", "art": "roles_guards", "slot": 5, "mode": "wander", "speed": 58, "nodes": ["tavern", "home", "workshop", "lane_e", "square"]}
+ ],
+ "animals": [
+  {"id": "stray_dog", "art": "animals", "slot": 1, "single": true, "mode": "wander", "speed": 70, "nodes": ["home", "tavern", "workshop", "shop", "lane_e", "hb_1"]},
+  {"id": "cat", "art": "animals", "slot": 2, "mode": "stand", "pos": [1560, 1560]},
+  {"id": "crows", "art": "animals", "slot": 3, "mode": "stand", "pos": [1870, 4180]},
+  {"id": "flying_crow", "art": "animals", "slot": 4, "single": true, "mode": "circle", "pos": [2700, 2150], "radius": 260, "speed": 95},
+  {"id": "rats", "art": "animals", "slot": 5, "single": true, "mode": "dash", "pos": [1300, 3420], "to": [1500, 3460], "speed": 240, "interval": [20, 40]},
+  {"id": "pigeons", "art": "animals", "slot": 6, "mode": "stand", "pos": [2210, 2020]},
+  {"id": "chickens", "art": "animals", "slot": 7, "mode": "stand", "pos": [2450, 4600]},
+  {"id": "hound", "art": "animals", "slot": 8, "mode": "stand", "pos": [1180, 1790]}
+ ],
+ "scenes": [
+  {"art": "scene__market_crowd", "pos": [1960, 1230]},
+  {"art": "group__street_circus", "pos": [2180, 1330]},
+  {"art": "scene__fortune_teller", "pos": [2260, 1100]},
+  {"art": "scene__card_players", "pos": [980, 1640]},
+  {"art": "group__leaflet_readers", "pos": [2030, 1950]},
+  {"art": "scene__cult_circle", "pos": [2525, 2425]},
+  {"art": "scene__infirmary_queue", "pos": [1930, 3610]},
+  {"art": "scene__funeral", "pos": [1950, 4320]},
+  {"art": "scene__wall_cannon_crew", "pos": [3300, 4120]},
+  {"art": "group__wall_drill", "pos": [3300, 2450]},
+  {"art": "group__night_watch_fire", "pos": [1600, 540]},
+  {"art": "group__roof_repair", "pos": [2560, 1110]}
+ ],
+ "fx": [
+  {"art": "fx__bonfire", "kind": "flicker", "additive": true, "scale": 0.22, "rate": 7, "amp": 0.3, "points": [[2164, 1945], [2110, 1150], [1960, 1110], [2860, 1750]]},
+  {"art": "fx__sparks", "kind": "flicker", "additive": true, "scale": 0.25, "rate": 11, "amp": 0.5, "points": [[1490, 1835]]},
+  {"art": "deco__smoke", "kind": "smoke", "scale": 0.25, "rate": 0.16, "rise": 90, "points": [[950, 1500], [1250, 1400], [1700, 1450], [2350, 1250], [1150, 2150], [2600, 2950]]},
+  {"art": "fx__candles", "kind": "flicker", "additive": true, "scale": 0.25, "rate": 5, "amp": 0.15, "points": [[1350, 2440], [1560, 2440]]},
+  {"art": "deco__puddle_ring", "kind": "ripple", "scale": 0.3, "rate": 0.4, "points": [[1990, 1560], [1700, 1830], [1250, 1770], [1230, 2300], [1460, 3430], [1500, 4400]]},
+  {"art": "deco__laundry_a", "art_b": "deco__laundry_b", "kind": "sway", "scale": 0.28, "rate": 0.6, "points": [[1020, 1880], [1250, 2050], [800, 1550]]},
+  {"art": "deco__banner_a", "art_b": "deco__banner_b", "kind": "sway", "scale": 0.28, "rate": 0.6, "points": [[1860, 1150], [2200, 1250]]},
+  {"art": "deco__leaflets", "kind": "static", "scale": 0.3, "points": [[2090, 1900]]},
+  {"art": "deco__chalk_sign", "kind": "static", "scale": 0.3, "points": [[2600, 2600]]},
+  {"art": "deco__litter", "kind": "static", "scale": 0.3, "points": [[1700, 1850], [2000, 1500], [1100, 1780]]}
+ ]
+}

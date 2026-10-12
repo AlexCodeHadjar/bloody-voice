@@ -12,6 +12,8 @@ static func validate(data: ContentData, errs: ErrorLog, check_files: bool = true
 	_monsters(data, errs)
 	GearValidator.validate(data, errs)
 	AudioValidator.validate(data, errs, check_files)
+	DistrictMapValidator.validate(data, errs, check_files)
+	DistrictLifeValidator.validate(data, errs, check_files)
 	if check_files:
 		_art(data, errs)
 
@@ -31,6 +33,11 @@ static func _balance(data: ContentData, errs: ErrorLog) -> void:
 		errs.add(w, "capture max_chance must be in (0, 1]")
 	if not data.districts.has(b.start_district):
 		errs.add(w, "hero start_district '%s' is not a district" % b.start_district)
+	if not b.open_districts.has(b.start_district):
+		errs.add(w, "hero start_district '%s' must be in open_districts" % b.start_district)
+	for open_id: StringName in b.open_districts:
+		if not data.districts.has(open_id):
+			errs.add(w, "open_districts '%s' is not a district" % open_id)
 	if b.starter_deck.is_empty():
 		errs.add(w, "hero starter_deck is empty")
 	for card_id: StringName in b.starter_deck:
