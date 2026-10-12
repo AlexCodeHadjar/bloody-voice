@@ -40,9 +40,10 @@ and warns before a node would cross a Voice stage.
 
 ## 23.3 Art to generate later
 
-The screens work with the existing art (module art, icons, silhouettes) and drawn frames. The missing pieces —
-30 images for the three screens (background, web textures, list row, tabs, craft button and token, node frames of
-both webs, cards, buttons, the gauge tube); states, grids, web lines and gauge fills are drawn by code — are in one ChatGPT file: [`docs/art-prompts/remaining-ui-transparent.md`](../art-prompts/remaining-ui-transparent.md) (transparent PNG).
+The screens work with the existing art (module art, icons, silhouettes) plus the workshop and skill-web pieces
+received 2026-10-12: `art/ui/WORKSHOP__*` (background, blueprint sheet, tab, craft button and token, salvage / upgrade
+icons, tier pip) and `art/ui/SKILLS__*` (web textures, tabs, start medallions, node frames of both webs, card nodes,
+attribute plus, monster button, gauge tube, Voice warning). States, grids, web lines and gauge fills are drawn by code.
 
 ## 23.4 Open questions for the owner
 

@@ -45,7 +45,7 @@ tools/check_all.sh                  # только по просьбе влад�
 ## Промты для ChatGPT
 
 - Город, районы, состояния районов, интерфейс — `docs/gdd/16-art-direction-and-generation-prompts.md`.
-- Ещё не полученный арт — `docs/art-prompts/remaining-ui-transparent.md` и `art-backlog.md`.
+- Ещё не полученный арт — `docs/art-prompts/art-backlog.md` (блоки стиля — `style-blocks.md`).
 - Промты к полученному арту удалены (2026-10-12, экономия токенов); новый промт пиши по образцу GDD §16,
   шаблоны-картинки лежат в `docs/assets/templates/`.
 - Новые иконки или модули добавляй сначала в данные (`data/ui/icons.json`, `data/gear/modules.json`).

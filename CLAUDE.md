@@ -74,6 +74,6 @@
 | UI | `ui/theme/palette.gd`, `ui_kit.gd` (тема, шрифты `ui/fonts/` — PT Serif, заголовки Old Standard TT), `icons.gd` (иконки по набору и id) |
 | Арт | `assets/` и `assets/png/` исходники (не в git) → `tools/import_art.py` → `art/` (твари, модули, иконки; `TEX__*` — бесшовные текстуры; листы жителей `LIFE__*__sheet` → `art/ui/life/` через `tools/life_sprites.py`); контуры районов `data/city/map_regions.json` |
 | Иконки | каталог `data/ui/icons.json` |
-| Документы | `docs/gdd/` (GDD по разделам; §20 район, §21 бой v2, §22 обучение и русский, §23 мастерская и ветки, §24 звук), `docs/art-prompts/` (только арт, которого ещё нет: `remaining-ui-transparent.md` — мастерская и ветки, `art-backlog.md` — остальное; `map-life-people.md` — жители и их сюжеты), `docs/assets/` (эскизы-картинки) |
+| Документы | `docs/gdd/` (GDD по разделам; §20 район, §21 бой v2, §22 обучение и русский, §23 мастерская и ветки, §24 звук), `docs/art-prompts/` (арт, которого ещё нет: `art-backlog.md`, блоки стиля `style-blocks.md`; `map-life-people.md` — жители и их сюжеты), `docs/assets/` (эскизы-картинки) |
 | Инструменты | `tools/` (`check_all.sh`, `import_art.py` (+ `life_sprites.py`; готовая карта района `assets/district_maps/*__map.png` → `art/city/district_maps/`), `import_audio.py`, `gen_locale.py`, `gen_reference.py`, `tune_monsters.py`, `check_map_regions.py`, `check_district_map.py`) |
 | Агенты | `.claude/agents/critic.md`, `design-critic.md` |
