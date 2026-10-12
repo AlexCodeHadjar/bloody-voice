@@ -30,7 +30,7 @@ class Contract:
 		c.monster = StringName(str(d.get("monster", "")))
 		c.type = StringName(str(d.get("type", "slay")))
 		c.petition = StringName(str(d.get("petition", "")))
-		c.known_tags = RumorsState.names(d.get("known_tags", []) as Array)
+		c.known_tags = ContractsState.names(d.get("known_tags", []) as Array)
 		c.zone = StringName(str(d.get("zone", "")))
 		c.week = int(d.get("week", 0))
 		c.deadline_day = int(d.get("deadline_day", 0))
@@ -38,7 +38,7 @@ class Contract:
 		c.accepted = bool(d.get("accepted", false))
 		c.done = bool(d.get("done", false))
 		c.next_rumor_day = int(d.get("next_rumor_day", 0))
-		c.crossed_tags = RumorsState.names(d.get("crossed_tags", []) as Array)
+		c.crossed_tags = ContractsState.names(d.get("crossed_tags", []) as Array)
 		return c
 
 
@@ -68,3 +68,11 @@ static func from_dict(d: Dictionary) -> ContractsState:
 	s.board_week = int(d.get("board_week", 0))
 	s.next_uid = int(d.get("next_uid", 1))
 	return s
+
+
+## Ids from a JSON array (saves).
+static func names(a: Array) -> Array[StringName]:
+	var out: Array[StringName] = []
+	for v: Variant in a:
+		out.append(StringName(str(v)))
+	return out

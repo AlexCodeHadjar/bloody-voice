@@ -87,11 +87,11 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/state/combat/enemy_combatant.gd` | EnemyCombatant | The creature during a fight: its move deck, visible intents, parts and phases. | broken_parts, move_available |
 | `core/state/combat/hero_combatant.gd` | HeroCombatant | The hunter during a fight (GDD 4.2). | mod |
 | `core/state/combat/part_state.gd` | PartState | A body part of the creature during a fight. | create |
-| `core/state/contracts_state.gd` | ContractsState | The tavern board and the hunter's contracts (GDD 7). Saved. One list: this week's leaflets plus contracts | find, to_dict, from_dict |
+| `core/state/contracts_state.gd` | ContractsState | The tavern board and the hunter's contracts (GDD 7). Saved. One list: this week's leaflets plus contracts | find, to_dict, from_dict, names |
 | `core/state/loadout_state.gd` | LoadoutState | The hunter's gear (GDD 5): weapon, modules placed in its cells, owned parts, armor sockets. Saved. | spare_modules, spare_mechanisms, to_dict, from_dict |
 | `core/state/place_state.gd` | PlaceState | Current state of a district / area / landmark (GDD 14). Pure data, serialisable. | to_dict, from_dict |
 | `core/state/profile_state.gd` | ProfileState | Player settings that outlive a run (GDD 22.2): tutorial progress, hints on/off, volumes, full screen. | mark_seen, has_seen, reset_tutorial, to_config, from_config, load_from, save_to |
-| `core/state/rumors_state.gd` | RumorsState | Rumor diamonds on the district map (GDD 8). Saved. What a rumor leads to is decided when it is made | find, to_dict, from_dict, names |
+| `core/state/rumors_state.gd` | RumorsState | Rumor diamonds on the district map (GDD 8). Saved. What a rumor leads to is decided when it is made | find, to_dict, from_dict |
 | `core/state/run_state.gd` | RunState | Everything that is saved for one playthrough. Pure data: no nodes, no signals. | create, to_dict, from_dict |
 | `core/state/save_migrations.gd` | SaveMigrations | Brings old save dictionaries up to RunState.SAVE_VERSION, one version step at a time. | migrate |
 

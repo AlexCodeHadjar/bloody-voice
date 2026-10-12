@@ -276,8 +276,9 @@ func _open_tablet(list: Array[ContractsState.Contract], index: int) -> void:
 
 
 func _on_overlay_closed() -> void:
+	var was := _overlay_open
 	_overlay_open = null
-	if not ContractRules.active(GameState.run.contracts).is_empty():
+	if (was is ContractBoard or was is ContractTablet) and not ContractRules.active(GameState.run.contracts).is_empty():
 		Tutorial.trigger.call_deferred(&"contract_taken")
 
 
@@ -296,8 +297,7 @@ func _open_rumor(uid: int) -> void:
 		return
 	var tablet := RumorTablet.new()
 	_open_overlay(tablet)
-	tablet.fight_started.connect(func() -> void:
-		GameState.save_game()
+	tablet.fight_started.connect(func() -> void:  # not saved here: quitting mid-fight keeps the rumor (saved after it)
 		get_tree().change_scene_to_file(COMBAT))
 	tablet.open_rumor(uid)
 

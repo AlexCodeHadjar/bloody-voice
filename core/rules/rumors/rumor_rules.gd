@@ -49,7 +49,7 @@ static func seed_targets(run: RunState, data: ContentData, rng: RandomNumberGene
 	var b := data.balance.rumors
 	var changed := false
 	for c: ContractsState.Contract in ContractRules.active(run.contracts):
-		if c.next_rumor_day > run.day or _has_target(rs, c.uid):
+		if c.next_rumor_day > run.day:
 			continue
 		var r := RumorGenerator.make_target(data, run.hero_district, c, run.day, rng, rs.next_uid, _used_nodes(rs))
 		if r == null:
@@ -120,13 +120,6 @@ static func _drop_stale(run: RunState) -> void:
 		if not r.investigated and r.expires_day > run.day and open_target:
 			kept.append(r)
 	run.rumors.items = kept
-
-
-static func _has_target(rs: RumorsState, contract_uid: int) -> bool:
-	for r: RumorsState.Rumor in visible(rs):
-		if r.kind == &"target" and r.contract_uid == contract_uid:
-			return true
-	return false
 
 
 static func _used_nodes(rs: RumorsState) -> Array[StringName]:

@@ -32,8 +32,8 @@ class Rumor:
 		r.monster = StringName(str(d.get("monster", "")))
 		r.contract_uid = int(d.get("contract_uid", 0))
 		r.witness = StringName(str(d.get("witness", "")))
-		r.tags = RumorsState.names(d.get("tags", []) as Array)
-		r.lies = RumorsState.names(d.get("lies", []) as Array)
+		r.tags = ContractsState.names(d.get("tags", []) as Array)
+		r.lies = ContractsState.names(d.get("lies", []) as Array)
 		r.zone = StringName(str(d.get("zone", "")))
 		r.node = StringName(str(d.get("node", "")))
 		r.art = StringName(str(d.get("art", "")))
@@ -71,9 +71,3 @@ static func from_dict(d: Dictionary) -> RumorsState:
 	s.last_day = int(d.get("last_day", 0))
 	return s
 
-
-static func names(a: Array) -> Array[StringName]:
-	var out: Array[StringName] = []
-	for v: Variant in a:
-		out.append(StringName(str(v)))
-	return out

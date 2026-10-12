@@ -109,7 +109,7 @@ func test_match_line_and_best_contract() -> void:
 	ContractRules.accept(run.contracts, data, board[1].uid)
 	var r := _rumor(&"empty_night", board[1].known_tags.duplicate(), [])
 	eq(RumorRules.matches(r, board[1]), board[1].known_tags.size(), "all known signs match")
-	if board[0].monster != board[1].monster:
+	if RumorRules.matches(r, board[0]) < RumorRules.matches(r, board[1]):
 		eq(RumorRules.best_contract(run.contracts, r), board[1], "the contract with more matches")
 
 
