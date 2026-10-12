@@ -853,6 +853,16 @@ mechanism.riveted_plates.name,Клёпаные пластины,Riveted Plates
 mechanism.riveted_plates.effect,+6 к наибольшему здоровью.,+6 max HP.
 mechanism.quick_holster.name,Быстрая кобура,Quick Holster
 mechanism.quick_holster.effect,Первый ход: взять на 1 карту больше.,First turn: draw 1 more card.
+mechanism.heavy_plating.name,Тяжёлые латы,Heavy Plating
+mechanism.heavy_plating.effect,+14 к наибольшему здоровью. В первый ход берите на 1 карту меньше.,+14 max HP. First turn: draw 1 card less.
+mechanism.galvanic_harness.name,Гальваническая сбруя,Galvanic Harness
+mechanism.galvanic_harness.effect,В первый ход +1 ОД и на 1 карту больше. В колоду добавляется проклятие «Ужас».,First turn: +1 AP and draw 1 more card. Adds a Dread curse to the deck.
+mechanism.fog_lens.name,Туманная линза,Fog Lens
+mechanism.fog_lens.effect,В начале боя видно на 2 хода твари вперёд. На 1 патрон меньше.,"Start of the fight: see the creature's next moves, 2 ahead. 1 bullet less."
+mechanism.ichor_injector.name,Ихорный инжектор,Ichor Injector
+mechanism.ichor_injector.effect,"Выстрелы наносят +3 урона, удары по частям тела +1. −6 к наибольшему здоровью.","Shots deal +3 damage, hits on body parts +1. −6 max HP."
+mechanism.blood_pump.name,Кровяной насос,Blood Pump
+mechanism.blood_pump.effect,Карты Ярости стоят на 2 здоровья меньше; в колоду добавляется «Ярость гончей». −4 к наибольшему здоровью.,Rage cards cost 2 less HP; adds a Hound's Rage to the deck. −4 max HP.
 armor.helmet.name,Шлем,Helmet
 armor.chestplate.name,Нагрудник,Chestplate
 armor.gauntlets.name,Перчатки и наплечники,Gauntlets & Pauldrons

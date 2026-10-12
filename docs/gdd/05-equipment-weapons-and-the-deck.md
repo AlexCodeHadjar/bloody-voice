@@ -87,3 +87,15 @@ swap cards in the deck. Passive bonuses (`core/content/gear_mods.gd`): `max_ammo
 Data: `data/gear/weapons.json`, `modules.json`, `shapes.json`, `armor.json`, `mechanisms.json`; start gear in
 `data/balance.json` → `gear`.
 
+## 5.6 Mechanisms with a trade-off (Phase 8 step 4, owner 2026-10-12)
+
+| Mechanism | Gives | Costs | Blueprint (trophy) |
+|---|---|---|---|
+| Heavy Plating | +14 max HP | first turn: 1 card less | tail spike (Burrow Wyrm) |
+| Galvanic Harness | first turn: +1 AP, +1 card | a Dread curse in the deck | sinew (Vigil Hound) |
+| Fog Lens | see 2 moves ahead at the start | 1 bullet less (never the last) | throat (Gutter Choir) |
+| Ichor Injector | shots +3, body parts +1 | −6 max HP | fang (Vigil Hound) |
+| Blood Pump | Rage cards cost 2 less HP, a Hound's Rage in the deck | −4 max HP | wyrm tooth (Burrow Wyrm) |
+
+Data: `data/gear/mechanisms.json` (negative mods are the costs), blueprints in `blueprints.json`. Icons — `docs/art-prompts/art-backlog.md` S (until then an empty icon place).
+

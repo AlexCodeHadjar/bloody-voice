@@ -455,6 +455,60 @@
     "gears": 2,
     "finger_bone": 1
    }
+  },
+  {
+   "item": "heavy_plating",
+   "kind": "mechanism",
+   "start": false,
+   "unlock": "tail_spike",
+   "cost": {
+    "scrap": 6,
+    "tail_spike": 1
+   }
+  },
+  {
+   "item": "galvanic_harness",
+   "kind": "mechanism",
+   "start": false,
+   "unlock": "sinew",
+   "cost": {
+    "electronics": 2,
+    "gears": 2,
+    "sinew": 1
+   }
+  },
+  {
+   "item": "fog_lens",
+   "kind": "mechanism",
+   "start": false,
+   "unlock": "throat",
+   "cost": {
+    "electronics": 1,
+    "gears": 1,
+    "throat": 1
+   }
+  },
+  {
+   "item": "ichor_injector",
+   "kind": "mechanism",
+   "start": false,
+   "unlock": "fang",
+   "cost": {
+    "ichor": 2,
+    "gears": 2,
+    "fang": 1
+   }
+  },
+  {
+   "item": "blood_pump",
+   "kind": "mechanism",
+   "start": false,
+   "unlock": "wyrm_tooth",
+   "cost": {
+    "ichor": 3,
+    "scrap": 2,
+    "wyrm_tooth": 1
+   }
   }
  ]
 }

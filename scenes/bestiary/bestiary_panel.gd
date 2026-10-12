@@ -83,7 +83,7 @@ func _page(id: StringName) -> void:
 		mods.assign(data.balance.bestiary.mods[k])
 		var gains: PackedStringArray = []
 		for mod: StringName in mods:
-			gains.append("%s +%d" % [Loc.t("mod.%s" % mod), mods[mod]])
+			gains.append("%s %s" % [Loc.t("mod.%s" % mod), UiKit.signed(mods[mod])])
 		var has := run.bestiary.has(id, k)
 		body.add_child(Icons.with_text("KNOWLEDGE", k, Loc.t("ui.bestiary.gives", {"mark": Loc.t("ui.bestiary.mark.%s" % k),
 			"list": ", ".join(gains)}), 28, 16, Palette.BRASS if has else Palette.INK_MUTED))

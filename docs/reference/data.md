@@ -24,7 +24,7 @@
 | `data/factions/factions.json` | 1 | factions |
 | `data/gear/armor.json` | 4 | helmet, chestplate, gauntlets, greaves |
 | `data/gear/blueprints.json` | 1 | blueprints |
-| `data/gear/mechanisms.json` | 4 | lantern_of_revealing, smoke_bellows, riveted_plates, quick_holster |
+| `data/gear/mechanisms.json` | 9 | lantern_of_revealing, smoke_bellows, riveted_plates, quick_holster, heavy_plating, galvanic_harness, fog_lens, ichor_injector, blood_pump |
 | `data/gear/modules.json` | 20 | harpoon_launcher, rifled_barrel, coil_accelerator, flame_nozzle, net_caster, brass_scope, lantern_lens, hound_eye, drum_magazine, quick_loader, ichor_cartridges, capacitor_bank, recoil_spring, bayonet_mount, bone_brace, gyro_stabilizer, galvanic_core, vein_lattice … |
 | `data/gear/shapes.json` | 11 | M1, I2, I3, L3, I4, O4, T4, L4, J4, S4, Z4 |
 | `data/gear/weapons.json` | 1 | hunting_rifle |
@@ -36,6 +36,6 @@
 | `data/tutorial/sequences.json` | 11 | combat_intro, equipment_intro, district_intro, first_part_broken, first_panic, first_no_ammo, first_rent, contract_board, contract_taken, first_rumor, workshop_intro |
 | `data/ui/icons.json` | 25 | RESOURCE 6, STAT 8, ATTRIBUTE 3, STATUS 6, INTENT 7, CARD_TYPE 6, CELL 3, SECTION 5, ARMOR 5, SKILL 6, DIRECTION 4, CONTRACT 6, OUTCOME 5, TAG 6, ACTION 8, FACTION 15, RANK 4, REPUTATION 5 … |
 
-## Locale `locale/strings.csv` — 1224 keys
+## Locale `locale/strings.csv` — 1234 keys
 
-`affix.*` 10 · `armor.*` 4 · `card.*` 82 · `card_type.*` 6 · `cell.*` 3 · `district.*` 103 · `district_map.*` 63 · `effect.*` 17 · `event.*` 9 · `faction.*` 4 · `intent.*` 7 · `log.*` 29 · `mechanism.*` 8 · `mod.*` 12 · `module.*` 80 · `monster.*` 73 · `petition.*` 26 · `resource.*` 4 · `rule.*` 59 · `rumor_gossip.*` 8 · `rumor_witness.*` 8 · `section.*` 5 · `shape.*` 11 · `skill.*` 84 · `state.*` 14 · `status.*` 5 · `story.*` 12 · `tag.*` 36 · `trophy.*` 14 · `tutorial.*` 62 · `ui.*` 360 · `weapon.*` 6
+`affix.*` 10 · `armor.*` 4 · `card.*` 82 · `card_type.*` 6 · `cell.*` 3 · `district.*` 103 · `district_map.*` 63 · `effect.*` 17 · `event.*` 9 · `faction.*` 4 · `intent.*` 7 · `log.*` 29 · `mechanism.*` 18 · `mod.*` 12 · `module.*` 80 · `monster.*` 73 · `petition.*` 26 · `resource.*` 4 · `rule.*` 59 · `rumor_gossip.*` 8 · `rumor_witness.*` 8 · `section.*` 5 · `shape.*` 11 · `skill.*` 84 · `state.*` 14 · `status.*` 5 · `story.*` 12 · `tag.*` 36 · `trophy.*` 14 · `tutorial.*` 62 · `ui.*` 360 · `weapon.*` 6

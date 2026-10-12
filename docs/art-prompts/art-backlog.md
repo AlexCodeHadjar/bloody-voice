@@ -2,7 +2,7 @@
 
 > **Готово (2026-10-10):** части G–Q (93 картинки) сгенерированы и импортированы в `art/`; листы иконок `MECHANISM` и
 > `SETTINGS` разрезаны (наборы добавлены в `data/ui/icons.json`). Q1 (значок) — из `art/ui/WAX__seal.webp`, когда понадобится.
-> **Ждём:** P2 (карты состояний района) и R (три новые твари — войдут в игру с артом).
+> **Ждём:** P2 (карты состояний района), R (три новые твари — войдут в игру с артом), S (иконки 5 новых механизмов).
 
 Всё, что ещё понадобится игре из арта, **кроме** уже расписанного:
 
@@ -24,6 +24,7 @@
 | **O** | Сюжет: окно диалога, табличка имени, заставки глав | 5 | фазы 8–9 |
 | **P** | События города | 9 | фаза 7 |
 | **R** | Новые твари: крысиная стая, вурдалак, тварь из Бездны | 12 | **сейчас** — твари войдут в игру с артом |
+| **S** | Иконки 5 новых механизмов брони | 5 | **сейчас** — механизмы уже в игре, без иконки рисуется пустое место |
 | **Q** | Обложка Steam (значок игры — из готовой печати) | 1 | фаза 10 |
 
 ## Не из ChatGPT (тоже понадобится)
@@ -270,6 +271,23 @@ SCENE STYLE BLOCK, wide, без прозрачности, `assets/ui/`, имя `
 | `GREY__map__fog_breach.png` | Прорыв тумана | The same district map at night, thick grey fog rolling in from the north wall and filling the low streets, lamps dimmed to faint halos, roofs and the chapel spire rising out of the mist. |
 | `GREY__map__quarantine.png` | Карантин | The same district map, grey chalk crosses on doors, wooden barricades across two streets, a plague cart, few people, smoke from burning rags in braziers. |
 | `GREY__map__festival.png` | Ночь Сумерек | The same district map at dusk, strings of paper lanterns between houses, bonfires on the square, crowds in the streets, warm orange light. |
+
+## S. Иконки новых механизмов брони (5) — чат «Icons» (фаза 8, механизмы с компромиссом)
+
+[STYLE BLOCK] + [TRANSPARENT BLOCK] из `style-blocks.md`, square 1024, **по одной картинке на файл**, в `assets/icons/`.
+Тот же вид, что у готовых иконок механизмов (`art/ui/icons/MECHANISM__*.webp` — приложи одну как образец):
+предмет целиком, вид спереди-сбоку, в центре, читается в 64 px. После генерации скажи «импортируй арт» — я добавлю
+id в набор `MECHANISM` (`data/ui/icons.json`) и импортирую.
+
+Общая часть промта: `A single armor mechanism icon for a gaslight-and-steel hunter's gear, the object alone, centred, readable at 64 px:` + строка ниже.
+
+| Файл | Механизм | Промт |
+|---|---|---|
+| `MECHANISM__heavy_plating.png` | Тяжёлые латы | Thick overlapping iron plates bolted onto a leather back-plate, dented and heavy. |
+| `MECHANISM__galvanic_harness.png` | Гальваническая сбруя | A chest harness of copper coils and a humming glass cell, thin wires running to the spine. |
+| `MECHANISM__fog_lens.png` | Туманная линза | A monocle of smoky grey glass in a brass ring, faint fog swirling inside the lens. |
+| `MECHANISM__ichor_injector.png` | Ихорный инжектор | A brass syringe pump strapped to the forearm, a vial of glowing amber ichor in its chamber. |
+| `MECHANISM__blood_pump.png` | Кровяной насос | A small bellows-heart of red leather and brass valves, pumping dark blood through glass tubes. |
 
 ## Q. Значок и Steam — фаза 10
 

@@ -33,7 +33,7 @@ static func build(l: LoadoutState, data: ContentData, capture_allowed: bool = fa
 			_add(b, mech.cards, mech.name)
 			GearMods.sum(b.mods, mech.mods)
 	_apply_links(l, data, b)
-	b.max_ammo += int(b.mods.get(&"max_ammo", 0))
+	b.max_ammo = maxi(1, b.max_ammo + int(b.mods.get(&"max_ammo", 0)))  # a mechanism may cost a bullet, never the last
 	return b
 
 

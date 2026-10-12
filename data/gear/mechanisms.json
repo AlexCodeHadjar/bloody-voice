@@ -38,5 +38,65 @@
   },
   "effect": "First turn: draw 1 more card.",
   "look": "a spring-loaded leather holster with brass clasps"
+ },
+ {
+  "id": "heavy_plating",
+  "name": "Heavy Plating",
+  "cards": [],
+  "mods": {
+   "max_hp": 14,
+   "first_turn_draw": -1
+  },
+  "effect": "+14 max HP. First turn: draw 1 card less.",
+  "look": "thick overlapping iron plates bolted onto a leather back-plate, dented and heavy"
+ },
+ {
+  "id": "galvanic_harness",
+  "name": "Galvanic Harness",
+  "cards": [
+   "dread"
+  ],
+  "mods": {
+   "first_turn_ap": 1,
+   "first_turn_draw": 1
+  },
+  "effect": "First turn: +1 AP and draw 1 more card. Adds a Dread curse to the deck.",
+  "look": "a chest harness of copper coils and a humming glass cell, thin wires running to the spine"
+ },
+ {
+  "id": "fog_lens",
+  "name": "Fog Lens",
+  "cards": [],
+  "mods": {
+   "foresight_start": 2,
+   "max_ammo": -1
+  },
+  "effect": "Start of the fight: see the creature's next moves, 2 ahead. 1 bullet less.",
+  "look": "a monocle of smoky grey glass in a brass ring, faint fog swirling inside the lens"
+ },
+ {
+  "id": "ichor_injector",
+  "name": "Ichor Injector",
+  "cards": [],
+  "mods": {
+   "shot_damage": 3,
+   "part_damage": 1,
+   "max_hp": -6
+  },
+  "effect": "Shots deal +3 damage, hits on body parts +1. −6 max HP.",
+  "look": "a brass syringe pump strapped to the forearm, a vial of glowing amber ichor in its chamber"
+ },
+ {
+  "id": "blood_pump",
+  "name": "Blood Pump",
+  "cards": [
+   "hounds_rage"
+  ],
+  "mods": {
+   "rage_hp_discount": 2,
+   "max_hp": -4
+  },
+  "effect": "Rage cards cost 2 less HP; adds a Hound's Rage to the deck. −4 max HP.",
+  "look": "a small bellows-heart of red leather and brass valves, pumping dark blood through glass tubes"
  }
 ]

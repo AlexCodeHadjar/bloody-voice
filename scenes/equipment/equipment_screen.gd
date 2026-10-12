@@ -213,8 +213,8 @@ func _refresh_deck() -> void:
 			"origin": parts[1]}))
 	lines.append("\n" + Loc.t("ui.equip.deck_total", {"cards": b.deck.size(), "ammo": b.max_ammo}))
 	for k: StringName in b.mods:
-		if k != &"max_ammo":
-			lines.append("%s +%d" % [Loc.t("mod.%s" % k), b.mods[k]])
+		if k != &"max_ammo" and b.mods[k] != 0:  # a cost and a bonus of the same kind may cancel out
+			lines.append("%s %s" % [Loc.t("mod.%s" % k), UiKit.signed(b.mods[k])])
 	for link: String in b.links:
 		lines.append(Loc.t("ui.equip.link", {"link": link}))
 	_deck.text = "\n".join(lines)
@@ -236,7 +236,7 @@ func _holding_text() -> String:
 		gains.append("+%s" % ContentDB.data.card(c).name)
 	var mods := m.mods_at(t)
 	for k: StringName in mods:
-		gains.append("%s +%d" % [Loc.t("mod.%s" % k), mods[k]])
+		gains.append("%s %s" % [Loc.t("mod.%s" % k), UiKit.signed(mods[k])])
 	var change := ", ".join(gains) if not gains.is_empty() else m.effect_at(t)
 	return Loc.t("ui.equip.holding", {"module": m.name, "change": change})
 

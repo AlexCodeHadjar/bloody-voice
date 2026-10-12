@@ -125,3 +125,9 @@ static func _build_theme() -> Theme:
 	t.set_color("font_disabled_color", "Button", Palette.INK_MUTED)
 	t.set_stylebox("panel", "PanelContainer", panel_box())
 	return t
+
+
+## "+3" / "−2" (a real minus) for bonuses that may be costs.
+static func signed(n: int) -> String:
+	return ("+%d" % n) if n >= 0 else ("−%d" % -n)
+
