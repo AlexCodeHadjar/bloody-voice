@@ -128,9 +128,11 @@ func _refresh_spares() -> void:
 		c.queue_free()
 	var l := GameState.run.loadout
 	var spare: Array[Array] = []  # [id, tier] per spare copy
+	var seen: Dictionary[StringName, bool] = {}
 	for id: StringName in l.owned_modules:
-		if spare.any(func(x: Array) -> bool: return x[0] == id):
+		if seen.has(id):
 			continue
+		seen[id] = true
 		for t: int in l.spare_tiers(id):
 			spare.append([id, t])
 	if spare.is_empty():

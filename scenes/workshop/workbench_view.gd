@@ -109,6 +109,8 @@ func _craft_part(item: StringName) -> void:
 		_box.add_child(Icons.with_text("UI", &"lock", Loc.t("ui.workshop.locked", {"trophy": WorkshopKit.stock_name(bp.unlock)}), 26, 17, Palette.INK_MUTED))
 		return
 	_box.add_child(UiKit.label(Loc.t("ui.workshop.craft_cost"), 18, Palette.BRASS))
+	if ContentDB.data.module(item) != null:
+		_box.add_child(UiKit.label(Loc.t("ui.workshop.craft_tier"), 15, Palette.INK_MUTED))
 	_box.add_child(WorkshopKit.cost_row(bp.cost, 17))
 	_box.add_child(_button(&"craft", "ui.workshop.craft", WorkshopRules.can_craft(GameState.run, ContentDB.data, item)))
 
@@ -120,6 +122,9 @@ func _upgrade_part(m: ModuleDef, tier: int) -> void:
 		return
 	_box.add_child(UiKit.label(Loc.t("ui.workshop.next_tier", {"tier": ["I", "II", "III"][tier]}), 18, Palette.BRASS))
 	_box.add_child(UiKit.paragraph(m.effect_at(tier + 1), 17, Palette.PARCHMENT))
+	if GameState.run.loadout.tiers_of(m.id).has(tier):  # spare first (WorkshopRules.upgrade)
+		var spare := GameState.run.loadout.spare_tiers(m.id).has(tier)
+		_box.add_child(UiKit.label(Loc.t("ui.workshop.upgrades_spare" if spare else "ui.workshop.upgrades_installed"), 15, Palette.INK_MUTED))
 	_box.add_child(WorkshopKit.cost_row(WorkshopRules.upgrade_cost(ContentDB.data, m.id, tier), 17))
 	_box.add_child(_button(&"upgrade", "ui.workshop.upgrade", WorkshopRules.can_upgrade(GameState.run, ContentDB.data, m.id, tier)))
 

@@ -2,7 +2,8 @@ class_name LoadoutState
 extends RefCounted
 ## The hunter's gear (GDD 5): weapon, modules placed in its cells, owned parts, armor sockets. Saved.
 ## Every module copy has its own tier I–III (GDD 6.3, owner 2026-10-12): `owned_tiers` runs beside `owned_modules`
-## (a missing entry = I), and a placement remembers the tier of the copy in it.
+## (a missing entry = I; it may be shorter — change copies through add_module / remove_module), and a placement
+## remembers the tier of the copy in it.
 
 class Placement:
 	var module: StringName

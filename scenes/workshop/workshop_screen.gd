@@ -125,6 +125,9 @@ func _refresh() -> void:
 	if WorkshopRules.is_locked(GameState.run):
 		_crafts.text = Loc.t("ui.workshop.locked_today")
 	_list.refresh()
+	var owned := GameState.run.loadout.tiers_of(_list.selected)
+	if not owned.has(_tier):  # the shown copy is gone (salvaged): show the lowest one left
+		_tier = owned[0] if not owned.is_empty() else 1
 	_bench.show_item(_list.selected, _tier)
 	_refresh_stash()
 

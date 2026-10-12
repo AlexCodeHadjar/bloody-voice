@@ -77,11 +77,15 @@ func test_upgrade_raises_one_copy() -> void:
 	eq(WorkshopRules.upgrade(run, data, m, 1), "", "the installed copy: no spare tier I left")
 	eq(run.loadout.placements[0].tier, 2, "its place shows tier II")
 	check(int(DeckBuilder.build(run.loadout, data).mods.get(&"part_damage", 0)) > before, "stronger deck")
+	run.day += 1  # a workshop day holds 2 items
 	_give(run, data, WorkshopRules.upgrade_cost(data, m, 2))
 	eq(WorkshopRules.upgrade(run, data, m, 2), "", "a copy to III")
 	check(WorkshopRules.upgrade_cost(data, m, 3).is_empty(), "no tier IV")
 	check(WorkshopRules.upgrade(run, data, m, 3) != "", "max tier")
 	check(WorkshopRules.upgrade(run, data, &"bayonet_mount", 1) != "", "no copy, no upgrade")
+	var refund := WorkshopRules.salvage_refund(data, m, 2)
+	var base := WorkshopRules.salvage_refund(data, m, 1)
+	check(int(refund.get(&"scrap", 0)) >= int(base.get(&"scrap", 0)), "a tier II copy returns its upgrade too")
 
 
 func test_salvage_only_spare_and_returns_half() -> void:

@@ -119,6 +119,9 @@ ui.workshop.craft,Изготовить,Craft
 ui.workshop.max_tier,Высший уровень.,Highest tier.
 ui.workshop.next_tier,Уровень {tier}:,Tier {tier}:
 ui.workshop.upgrade,Улучшить эту копию,Upgrade this copy
+ui.workshop.craft_tier,Новая копия будет уровня I.,A new copy is tier I.
+ui.workshop.upgrades_spare,Улучшится запасная копия этого уровня.,A spare copy of this tier is upgraded.
+ui.workshop.upgrades_installed,Улучшится установленная копия — сразу в ячейке.,"The installed copy is upgraded, right in its cell."
 ui.workshop.salvage_gives,Разбор вернёт: {list},Salvage returns: {list}
 ui.workshop.salvage,Разобрать,Salvage
 ui.workshop.to_equipment,К снаряжению,To equipment
