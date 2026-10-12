@@ -1,6 +1,7 @@
 extends Node
 ## Core of the GameState facade (GDD 19.3): the run, saving, days, gear and fights. autoload/game_state.gd extends it
 ## with the place actions. Screens call GameState; only this node changes RunState, through rules, then emits signals.
+## Never call the child's methods from here (the analyzer checks `self` against this script).
 
 var run: RunState = null
 var combat: CombatState = null  ## the fight in progress (not saved)

@@ -140,6 +140,8 @@ func _show_outcome(o: RumorRules.Outcome) -> void:
 		_right.add_child(Icons.with_text("RESOURCE", &"money", Loc.t("ui.rumor.money", {"n": o.money}), 30, 20, Palette.BRASS_LIGHT))
 	if o.xp > 0:
 		_right.add_child(Icons.with_text("STAT", &"xp", Loc.t("ui.progress.xp_gain", {"n": o.xp}), 30, 18))
+	if o.levels > 0:
+		_right.add_child(UiKit.label(Loc.t("ui.progress.level_up"), 22, Palette.BRASS_LIGHT))
 	for k: StringName in o.resources:
 		_right.add_child(Icons.with_text("RESOURCE", k, "%s +%d" % [WorkshopKit.stock_name(k), o.resources[k]], 30, 20))
 	if o.crossed != &"":

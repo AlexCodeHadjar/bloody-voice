@@ -79,7 +79,7 @@ screens `scenes/places/` (infirmary, Scriptorium).
 | Levels | Level n → n+1 costs 50 + 25 × n; cap 15. Each level: +1 skill point (+1 more at 5, 10, 15), +5 max HP; every second level +1 attribute point. Skill points wait for the webs (step 2). |
 | Start | Will 1, Agility 1, Cunning 1. Sanity = 20 + 4 × Will (was a flat 28: the start is 24 now). |
 | Will | +4 Sanity per point (the Voice thresholds come with the Monster web, step 3). |
-| Agility | +1 card in hand at 4 and 8; 3 % per point to slip a hit (a free dodge). |
+| Agility | +1 card in hand at 4 and 8; 3 % per point to slip a hit (a free dodge, logged; the start Agility 1 already gives 3 %). |
 | Cunning | Capture chance (as before), +1 creature move always visible at 3 and 6, a 10 % per point chance to see a rumor's noise sign as «звучит выдумано» (fixed per rumor), 3 % shop discount per point (max 30 %). |
 | Screen | «Охотник» on the district bar: level, XP bar, HP, Sanity, free points, attributes with «+». The fight result shows the XP and «Новый уровень!». |
 | Points | One pool for both webs; resetting the Mechanic web costs money (owner) — built with the webs. |

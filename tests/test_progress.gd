@@ -85,3 +85,25 @@ func test_progress_survives_save_and_old_saves_start() -> void:
 	var old := RunState.from_dict(SaveMigrations.migrate({"version": 9, "master_seed": 9}))
 	check(not old.progress.started and old.progress.level == 1, "v9 save: level 1, no attributes yet")
 	check(ProgressRules.ensure_start(old, data), "attributes given on load")
+
+
+func test_agility_dodges_and_cunning_discount() -> void:
+	var data := load_content(false)
+	var setup := DeckBuilder.default_setup(data, &"vigil_hound", 1)
+	setup.agility = 30  # 90 % per hit
+	var s := CombatRules.start(setup, data)
+	var slipped := 0
+	for i: int in 50:
+		s.hero.hp = 100
+		if DamageRules.deal(s, s.enemy, s.hero, 5, &"", data.balance) == 0:
+			slipped += 1
+	check(slipped > 30, "a very agile hunter slips most hits (%d of 50)" % slipped)
+	var run := _run(data)
+	run.progress.attributes[&"cunning"] = 100
+	ShopRules.refresh(run, data, SeededRng.make_stream(8, &"shop", 1))
+	var x := run.shop.items[0]
+	var paid := ShopRules.price(run, data, x)
+	check(paid >= 1 and paid < x.price, "Cunning lowers the price, never below 1")
+	run.money = paid
+	eq(ShopRules.buy(run, data, x.uid), "", "bought at the shown price")
+	eq(run.money, 0, "paid exactly that")

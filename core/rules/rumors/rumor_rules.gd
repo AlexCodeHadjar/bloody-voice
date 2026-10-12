@@ -14,6 +14,7 @@ class Outcome:
 	var zone: StringName
 	var money: int = 0
 	var xp: int = 0  ## set by GameState for a discovery
+	var levels: int = 0  ## levels that XP gave
 	var resources: Dictionary[StringName, int] = {}
 	var crossed: StringName = &""  ## the sign crossed out on `crossed_contract`
 	var crossed_contract: int = 0

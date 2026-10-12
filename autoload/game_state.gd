@@ -70,7 +70,9 @@ func investigate_rumor(uid: int) -> RumorRules.Outcome:
 	if not o.resources.is_empty():
 		EventBus.stock_changed.emit()
 	if o.kind == &"discovery":
-		o.xp = ProgressRules.add_xp(run, ContentDB.data, ContentDB.data.balance.progress.discovery_xp).xp
+		var gained := ProgressRules.add_xp(run, ContentDB.data, ContentDB.data.balance.progress.discovery_xp)
+		o.xp = gained.xp
+		o.levels = gained.levels
 		EventBus.progress_changed.emit()
 	if o.crossed != &"":
 		EventBus.contracts_changed.emit()
