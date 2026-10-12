@@ -69,16 +69,19 @@ func test_affix_signs_are_never_crossed_out_or_studied_as_missing() -> void:
 	var c := ContractRules.board(run.contracts)[0]
 	c.accepted = true
 	c.affixes.assign([&"venom"])
-	var sign := data.affix(&"venom").tag
-	c.known_tags.append(sign)
+	var affix_sign := data.affix(&"venom").tag
+	c.known_tags.append(affix_sign)
 	var r := RumorsState.Rumor.new()
 	r.uid = 77
 	r.kind = &"false_lead"
-	r.tags.assign([sign])
+	r.tags.assign([affix_sign])
 	r.expires_day = run.day + 3
 	run.rumors.items.append(r)
 	RumorRules.investigate(run, data, 77)
-	check(not c.crossed_tags.has(sign), "a false lead does not cross out the affix's sign")
+	check(not c.crossed_tags.has(affix_sign), "a false lead does not cross out the affix's sign")
 	var m := data.monster(c.monster)
-	var own := c.known_tags.filter(func(t: StringName) -> bool: return m.tags.has(t)).size()
-	eq(LibraryRules.contracts_to_teach(run, data, c.monster).has(c), own < m.tags.size(), "only the creature's own signs count for study")
+	c.known_tags.assign([affix_sign])  # only the affix's sign: the creature's own signs are still to learn
+	check(LibraryRules.contracts_to_teach(run, data, c.monster).has(c), "an affix sign does not hide missing own signs")
+	c.known_tags.assign(m.tags)
+	c.known_tags.append(affix_sign)
+	check(not LibraryRules.contracts_to_teach(run, data, c.monster).has(c), "all own signs known: nothing to learn")
