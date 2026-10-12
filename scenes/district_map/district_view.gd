@@ -27,16 +27,15 @@ var _dragging := false
 var _press_pos := Vector2.ZERO
 var _hovered: DistrictMapDef.LandmarkDef = null
 var _jump: Tween = null
-var _edit_node: StringName = &""  ## F3 markup: the street node being dragged (debug builds)
-var _edit_landmark: DistrictMapDef.LandmarkDef = null  ## ... or the landmark spot
+var markup: MapMarkupEditor  ## F3 markup (debug builds): the picked point and its move
 var _dev_label: Label = null  ## F3 markup help and the last save, over the map
-var _edit_offset := Vector2.ZERO  ## the grabbed point minus the art point under the mouse: no jump on grab
 
-const EDIT_PICK := 18.0  ## screen px around a node or a landmark centre that grabs it in F3 markup
+const EDIT_PICK := 18.0  ## screen px around a node, a landmark centre or a zone corner that picks it in F3 markup
 
 
 func setup(district_map: DistrictMapDef) -> void:
 	map = district_map
+	markup = MapMarkupEditor.new(map)
 	clip_contents = true
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(world)
@@ -128,14 +127,9 @@ func _on_button(mb: InputEventMouseButton) -> void:
 
 
 func _on_motion(mm: InputEventMouseMotion) -> void:
-	if _edit_node != &"" or _edit_landmark != null:  # F3 markup: the grabbed point follows the mouse
-		var p := (screen_to_art(mm.position) + _edit_offset).round()
-		if _edit_node != &"":
-			map.nodes[_edit_node] = p
-		else:
-			_edit_landmark.pos = p
-		set_dev_text(Loc.t("ui.dev.map_point", {"id": _edit_node if _edit_node != &"" else _edit_landmark.id, "x": p.x, "y": p.y}))
-		overlay.queue_redraw()
+	if markup.moving:  # F3 markup: the picked point follows the mouse
+		markup.move_to(screen_to_art(mm.position))
+		_show_pick()
 		return
 	if _pressed and not _dragging and mm.position.distance_to(_press_pos) > DRAG_THRESHOLD:
 		_dragging = true
@@ -153,6 +147,9 @@ func _notification(what: int) -> void:
 
 
 func _click(p: Vector2) -> void:
+	if _markup_on() and markup.pick(p, EDIT_PICK / _zoom):  # F3 markup: a click on a point picks it
+		_show_pick()
+		return
 	var lm := DistrictMapRules.landmark_at(map, p)
 	if lm != null:
 		landmark_clicked.emit(lm)
@@ -198,27 +195,40 @@ func _clamped(pos: Vector2) -> Vector2:
 	return Vector2(clampf(pos.x, minf(0.0, size.x - art.x), 0.0), clampf(pos.y, minf(0.0, size.y - art.y), 0.0))
 
 
-## F3 markup (debug builds): a press on a street node (red dot) or a landmark centre (white ring) grabs it, the release
-## drops it. True when the press or release was the markup's.
+## F3 markup (debug builds): Ctrl + a press anywhere starts moving the picked point (a Ctrl-press on a point picks it
+## first), the release drops it. True when the press or release was the markup's.
 func _markup_button(mb: InputEventMouseButton) -> bool:
 	if not mb.pressed:
-		var was := _edit_node != &"" or _edit_landmark != null
-		_edit_node = &""
-		_edit_landmark = null
+		var was := markup.moving
+		markup.moving = false
 		return was
-	if overlay == null or not overlay.debug_visible:
+	if not _markup_on() or not mb.ctrl_pressed:
 		return false
-	for id: StringName in map.nodes:
-		if art_to_screen(map.nodes[id]).distance_to(mb.position) <= EDIT_PICK:
-			_edit_node = id
-			_edit_offset = map.nodes[id] - screen_to_art(mb.position)
-			return true
-	for lm: DistrictMapDef.LandmarkDef in map.landmarks:
-		if art_to_screen(lm.pos).distance_to(mb.position) <= EDIT_PICK:
-			_edit_landmark = lm
-			_edit_offset = lm.pos - screen_to_art(mb.position)
-			return true
-	return false
+	var at := screen_to_art(mb.position)
+	markup.pick(at, EDIT_PICK / _zoom)
+	if not markup.has_pick():
+		return false
+	markup.start_move(at)
+	_show_pick()
+	return true
+
+
+func _markup_on() -> bool:
+	return overlay != null and overlay.debug_visible
+
+
+## The picked point: a ring on the overlay and its name and coordinates in the line over the map.
+func _show_pick() -> void:
+	var p := markup.position()
+	overlay.markup_pick = p
+	overlay.queue_redraw()
+	set_dev_text(Loc.t("ui.dev.map_point", {"id": markup.label(), "x": p.x, "y": p.y}))
+
+
+## F3 off: nothing stays picked.
+func end_markup() -> void:
+	markup.clear()
+	overlay.markup_pick = Vector2.INF
 
 
 ## The F3 markup line over the map ("" hides it).

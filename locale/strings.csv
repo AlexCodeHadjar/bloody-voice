@@ -195,7 +195,7 @@ ui.rumor.money,+{n},+{n}
 ui.rumor.crossed,Примета {tag} зачёркнута в заказе «{name}».,The sign {tag} is crossed out on the contract «{name}».
 ui.rumor.day_over,День прошёл.,The day is over.
 ui.rumor.next,Дальше,Next
-ui.dev.map_help,"Разметка (F3): тащите красные точки — узлы улиц, белые круги — места (узлы не выносите за розовый контур — иначе игра не запустится). Ctrl+S — сохранить в файл карты, F3 — выйти.","Markup (F3): drag the red dots (street nodes) and white rings (places); keep nodes inside the pink contour or the game will not start. Ctrl+S saves into the map file, F3 leaves."
+ui.dev.map_help,"Разметка (F3): клик выбирает точку — красная: узел улицы, белый круг: место, зелёный квадрат: угол зоны (общий угол двигается во всех зонах). Ctrl + зажатая мышь в любом месте карты двигает выбранную. Узлы не выносите за розовый контур — иначе игра не запустится. Ctrl+S — сохранить в файл карты, F3 — выйти.","Markup (F3): a click picks a point — red dot: street node, white ring: place, green square: zone corner (a shared corner moves in every zone). Ctrl + the held mouse anywhere on the map moves the picked one. Keep nodes inside the pink contour or the game will not start. Ctrl+S saves into the map file, F3 leaves."
 ui.dev.map_point,"{id}: {x}, {y}","{id}: {x}, {y}"
 ui.dev.map_saved,Сохранено: {path},Saved: {path}
 ui.dev.map_not_saved,Не удалось сохранить файл карты.,Could not save the map file.

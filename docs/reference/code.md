@@ -170,7 +170,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `scenes/district_map/district_map_screen.gd` |  | District screen (GDD 20): the Grey Chapels up close. The hunter walks the streets by click, the map is dragged with |  |
 | `scenes/district_map/district_overlay.gd` | DistrictOverlay | Drawn over the district art (GDD 20.2): the veil over the locked neighbours (70 % black with diagonal hatching, | setup, set_hovered, flash_zone, toggle_debug |
 | `scenes/district_map/district_panels.gd` | DistrictPanels | Full-screen panels over the district map (one at a time): the contract board and tablets, the rumor post and | is_open, open, open_for, show_news, open_contract, open_rumor |
-| `scenes/district_map/district_view.gd` | DistrictView | The district map in a camera (GDD 20.3): drag with the held left button, zoom with the wheel, clicks on landmarks | setup, add_layer, add_overlay, zoom_level, camera_center, screen_to_art, art_to_screen, center_on, set_dev_text |
+| `scenes/district_map/district_view.gd` | DistrictView | The district map in a camera (GDD 20.3): drag with the held left button, zoom with the wheel, clicks on landmarks | setup, add_layer, add_overlay, zoom_level, camera_center, screen_to_art, art_to_screen, center_on, end_markup, set_dev_text |
 | `scenes/district_map/district_weather.gd` | DistrictWeather | The look of a district state over the map (GDD 14.5; owner 2026-10-12: overlays until state art exists): a tint | show_state |
 | `scenes/district_map/hero_walker.gd` | HeroWalker | The hunter on the district map: a stone figurine on a stand (owner, 2026-10-12). Walks a route along the streets | is_walking, place, walk |
 | `scenes/district_map/landmark_card.gd` | LandmarkCard | The card of a place the hero has walked to (owner, 2026-10-12): name, zone, a line about it and what can be done | show_landmark, close_card |
@@ -181,7 +181,8 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `scenes/district_map/life/life_prop.gd` | LifeProp | A picture on the district map that only moves a little: bonfire flicker, drifting smoke, ripples, swaying laundry, | setup |
 | `scenes/district_map/life/life_spawn.gd` | LifeSpawn | Builds the residents, scenes and effects of a district map from its life data (all random choices from the context). | build, walkers |
 | `scenes/district_map/life/resident.gd` | Resident | One person or animal on the district map (map-life-people.md): walks the street graph, looks around, chats, works, | setup, is_walking, can_chat, start_chat |
-| `scenes/district_map/map_markup_saver.gd` | MapMarkupSaver | Debug builds only (F3 on the district map): writes the street nodes and landmark spots the owner dragged back into | save |
+| `scenes/district_map/map_markup_editor.gd` | MapMarkupEditor | Debug builds only (F3 on the district map, owner 2026-10-12): a click picks a street node, a landmark spot or a | has_pick, clear, pick, position, label, start_move, move_to |
+| `scenes/district_map/map_markup_saver.gd` | MapMarkupSaver | Debug builds only (F3 on the district map): writes the street nodes, landmark spots and zone corners the owner moved | save |
 | `scenes/district_map/news_panel.gd` | NewsPanel | «Новости» (GDD 15): the morning leaflet of a district event starting or ending — its picture (EVENT__art__<id>), | effects_text |
 | `scenes/equipment/equipment_screen.gd` |  | Equipment (GDD 5): weapon cells with modules, armor sockets with mechanisms, and the deck they make. |  |
 | `scenes/equipment/shape_icon.gd` | ShapeIcon | Small picture of a module's cell shape (for the spare-module list). | setup |

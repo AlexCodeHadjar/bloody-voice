@@ -155,9 +155,12 @@ Done 2026-10-12 — see §20.11 and CLAUDE.md («Район»).
 
 ## 20.10 Markup editing (debug builds, owner 2026-10-12)
 
-F3 on the district screen shows the markup (streets, nodes, landmark rings, zones, contour). In it the red node dots
-and the landmark centres can be **dragged**; the line at the top shows the point's id and coordinates. **Ctrl+S** writes
-the new numbers into `data/city/district_maps/<ID>.json` (only the numbers change, the layout of the file stays;
+F3 on the district screen shows the markup (streets, nodes, landmark rings, zones with corner squares, contour). In it
+a **click picks** a point — a red node dot, a landmark centre or a green zone corner (a yellow ring marks it) — and
+**Ctrl + the held left button** anywhere on the map moves the picked point with the mouse, without a jump; a plain drag
+still moves the map, so a point never moves by accident. A zone corner shared by several zones moves in all of them.
+The line at the top shows the point's id and coordinates (`scenes/district_map/map_markup_editor.gd`). **Ctrl+S** writes
+the new numbers into `data/city/district_maps/<ID>.json` (nodes, landmark spots and zone polygons; only the numbers change, the layout of the file stays;
 `scenes/district_map/map_markup_saver.gd`; an exported build writes `user://district_maps/<ID>.json`). Streets keep
 their node order — moving a node bends every street through it. Keep nodes inside the contour (the validator stops the game otherwise); check with `tools/check_district_map.py`. The hero and residents standing still keep their old spot until they next move.
 

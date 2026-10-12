@@ -365,8 +365,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		match (event as InputEventKey).keycode:
 			KEY_SPACE:
 				_to_hero()
-			KEY_F3 when OS.is_debug_build():  # markup: drag nodes and landmark spots, Ctrl+S saves them
+			KEY_F3 when OS.is_debug_build():  # markup: a click picks a point, Ctrl + drag moves it, Ctrl+S saves
 				_view.overlay.toggle_debug()
+				if not _view.overlay.debug_visible:
+					_view.end_markup()
 				_view.set_dev_text(Loc.t("ui.dev.map_help") if _view.overlay.debug_visible else "")
 			KEY_S when OS.is_debug_build() and _view.overlay.debug_visible and (event as InputEventKey).ctrl_pressed:
 				var path := MapMarkupSaver.save(_map)

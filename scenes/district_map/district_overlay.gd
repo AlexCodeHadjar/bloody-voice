@@ -17,6 +17,7 @@ const FLASH_HOLD := 1.2
 const FLASH_OUT := 2.0
 
 var debug_visible := false
+var markup_pick := Vector2.INF  ## F3 markup: the picked point (INF = none)
 
 var _map: DistrictMapDef
 var _veil: PackedVector2Array  ## the whole art with the district cut out (one "keyhole" polygon)
@@ -127,6 +128,11 @@ func _draw_debug() -> void:
 	for lm: DistrictMapDef.LandmarkDef in _map.landmarks:
 		draw_arc(lm.pos, lm.radius, 0.0, TAU, 48, Color.WHITE, 3.0)
 		draw_string(font, lm.pos, str(lm.number), HORIZONTAL_ALIGNMENT_CENTER, -1, 34, Color.WHITE)
+	for z: DistrictMapDef.ZoneDef in _map.zones:
+		for p: Vector2 in z.polygon:
+			draw_rect(Rect2(p - Vector2(6, 6), Vector2(12, 12)), Color(0.4, 1.0, 0.4))
+	if markup_pick != Vector2.INF:
+		draw_arc(markup_pick, 22.0, 0.0, TAU, 32, Color.YELLOW, 5.0)
 
 
 static func _closed(poly: PackedVector2Array) -> PackedVector2Array:
