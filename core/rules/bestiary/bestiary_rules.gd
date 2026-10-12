@@ -40,7 +40,8 @@ static func mods(run: RunState, data: ContentData, creature: StringName) -> Dict
 	var out: Dictionary[StringName, int] = {}
 	for m: StringName in run.bestiary.of(creature):
 		if data.balance.bestiary.mods.has(m):
-			var add: Dictionary[StringName, int] = data.balance.bestiary.mods[m]
+			var add: Dictionary[StringName, int] = {}
+			add.assign(data.balance.bestiary.mods[m])
 			GearMods.sum(out, add)
 	return out
 

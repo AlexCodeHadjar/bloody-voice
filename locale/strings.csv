@@ -89,7 +89,7 @@ ui.register.rank_name.D,Опустошение,Desolation
 ui.register.rank_name.S,Владыка,Sovereign
 ui.register.left,до экзамена заказов: {n},contracts before the exam: {n}
 ui.register.exam_due,экзамен ждёт на доске в таверне,the exam waits on the tavern board
-ui.register.top,высший ранг,the highest rank
+ui.register.top,высший ранг в этом районе,the highest rank in this district
 ui.register.passed,Экзамен сдан! Ранг Реестра: {rank},Exam passed! Register rank: {rank}
 ui.register.board,Ваш ранг Реестра: {rank} — доска предлагает тварей до ранга {upto},Your Register rank: {rank}; the board offers creatures up to rank {upto}
 ui.faction.row,{name}: {n} — {tier},{name}: {n} — {tier}
@@ -98,16 +98,10 @@ ui.faction.tier.wary,Настороже,Wary
 ui.faction.tier.neutral,Нейтральны,Neutral
 ui.faction.tier.trusted,Доверяют,Trusted
 ui.faction.tier.sworn,Свои,Sworn
-ui.faction.effects.grey_communion.hostile,Лазарет берёт в полтора раза дороже.,The infirmary charges half as much again.
-ui.faction.effects.grey_communion.wary,Лазарет берёт на четверть дороже.,The infirmary charges a quarter more.
-ui.faction.effects.grey_communion.neutral,Обычные цены лазарета.,Usual infirmary prices.
-ui.faction.effects.grey_communion.trusted,Лазарет на четверть дешевле.,The infirmary is a quarter cheaper.
-ui.faction.effects.grey_communion.sworn,Лазарет вдвое дешевле.,The infirmary is half price.
-ui.faction.effects.vigil.hostile,Награды новых заказов −20 %.,New contract rewards −20%.
-ui.faction.effects.vigil.wary,Награды новых заказов −10 %.,New contract rewards −10%.
-ui.faction.effects.vigil.neutral,Без особых условий.,Nothing special.
-ui.faction.effects.vigil.trusted,Досье: на новых заказах на одну примету больше.,Dossiers: new leaflets show one more sign.
-ui.faction.effects.vigil.sworn,Досье: +1 примета; награды новых заказов +20 %.,Dossiers: +1 sign; new contract rewards +20%.
+ui.faction.effect.infirmary_mult,Цены лазарета: {v},Infirmary prices: {v}
+ui.faction.effect.reward_mult,Награды новых заказов: {v},New contract rewards: {v}
+ui.faction.effect.extra_signs,Примет на новых заказах: {v},Signs on new leaflets: {v}
+ui.faction.effect.none,Без особых условий.,Nothing special.
 ui.progress.skill_points,Очки навыков: {n},Skill points: {n}
 ui.progress.attributes,Атрибуты (свободных очков: {n}),Attributes (free points: {n})
 ui.progress.attr.will,Воля,Will

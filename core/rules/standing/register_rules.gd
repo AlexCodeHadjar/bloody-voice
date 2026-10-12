@@ -3,7 +3,8 @@ extends RefCounted
 ## The hunter's Register rank (GDD 12.1, owner 2026-10-12: it rises by an exam). The board offers creatures up to one
 ## rank above the hunter's; rewards grow with the rank. After exam_after[rank] finished contracts at a rank the
 ## Register pins an exam leaflet: slay a stronger creature of the next rank of the district before the deadline. It
-## uses no contract slot; at the deadline it fails and goes (a new one next Monday). Passing raises the rank.
+## uses no contract slot; at the deadline it fails and goes, taken or not (a new one next Monday). Passing raises
+## the rank.
 
 
 static func rank_letter(data: ContentData, rank: int) -> String:
@@ -33,9 +34,15 @@ static func is_top(run: RunState, data: ContentData) -> bool:
 	return run.standing.rank >= data.balance.register.ranks.size() - 1
 
 
-## Contracts still needed before the exam (0 = the exam is due).
+## The rank can still rise here: not the top one, and the district has a creature of the next rank (the Grey
+## Chapels have no S creature, so the slice stops at D).
+static func can_advance(run: RunState, data: ContentData) -> bool:
+	return not is_top(run, data) and not exam_pool(run, data).is_empty()
+
+
+## Contracts still needed before the exam (0 = the exam is due, or the rank can't rise here).
 static func contracts_left(run: RunState, data: ContentData) -> int:
-	if is_top(run, data):
+	if not can_advance(run, data):
 		return 0
 	return maxi(0, data.balance.register.exam_after[run.standing.rank] - run.standing.rank_contracts)
 
@@ -64,11 +71,9 @@ static func update(run: RunState, data: ContentData, rng: RandomNumberGenerator)
 		run.contracts.items.erase(exam)
 		run.standing.exam_block_week = week
 		return true
-	if exam != null or is_top(run, data) or contracts_left(run, data) > 0 or run.standing.exam_block_week == week:
+	if exam != null or not can_advance(run, data) or contracts_left(run, data) > 0 or run.standing.exam_block_week == week:
 		return false
 	var pool := exam_pool(run, data)
-	if pool.is_empty():
-		return false
 	var x := ContractsState.Contract.new()
 	x.uid = run.contracts.next_uid
 	run.contracts.next_uid += 1

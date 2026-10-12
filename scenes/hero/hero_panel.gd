@@ -45,7 +45,7 @@ func _standing(run: RunState, data: ContentData) -> void:
 	body.add_child(HSeparator.new())
 	var letter := RegisterRules.rank_letter(data, run.standing.rank)
 	var next := Loc.t("ui.register.top")
-	if not RegisterRules.is_top(run, data):
+	if RegisterRules.can_advance(run, data):
 		var left := RegisterRules.contracts_left(run, data)
 		next = Loc.t("ui.register.left", {"n": left}) if left > 0 else Loc.t("ui.register.exam_due")
 	body.add_child(Icons.with_text("RANK", StringName(letter.to_lower()), Loc.t("ui.register.rank", {"rank": letter,
@@ -54,7 +54,7 @@ func _standing(run: RunState, data: ContentData) -> void:
 		var t := FactionRules.tier(run, data, f.id)
 		var row := Icons.with_text("FACTION", f.id, Loc.t("ui.faction.row", {"name": f.name, "n": run.standing.rep(f.id),
 			"tier": Loc.t("ui.faction.tier.%s" % t)}), 34, 18)
-		row.tooltip_text = f.text + "\n" + Loc.t("ui.faction.effects.%s.%s" % [f.id, t])
+		row.tooltip_text = f.text + "\n" + _effects_text(f.tiers.get(t, {}) as Dictionary)
 		row.mouse_filter = Control.MOUSE_FILTER_PASS
 		body.add_child(row)
 
@@ -82,3 +82,14 @@ func _raise(a: StringName) -> void:
 	message.text = problem
 	UiKit.sound(&"ui.error" if problem != "" else &"ui.confirm")
 	refill()
+
+
+## A tier's effects in words, from factions.json (no numbers in the texts).
+func _effects_text(effects: Dictionary) -> String:
+	var lines: PackedStringArray = []
+	for e: Variant in effects:
+		var v := float(effects[e])
+		var n := roundi((v - 1.0) * 100.0) if str(e).ends_with("_mult") else int(v)
+		var shown := ("+" if n > 0 else "") + str(n) + (" %" if str(e).ends_with("_mult") else "")
+		lines.append(Loc.t("ui.faction.effect.%s" % e, {"v": shown}))
+	return "\n".join(lines) if not lines.is_empty() else Loc.t("ui.faction.effect.none")

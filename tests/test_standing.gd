@@ -73,6 +73,37 @@ func test_board_offers_up_to_one_rank_above() -> void:
 	check(RegisterRules.reward_mult(run, data) > 1.0, "rewards grow with the rank")
 
 
+func test_board_options_add_signs_and_scale_rewards() -> void:
+	var data := load_content(false)
+	var plain := ContractGenerator.Options.new()
+	plain.monsters = EncounterRules.pool(data, &"GREY")
+	var rich := ContractGenerator.Options.new()
+	rich.monsters = plain.monsters
+	rich.extra_signs = 1
+	rich.reward_mult = 2.0
+	var a := ContractGenerator.generate(data, &"GREY", 1, SeededRng.make_stream(3, &"contracts", 1), 1, plain)
+	var b := ContractGenerator.generate(data, &"GREY", 1, SeededRng.make_stream(3, &"contracts", 1), 1, rich)
+	for i: int in a.size():
+		check(b[i].reward > a[i].reward, "a bigger reward")
+		check(b[i].known_tags.size() >= a[i].known_tags.size(), "no fewer signs")
+
+
+func test_study_without_contracts_until_dissected() -> void:
+	var data := load_content(false)
+	var run := _run(data)
+	run.contracts.items.clear()
+	var trophy: StringName = &""
+	for p: MonsterDef.PartDef in data.monster(&"vigil_hound").parts:
+		if p.trophy != &"" and LibraryRules.trophy_creature(data, p.trophy) == &"vigil_hound":
+			trophy = p.trophy
+	if trophy == &"":
+		return
+	run.workshop.trophies[trophy] = 2
+	eq(LibraryRules.can_study(run, data, trophy), "", "not dissected yet: worth a day")
+	check(LibraryRules.study(run, data, trophy).dissected, "dissected")
+	check(LibraryRules.can_study(run, data, trophy) != "", "nothing more to learn")
+
+
 func test_exam_is_pinned_passed_and_failed() -> void:
 	var data := load_content(false)
 	var run := _run(data)

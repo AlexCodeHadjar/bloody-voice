@@ -83,12 +83,13 @@ static func targets(cs: ContractsState) -> Array[StringName]:
 	return out
 
 
-## The open contract a fight with `monster` counts for: the nearest deadline. null if none.
+## The open contract a fight with `monster` counts for: a Register exam first, else the nearest deadline. null if none.
 static func for_monster(cs: ContractsState, monster: StringName) -> ContractsState.Contract:
+	var found: ContractsState.Contract = null
 	for c: ContractsState.Contract in active(cs):
-		if c.monster == monster:
-			return c
-	return null
+		if c.monster == monster and (found == null or (c.exam and not found.exam)):
+			found = c
+	return found
 
 
 ## Puts the contract into the fight: its uid, a net for a capture, a stronger creature when overdue or an exam.

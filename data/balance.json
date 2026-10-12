@@ -14,9 +14,7 @@
  },
  "hero": {
   "start_district": "GREY",
-  "open_districts": [
-   "GREY"
-  ],
+  "open_districts": ["GREY"],
   "base_hp": 40,
   "hp_per_level": 5,
   "base_ap": 3,

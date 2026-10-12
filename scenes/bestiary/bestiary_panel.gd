@@ -79,7 +79,8 @@ func _page(id: StringName) -> void:
 	else:
 		body.add_child(UiKit.paragraph(Loc.t("ui.bestiary.not_fought"), 16, Palette.FOG))
 	for k: StringName in data.balance.bestiary.mods:
-		var mods: Dictionary[StringName, int] = data.balance.bestiary.mods[k]
+		var mods: Dictionary[StringName, int] = {}
+		mods.assign(data.balance.bestiary.mods[k])
 		var gains: PackedStringArray = []
 		for mod: StringName in mods:
 			gains.append("%s +%d" % [Loc.t("mod.%s" % mod), mods[mod]])

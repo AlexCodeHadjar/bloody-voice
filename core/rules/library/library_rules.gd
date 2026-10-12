@@ -52,6 +52,8 @@ static func can_study(run: RunState, data: ContentData, trophy: StringName) -> S
 	if run.workshop.amount(trophy) <= 0:
 		return Loc.t("rule.library.no_trophy")
 	var creature := trophy_creature(data, trophy)
+	if creature == &"":
+		return Loc.t("rule.library.nothing_to_learn")
 	if contracts_to_teach(run, data, creature).is_empty() and run.bestiary.has(creature, &"dissected"):
 		return Loc.t("rule.library.nothing_to_learn")
 	return ""
