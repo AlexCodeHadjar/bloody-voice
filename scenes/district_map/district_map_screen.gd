@@ -44,6 +44,7 @@ func _ready() -> void:
 	EventBus.day_changed.connect(_on_day_changed)
 	EventBus.money_changed.connect(func(_m: int) -> void: _refresh_bar())
 	EventBus.stock_changed.connect(_refresh_stock)
+	EventBus.progress_changed.connect(_refresh_bar)
 	_refresh_bar()
 	_refresh_stock()
 	_place_hero()
@@ -121,6 +122,7 @@ func _build_bar() -> Control:
 	TutorialAnchors.register(&"camera_buttons", camera_buttons)
 	row.add_child(camera_buttons)
 	row.add_child(_bar_button("PLACE", &"city_map", "ui.district.city_map", _to_city))
+	row.add_child(_bar_button("STAT", &"xp", "ui.progress.button", func() -> void: _panels.open(HeroPanel.new())))
 	row.add_child(_bar_button("DIRECTION", &"equipment", "ui.city.equipment", _to_equipment))
 	row.add_child(_bar_button("UI", &"menu", "ui.city.menu", _to_menu))
 	return bar
@@ -173,7 +175,7 @@ func _refresh_bar() -> void:
 	_money_label.text = str(run.money)
 	var data := ContentDB.data
 	_health_label.text = Loc.t("ui.health.bar", {"hp": HealthRules.hp(run, data), "max": HealthRules.max_hp(run, data),
-		"sanity": HealthRules.sanity(run, data), "max_sanity": HealthRules.max_sanity(data)})
+		"sanity": HealthRules.sanity(run, data), "max_sanity": HealthRules.max_sanity(run, data)})
 	var low := HealthRules.hp(run, data) * 3 < HealthRules.max_hp(run, data)
 	_health_label.add_theme_color_override("font_color", Palette.ALARM if low else Palette.PARCHMENT)
 	_money_label.add_theme_color_override("font_color", Palette.ALARM if run.money < 0 else Palette.BRASS_LIGHT)

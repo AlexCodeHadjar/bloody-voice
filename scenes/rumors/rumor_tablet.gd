@@ -91,11 +91,15 @@ func _witness(id: StringName) -> String:
 	return ""
 
 
-## One line per sign, highlighted; signs crossed out on the best contract are struck through.
+## One line per sign, highlighted; signs crossed out on the best contract are struck through; noise signs the
+## hunter's Cunning saw through say so.
 func _tag_lines(r: RumorsState.Rumor, best: ContractsState.Contract) -> String:
 	var lines: PackedStringArray = []
+	var suspicious := ProgressRules.flagged(GameState.run, ContentDB.data, r)  # Cunning sees through some lies
 	for t: StringName in r.tags:
 		var text := "— " + ContractKit.tag_name(t)
+		if suspicious.has(t):
+			text += Loc.t("ui.rumor.suspicious")
 		if best != null and best.crossed_tags.has(t):
 			lines.append("[color=#%s][s]%s[/s][/color]" % [CROSSED_COLOR, text])
 		else:
@@ -134,6 +138,8 @@ func _show_outcome(o: RumorRules.Outcome) -> void:
 	_right.add_child(UiKit.paragraph(Loc.t("ui.rumor.outcome.%s.text" % o.kind), 19, Palette.PARCHMENT))
 	if o.money > 0:
 		_right.add_child(Icons.with_text("RESOURCE", &"money", Loc.t("ui.rumor.money", {"n": o.money}), 30, 20, Palette.BRASS_LIGHT))
+	if o.xp > 0:
+		_right.add_child(Icons.with_text("STAT", &"xp", Loc.t("ui.progress.xp_gain", {"n": o.xp}), 30, 18))
 	for k: StringName in o.resources:
 		_right.add_child(Icons.with_text("RESOURCE", k, "%s +%d" % [WorkshopKit.stock_name(k), o.resources[k]], 30, 20))
 	if o.crossed != &"":

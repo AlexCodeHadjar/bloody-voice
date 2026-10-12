@@ -11,6 +11,15 @@ static func first_turn(s: CombatState) -> void:
 		s.foresight = true
 
 
+## Creature moves shown ahead of the intents: Foresight this turn (at least one turn's moves, more with
+## foresight_start) or the hunter's Cunning preview, whichever is more.
+static func preview_count(s: CombatState) -> int:
+	var shown := s.hero.preview
+	if s.foresight:
+		shown = maxi(shown, maxi(s.enemy.def.intents_per_turn, s.hero.mod(&"foresight_start")))
+	return shown
+
+
 static func extra_first_draw(s: CombatState) -> int:
 	return s.hero.mod(&"first_turn_draw") if s.turn == 1 else 0
 

@@ -14,6 +14,7 @@ signal loadout_changed
 signal contracts_changed
 signal rumors_changed
 signal stock_changed  ## resources, trophies, blueprints or module tiers (GDD 6)
+signal progress_changed  ## XP, level, points, attributes (GDD 4)
 signal combat_started
 signal combat_updated
 signal combat_finished(outcome: StringName)

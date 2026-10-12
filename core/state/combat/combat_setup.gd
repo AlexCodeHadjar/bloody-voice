@@ -13,6 +13,8 @@ var max_ap: int
 var hand_size: int
 var max_ammo: int
 var cunning: int = 0
+var agility: int = 0  ## dodge chance per point (GDD 4.1)
+var preview: int = 0  ## creature moves always visible ahead (Cunning)
 var capture_allowed: bool = false
 var rng_seed: int = 0
 var backdrop: String = ""  ## res:// path of the fight's background picture ("" = none)

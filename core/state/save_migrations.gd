@@ -25,6 +25,8 @@ static func migrate(d: Dictionary, start_loadout: Dictionary = {}) -> Dictionary
 				_from_7(d)
 			8:
 				_from_8(d)
+			9:
+				_from_9(d)
 			_:
 				push_warning("[save] no migration from version %d" % version)
 		version += 1
@@ -88,3 +90,8 @@ static func _from_8(d: Dictionary) -> void:
 	for p: Variant in l.get("placements", []) as Array:
 		(p as Dictionary)["tier"] = int(kind_tiers.get(str((p as Dictionary).get("module", "")), 1))
 	l.erase("module_tiers")
+
+
+## v9 -> v10: levels and attributes (GDD 4). Level 1, no XP; GameState gives the start attributes on load.
+static func _from_9(d: Dictionary) -> void:
+	d["progress"] = ProgressState.new().to_dict()

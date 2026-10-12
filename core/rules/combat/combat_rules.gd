@@ -21,6 +21,8 @@ static func start(setup: CombatSetup, data: ContentData) -> CombatState:
 	h.max_ammo = setup.max_ammo
 	h.ammo = setup.max_ammo
 	h.cunning = setup.cunning
+	h.agility = setup.agility
+	h.preview = setup.preview
 	h.mods = setup.mods.duplicate()
 	EnemyRules.setup(s, data.monster(setup.monster_id))
 	EnemyRules.strengthen(s.enemy, setup.enemy_hp_mult, setup.enemy_damage_bonus)

@@ -17,7 +17,7 @@ func _fill() -> void:
 	var data := ContentDB.data
 	body.add_child(UiKit.paragraph(Loc.t("ui.infirmary.text"), 17, Palette.PARCHMENT))
 	body.add_child(Icons.with_text("STAT", &"hp", Loc.t("ui.health.hp", {"n": HealthRules.hp(run, data), "of": HealthRules.max_hp(run, data)}), 30, 20))
-	body.add_child(Icons.with_text("STAT", &"sanity", Loc.t("ui.health.sanity", {"n": HealthRules.sanity(run, data), "of": HealthRules.max_sanity(data)}), 30, 20))
+	body.add_child(Icons.with_text("STAT", &"sanity", Loc.t("ui.health.sanity", {"n": HealthRules.sanity(run, data), "of": HealthRules.max_sanity(run, data)}), 30, 20))
 	var problem := HealthRules.can_treat(run, data)
 	var b := Icons.button("RESOURCE", &"money", Loc.t("ui.infirmary.treat", {"n": HealthRules.treat_cost(run, data)}), 20)
 	b.disabled = problem != ""

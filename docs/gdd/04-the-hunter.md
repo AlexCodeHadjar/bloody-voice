@@ -70,3 +70,19 @@ Engineering, precision and control. Safe and predictable. Rich in Support cards,
 
 Numbers: `balance.json → health`. Code: `core/rules/health/health_rules.gd`, `core/rules/library/library_rules.gd`,
 screens `scenes/places/` (infirmary, Scriptorium).
+
+## 4.6 Levels and attributes now (Phase 6 step 1, owner 2026-10-12)
+
+| Rule | Value |
+|---|---|
+| XP | A won fight by the creature's rank (A 20 · P 35 · D 60 · S 100), a capture ×1.5; a finished contract +15; a rumor discovery +5. |
+| Levels | Level n → n+1 costs 50 + 25 × n; cap 15. Each level: +1 skill point (+1 more at 5, 10, 15), +5 max HP; every second level +1 attribute point. Skill points wait for the webs (step 2). |
+| Start | Will 1, Agility 1, Cunning 1. Sanity = 20 + 4 × Will (was a flat 28: the start is 24 now). |
+| Will | +4 Sanity per point (the Voice thresholds come with the Monster web, step 3). |
+| Agility | +1 card in hand at 4 and 8; 3 % per point to slip a hit (a free dodge). |
+| Cunning | Capture chance (as before), +1 creature move always visible at 3 and 6, a 10 % per point chance to see a rumor's noise sign as «звучит выдумано» (fixed per rumor), 3 % shop discount per point (max 30 %). |
+| Screen | «Охотник» on the district bar: level, XP bar, HP, Sanity, free points, attributes with «+». The fight result shows the XP and «Новый уровень!». |
+| Points | One pool for both webs; resetting the Mechanic web costs money (owner) — built with the webs. |
+
+Numbers: `balance.json → progress`. Code: `core/rules/progress/progress_rules.gd`, `core/state/progress_state.gd`,
+screen `scenes/hero/hero_panel.gd`.

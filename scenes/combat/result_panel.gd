@@ -29,6 +29,7 @@ func show_result(s: CombatState) -> void:
 	v.add_child(UiKit.label(Loc.t("ui.combat.summary", {"turns": s.turn, "hp": maxi(s.hero.hp, 0)}), 20))
 	v.add_child(Icons.with_text("RESOURCE", &"trophy", Loc.t("ui.combat.trophies", {"list": trophies if trophies != "" else Loc.t("ui.combat.none")}), 30, 20))
 	_add_loot_lines(v, s)
+	_add_xp_line(v, s)
 	if s.outcome() == &"fallen":  # the Hunter's Fall (GameState.finish_combat)
 		v.add_child(UiKit.paragraph(Loc.t("ui.combat.fall", {"n": ContentDB.data.balance.health.fall_fee}), 18, Palette.ALARM))
 	_add_contract_line(v, s)
@@ -48,6 +49,18 @@ func _add_loot_lines(v: VBoxContainer, s: CombatState) -> void:
 	v.add_child(Icons.with_text("RESOURCE", &"scrap", Loc.t("ui.combat.loot", {"list": ", ".join(parts)}), 30, 20))
 	for id: StringName in LootRules.preview_blueprints(GameState.run, ContentDB.data, loot):
 		v.add_child(Icons.with_text("DIRECTION", &"modules", Loc.t("ui.combat.new_blueprint", {"name": WorkshopKit.item_name(id)}), 30, 20, Palette.BRASS_LIGHT))
+
+
+## XP the win brings (taken on «back to the district») and a level-up if it reaches one.
+func _add_xp_line(v: VBoxContainer, s: CombatState) -> void:
+	var data := ContentDB.data
+	var c := GameState.run.contracts.find(s.contract_uid)
+	var xp := ProgressRules.fight_xp(data, s) + (data.balance.progress.contract_xp if ContractRules.reward_for(c, s.outcome()) > 0 else 0)
+	if xp <= 0:
+		return
+	v.add_child(Icons.with_text("STAT", &"xp", Loc.t("ui.progress.xp_gain", {"n": xp}), 30, 20))
+	if ProgressRules.levels_from(GameState.run, data, xp) > 0:
+		v.add_child(UiKit.label(Loc.t("ui.progress.level_up"), 24, Palette.BRASS_LIGHT))
 
 
 ## The contract this fight counted for: paid on «back to the district» (GameState.finish_combat), or still open.

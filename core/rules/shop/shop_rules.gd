@@ -15,12 +15,17 @@ static func refresh(run: RunState, data: ContentData, rng: RandomNumberGenerator
 	return true
 
 
+## What the hunter pays: the table price less Cunning's discount (GDD 4.1), rounded.
+static func price(run: RunState, data: ContentData, x: ShopState.Item) -> int:
+	return maxi(1, roundi(x.price * (1.0 - ProgressRules.discount(run, data))))
+
+
 ## "" or why the item can't be bought now (shown to the player).
 static func can_buy(run: RunState, data: ContentData, uid: int) -> String:
 	var x := run.shop.find(uid)
 	if x == null or x.sold:
 		return Loc.t("rule.shop.sold")
-	if run.money < x.price:
+	if run.money < price(run, data, x):
 		return Loc.t("rule.shop.no_money")
 	if x.kind == &"consumable" and run.bag.size() >= data.balance.shop.bag_size:
 		return Loc.t("rule.shop.bag_full", {"n": data.balance.shop.bag_size})
@@ -34,7 +39,7 @@ static func buy(run: RunState, data: ContentData, uid: int) -> String:
 	if problem != "":
 		return problem
 	var x := run.shop.find(uid)
-	run.money -= x.price
+	run.money -= price(run, data, x)
 	x.sold = true
 	match x.kind:
 		&"module":

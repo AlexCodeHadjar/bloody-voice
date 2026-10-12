@@ -22,7 +22,7 @@ static func compute(base: int, attacker: Combatant, defender: Combatant, b: Bala
 static func deal(state: CombatState, attacker: Combatant, defender: Combatant, base: int,
 		part_id: StringName, b: BalanceDef) -> int:
 	var amount := compute(base, attacker, defender, b)
-	if defender.status(&"dodge") > 0:
+	if defender.status(&"dodge") > 0 or _agile_dodge(state, defender, b):
 		defender.add_status(&"dodge", -1)
 		state.log_event(&"dodge", Loc.t("log.dodge", {"who": defender.display_name}), 0, _subject(state, defender))
 		return 0
@@ -56,3 +56,11 @@ static func _hit_part(state: CombatState, part_id: StringName, dealt: int, b: Ba
 
 static func _subject(state: CombatState, c: Combatant) -> StringName:
 	return &"hero" if c == state.hero else &"enemy"
+
+
+## Agility (GDD 4.1): the hunter may slip a hit — dodge_per_agility per point. Rolled only when the hunter has Agility.
+static func _agile_dodge(state: CombatState, defender: Combatant, b: BalanceDef) -> bool:
+	if not defender is HeroCombatant:
+		return false
+	var agility := (defender as HeroCombatant).agility
+	return agility > 0 and state.rng.randf() < agility * b.progress.dodge_per_agility

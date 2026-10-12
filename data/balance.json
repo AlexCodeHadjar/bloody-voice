@@ -19,7 +19,7 @@
   "hp_per_level": 5,
   "base_ap": 3,
   "hand_size": 5,
-  "base_sanity": 28,
+  "base_sanity": 20,
   "starter_deck": [
    "strike",
    "strike",
@@ -232,5 +232,45 @@
   "treat_per_hp": 1,
   "treat_per_sanity": 1,
   "fall_fee": 30
+ },
+ "progress": {
+  "_comment": "Levels and attributes (GDD 4.1–4.3, owner 2026-10-12). XP for a won fight by the creature's rank (capture x1.5), a finished contract and a rumor discovery. Level n -> n+1 costs xp_base + xp_per_level * n. Each level: skill points (+1 more at the bonus levels), an attribute point every attribute_point_every levels, +hero.hp_per_level max HP. Sanity = hero.base_sanity + sanity_per_will * Will. Agility: +1 card in hand at each agility_hand_at, dodge chance per point. Cunning: capture chance (capture.per_cunning), +1 visible creature move at each cunning_preview_at, a chance per point to flag a noise sign in a rumor, a shop discount per point.",
+  "level_cap": 15,
+  "xp_base": 50,
+  "xp_per_level": 25,
+  "xp_by_rank": {
+   "A": 20,
+   "P": 35,
+   "D": 60,
+   "S": 100
+  },
+  "capture_xp_mult": 1.5,
+  "contract_xp": 15,
+  "discovery_xp": 5,
+  "skill_points_per_level": 1,
+  "bonus_point_levels": [
+   5,
+   10,
+   15
+  ],
+  "attribute_point_every": 2,
+  "start_attributes": {
+   "will": 1,
+   "agility": 1,
+   "cunning": 1
+  },
+  "sanity_per_will": 4,
+  "agility_hand_at": [
+   4,
+   8
+  ],
+  "dodge_per_agility": 0.03,
+  "cunning_preview_at": [
+   3,
+   6
+  ],
+  "flag_per_cunning": 0.1,
+  "discount_per_cunning": 0.03,
+  "max_discount": 0.3
  }
 }

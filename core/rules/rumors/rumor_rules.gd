@@ -13,6 +13,7 @@ class Outcome:
 	var contract_uid: int  ## the contract the target rumor belongs to (0 = none)
 	var zone: StringName
 	var money: int = 0
+	var xp: int = 0  ## set by GameState for a discovery
 	var resources: Dictionary[StringName, int] = {}
 	var crossed: StringName = &""  ## the sign crossed out on `crossed_contract`
 	var crossed_contract: int = 0

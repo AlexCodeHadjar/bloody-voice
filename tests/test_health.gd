@@ -35,7 +35,7 @@ func test_rest_restores_a_third() -> void:
 	run.hero_sanity = 0
 	HealthRules.rest(run, data)
 	eq(run.hero_hp, 1 + ceili(top * data.balance.health.rest_share), "a third of HP")
-	eq(run.hero_sanity, ceili(HealthRules.max_sanity(data) * data.balance.health.rest_share), "a third of Sanity")
+	eq(run.hero_sanity, ceili(HealthRules.max_sanity(run, data) * data.balance.health.rest_share), "a third of Sanity")
 	for i: int in 5:
 		HealthRules.rest(run, data)
 	eq(run.hero_hp, top, "never above the maximum")

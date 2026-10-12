@@ -67,6 +67,9 @@ func _build_head() -> Control:
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.add_child(UiKit.label(Loc.t("ui.shop.title"), 34, Palette.BRASS_LIGHT))
 	v.add_child(UiKit.label(Loc.t("ui.shop.refresh"), 16, Palette.FOG))
+	var off := roundi(ProgressRules.discount(GameState.run, ContentDB.data) * 100)
+	if off > 0:
+		v.add_child(UiKit.label(Loc.t("ui.shop.discount", {"n": off}), 16, Palette.BRASS_LIGHT))
 	head.add_child(v)
 	_money = UiKit.label("", 24, Palette.BRASS_LIGHT)
 	head.add_child(_money)
@@ -128,7 +131,7 @@ func _card(x: ShopState.Item) -> PanelContainer:
 	var about := UiKit.paragraph(ShopKit.about(x), 14, Palette.FOG)
 	about.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	v.add_child(about)
-	var buy := Icons.button("RESOURCE", &"money", Loc.t("ui.shop.buy", {"n": x.price}), 18)
+	var buy := Icons.button("RESOURCE", &"money", Loc.t("ui.shop.buy", {"n": ShopRules.price(GameState.run, ContentDB.data, x)}), 18)
 	buy.custom_minimum_size = Vector2(0, 44)
 	var problem := ShopRules.can_buy(GameState.run, ContentDB.data, x.uid)
 	buy.disabled = problem != ""

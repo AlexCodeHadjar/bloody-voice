@@ -56,6 +56,20 @@ ui.library.no_trophies,Трофеев нет.,No trophies.
 ui.library.do,Заняться,Do it
 ui.library.verified,Переписчики сверили записи: за слухом — «{outcome}». Это видно на его табличке.,The copyists checked the records: the rumor leads to «{outcome}». Its tablet shows it.
 ui.library.studied,Записи о твари «{name}»: новую верную примету узнали заказы — {n}.,Notes on «{name}»: {n} contracts learned a new true sign.
+ui.progress.button,Охотник,Hunter
+ui.progress.title,Охотник — уровень {n},The hunter — level {n}
+ui.progress.xp,Опыт: {n} / {of},XP: {n} / {of}
+ui.progress.max_level,Наивысший уровень,Highest level
+ui.progress.xp_gain,Опыт +{n},XP +{n}
+ui.progress.level_up,Новый уровень!,Level up!
+ui.progress.skill_points,Очки навыков: {n} (ветки — скоро),Skill points: {n} (webs coming)
+ui.progress.attributes,Атрибуты (свободных очков: {n}),Attributes (free points: {n})
+ui.progress.attr.will,Воля,Will
+ui.progress.attr.will.about,+4 Рассудка за очко; позже — пороги Голоса.,+4 Sanity per point; later the Voice thresholds.
+ui.progress.attr.agility,Ловкость,Agility
+ui.progress.attr.agility.about,+1 карта в руке на 4 и 8; 3 % шанс увернуться от удара за очко.,+1 card in hand at 4 and 8; 3 % dodge chance per point.
+ui.progress.attr.cunning,Хитрость,Cunning
+ui.progress.attr.cunning.about,Шанс поимки; +1 видимый ход твари на 3 и 6; видит враньё в слухах; скидка в лавке 3 % за очко.,Capture chance; +1 visible creature move at 3 and 6; sees lies in rumors; 3 % shop discount per point.
 ui.district.hint.rumors,Площадь: столб со слухами,Square: the rumor post
 ui.district.hint.locked,Закрыто,Closed
 ui.district.hint.soon,Откроется позже,Opens later
@@ -86,6 +100,7 @@ ui.rumor.title,Слух,Rumor
 ui.rumor.diamond_tip,Слух: {zone}. Остынет через {n} {n:день|дня|дней}.,Rumor: {zone}. Cools in {n} d.
 ui.rumor.cools,остынет через {n} {n:день|дня|дней},cools in {n} d
 ui.rumor.verified,Проверено в Скриптории: {outcome},Verified in the Scriptorium: {outcome}
+ui.rumor.suspicious, (звучит выдумано), (sounds made up)
 ui.rumor.match,Заказ «{name}»: совпадает {n} из {of} известных примет,Contract «{name}»: {n} of {of} known signs match
 ui.rumor.known,Известные приметы: {list},Known signs: {list}
 ui.rumor.no_contract,Открытых заказов нет — слух может вывести на любую тварь или ни к чему.,No open contracts: the rumor may lead to any creature or to nothing.
@@ -155,6 +170,7 @@ ui.shop.blueprint_about,Учит изготавливать вещь в маст
 ui.shop.blueprint_needs,Для изготовления нужен трофей: {trophy}.,Crafting needs the trophy: {trophy}.
 ui.shop.consumable_about,"Лежит в сумке и попадает в колоду каждого боя, пока не сыграна.",Stays in the bag and goes into every fight's deck until played.
 ui.shop.lot_about,Материалы для мастерской.,Materials for the workshop.
+ui.shop.discount,Скидка за Хитрость: {n}%,Cunning discount: {n}%
 ui.shift.title,Смена в «Фонаре и Крюке»,A shift at the Lantern & Hook
 ui.shift.money,Заработано: {n},Earned: {n}
 ui.shift.rumor,Подслушано у стойки: слух — {zone}. Ромб уже на карте.,Overheard at the bar: a rumor — {zone}. Its diamond is on the map.
@@ -366,6 +382,8 @@ rule.library.verified,Этот слух уже проверен.,This rumor is a
 rule.library.cools,"Этот слух остынет раньше, чем вы успеете им воспользоваться.",This rumor would cool before you could use it.
 rule.library.no_trophy,Такого трофея нет.,No such trophy.
 rule.library.nothing_to_learn,Нет заказов на эту тварь — записи ничего не дадут.,No contracts on this creature; the notes would teach nothing.
+rule.progress.unknown,Нет такого атрибута.,No such attribute.
+rule.progress.no_points,Нет свободных очков атрибутов.,No free attribute points.
 intent.attack,Атака,Attack
 intent.defend,Защита,Defend
 intent.fear,Страх,Fear

@@ -105,8 +105,9 @@ func _refresh_intents(s: CombatState) -> void:
 		var view := IntentView.new()
 		view.setup(mv, IntentView.number_of(mv, e, s.hero, b), not e.move_available(mv_id))
 		_intents.add_child(view)
-	if s.foresight:
-		for mv_id: StringName in EnemyRules.peek(s, e.def.intents_per_turn):
+	var ahead := GearEffectRules.preview_count(s)  # Foresight or the hunter's Cunning
+	if ahead > 0:
+		for mv_id: StringName in EnemyRules.peek(s, ahead):
 			var next_view := IntentView.new()
 			var mv := e.def.moves[mv_id]
 			next_view.setup(mv, IntentView.number_of(mv, e, s.hero, b), false, true)
