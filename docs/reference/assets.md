@@ -36,4 +36,4 @@
 | Prompt file | Named | Missing |
 |---|---|---|
 | `art-backlog.md` | 91 | 0 |
-| `map-life-people.md` | 13 | 3: GREY__detail__r0c1, GREY__detail__r1c1, GREY__detail__r4c1 |
+| `map-life-people.md` | 13 | 0 |
