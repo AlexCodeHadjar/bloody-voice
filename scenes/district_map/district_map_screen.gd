@@ -23,6 +23,7 @@ var _tip_label: Label
 var _day_label: Label
 var _money_label: Label
 var _stock_row: HBoxContainer
+var _health_label: Label
 var _spot: DistrictMapRules.Spot  ## where the hero stands or walks to
 var _target: DistrictMapDef.LandmarkDef = null  ## the card opens when the hero gets there
 var _target_rumor := 0  ## the rumor tablet opens when the hero gets to this diamond
@@ -104,6 +105,9 @@ func _build_bar() -> Control:
 	row.add_child(Icons.rect("RESOURCE", &"money", 34))
 	_money_label = UiKit.label("", 22, Palette.BRASS_LIGHT)
 	row.add_child(_money_label)
+	row.add_child(Icons.rect("STAT", &"hp", 30))
+	_health_label = UiKit.label("", 20)  # HP and Sanity carried between fights (GDD 4)
+	row.add_child(_health_label)
 	_stock_row = HBoxContainer.new()  # resources (GDD 6.1)
 	_stock_row.add_theme_constant_override("separation", 10)
 	row.add_child(_stock_row)
@@ -167,6 +171,11 @@ func _refresh_bar() -> void:
 		"week": CalendarRules.week(run.day, b),
 		"rent": Loc.t("ui.city.rent_today") if rent_in == 0 else Loc.t("ui.city.rent_in", {"n": rent_in})})
 	_money_label.text = str(run.money)
+	var data := ContentDB.data
+	_health_label.text = Loc.t("ui.health.bar", {"hp": HealthRules.hp(run, data), "max": HealthRules.max_hp(run, data),
+		"sanity": HealthRules.sanity(run, data), "max_sanity": HealthRules.max_sanity(data)})
+	var low := HealthRules.hp(run, data) * 3 < HealthRules.max_hp(run, data)
+	_health_label.add_theme_color_override("font_color", Palette.ALARM if low else Palette.PARCHMENT)
 	_money_label.add_theme_color_override("font_color", Palette.ALARM if run.money < 0 else Palette.BRASS_LIGHT)
 	_money_label.mouse_filter = Control.MOUSE_FILTER_PASS
 	_money_label.tooltip_text = "" if run.money >= 0 else Loc.t("ui.district.debt", {"n": run.debt_strikes, "of": b.debt_strikes})
@@ -274,7 +283,7 @@ func _on_action(action: StringName) -> void:
 	match action:
 		&"rest":
 			_card.close_card()
-			GameState.end_day()
+			GameState.rest()
 		&"workshop":
 			GameState.save_game()
 			get_tree().change_scene_to_file(WORKSHOP)

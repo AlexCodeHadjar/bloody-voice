@@ -1,6 +1,6 @@
 class_name ShopValidator
 extends RefCounted
-## Checks the shop, tavern and rent numbers (GDD 11.1, 3.2–3.3): slots of known kinds, every resource priced,
+## Checks the shop, tavern, rent and health numbers (GDD 11.1, 3.2–3.3, 4): slots of known kinds, every resource priced,
 ## consumables are consumable cards, trophy prices cover every rank, gossip exists.
 
 
@@ -32,3 +32,6 @@ static func validate(data: ContentData, errs: ErrorLog) -> void:
 		errs.add("rumors/rumors.json", "needs at least one gossip line")
 	if data.balance.debt_strikes < 1:
 		errs.add("balance.json/economy", "debt_strikes must be >= 1")
+	var h := data.balance.health
+	if h.rest_share <= 0.0 or h.rest_share > 1.0 or h.treat_base < 0 or h.treat_per_hp < 0 or h.treat_per_sanity < 0 or h.fall_fee < 0:
+		errs.add("balance.json/health", "rest_share in (0, 1], prices >= 0")

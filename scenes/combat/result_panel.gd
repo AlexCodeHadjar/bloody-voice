@@ -29,6 +29,8 @@ func show_result(s: CombatState) -> void:
 	v.add_child(UiKit.label(Loc.t("ui.combat.summary", {"turns": s.turn, "hp": maxi(s.hero.hp, 0)}), 20))
 	v.add_child(Icons.with_text("RESOURCE", &"trophy", Loc.t("ui.combat.trophies", {"list": trophies if trophies != "" else Loc.t("ui.combat.none")}), 30, 20))
 	_add_loot_lines(v, s)
+	if s.outcome() == &"fallen":  # the Hunter's Fall (GameState.finish_combat)
+		v.add_child(UiKit.paragraph(Loc.t("ui.combat.fall", {"n": ContentDB.data.balance.health.fall_fee}), 18, Palette.ALARM))
 	_add_contract_line(v, s)
 	var back := UiKit.button(Loc.t("ui.combat.back"))
 	back.pressed.connect(back_pressed.emit)

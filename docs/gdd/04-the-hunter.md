@@ -57,3 +57,16 @@ Engineering, precision and control. Safe and predictable. Rich in Support cards,
   - Stage 3 — The Beast: unlocks Beast Form (huge power); after the fight there is a chance of losing control (story consequence).
 - The Voice is reduced by Collegium sedatives, Morrell treatments and Rest days — at the cost of money and time.
 - Monster nodes unlock **blood sockets** in the weapon and armor.
+
+## 4.5 Health between fights (Phase 4 step 3, owner 2026-10-12)
+
+| Rule | Value |
+|---|---|
+| Carry-over | HP and Sanity stay as the last fight left them (district bar: «HP x/y · Рассудок a/b», red below a third). Sanity 0 means the next fight starts in panic. |
+| Rest | Ash Garret, a day: +⅓ of max HP and max Sanity. |
+| Infirmary | The Ash Sisters (place 16, action `infirmary`): a day and 5 + 1 per missing HP + 1 per missing Sanity → full HP and Sanity. No credit. |
+| Hunter's Fall | 0 HP in a fight: the sisters pick the hunter up — one more day passes (two in all), the fee of 30 is taken even into debt, HP and Sanity are restored, the fight's loot and trophies are lost. Scars come later (Phase 6). |
+| Scriptorium | Crypt Scriptorium (place 12, action `library`), a day: **verify a rumor** (its tablet then shows what it leads to) or **study a trophy** (spent; every taken or pinned contract on its creature learns one more true sign). Bestiary, blueprints from books and Cunning checks come later. |
+
+Numbers: `balance.json → health`. Code: `core/rules/health/health_rules.gd`, `core/rules/library/library_rules.gd`,
+screens `scenes/places/` (infirmary, Scriptorium).

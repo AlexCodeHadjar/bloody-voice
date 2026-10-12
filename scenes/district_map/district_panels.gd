@@ -1,7 +1,8 @@
 class_name DistrictPanels
 extends Node
 ## Full-screen panels over the district map (one at a time): the contract board and tablets, the rumor post and
-## tablets, the shop, the tavern-shift result. Adds them to the district screen and tells it what happened.
+## tablets, the shop, the tavern-shift result, the infirmary and the Scriptorium. Adds them to the district screen
+## and tells it what happened.
 
 signal rumor_chosen(uid: int)  ## the rumor post's «Идти»
 signal fight_started  ## a rumor tablet started a fight
@@ -35,6 +36,10 @@ func open_for(action: StringName) -> bool:
 				var panel := ShiftPanel.new()
 				open(panel)
 				panel.show_report(report)
+		&"infirmary":
+			open(InfirmaryPanel.new())
+		&"library":
+			open(LibraryPanel.new())
 		&"rumors":
 			var post := RumorPost.new()
 			open(post)

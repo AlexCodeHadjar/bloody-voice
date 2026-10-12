@@ -225,6 +225,48 @@ func work_shift() -> ShiftRules.Report:
 	return report
 
 
+## Day action: rest at the garret (a third of HP and Sanity back).
+func rest() -> void:
+	if run == null or combat != null:
+		return
+	HealthRules.rest(run, ContentDB.data)
+	end_day()
+
+
+## Day action: the Ash Sisters heal fully for money. "" or the reason they won't.
+func treat() -> String:
+	if run == null or combat != null:
+		return Loc.t("rule.not_now")
+	var problem := HealthRules.treat(run, ContentDB.data)
+	if problem == "":
+		EventBus.money_changed.emit(run.money)
+		end_day()
+	return problem
+
+
+## Day action in the Scriptorium: verify a rumor. "" or the reason it can't be done.
+func verify_rumor(uid: int) -> String:
+	if run == null or combat != null:
+		return Loc.t("rule.not_now")
+	var problem := LibraryRules.verify(run, uid)
+	if problem == "":
+		EventBus.rumors_changed.emit()
+		end_day()
+	return problem
+
+
+## Day action in the Scriptorium: study a trophy; returns the contracts that learned a sign (empty = not done).
+func study_trophy(trophy: StringName) -> Array[ContractsState.Contract]:
+	if run == null or combat != null:
+		return []
+	var taught := LibraryRules.study(run, ContentDB.data, trophy)
+	if not taught.is_empty():
+		EventBus.stock_changed.emit()
+		EventBus.contracts_changed.emit()
+		end_day()
+	return taught
+
+
 ## Rag-and-Bone shop (GDD 11.1): buy an item of this week's table. "" or the reason it can't be bought.
 func buy_item(uid: int) -> String:
 	if run == null or combat != null:
@@ -272,6 +314,8 @@ func _start_fight(id: StringName, contract: ContractsState.Contract, zone: Strin
 	if capture_allowed and not has_net:  # the contract issues a net unless the gear already brings one
 		setup.deck.append(&"iron_net")
 	setup.deck.append_array(run.bag)  # consumables of the bag (GDD 11.1)
+	setup.hero_hp = HealthRules.hp(run, data)  # HP and Sanity carry over between fights (GDD 4)
+	setup.hero_sanity = HealthRules.sanity(run, data)
 	setup.backdrop = _backdrop(zone)
 	combat = CombatRules.start(setup, data)
 	EventBus.combat_started.emit()
@@ -313,10 +357,15 @@ func finish_combat() -> void:
 	var loot := LootRules.fight_loot(ContentDB.data, combat)
 	LootRules.take(run, ContentDB.data, loot)
 	ShopRules.spend_bag(run, combat)
+	HealthRules.after_fight(run, combat)
 	combat = null
 	EventBus.combat_finished.emit(outcome)
 	if not loot.is_empty():
 		EventBus.stock_changed.emit()
+	if outcome == &"fallen":  # the Hunter's Fall: a day in the Ash Sisters' infirmary on top of the fight's day
+		HealthRules.fall(run, ContentDB.data)
+		EventBus.money_changed.emit(run.money)
+		end_day()
 	if paid > 0:
 		EventBus.money_changed.emit(run.money)
 		EventBus.contracts_changed.emit()

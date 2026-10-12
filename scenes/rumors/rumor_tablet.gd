@@ -69,6 +69,8 @@ func _show_rumor(r: RumorsState.Rumor) -> void:
 	_right.add_child(match_box)
 	TutorialAnchors.register(&"rumor_match", match_box)
 	_right.add_child(UiKit.label(Loc.t("ui.rumor.cools", {"n": r.expires_day - GameState.run.day}), 16, Palette.INK_MUTED))
+	if r.verified:  # checked in the Scriptorium
+		_right.add_child(Icons.with_text("OUTCOME", r.kind, Loc.t("ui.rumor.verified", {"outcome": Loc.t("ui.rumor.outcome.%s" % r.kind)}), 30, 18, Palette.BRASS_LIGHT))
 	_right.add_child(_gap())
 	var buttons := HBoxContainer.new()
 	buttons.add_theme_constant_override("separation", 14)

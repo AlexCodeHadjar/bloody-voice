@@ -129,7 +129,7 @@ func _rumor_shots() -> void:
 			(n as RumorTablet).close_tablet()
 
 
-## The shop and a tavern shift (GDD 11.1, 3.3).
+## The shop, a tavern shift, the infirmary and the Scriptorium (GDD 11.1, 3.3, 4).
 func _shop_shots() -> void:
 	var screen := get_tree().current_scene
 	screen.call("_on_action", &"shop")
@@ -145,6 +145,14 @@ func _shop_shots() -> void:
 	for n: Node in screen.get_children():
 		if n is ShiftPanel:
 			(n as ShiftPanel).close_panel()
+	for place: Array in [[&"infirmary", "26_infirmary"], [&"library", "27_scriptorium"]]:
+		await _wait(0.3)
+		screen.call("_on_action", place[0])
+		await _wait(0.6)
+		await _shot(place[1] as String)
+		for n: Node in screen.get_children():
+			if n is PlacePanel:
+				(n as PlacePanel).close_panel()
 
 
 ## Workshop (GDD 23.1): the start, then a blueprint picked on the workbench after a craft.

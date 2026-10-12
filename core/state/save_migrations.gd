@@ -21,6 +21,8 @@ static func migrate(d: Dictionary, start_loadout: Dictionary = {}) -> Dictionary
 				_from_5(d)
 			6:
 				_from_6(d)
+			7:
+				_from_7(d)
 			_:
 				push_warning("[save] no migration from version %d" % version)
 		version += 1
@@ -64,3 +66,9 @@ static func _from_6(d: Dictionary) -> void:
 	d["bag"] = []
 	d["debt_strikes"] = 0
 	d["workshop_locked_day"] = 0
+
+
+## v7 -> v8: HP and Sanity between fights (GDD 4). Old saves start full.
+static func _from_7(d: Dictionary) -> void:
+	d["hero_hp"] = -1
+	d["hero_sanity"] = -1

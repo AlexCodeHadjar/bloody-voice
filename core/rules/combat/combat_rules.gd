@@ -14,7 +14,7 @@ static func start(setup: CombatSetup, data: ContentData) -> CombatState:
 	h.display_name = Loc.t("log.hunter_name")
 	h.hp = setup.hero_hp
 	h.max_hp = setup.hero_max_hp
-	h.sanity = setup.max_sanity
+	h.sanity = setup.hero_sanity if setup.hero_sanity >= 0 else setup.max_sanity
 	h.max_sanity = setup.max_sanity
 	h.max_ap = setup.max_ap
 	h.hand_size = setup.hand_size

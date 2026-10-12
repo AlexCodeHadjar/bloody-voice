@@ -8,6 +8,7 @@ var mods: Dictionary[StringName, int] = {}  ## passive gear bonuses (GearMods)
 var hero_hp: int
 var hero_max_hp: int
 var max_sanity: int
+var hero_sanity: int = -1  ## Sanity at the start (carried from the last fight); -1 = full
 var max_ap: int
 var hand_size: int
 var max_ammo: int

@@ -224,5 +224,13 @@
   "shift_money_min": 15,
   "shift_money_max": 25,
   "overheard_true_chance": 0.5
+ },
+ "health": {
+  "_comment": "Health between fights (GDD 4, owner 2026-10-12): HP and Sanity carry over from fight to fight. Resting at the garret restores a third of each; the Ash Sisters' infirmary heals fully for a day and money (base + per missing HP). At 0 HP the hunter falls: wakes in the infirmary one more day later, healed, and the fee is taken even into debt; the fight's trophies and loot are lost.",
+  "rest_share": 0.33,
+  "treat_base": 5,
+  "treat_per_hp": 1,
+  "treat_per_sanity": 1,
+  "fall_fee": 30
  }
 }

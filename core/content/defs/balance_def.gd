@@ -39,6 +39,7 @@ var rumors: RumorDefs.Balance = RumorDefs.Balance.new()  ## rumor diamonds (GDD 
 var workshop: WorkshopDefs.Balance = WorkshopDefs.Balance.new()  ## crafting and loot (GDD 6)
 var shop: ShopDefs.Balance = ShopDefs.Balance.new()  ## the Rag-and-Bone shop (GDD 11.1)
 var tavern: ShopDefs.Tavern = ShopDefs.Tavern.new()  ## the tavern shift (GDD 3.3)
+var health: HealthDefs.Balance = HealthDefs.Balance.new()  ## rest, infirmary, the Hunter's Fall (GDD 4)
 
 
 static func from_dict(d: Dictionary, errs: ErrorLog) -> BalanceDef:
@@ -79,7 +80,7 @@ static func from_dict(d: Dictionary, errs: ErrorLog) -> BalanceDef:
 	return b
 
 
-## The blocks with their own def classes: contracts, rumors, workshop, shop, tavern.
+## The blocks with their own def classes: contracts, rumors, workshop, shop, tavern, health.
 static func _blocks(b: BalanceDef, d: Dictionary, errs: ErrorLog) -> void:
 	var w := "balance.json"
 	b.contracts = ContractDefs.balance(DefReader.dict(d, "contracts", errs, w), errs)
@@ -87,3 +88,4 @@ static func _blocks(b: BalanceDef, d: Dictionary, errs: ErrorLog) -> void:
 	b.workshop = WorkshopDefs.balance(DefReader.dict(d, "workshop", errs, w), errs)
 	b.shop = ShopDefs.balance(DefReader.dict(d, "shop", errs, w), errs)
 	b.tavern = ShopDefs.tavern(DefReader.dict(d, "tavern", errs, w), errs)
+	b.health = HealthDefs.balance(DefReader.dict(d, "health", errs, w), errs)

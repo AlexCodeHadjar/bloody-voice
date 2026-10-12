@@ -10,7 +10,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 |---|---|---|---|
 | `autoload/content_db.gd` |  | Loads and validates all content once at start-up. If `errors` is not empty the game must not start. | reload, is_ok |
 | `autoload/event_bus.gd` |  | Global signals. Systems talk through these instead of holding references to each other. |  |
-| `autoload/game_state.gd` |  | Facade between the screens and the game rules (GDD 19.3). | has_run, new_game, continue_game, save_game, move_hero, is_open, set_hero_node, end_day, accept_contract, equip_module, unequip_module, set_socket, craft_item, upgrade_module, salvage_item, leave_workshop, dev_grant_all_gear, investigate_rumor, work_shift, buy_item … |
+| `autoload/game_state.gd` |  | Facade between the screens and the game rules (GDD 19.3). | has_run, new_game, continue_game, save_game, move_hero, is_open, set_hero_node, end_day, accept_contract, equip_module, unequip_module, set_socket, craft_item, upgrade_module, salvage_item, leave_workshop, dev_grant_all_gear, investigate_rumor, work_shift, rest … |
 | `autoload/profile_service.gd` |  | The player profile (ProfileState in user://profile.cfg): settings screen and tutorial read and change it here. | save, apply, apply_volumes, set_volume, set_fullscreen, set_hints, reset_tutorial |
 | `autoload/rng_service.gd` |  | Seeded randomness (GDD 17.1). One master seed per playthrough; every system draws from its own | set_seed, stream |
 | `autoload/save_service.gd` |  | Save / load of RunState as JSON, with versioned migrations (GDD 19.1). | has_save, save_run, load_run |
@@ -37,6 +37,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/content/defs/district_map_def.gd` | DistrictMapDef | Walkable map of one district (data/city/district_maps/<ID>.json, GDD 20): border contour, street graph of nodes, | from_dict, landmark, zone, node_pos, has_node_id |
 | `core/content/defs/district_state_def.gd` | DistrictStateDef | What a district state does (data/city/district_states.json, GDD 14.2). | from_dict |
 | `core/content/defs/gear_misc_defs.gd` | GearDefs | Small gear definitions: cell shapes, armor pieces, mechanisms (data/gear/*.json, GDD 5). | shape, armor, mechanism |
+| `core/content/defs/health_defs.gd` | HealthDefs | The "health" block of balance.json (GDD 4, owner 2026-10-12): rest, infirmary prices, the Hunter's Fall fee. | balance |
 | `core/content/defs/map_regions_def.gd` | MapRegionsDef | Clickable district regions traced over the city map art (data/city/map_regions.json). | from_dict |
 | `core/content/defs/module_def.gd` | ModuleDef | A weapon module (data/gear/modules.json): shape, cell type, cards, passive mods, links with neighbours. | cards_at, capture_cards_at, mods_at, effect_at, art_path, from_dict |
 | `core/content/defs/monster_def.gd` | MonsterDef | A creature: stats, body parts, its own deck of moves and phases (data/monsters/*.json, GDD 9.4). | art_path, from_dict, part |
@@ -54,7 +55,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/content/gear_validator.gd` | GearValidator | Checks weapons, modules, shapes, armor, mechanisms and the starting loadout (GDD 5). | validate |
 | `core/content/loc.gd` | Loc | Game text by key from locale/strings.csv (GDD 22.5). Russian is the game language; English comes later. | apply_locale, has, t, or_default, format, plural_index, placeholders |
 | `core/content/rumor_validator.gd` | RumorValidator | Checks rumor content (GDD 8): witnesses exist, every zone of a district map with creatures has pictures and | validate |
-| `core/content/shop_validator.gd` | ShopValidator | Checks the shop, tavern and rent numbers (GDD 11.1, 3.2–3.3): slots of known kinds, every resource priced, | validate |
+| `core/content/shop_validator.gd` | ShopValidator | Checks the shop, tavern, rent and health numbers (GDD 11.1, 3.2–3.3, 4): slots of known kinds, every resource priced, | validate |
 | `core/content/workshop_validator.gd` | WorkshopValidator | Checks workshop content (GDD 6): every module and mechanism has a blueprint, costs name known resources or | validate |
 | `core/dev/combat_bot.gd` | CombatBot | A simple, honest player for balance testing (GDD 18.1 "bots test balance"). | run_fight, play_turn |
 | `core/dev/dev_shots.gd` |  | Developer auto-screenshots. Does nothing unless started with: |  |
@@ -79,6 +80,8 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/rules/gear/armor_rules.gd` | ArmorRules | Mechanisms in armor sockets (GDD 5.1). Every armor piece has a number of sockets; any mechanism fits any socket. | set_socket, installed, mechanism_at |
 | `core/rules/gear/deck_builder.gd` | DeckBuilder | "Your gear is your deck" (GDD 5.3): the fight deck and bonuses come from the hunter's own cards, | build, setup, default_setup |
 | `core/rules/gear/weapon_grid_rules.gd` | WeaponGridRules | Placing modules into weapon cells (GDD 5.2). Modules may be rotated in quarter turns. | rotated, covered, can_place, place, remove_at, placement_at, touching, problems, drop_invalid |
+| `core/rules/health/health_rules.gd` | HealthRules | Health between fights (GDD 4, owner 2026-10-12): HP and Sanity carry over. Rest at the garret restores a third; | max_hp, max_sanity, hp, sanity, rest, treat_cost, can_treat, treat, heal_fully, after_fight, fall |
+| `core/rules/library/library_rules.gd` | LibraryRules | The Crypt Scriptorium (GDD 3.3, owner 2026-10-12): a day there verifies one rumor (shows what it leads to) or | can_verify, verify, trophy_creature, contracts_to_teach, can_study, study |
 | `core/rules/rumors/rumor_rules.gd` | RumorRules | Rumors (GDD 8, owner 2026-10-12): each morning 1–2 new diamonds on the district map (at most 5), each lives 3 | visible, new_morning, seed_targets, overheard, matches, best_contract, investigate |
 | `core/rules/shop/shop_rules.gd` | ShopRules | The Rag-and-Bone shop (GDD 11.1, owner 2026-10-12): a new table every Monday, buying (only with money in hand — | refresh, can_buy, buy, trophy_price, resource_sell_price, sell, spend_bag |
 | `core/rules/tavern/shift_rules.gd` | ShiftRules | A shift behind the bar of the Lantern & Hook (GDD 3.3, owner 2026-10-12): the day's main action. Pays money and | work |
@@ -151,6 +154,9 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `scenes/equipment/shape_icon.gd` | ShapeIcon | Small picture of a module's cell shape (for the spare-module list). | setup |
 | `scenes/equipment/weapon_tablet_view.gd` | WeaponTabletView | Draws the weapon's sections as cell grids, the placed modules (their art, rotated) and a ghost of the | setup, set_ghost, refresh |
 | `scenes/menu/main_menu.gd` |  | Title screen: New game / Continue / Quit over the city map. |  |
+| `scenes/places/infirmary_panel.gd` | InfirmaryPanel | The Ash Sisters' infirmary (GDD 4, owner 2026-10-12): HP and Sanity now, the price of a full treatment and |  |
+| `scenes/places/library_panel.gd` | LibraryPanel | The Crypt Scriptorium (GDD 3.3, owner 2026-10-12): spend the day verifying one rumor (its tablet will show what it |  |
+| `scenes/places/place_panel.gd` | PlacePanel | Base of a small full-screen panel for a place (infirmary, Scriptorium): a dimmed map, a framed box with an NPC | refill, show_done, close_panel |
 | `scenes/rumors/rumor_layer.gd` | RumorLayer | Rumor diamonds on the district map (GDD 8, owner 2026-10-12): one brass diamond per rumor at its street node, | setup, refresh |
 | `scenes/rumors/rumor_post.gd` | RumorPost | The leaflet post on Bonfire Square (GDD 20.6, owner 2026-10-12): every rumor diamond of the district as a list — | close_post |
 | `scenes/rumors/rumor_tablet.gd` | RumorTablet | The rumor tablet (GDD 8.1): the picture on the left; on the right who tells it, the signs (highlighted; signs | open_rumor, close_tablet |
@@ -189,6 +195,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `tests/test_district_map.gd` |  | District map (GDD 20): the Grey Chapels map loads and validates, the validator catches broken maps, walking | test_grey_map_loads_and_is_valid, test_path_from_home_to_every_landmark, test_shortest_path_picks_the_shorter_route, test_route_on_same_edge_and_across_edges, test_nearest_spot_respects_max_dist, test_lookups_on_grey, test_validator_catches_broken_maps, test_validator_catches_duplicate_landmark_and_bad_district, test_bad_district_map_json_is_reported |
 | `tests/test_district_states.gd` |  | District states and their transitions (GDD 14). | test_timed_state_returns_to_previous, test_chain_goes_to_next_state, test_untimed_state_stays, test_unknown_place_is_normal |
 | `tests/test_gear.gd` |  | Weapon cells, modules, links, armor sockets, deck building and gear bonuses in combat (GDD 5). | test_rotation, test_start_loadout_is_valid_and_builds_the_starter_deck, test_placement_rules, test_every_gear_module_fits_the_starting_rifle, test_links_swap_cards_when_modules_touch, test_armor_sockets_add_cards_and_mods, test_gear_bonuses_in_combat, test_reload_draw_and_rage_discount, test_loadout_survives_save_and_old_saves_get_start_gear, test_rotation_with_offset_and_touching_edges_only, test_replacing_a_socket_frees_the_old_mechanism, test_duplicate_modules_stack, test_capture_cards_only_on_capture_contracts, test_invalid_saved_placements_are_dropped |
+| `tests/test_health.gd` |  | Health between fights, the Hunter's Fall, the infirmary and the Scriptorium (GDD 4, 3.3). | test_hp_carries_into_the_next_fight, test_rest_restores_a_third, test_infirmary_heals_for_money_never_on_credit, test_hunters_fall_takes_the_fee_even_into_debt, test_scriptorium_verifies_a_rumor, test_scriptorium_studies_a_trophy, test_health_survives_save_and_old_saves_start_full |
 | `tests/test_locale.gd` |  | The game speaks Russian (GDD 22.5): every key used by code and data has a Russian text, placeholders agree with | test_russian_plural_forms, test_every_content_text_has_russian, test_key_families_exist, test_keys_written_in_code_exist, test_placeholders_agree_with_english |
 | `tests/test_map_regions.gd` |  | Known points of the city map art must land in the right district. | test_samples, test_every_anchor_is_inside_its_region |
 | `tests/test_rng.gd` |  | Seeded randomness: the same seed gives the same streams (GDD 17.1). | test_same_inputs_same_sequence, test_streams_are_independent |
