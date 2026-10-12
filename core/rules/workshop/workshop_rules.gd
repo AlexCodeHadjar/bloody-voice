@@ -1,6 +1,6 @@
 class_name WorkshopRules
 extends RefCounted
-## The workshop (GDD 6.2, owner 2026-10-12): crafting from known blueprints, upgrading a module kind to tier II–III,
+## The workshop (GDD 6.2, owner 2026-10-12): crafting from known blueprints, upgrading one module copy to tier II–III,
 ## salvage for half the resources. The first craft or upgrade of a day starts a workshop day (2 items); leaving the
 ## workshop ends that day (GameState). Salvage and changing gear are free.
 
@@ -44,71 +44,85 @@ static func craft(run: RunState, data: ContentData, item: StringName) -> String:
 	var bp := data.blueprint(item)
 	_spend(run, data, bp.cost)
 	if bp.kind == &"module":
-		run.loadout.owned_modules.append(item)
+		run.loadout.add_module(item)
 	else:
 		run.loadout.owned_mechanisms.append(item)
 	return ""
 
 
-## Cost of the next tier of a module kind; empty at tier III.
-static func upgrade_cost(run: RunState, data: ContentData, module: StringName) -> Dictionary:
+## Cost of raising a copy from `tier` to the next; empty at tier III.
+static func upgrade_cost(data: ContentData, module: StringName, tier: int) -> Dictionary:
 	var bp := data.blueprint(module)
-	var t := run.loadout.tier(module)
-	if bp == null or t >= ModuleDef.MAX_TIER or bp.upgrade.size() < t:
+	if bp == null or tier >= ModuleDef.MAX_TIER or bp.upgrade.size() < tier:
 		return {}
-	return bp.upgrade[t - 1]
+	return bp.upgrade[tier - 1]
 
 
-static func can_upgrade(run: RunState, data: ContentData, module: StringName) -> String:
-	if not run.loadout.owned_modules.has(module):
+static func can_upgrade(run: RunState, data: ContentData, module: StringName, tier: int) -> String:
+	if not run.loadout.tiers_of(module).has(tier):
 		return Loc.t("rule.workshop.not_owned")
-	var cost := upgrade_cost(run, data, module)
+	var cost := upgrade_cost(data, module, tier)
 	if cost.is_empty():
 		return Loc.t("rule.workshop.max_tier")
 	return _can_spend(run, data, cost)
 
 
-## Raises the tier of the module kind: every copy, and copies made later (owner, 2026-10-12).
-static func upgrade(run: RunState, data: ContentData, module: StringName) -> String:
-	var problem := can_upgrade(run, data, module)
+## Raises ONE copy of that tier (owner, 2026-10-12): a spare one if there is, else the one in a cell (its place
+## keeps it and shows the new tier).
+static func upgrade(run: RunState, data: ContentData, module: StringName, tier: int) -> String:
+	var problem := can_upgrade(run, data, module, tier)
 	if problem != "":
 		return problem
-	_spend(run, data, upgrade_cost(run, data, module))
-	run.loadout.module_tiers[module] = run.loadout.tier(module) + 1
+	_spend(run, data, upgrade_cost(data, module, tier))
+	var l := run.loadout
+	if not l.spare_tiers(module).has(tier):
+		for p: LoadoutState.Placement in l.placements:
+			if p.module == module and p.tier == tier:
+				p.tier = tier + 1
+				break
+	l.remove_module(module, tier)
+	l.add_module(module, tier + 1)
 	return ""
 
 
-## Resources salvage returns: salvage_share of the blueprint's resource cost, rounded down (trophies are not returned).
-static func salvage_refund(data: ContentData, item: StringName) -> Dictionary[StringName, int]:
+## Resources salvage returns: salvage_share of what the copy cost (the blueprint and the upgrades up to its tier),
+## rounded down; trophies are not returned.
+static func salvage_refund(data: ContentData, item: StringName, tier: int = 1) -> Dictionary[StringName, int]:
 	var out: Dictionary[StringName, int] = {}
 	var bp := data.blueprint(item)
 	if bp == null:
 		return out
-	for k: StringName in bp.cost:
-		var n := floori(bp.cost[k] * data.balance.workshop.salvage_share)
+	var paid: Dictionary[StringName, int] = {}
+	LootRules.add_to(paid, bp.cost)
+	for t: int in range(1, tier):
+		LootRules.add_to(paid, upgrade_cost(data, item, t))
+	for k: StringName in paid:
+		var n := floori(paid[k] * data.balance.workshop.salvage_share)
 		if data.balance.workshop.resources.has(k) and n > 0:
 			out[k] = n
 	return out
 
 
 ## Only a spare copy (not in a cell or socket) can be taken apart.
-static func can_salvage(run: RunState, data: ContentData, item: StringName) -> String:
+static func can_salvage(run: RunState, data: ContentData, item: StringName, tier: int = 1) -> String:
 	if is_locked(run):
 		return Loc.t("rule.workshop.locked")
 	var bp := data.blueprint(item)
-	var spare := run.loadout.spare_modules() if bp != null and bp.kind == &"module" else run.loadout.spare_mechanisms()
-	return "" if bp != null and spare.has(item) else Loc.t("rule.workshop.installed")
+	if bp == null:
+		return Loc.t("rule.workshop.installed")
+	var spare := run.loadout.spare_tiers(item).has(tier) if bp.kind == &"module" else run.loadout.spare_mechanisms().has(item)
+	return "" if spare else Loc.t("rule.workshop.installed")
 
 
-static func salvage(run: RunState, data: ContentData, item: StringName) -> String:
-	var problem := can_salvage(run, data, item)
+static func salvage(run: RunState, data: ContentData, item: StringName, tier: int = 1) -> String:
+	var problem := can_salvage(run, data, item, tier)
 	if problem != "":
 		return problem
 	if data.blueprint(item).kind == &"module":
-		run.loadout.owned_modules.erase(item)
+		run.loadout.remove_module(item, tier)
 	else:
 		run.loadout.owned_mechanisms.erase(item)
-	LootRules.add_resources(run.workshop, salvage_refund(data, item))
+	LootRules.add_resources(run.workshop, salvage_refund(data, item, tier))
 	return ""
 
 

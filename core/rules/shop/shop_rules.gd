@@ -38,7 +38,7 @@ static func buy(run: RunState, data: ContentData, uid: int) -> String:
 	x.sold = true
 	match x.kind:
 		&"module":
-			run.loadout.owned_modules.append(x.id)
+			run.loadout.add_module(x.id)
 		&"blueprint":
 			run.workshop.blueprints.append(x.id)
 		&"consumable":

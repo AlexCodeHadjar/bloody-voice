@@ -23,6 +23,8 @@ static func migrate(d: Dictionary, start_loadout: Dictionary = {}) -> Dictionary
 				_from_6(d)
 			7:
 				_from_7(d)
+			8:
+				_from_8(d)
 			_:
 				push_warning("[save] no migration from version %d" % version)
 		version += 1
@@ -72,3 +74,17 @@ static func _from_6(d: Dictionary) -> void:
 static func _from_7(d: Dictionary) -> void:
 	d["hero_hp"] = -1
 	d["hero_sanity"] = -1
+
+
+## v8 -> v9: module tiers move from the module kind to each copy (owner, 2026-10-12): every owned copy and every
+## placement gets the tier its kind had.
+static func _from_8(d: Dictionary) -> void:
+	var l: Dictionary = d.get("loadout", {})
+	var kind_tiers: Dictionary = l.get("module_tiers", {})
+	var tiers: Array = []
+	for m: Variant in l.get("owned_modules", []) as Array:
+		tiers.append(int(kind_tiers.get(str(m), 1)))
+	l["owned_tiers"] = tiers
+	for p: Variant in l.get("placements", []) as Array:
+		(p as Dictionary)["tier"] = int(kind_tiers.get(str((p as Dictionary).get("module", "")), 1))
+	l.erase("module_tiers")

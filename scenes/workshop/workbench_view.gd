@@ -4,12 +4,13 @@ extends PanelContainer
 ## the cards it puts into the deck — with «Изготовить», the upgrade path I » II » III with the next tier's effect and
 ## cost («Улучшить»), and «Разобрать» with what comes back. Buttons only report; the screen calls GameState.
 
-signal action(kind: StringName, item: StringName)  ## kind: craft / upgrade / salvage
+signal action(kind: StringName, item: StringName, tier: int)  ## kind: craft / upgrade / salvage; tier of the copy
 
 const SHEET := "res://art/ui/WORKSHOP__blueprint_sheet.webp"
 const CARD_SCALE := 0.7
 
 var _item: StringName = &""
+var _tier := 1  ## the copy shown (modules); blueprints show tier I
 var _box: VBoxContainer
 
 
@@ -32,8 +33,9 @@ func _ready() -> void:
 	show_item(&"")
 
 
-func show_item(item: StringName) -> void:
+func show_item(item: StringName, tier: int = 1) -> void:
 	_item = item
+	_tier = tier
 	for child: Node in _box.get_children():
 		child.queue_free()
 	if item == &"":
@@ -41,7 +43,7 @@ func show_item(item: StringName) -> void:
 		return
 	var data := ContentDB.data
 	var m := data.module(item)
-	var tier := GameState.run.loadout.tier(item) if m != null else 1
+	var tier := _tier if m != null else 1
 	_head(item, m, tier)
 	var cards: Array[StringName] = []
 	if m != null:
@@ -72,8 +74,8 @@ func _head(item: StringName, m: ModuleDef, tier: int) -> void:
 	v.add_child(UiKit.label(info, 17, Palette.INK_MUTED))
 	v.add_child(UiKit.paragraph(effect, 18, Palette.PARCHMENT))
 	var l := GameState.run.loadout
-	var owned := (l.owned_modules if m != null else l.owned_mechanisms).count(item)
-	var spare := (l.spare_modules() if m != null else l.spare_mechanisms()).count(item)
+	var owned := l.tiers_of(item).count(tier) if m != null else l.owned_mechanisms.count(item)
+	var spare := l.spare_tiers(item).count(tier) if m != null else l.spare_mechanisms().count(item)
 	v.add_child(UiKit.label(Loc.t("ui.workshop.owned", {"n": owned, "used": owned - spare}), 16, Palette.FOG))
 	_box.add_child(h)
 
@@ -118,16 +120,17 @@ func _upgrade_part(m: ModuleDef, tier: int) -> void:
 		return
 	_box.add_child(UiKit.label(Loc.t("ui.workshop.next_tier", {"tier": ["I", "II", "III"][tier]}), 18, Palette.BRASS))
 	_box.add_child(UiKit.paragraph(m.effect_at(tier + 1), 17, Palette.PARCHMENT))
-	_box.add_child(WorkshopKit.cost_row(WorkshopRules.upgrade_cost(GameState.run, ContentDB.data, m.id), 17))
-	_box.add_child(_button(&"upgrade", "ui.workshop.upgrade", WorkshopRules.can_upgrade(GameState.run, ContentDB.data, m.id)))
+	_box.add_child(WorkshopKit.cost_row(WorkshopRules.upgrade_cost(ContentDB.data, m.id, tier), 17))
+	_box.add_child(_button(&"upgrade", "ui.workshop.upgrade", WorkshopRules.can_upgrade(GameState.run, ContentDB.data, m.id, tier)))
 
 
 func _salvage_part(item: StringName) -> void:
-	var problem := WorkshopRules.can_salvage(GameState.run, ContentDB.data, item)
-	if problem != "" and not (GameState.run.loadout.owned_modules + GameState.run.loadout.owned_mechanisms).has(item):
-		return  # nothing owned: no salvage line at all
+	var l := GameState.run.loadout
+	var problem := WorkshopRules.can_salvage(GameState.run, ContentDB.data, item, _tier)
+	if problem != "" and not (l.tiers_of(item).has(_tier) or l.owned_mechanisms.has(item)):
+		return  # no such copy: no salvage line at all
 	_box.add_child(HSeparator.new())
-	var back := WorkshopRules.salvage_refund(ContentDB.data, item)
+	var back := WorkshopRules.salvage_refund(ContentDB.data, item, _tier)
 	var parts: PackedStringArray = []
 	for k: StringName in back:
 		parts.append("%s +%d" % [WorkshopKit.stock_name(k), back[k]])
@@ -144,5 +147,5 @@ func _button(kind: StringName, key: String, problem: String) -> Button:
 	b.add_theme_constant_override("icon_max_width", 34)
 	b.disabled = problem != ""
 	b.tooltip_text = problem
-	b.pressed.connect(func() -> void: action.emit(kind, _item))
+	b.pressed.connect(func() -> void: action.emit(kind, _item, _tier))
 	return b

@@ -27,7 +27,7 @@ static func about(x: ShopState.Item) -> String:
 	var data := ContentDB.data
 	match x.kind:
 		&"module":
-			return data.module(x.id).effect_at(GameState.run.loadout.tier(x.id))
+			return data.module(x.id).effect  # a new copy is tier I
 		&"blueprint":
 			var bp := data.blueprint(x.id)
 			var text := Loc.t("ui.shop.blueprint_about")

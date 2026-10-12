@@ -29,6 +29,6 @@
 | `data/tutorial/sequences.json` | 11 | combat_intro, equipment_intro, district_intro, first_part_broken, first_panic, first_no_ammo, first_rent, contract_board, contract_taken, first_rumor, workshop_intro |
 | `data/ui/icons.json` | 25 | RESOURCE 6, STAT 8, ATTRIBUTE 3, STATUS 6, INTENT 7, CARD_TYPE 6, CELL 3, SECTION 5, ARMOR 5, SKILL 6, DIRECTION 4, CONTRACT 6, OUTCOME 5, TAG 6, ACTION 8, FACTION 15, RANK 4, REPUTATION 5 … |
 
-## Locale `locale/strings.csv` — 954 keys
+## Locale `locale/strings.csv` — 955 keys
 
-`armor.*` 4 · `card.*` 80 · `card_type.*` 6 · `cell.*` 3 · `district.*` 103 · `district_map.*` 63 · `effect.*` 17 · `intent.*` 7 · `log.*` 28 · `mechanism.*` 8 · `mod.*` 12 · `module.*` 80 · `monster.*` 73 · `petition.*` 16 · `resource.*` 4 · `rule.*` 44 · `rumor_gossip.*` 8 · `rumor_witness.*` 8 · `section.*` 5 · `shape.*` 11 · `state.*` 14 · `status.*` 5 · `tag.*` 33 · `trophy.*` 14 · `tutorial.*` 62 · `ui.*` 240 · `weapon.*` 6
+`armor.*` 4 · `card.*` 80 · `card_type.*` 6 · `cell.*` 3 · `district.*` 103 · `district_map.*` 63 · `effect.*` 17 · `intent.*` 7 · `log.*` 28 · `mechanism.*` 8 · `mod.*` 12 · `module.*` 80 · `monster.*` 73 · `petition.*` 16 · `resource.*` 4 · `rule.*` 44 · `rumor_gossip.*` 8 · `rumor_witness.*` 8 · `section.*` 5 · `shape.*` 11 · `state.*` 14 · `status.*` 5 · `tag.*` 33 · `trophy.*` 14 · `tutorial.*` 62 · `ui.*` 241 · `weapon.*` 6

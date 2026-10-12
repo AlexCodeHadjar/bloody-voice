@@ -12,6 +12,7 @@ var _armor: VBoxContainer
 var _deck: Label
 var _message: Label
 var _held: StringName = &""
+var _held_tier := 1  ## every module copy has its own tier (GDD 6.3)
 var _rot: int = 0
 
 
@@ -125,22 +126,30 @@ func _refresh() -> void:
 func _refresh_spares() -> void:
 	for c: Node in _spares.get_children():
 		c.queue_free()
-	var spare := GameState.run.loadout.spare_modules()
+	var l := GameState.run.loadout
+	var spare: Array[Array] = []  # [id, tier] per spare copy
+	for id: StringName in l.owned_modules:
+		if spare.any(func(x: Array) -> bool: return x[0] == id):
+			continue
+		for t: int in l.spare_tiers(id):
+			spare.append([id, t])
 	if spare.is_empty():
 		_spares.add_child(UiKit.paragraph(Loc.t("ui.equip.no_spares"), 15, Palette.INK_MUTED))
-	for id: StringName in spare:
+	for copy: Array in spare:
+		var id: StringName = copy[0]
+		var t: int = copy[1]
 		var m := ContentDB.data.module(id)
 		var row := HBoxContainer.new()
 		row.add_child(_module_picture(m))
-		var b := UiKit.button(Loc.t("ui.equip.module_button", {"name": m.name, "section": Loc.t("section.%s" % m.section),
-			"cell": Loc.t("cell.%s" % m.cell), "effect": m.effect_at(GameState.run.loadout.tier(id))}), 15)
+		var b := UiKit.button(Loc.t("ui.equip.module_button", {"name": "%s %s" % [m.name, WorkshopKit.tier_text(t)],
+			"section": Loc.t("section.%s" % m.section), "cell": Loc.t("cell.%s" % m.cell), "effect": m.effect_at(t)}), 15)
 		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		b.custom_minimum_size = Vector2(360, 64)
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		b.tooltip_text = m.effect_at(GameState.run.loadout.tier(id))
-		b.add_theme_color_override("font_color", Palette.BRASS_LIGHT if id == _held else Palette.PARCHMENT)
-		b.pressed.connect(_hold.bind(id))
+		b.tooltip_text = m.effect_at(t)
+		b.add_theme_color_override("font_color", Palette.BRASS_LIGHT if id == _held and t == _held_tier else Palette.PARCHMENT)
+		b.pressed.connect(_hold.bind(id, t))
 		row.add_child(b)
 		_spares.add_child(row)
 
@@ -209,8 +218,9 @@ func _refresh_deck() -> void:
 	_deck.text = "\n".join(lines)
 
 
-func _hold(id: StringName) -> void:
-	_held = id if _held != id else &""
+func _hold(id: StringName, tier: int = 1) -> void:
+	_held = id if _held != id or _held_tier != tier else &""
+	_held_tier = tier
 	_message.text = _holding_text() if _held != &"" else Loc.t("ui.equip.hint")
 	_refresh()
 
@@ -218,7 +228,7 @@ func _hold(id: StringName) -> void:
 ## What installing the held module would change, so the player sees the deck effect before placing it.
 func _holding_text() -> String:
 	var m := ContentDB.data.module(_held)
-	var t := GameState.run.loadout.tier(_held)
+	var t := _held_tier
 	var gains: PackedStringArray = []
 	for c: StringName in m.cards_at(t):
 		gains.append("+%s" % ContentDB.data.card(c).name)
@@ -236,7 +246,7 @@ func _rotate() -> void:
 
 func _on_cell(section: StringName, cell: Vector2i) -> void:
 	if _held != &"":
-		var problem := GameState.equip_module(_held, section, cell, _rot)
+		var problem := GameState.equip_module(_held, section, cell, _rot, _held_tier)
 		_message.text = problem
 		UiKit.sound(&"gear.install" if problem == "" else &"ui.error")
 		if problem == "":
@@ -248,7 +258,9 @@ func _on_cell(section: StringName, cell: Vector2i) -> void:
 	var index := WeaponGridRules.placement_at(GameState.run.loadout, ContentDB.data, section, cell)
 	if index >= 0:
 		_rot = GameState.run.loadout.placements[index].rot
-		_held = GameState.unequip_module(index)
+		var p := GameState.unequip_module(index)
+		_held = p.module if p != null else &""
+		_held_tier = p.tier if p != null else 1
 		_message.text = Loc.t("ui.equip.picked")
 		_refresh()
 

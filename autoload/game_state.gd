@@ -106,23 +106,23 @@ func accept_contract(uid: int) -> String:
 
 
 ## Gear can be changed anywhere outside a fight, for free (owner's decision, GDD 5).
-func equip_module(module: StringName, section: StringName, pos: Vector2i, rot: int) -> String:
+func equip_module(module: StringName, section: StringName, pos: Vector2i, rot: int, tier: int = 1) -> String:
 	if run == null or combat != null:
 		return Loc.t("rule.not_now")
-	var problem := WeaponGridRules.place(run.loadout, ContentDB.data, module, section, pos, rot)
+	var problem := WeaponGridRules.place(run.loadout, ContentDB.data, module, section, pos, rot, tier)
 	if problem == "":
 		_loadout_changed()
 	return problem
 
 
-## Takes a placed module out; returns its id so the screen can pick it up again.
-func unequip_module(index: int) -> StringName:
-	if run == null or combat != null:
-		return &""
-	var id := WeaponGridRules.remove_at(run.loadout, index)
-	if id != &"":
-		_loadout_changed()
-	return id
+## Takes a placed module out; returns the placement (module and tier) so the screen can pick it up again, or null.
+func unequip_module(index: int) -> LoadoutState.Placement:
+	if run == null or combat != null or index < 0 or index >= run.loadout.placements.size():
+		return null
+	var p := run.loadout.placements[index]
+	WeaponGridRules.remove_at(run.loadout, index)
+	_loadout_changed()
+	return p
 
 
 func set_socket(piece: StringName, index: int, mechanism: StringName) -> String:
@@ -141,18 +141,18 @@ func craft_item(item: StringName) -> String:
 	return _workshop_result(WorkshopRules.craft(run, ContentDB.data, item))
 
 
-## Raises a module kind to its next tier.
-func upgrade_module(module: StringName) -> String:
+## Raises one copy of the module from `tier` to the next.
+func upgrade_module(module: StringName, tier: int) -> String:
 	if run == null or combat != null:
 		return Loc.t("rule.not_now")
-	return _workshop_result(WorkshopRules.upgrade(run, ContentDB.data, module))
+	return _workshop_result(WorkshopRules.upgrade(run, ContentDB.data, module, tier))
 
 
-## Takes a spare item apart for half its resources (free, no day spent).
-func salvage_item(item: StringName) -> String:
+## Takes a spare item (a module copy of that tier) apart for half its resources (free, no day spent).
+func salvage_item(item: StringName, tier: int = 1) -> String:
 	if run == null or combat != null:
 		return Loc.t("rule.not_now")
-	return _workshop_result(WorkshopRules.salvage(run, ContentDB.data, item))
+	return _workshop_result(WorkshopRules.salvage(run, ContentDB.data, item, tier))
 
 
 ## Leaving the workshop ends a workshop day that was started today.
@@ -174,7 +174,7 @@ func dev_grant_all_gear() -> void:
 		return
 	for id: StringName in ContentDB.data.modules:
 		if not run.loadout.owned_modules.has(id):
-			run.loadout.owned_modules.append(id)
+			run.loadout.add_module(id)
 	for id: StringName in ContentDB.data.mechanisms:
 		if not run.loadout.owned_mechanisms.has(id):
 			run.loadout.owned_mechanisms.append(id)

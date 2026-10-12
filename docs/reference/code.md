@@ -88,7 +88,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/rules/time/calendar_rules.gd` | CalendarRules | Days, weeks and chapters (GDD 3.2). Day 1 is the Monday of week 1. | week, weekday, weekday_name, chapter_week, is_rent_day, is_shop_refresh_day, days_until_rent |
 | `core/rules/time/day_rules.gd` | DayRules | Ending a day (GDD 3.2–3.3): advance the calendar, tick district states, take rent on Rentday. Rent left unpaid | end_day |
 | `core/rules/workshop/loot_rules.gd` | LootRules | What a won fight gives (GDD 17.2 LootGenerator, owner 2026-10-12): ichor and scrap by the creature's rank (ichor | fight_loot, preview_blueprints, take, add_resources, add_to |
-| `core/rules/workshop/workshop_rules.gd` | WorkshopRules | The workshop (GDD 6.2, owner 2026-10-12): crafting from known blueprints, upgrading a module kind to tier II–III, | ensure_start, crafts_left, missing, can_craft, craft, upgrade_cost, can_upgrade, upgrade, salvage_refund, can_salvage, salvage, leave, is_locked |
+| `core/rules/workshop/workshop_rules.gd` | WorkshopRules | The workshop (GDD 6.2, owner 2026-10-12): crafting from known blueprints, upgrading one module copy to tier II–III, | ensure_start, crafts_left, missing, can_craft, craft, upgrade_cost, can_upgrade, upgrade, salvage_refund, can_salvage, salvage, leave, is_locked |
 | `core/state/city_state.gd` | CityState | States of districts, areas and landmarks. Keys: "NORDHAL", "NORDHAL/tavern_street", ... | get_place, state_of, to_dict, from_dict |
 | `core/state/combat/card_instance.gd` | CardInstance | One physical card in a fight. uid tells apart two copies of the same CardDef. | create |
 | `core/state/combat/combat_event.gd` | CombatEvent | One line of the fight log. Screens read new events to animate and to show the log. | create |
@@ -100,7 +100,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/state/combat/hero_combatant.gd` | HeroCombatant | The hunter during a fight (GDD 4.2). | mod |
 | `core/state/combat/part_state.gd` | PartState | A body part of the creature during a fight. | create |
 | `core/state/contracts_state.gd` | ContractsState | The tavern board and the hunter's contracts (GDD 7). Saved. One list: this week's leaflets plus contracts | find, to_dict, from_dict, names |
-| `core/state/loadout_state.gd` | LoadoutState | The hunter's gear (GDD 5): weapon, modules placed in its cells, owned parts, armor sockets. Saved. | tier, spare_modules, spare_mechanisms, to_dict, from_dict |
+| `core/state/loadout_state.gd` | LoadoutState | The hunter's gear (GDD 5): weapon, modules placed in its cells, owned parts, armor sockets. Saved. | copy_tier, tiers_of, spare_tiers, add_module, copy_index, remove_module, spare_modules, spare_mechanisms, to_dict, from_dict |
 | `core/state/place_state.gd` | PlaceState | Current state of a district / area / landmark (GDD 14). Pure data, serialisable. | to_dict, from_dict |
 | `core/state/profile_state.gd` | ProfileState | Player settings that outlive a run (GDD 22.2): tutorial progress, hints on/off, volumes, full screen. | mark_seen, has_seen, reset_tutorial, to_config, from_config, load_from, save_to |
 | `core/state/rumors_state.gd` | RumorsState | Rumor diamonds on the district map (GDD 8). Saved. What a rumor leads to is decided when it is made | find, to_dict, from_dict |
@@ -205,7 +205,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `tests/test_shop.gd` |  | The shop, the bag, the tavern shift and rent debt (GDD 11.1, 3.2–3.3). | test_weekly_table_follows_the_slots, test_buying_never_goes_into_debt, test_bag_fills_and_is_spent_in_fights, test_selling_trophies_and_resources, test_tavern_shift_pays_and_overhears, test_two_unpaid_rents_lock_the_workshop, test_shop_survives_save_and_old_saves_migrate |
 | `tests/test_suite.gd` | TestSuite | Base class for test suites. Every method named test_* is a test. | check, eq, near, load_content |
 | `tests/test_tutorial.gd` |  | Tutorial hints (GDD 22): sequences are valid data, play once, wait for «do» actions, queue, can be skipped; | test_sequences_are_loaded, test_sequence_plays_once_and_waits_for_actions, test_hints_off_and_skip_all, test_one_off_hint_waits_in_queue, test_profile_round_trip, test_abort_keeps_the_hint_for_later, test_bad_tutorial_data_is_reported |
-| `tests/test_workshop.gd` |  | Workshop and loot (GDD 6, 17.2): start stock, crafting, the workshop day, tiers, salvage, fight loot, unlocks. | test_new_run_has_start_stock_and_blueprints, test_craft_spends_and_the_workshop_day_holds_two_items, test_unknown_blueprint_and_missing_resources, test_upgrade_changes_the_deck_for_every_copy, test_salvage_only_spare_and_returns_half, test_fight_loot_and_trophy_unlocks, test_workshop_survives_save_and_old_saves_get_the_start |
+| `tests/test_workshop.gd` |  | Workshop and loot (GDD 6, 17.2): start stock, crafting, the workshop day, tiers, salvage, fight loot, unlocks. | test_new_run_has_start_stock_and_blueprints, test_craft_spends_and_the_workshop_day_holds_two_items, test_unknown_blueprint_and_missing_resources, test_upgrade_raises_one_copy, test_salvage_only_spare_and_returns_half, test_fight_loot_and_trophy_unlocks, test_workshop_survives_save_and_old_saves_get_the_start |
 
 ## tools/
 

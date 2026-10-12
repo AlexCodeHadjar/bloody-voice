@@ -61,22 +61,27 @@ func test_unknown_blueprint_and_missing_resources() -> void:
 	eq(WorkshopRules.crafts_left(run, data), data.balance.workshop.crafts_per_day, "a refused craft uses nothing")
 
 
-func test_upgrade_changes_the_deck_for_every_copy() -> void:
+func test_upgrade_raises_one_copy() -> void:
 	var data := load_content(false)
 	var run := _run(data)
 	var m: StringName = &"brass_scope"
-	check(run.loadout.owned_modules.has(m), "start module")
+	check(run.loadout.owned_modules.has(m), "start module (installed)")
+	run.loadout.add_module(m)  # a spare second copy
 	var before := int(DeckBuilder.build(run.loadout, data).mods.get(&"part_damage", 0))
-	_give(run, data, WorkshopRules.upgrade_cost(run, data, m))
-	eq(WorkshopRules.upgrade(run, data, m), "", "upgrade")
-	eq(run.loadout.tier(m), 2, "tier II")
-	var after := int(DeckBuilder.build(run.loadout, data).mods.get(&"part_damage", 0))
-	eq(after, data.module(m).mods_at(2)[&"part_damage"], "tier II bonus in the deck")
-	check(after > before, "stronger")
-	_give(run, data, WorkshopRules.upgrade_cost(run, data, m))
-	eq(WorkshopRules.upgrade(run, data, m), "", "upgrade to III")
-	check(WorkshopRules.upgrade_cost(run, data, m).is_empty(), "no tier IV")
-	check(WorkshopRules.upgrade(run, data, m) != "", "max tier")
+	_give(run, data, WorkshopRules.upgrade_cost(data, m, 1))
+	eq(WorkshopRules.upgrade(run, data, m, 1), "", "upgrade")
+	eq(run.loadout.tiers_of(m), [1, 2] as Array[int], "only one copy is tier II")
+	eq(run.loadout.placements[0].tier, 1, "the spare copy was upgraded, the installed one stays I")
+	eq(int(DeckBuilder.build(run.loadout, data).mods.get(&"part_damage", 0)), before, "the deck uses the installed copy")
+	_give(run, data, WorkshopRules.upgrade_cost(data, m, 1))
+	eq(WorkshopRules.upgrade(run, data, m, 1), "", "the installed copy: no spare tier I left")
+	eq(run.loadout.placements[0].tier, 2, "its place shows tier II")
+	check(int(DeckBuilder.build(run.loadout, data).mods.get(&"part_damage", 0)) > before, "stronger deck")
+	_give(run, data, WorkshopRules.upgrade_cost(data, m, 2))
+	eq(WorkshopRules.upgrade(run, data, m, 2), "", "a copy to III")
+	check(WorkshopRules.upgrade_cost(data, m, 3).is_empty(), "no tier IV")
+	check(WorkshopRules.upgrade(run, data, m, 3) != "", "max tier")
+	check(WorkshopRules.upgrade(run, data, &"bayonet_mount", 1) != "", "no copy, no upgrade")
 
 
 func test_salvage_only_spare_and_returns_half() -> void:
@@ -118,11 +123,16 @@ func test_fight_loot_and_trophy_unlocks() -> void:
 func test_workshop_survives_save_and_old_saves_get_the_start() -> void:
 	var data := load_content(false)
 	var run := _run(data)
-	run.loadout.module_tiers[&"brass_scope"] = 2
+	run.loadout.add_module(&"bayonet_mount", 3)
 	var parsed: Variant = JSON.parse_string(JSON.stringify(run.to_dict()))
 	var back := RunState.from_dict(SaveMigrations.migrate(parsed as Dictionary))
 	eq(back.workshop.to_dict(), run.workshop.to_dict(), "round trip")
-	eq(back.loadout.tier(&"brass_scope"), 2, "tier kept")
+	eq(back.loadout.tiers_of(&"bayonet_mount"), [3] as Array[int], "a copy's tier kept")
+	var v8 := {"version": 8, "master_seed": 2, "loadout": {"weapon": "hunting_rifle", "owned_modules": ["brass_scope", "brass_scope"],
+		"placements": [{"module": "brass_scope", "section": "sight", "x": 0, "y": 0, "rot": 0}], "module_tiers": {"brass_scope": 2}}}
+	var moved := RunState.from_dict(SaveMigrations.migrate(v8))
+	eq(moved.loadout.tiers_of(&"brass_scope"), [2, 2] as Array[int], "v8: every copy gets its kind's tier")
+	eq(moved.loadout.placements[0].tier, 2, "v8: the placement too")
 	var old := RunState.from_dict(SaveMigrations.migrate({"version": 5, "master_seed": 9}))
 	check(not old.workshop.started and old.workshop.blueprints.is_empty(), "v5 save: no stock yet")
 	check(WorkshopRules.ensure_start(old, data), "start stock given on load")

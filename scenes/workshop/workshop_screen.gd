@@ -13,6 +13,7 @@ var _stash: VBoxContainer
 var _stock: HBoxContainer
 var _crafts: Label
 var _message: Label
+var _tier := 1  ## tier of the module copy on the workbench
 
 
 func _ready() -> void:
@@ -124,7 +125,7 @@ func _refresh() -> void:
 	if WorkshopRules.is_locked(GameState.run):
 		_crafts.text = Loc.t("ui.workshop.locked_today")
 	_list.refresh()
-	_bench.show_item(_list.selected)
+	_bench.show_item(_list.selected, _tier)
 	_refresh_stash()
 
 
@@ -133,15 +134,18 @@ func _refresh_stash() -> void:
 		child.queue_free()
 	var l := GameState.run.loadout
 	_stash.add_child(UiKit.label(Loc.t("ui.workshop.stash"), 24, Palette.BRASS_LIGHT))
-	for pair: Array in [[l.owned_modules, l.spare_modules()], [l.owned_mechanisms, l.spare_mechanisms()]]:
-		var owned: Array[StringName] = pair[0]
-		var spare: Array[StringName] = pair[1]
-		var seen: Array[StringName] = []
-		for id: StringName in owned:
-			if seen.has(id):
-				continue
-			seen.append(id)
-			_stash.add_child(_stash_row(id, owned.count(id), owned.count(id) - spare.count(id)))
+	var seen: Array[String] = []
+	for id: StringName in l.owned_modules:  # one row per module kind and tier: every copy has its own tier
+		for t: int in l.tiers_of(id):
+			if not seen.has("%s#%d" % [id, t]):
+				seen.append("%s#%d" % [id, t])
+				var n := l.tiers_of(id).count(t)
+				_stash.add_child(_stash_row(id, t, n, n - l.spare_tiers(id).count(t)))
+	for id: StringName in l.owned_mechanisms:
+		if not seen.has(String(id)):
+			seen.append(String(id))
+			var n := l.owned_mechanisms.count(id)
+			_stash.add_child(_stash_row(id, 1, n, n - l.spare_mechanisms().count(id)))
 	var trophies: PackedStringArray = []
 	for t: StringName in GameState.run.workshop.trophies:
 		trophies.append("%s ×%d" % [WorkshopKit.stock_name(t), GameState.run.workshop.trophies[t]])
@@ -149,42 +153,46 @@ func _refresh_stash() -> void:
 	_stash.add_child(UiKit.paragraph(", ".join(trophies) if not trophies.is_empty() else Loc.t("ui.combat.none"), 16, Palette.PARCHMENT))
 
 
-func _stash_row(id: StringName, owned: int, used: int) -> Button:
+func _stash_row(id: StringName, tier: int, owned: int, used: int) -> Button:
 	var b := Button.new()
 	b.custom_minimum_size = Vector2(0, 60)
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	b.icon = WorkshopKit.item_art(id)
 	b.expand_icon = true
 	b.add_theme_constant_override("icon_max_width", 48)
-	var tier := ""
-	if ContentDB.data.module(id) != null:
-		tier = "  " + WorkshopKit.tier_text(GameState.run.loadout.tier(id))
-	b.text = Loc.t("ui.workshop.stash_row", {"name": WorkshopKit.item_name(id) + tier, "n": owned, "used": used})
-	b.pressed.connect(_pick.bind(id))
+	var marks := "  " + WorkshopKit.tier_text(tier) if ContentDB.data.module(id) != null else ""
+	b.text = Loc.t("ui.workshop.stash_row", {"name": WorkshopKit.item_name(id) + marks, "n": owned, "used": used})
+	b.pressed.connect(_pick.bind(id, tier))
 	return b
 
 
-func _pick(item: StringName) -> void:
+## A blueprint shows its lowest owned copy (or tier I); a stash row shows that copy.
+func _pick(item: StringName, tier: int = 0) -> void:
+	var owned := GameState.run.loadout.tiers_of(item)
+	_tier = tier if tier > 0 else (owned[0] if not owned.is_empty() else 1)
 	_list.selected = item
 	_message.text = ""
-	_bench.show_item(item)
+	_bench.show_item(item, _tier)
 	_list.refresh()
 
 
-func _on_action(kind: StringName, item: StringName) -> void:
+func _on_action(kind: StringName, item: StringName, tier: int) -> void:
 	var problem := ""
 	match kind:
 		&"craft":
 			problem = GameState.craft_item(item)
 		&"upgrade":
-			problem = GameState.upgrade_module(item)
+			problem = GameState.upgrade_module(item, tier)
 		&"salvage":
-			problem = GameState.salvage_item(item)
+			problem = GameState.salvage_item(item, tier)
 	if problem != "":
 		_message.text = problem
 		UiKit.sound(&"ui.error")
 		return
 	UiKit.sound(&"gear.install" if kind != &"salvage" else &"money.coins")
+	if kind == &"upgrade":
+		_tier = tier + 1  # follow the upgraded copy
+	_bench.show_item(item, _tier)
 	_message.text = Loc.t("ui.workshop.done.%s" % kind, {"name": WorkshopKit.item_name(item)})
 	if WorkshopRules.crafts_left(GameState.run, ContentDB.data) == 0 and kind != &"salvage":
 		_message.text += " " + Loc.t("ui.workshop.day_full")

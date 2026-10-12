@@ -112,12 +112,13 @@ ui.workshop.pick,Выберите чертёж слева или вещь из �
 ui.workshop.mechanism_info,Механизм для гнезда брони,A mechanism for an armor socket
 ui.workshop.module_info,{section} · {cell} · уровень {tier},{section} · {cell} · tier {tier}
 ui.workshop.owned,У вас: {n} (установлено: {used}),Owned: {n} (installed: {used})
+ui.workshop.owned_short,у вас: {n},owned: {n}
 ui.workshop.cards,Карты в колоду:,Cards for the deck:
 ui.workshop.craft_cost,Изготовление:,Crafting:
 ui.workshop.craft,Изготовить,Craft
 ui.workshop.max_tier,Высший уровень.,Highest tier.
 ui.workshop.next_tier,Уровень {tier}:,Tier {tier}:
-ui.workshop.upgrade,Улучшить (все такие модули),Upgrade (every such module)
+ui.workshop.upgrade,Улучшить эту копию,Upgrade this copy
 ui.workshop.salvage_gives,Разбор вернёт: {list},Salvage returns: {list}
 ui.workshop.salvage,Разобрать,Salvage
 ui.workshop.to_equipment,К снаряжению,To equipment

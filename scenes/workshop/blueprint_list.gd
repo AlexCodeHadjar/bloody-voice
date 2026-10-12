@@ -82,8 +82,9 @@ func _row(bp: WorkshopDefs.BlueprintDef) -> Button:
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	h.add_child(v)
 	var title := WorkshopKit.item_name(bp.item)
-	if bp.kind == &"module":
-		title += "   " + WorkshopKit.tier_text(GameState.run.loadout.tier(bp.item))
+	var owned := GameState.run.loadout.tiers_of(bp.item).size() if bp.kind == &"module" else GameState.run.loadout.owned_mechanisms.count(bp.item)
+	if owned > 0:
+		title += "   " + Loc.t("ui.workshop.owned_short", {"n": owned})
 	v.add_child(UiKit.label(title, 18, Palette.BRASS_LIGHT if known else Palette.INK_MUTED))
 	if known:
 		v.add_child(WorkshopKit.cost_row(bp.cost, 15))

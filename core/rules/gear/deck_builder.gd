@@ -22,7 +22,7 @@ static func build(l: LoadoutState, data: ContentData, capture_allowed: bool = fa
 		var m := data.module(p.module)
 		if m == null:
 			continue
-		var t := l.tier(p.module)
+		var t := p.tier
 		_add(b, m.cards_at(t), m.name)
 		if capture_allowed:
 			_add(b, m.capture_cards_at(t), m.name)
@@ -43,7 +43,7 @@ static func max_hp_bonus(l: LoadoutState, data: ContentData) -> int:
 	for p: LoadoutState.Placement in l.placements:
 		var m := data.module(p.module)
 		if m != null:
-			n += int(m.mods_at(l.tier(p.module)).get(&"max_hp", 0))
+			n += int(m.mods_at(p.tier).get(&"max_hp", 0))
 	for mech_id: StringName in ArmorRules.installed(l):
 		var mech := data.mechanism(mech_id)
 		if mech != null:

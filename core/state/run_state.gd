@@ -3,7 +3,7 @@ extends RefCounted
 ## Everything that is saved for one playthrough. Pure data: no nodes, no signals.
 ## Only GameState (through rules) changes it.
 
-const SAVE_VERSION := 8
+const SAVE_VERSION := 9
 
 var master_seed: int = 0
 var day: int = 1  ## day 1 = Monday of week 1

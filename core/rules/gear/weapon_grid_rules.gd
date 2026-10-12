@@ -62,13 +62,16 @@ static func can_place(l: LoadoutState, data: ContentData, module_id: StringName,
 
 
 ## Places a spare module. Returns "" or the reason it can't be placed.
+## Places a spare copy of that tier (every copy has its own tier, GDD 6.3).
 static func place(l: LoadoutState, data: ContentData, module_id: StringName, section_id: StringName,
-		pos: Vector2i, rot: int) -> String:
-	if not l.spare_modules().has(module_id):
+		pos: Vector2i, rot: int, tier: int = 1) -> String:
+	if not l.spare_tiers(module_id).has(tier):
 		return Loc.t("rule.no_spare", {"item": data.module(module_id).name if data.module(module_id) != null else module_id})
 	var problem := can_place(l, data, module_id, section_id, pos, rot)
 	if problem == "":
-		l.placements.append(_placement(module_id, section_id, pos, rot))
+		var p := _placement(module_id, section_id, pos, rot)
+		p.tier = tier
+		l.placements.append(p)
 	return problem
 
 
@@ -109,6 +112,7 @@ static func problems(l: LoadoutState, data: ContentData) -> PackedStringArray:
 	var copy := LoadoutState.new()
 	copy.weapon = l.weapon
 	copy.owned_modules = l.owned_modules.duplicate()
+	copy.owned_tiers = l.owned_tiers.duplicate()
 	copy.placements = l.placements.duplicate()
 	return drop_invalid(copy, data)
 
@@ -120,8 +124,9 @@ static func drop_invalid(l: LoadoutState, data: ContentData) -> PackedStringArra
 	var check := LoadoutState.new()
 	check.weapon = l.weapon
 	check.owned_modules = l.owned_modules.duplicate()
+	check.owned_tiers = l.owned_tiers.duplicate()
 	for p: LoadoutState.Placement in l.placements:
-		var problem := place(check, data, p.module, p.section, p.pos, p.rot)
+		var problem := place(check, data, p.module, p.section, p.pos, p.rot, p.tier)
 		if problem == "":
 			kept.append(p)
 		else:
