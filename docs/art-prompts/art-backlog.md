@@ -23,8 +23,8 @@
 | **N** | Бестиарий, поимка, вскрытие | 5 | фазы 3–6 |
 | **O** | Сюжет: окно диалога, табличка имени, заставки глав | 5 | фазы 8–9 |
 | **P** | События города | 9 | фаза 7 |
+| **R** | Новые твари: крысиная стая, вурдалак, тварь из Бездны | 12 | **сейчас** — твари войдут в игру с артом |
 | **Q** | Обложка Steam (значок игры — из готовой печати) | 1 | фаза 10 |
-| **R** | Новые твари для Серых Часовен — **только после твоего решения** | 3 наброска | когда решишь |
 
 ## Не из ChatGPT (тоже понадобится)
 
@@ -278,18 +278,182 @@ SCENE STYLE BLOCK, wide, без прозрачности, `assets/ui/`, имя `
 | Q1 | — | — | **Не генерировать:** значок игры вырежу из готовой печати `art/ui/WAX__seal.webp` (крюк с фонарём на красном воске). Если на 32 px не читается — приложи печать и попроси: `The same seal simplified to read at 32 px: bolder shapes, fewer details.` |
 | Q2 | `assets/ui/APP__capsule.png` | wide | SCENE: key art — the hunter on a rooftop with his rifle, a huge shadowy creature rising from the fog behind the Ringwall, the slum lights below. Leave the top third calmer for the title (added later). |
 
-## R. Новые твари — только после твоего решения
+## R. Новые твари Серых Часовен (12) — чат на каждую тварь (решение владельца 2026-10-12)
 
-В GDD §20 у Серых Часовен есть беды, для которых **ещё нет тварей**: вурдалаки (Нижние дворы), крысиные стаи
-(Пепельный квартал), «то, что лезет снизу» (Дорожка над Бездной). Если решишь их добавить — я заведу их в данные,
-и напишу полные промты (4 картинки на тварь). Наброски, чтобы посмотреть вид
-(SCENE STYLE, square, `assets/refs/` — в игру не идут):
+Порядок: 1 → 2 → 3 → 4 **в одном чате на тварь**, каждый раз прикладывая прошлую картинку — силуэт режется из
+боевого вида, поэтому они совпадают. [STYLE BLOCK] — первый блок из `style-blocks.md`. Шаблоны
+`docs/assets/templates/monsters/COMBAT__frame.png` и `LEAFLET__frame.png`, образец силуэтов —
+`art/ui/TAVERN__contract_board.webp`. Файлы — в `assets/monsters/`, потом скажи «импортируй арт».
+Силуэт — плоский чёрный #120D0B, читается в 96 px; части тела в промте видны и отдельны (по ним целятся в бою);
+поза, камера и масштаб у фаз одинаковые. Твари войдут в игру вместе с артом (описание — GDD приложение B.1).
 
-| Набросок | Промт |
-|---|---|
-| Вурдалак | A gaunt grave-eating ghoul crouching on an opened grave, grey skin, long dirty nails, a torn burial shroud. |
-| Крысиная стая | A swarm of soot-black rats moving as one shape, many red eyes, a crown of gnawed bones in the middle. |
-| Тварь из Бездны | A long-limbed pale thing climbing over a stone parapet out of grey fog, too many joints, no face. |
+### Rat Swarm — `RAT_SWARM` · ранг A
+
+Части тела: Bone Crown, Teeth. Вторая фаза: «The swarm splits».
+
+**1 — боевой вид**, `RAT_SWARM__combat__normal.png`
+
+```text
+[STYLE BLOCK]
+Attached: COMBAT__frame.png (framing guide), TAVERN__contract_board (silhouette style reference).
+Full-body art of the creature "Rat Swarm" (danger rank A) for the combat screen.
+The creature: a knee-high swarm of soot-black rats moving as one heaving shape, hundreds of red eyes, a crown of gnawed bones riding on the middle of the mass, a ragged front edge of bared yellow teeth.
+Mostly in deep shadow, lit by a cold rim light from behind and a weak warm light from the front;
+slightly turned (3/4 view), standing on the ground line of the frame, filling the dashed safe area.
+These body parts must be clearly visible and separate from each other (the player aims at them):
+Bone Crown, Teeth.
+Wrong proportions rather than gore. Transparent background, no floor, no text.
+Output: transparent PNG, 2:3 portrait (1024×1536).
+```
+
+**2 — вторая фаза**, `RAT_SWARM__combat__phase2.png`
+
+```text
+[STYLE BLOCK]
+Attached: RAT_SWARM__combat__normal.png (the same creature, first phase).
+Repaint THE SAME CREATURE in the same pose, camera, scale and position — its second phase "The swarm splits":
+the mass tears into two smaller swarms pouring left and right, the bone crown cracked and tilted, more teeth and tails everywhere.
+Keep the body parts Bone Crown, Teeth in the same places; broken-looking is fine.
+Stronger glow, more threatening. Transparent background, no text.
+Output: transparent PNG, 2:3 portrait (1024×1536).
+```
+
+**3 — силуэт для листовки**, `RAT_SWARM__silhouette__leaflet.png`
+
+```text
+[STYLE BLOCK]
+Attached: RAT_SWARM__combat__normal.png (the creature), LEAFLET__frame.png (size guide),
+TAVERN__contract_board (how silhouettes look on hunters' leaflets).
+A pure flat black silhouette (#120D0B) of the attached creature, as drawn on a hunters' contract
+leaflet by a witness: same pose, slightly exaggerated, readable even at 96 px.
+No inner details, no eyes, no shading, no outline of another colour.
+It must fit inside the dashed circle of the frame with a little margin, standing on the line.
+Transparent background (do not paint the parchment). No text.
+Output: transparent PNG, 1:1 (1024×1024).
+```
+
+**4 — треснувший силуэт**, `RAT_SWARM__silhouette__cracked.png`
+
+```text
+[STYLE BLOCK]
+Attached: RAT_SWARM__silhouette__leaflet.png, RAT_SWARM__combat__phase2.png.
+The SAME black silhouette, cracked like broken porcelain: through thin glowing cracks a glimpse of
+the creature's true form shows (the mass tears into two smaller swarms pouring left and right, the bone crown cracked and tilted, more teeth and tails everywhere).
+Keep the outline identical. Transparent background, no text.
+Output: transparent PNG, 1:1 (1024×1024).
+```
+
+### Ghoul — `GHOUL` · ранг P
+
+Части тела: Claws, Jaw. Вторая фаза: «Grave hunger».
+
+**1 — боевой вид**, `GHOUL__combat__normal.png`
+
+```text
+[STYLE BLOCK]
+Attached: COMBAT__frame.png (framing guide), TAVERN__contract_board (silhouette style reference).
+Full-body art of the creature "Ghoul" (danger rank P) for the combat screen.
+The creature: a gaunt grave-eating ghoul crouching on an opened grave, grey stretched skin, long dirty black claws on both hands, a torn burial shroud over its shoulders, an unhinged lower jaw full of broken teeth.
+Mostly in deep shadow, lit by a cold rim light from behind and a weak warm light from the front;
+slightly turned (3/4 view), standing on the ground line of the frame, filling the dashed safe area.
+These body parts must be clearly visible and separate from each other (the player aims at them):
+Claws, Jaw.
+Wrong proportions rather than gore. Transparent background, no floor, no text.
+Output: transparent PNG, 2:3 portrait (1024×1536).
+```
+
+**2 — вторая фаза**, `GHOUL__combat__phase2.png`
+
+```text
+[STYLE BLOCK]
+Attached: GHOUL__combat__normal.png (the same creature, first phase).
+Repaint THE SAME CREATURE in the same pose, camera, scale and position — its second phase "Grave hunger":
+it rises taller, ribs pushing through the skin, the jaw hanging open wider than a skull should allow, fresh grave earth and bone dust falling from its claws.
+Keep the body parts Claws, Jaw in the same places; broken-looking is fine.
+Stronger glow, more threatening. Transparent background, no text.
+Output: transparent PNG, 2:3 portrait (1024×1536).
+```
+
+**3 — силуэт для листовки**, `GHOUL__silhouette__leaflet.png`
+
+```text
+[STYLE BLOCK]
+Attached: GHOUL__combat__normal.png (the creature), LEAFLET__frame.png (size guide),
+TAVERN__contract_board (how silhouettes look on hunters' leaflets).
+A pure flat black silhouette (#120D0B) of the attached creature, as drawn on a hunters' contract
+leaflet by a witness: same pose, slightly exaggerated, readable even at 96 px.
+No inner details, no eyes, no shading, no outline of another colour.
+It must fit inside the dashed circle of the frame with a little margin, standing on the line.
+Transparent background (do not paint the parchment). No text.
+Output: transparent PNG, 1:1 (1024×1024).
+```
+
+**4 — треснувший силуэт**, `GHOUL__silhouette__cracked.png`
+
+```text
+[STYLE BLOCK]
+Attached: GHOUL__silhouette__leaflet.png, GHOUL__combat__phase2.png.
+The SAME black silhouette, cracked like broken porcelain: through thin glowing cracks a glimpse of
+the creature's true form shows (it rises taller, ribs pushing through the skin, the jaw hanging open wider than a skull should allow, fresh grave earth and bone dust falling from its claws).
+Keep the outline identical. Transparent background, no text.
+Output: transparent PNG, 1:1 (1024×1024).
+```
+
+### Abyss Thing — `ABYSS_THING` · ранг S
+
+Части тела: Long Arms, Hollow Face, Spine. Вторая фаза: «Unfolded».
+
+**1 — боевой вид**, `ABYSS_THING__combat__normal.png`
+
+```text
+[STYLE BLOCK]
+Attached: COMBAT__frame.png (framing guide), TAVERN__contract_board (silhouette style reference).
+Full-body art of the creature "Abyss Thing" (danger rank S) for the combat screen.
+The creature: a long-limbed pale thing climbing over a stone parapet out of grey fog, far too many joints in its two long arms, a smooth hollow face with no features, a bent jointed spine like a row of knuckles, fog dripping off it like water.
+Mostly in deep shadow, lit by a cold rim light from behind and a weak warm light from the front;
+slightly turned (3/4 view), standing on the ground line of the frame, filling the dashed safe area.
+These body parts must be clearly visible and separate from each other (the player aims at them):
+Long Arms, Hollow Face, Spine.
+Wrong proportions rather than gore. Transparent background, no floor, no text.
+Output: transparent PNG, 2:3 portrait (1024×1536).
+```
+
+**2 — вторая фаза**, `ABYSS_THING__combat__phase2.png`
+
+```text
+[STYLE BLOCK]
+Attached: ABYSS_THING__combat__normal.png (the same creature, first phase).
+Repaint THE SAME CREATURE in the same pose, camera, scale and position — its second phase "Unfolded":
+it unfolds to twice its height, extra thin limbs opening from the spine like a cage, the hollow face split down the middle showing darkness inside, the fog around it glowing faintly silver.
+Keep the body parts Long Arms, Hollow Face, Spine in the same places; broken-looking is fine.
+Stronger glow, more threatening. Transparent background, no text.
+Output: transparent PNG, 2:3 portrait (1024×1536).
+```
+
+**3 — силуэт для листовки**, `ABYSS_THING__silhouette__leaflet.png`
+
+```text
+[STYLE BLOCK]
+Attached: ABYSS_THING__combat__normal.png (the creature), LEAFLET__frame.png (size guide),
+TAVERN__contract_board (how silhouettes look on hunters' leaflets).
+A pure flat black silhouette (#120D0B) of the attached creature, as drawn on a hunters' contract
+leaflet by a witness: same pose, slightly exaggerated, readable even at 96 px.
+No inner details, no eyes, no shading, no outline of another colour.
+It must fit inside the dashed circle of the frame with a little margin, standing on the line.
+Transparent background (do not paint the parchment). No text.
+Output: transparent PNG, 1:1 (1024×1024).
+```
+
+**4 — треснувший силуэт**, `ABYSS_THING__silhouette__cracked.png`
+
+```text
+[STYLE BLOCK]
+Attached: ABYSS_THING__silhouette__leaflet.png, ABYSS_THING__combat__phase2.png.
+The SAME black silhouette, cracked like broken porcelain: through thin glowing cracks a glimpse of
+the creature's true form shows (it unfolds to twice its height, extra thin limbs opening from the spine like a cage, the hollow face split down the middle showing darkness inside, the fog around it glowing faintly silver).
+Keep the outline identical. Transparent background, no text.
+Output: transparent PNG, 1:1 (1024×1024).
+```
 
 ## Проверка после генерации
 
