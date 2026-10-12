@@ -14,3 +14,4 @@ var max_ammo: int
 var cunning: int = 0
 var capture_allowed: bool = false
 var rng_seed: int = 0
+var backdrop: String = ""  ## res:// path of the fight's background picture ("" = none)

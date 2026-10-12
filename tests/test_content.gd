@@ -72,6 +72,36 @@ func test_move_text_field_is_rejected() -> void:
 	check(_has(errs.messages, "remove 'text'"), "leftover move text must be reported")
 
 
+func test_part_spot_is_checked() -> void:
+	var base := {"id": "x", "name": "X", "rank": "A", "hp": 5, "deck": ["hit"],
+		"moves": [{"id": "hit", "name": "Hit", "kind": "attack", "effects": [{"op": "damage", "amount": 1}]}]}
+	var wrong := ErrorLog.new()
+	base["parts"] = [{"id": "p", "name": "P", "hp": 3, "spot": [0.5]}]
+	MonsterDef.from_dict(base, wrong, "test.json")
+	check(_has(wrong.messages, "spot must be [x, y]"), "a spot that is not [x, y] must be reported")
+	var missing := ErrorLog.new()
+	base["parts"] = [{"id": "p", "name": "P", "hp": 3}]
+	MonsterDef.from_dict(base, missing, "test.json")
+	check(not missing.messages.is_empty(), "a part without a spot must be reported")
+	var data := load_content(false)
+	var m: MonsterDef = data.monsters.values()[0]
+	m.parts[0].spot = Vector2(1.5, 0.2)
+	check(_has(_errors(data), "spot must be within 0-1"), "a spot outside 0-1 must be reported")
+
+
+func test_pick_zone() -> void:
+	var data := load_content(false)
+	var rng := RandomNumberGenerator.new()
+	eq(EncounterRules.pick_zone(data, &"NO_SUCH_DISTRICT", rng), &"", "no map -> no zone")
+	var a := RandomNumberGenerator.new()
+	a.seed = 5
+	var b := RandomNumberGenerator.new()
+	b.seed = 5
+	var zone := EncounterRules.pick_zone(data, &"GREY", a)
+	check(zone != &"", "GREY has zones")
+	eq(EncounterRules.pick_zone(data, &"GREY", b), zone, "same seed -> same zone")
+
+
 func _errors(data: ContentData) -> PackedStringArray:
 	var errs := ErrorLog.new()
 	ContentValidator.validate(data, errs, false)

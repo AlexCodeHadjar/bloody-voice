@@ -8,6 +8,7 @@ static func start(setup: CombatSetup, data: ContentData) -> CombatState:
 	var s := CombatState.new()
 	s.rng.seed = setup.rng_seed
 	s.capture_allowed = setup.capture_allowed
+	s.backdrop = setup.backdrop
 	var h := s.hero
 	h.display_name = Loc.t("log.hunter_name")
 	h.hp = setup.hero_hp

@@ -21,11 +21,11 @@ static func apply(state: CombatState, effect: Dictionary, ctx: EffectContext, da
 		&"heal":
 			var before := ctx.actor.hp
 			ctx.actor.hp = mini(ctx.actor.max_hp, ctx.actor.hp + amount)
-			state.log_event(&"heal", Loc.t("log.heal", {"who": ctx.actor.display_name, "n": ctx.actor.hp - before}), ctx.actor.hp - before)
+			state.log_event(&"heal", Loc.t("log.heal", {"who": ctx.actor.display_name, "n": ctx.actor.hp - before}), ctx.actor.hp - before, _who(state, ctx.actor))
 		&"lose_hp":
 			var cost := GearEffectRules.hp_cost(state, ctx, amount)
 			ctx.actor.hp -= cost
-			state.log_event(&"lose_hp", Loc.t("log.lose_hp", {"who": ctx.actor.display_name, "n": cost}), cost)
+			state.log_event(&"lose_hp", Loc.t("log.lose_hp", {"who": ctx.actor.display_name, "n": cost}), cost, _who(state, ctx.actor))
 		&"sanity":
 			_sanity(state, amount, data)
 		&"draw":
@@ -57,6 +57,10 @@ static func _status(state: CombatState, effect: Dictionary, ctx: EffectContext) 
 	var stacks := GearEffectRules.status_stacks(state, ctx, status, int(effect["stacks"]))
 	who.add_status(status, stacks)
 	state.log_event(&"status", Loc.t("log.status", {"who": who.display_name, "status": EffectText.status_name(status), "n": stacks}), stacks)
+
+
+static func _who(state: CombatState, c: Combatant) -> StringName:
+	return &"hero" if c == state.hero else &"enemy"
 
 
 static func _sanity(state: CombatState, amount: int, data: ContentData) -> void:

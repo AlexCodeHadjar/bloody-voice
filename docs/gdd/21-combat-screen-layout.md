@@ -66,3 +66,9 @@ Generated and imported: `art/ui/COMBAT__*` (card frames per type, card back, int
 | 2 | Animations: card hover/fan, play → fly to target, damage numbers, hit flash, lamps going out |
 | 3 | Swap placeholders for the generated art as it arrives (`tools/import_art.py`) |
 | 4 | Dev shots updated; design-critic pass on 05–08 |
+
+**Status (2026-10-12):** steps 0-3 done together (the art already exists): `parts[].spot` + validator, new layout `scenes/combat/` with
+the generated art, basic animations (hover rise, card flight, floating numbers, hit flash and shake, breathing, lamps, vials).
+Fight background = a random zone of the hero's district (`CombatSetup.backdrop`, later the rumor's zone). Not done: card source line
+(the fight has no card-to-module link), night hour in the top bar, hunter portrait by Voice stage (no such value yet), aiming line,
+card drag. Step 4 (design-critic pass) waits for the owner.

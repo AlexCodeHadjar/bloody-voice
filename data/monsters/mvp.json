@@ -21,6 +21,7 @@
     "id": "left_throat",
     "name": "Left Throat",
     "hp": 8,
+    "spot": [0.18, 0.22],
     "removes": [
      "wail"
     ],
@@ -30,6 +31,7 @@
     "id": "right_throat",
     "name": "Right Throat",
     "hp": 8,
+    "spot": [0.68, 0.17],
     "removes": [
      "drowning_song"
     ],
@@ -146,6 +148,7 @@
     "id": "wings",
     "name": "Wings",
     "hp": 10,
+    "spot": [0.25, 0.35],
     "removes": [
      "dust_cloud"
     ],
@@ -253,6 +256,7 @@
     "id": "lantern",
     "name": "Lantern",
     "hp": 12,
+    "spot": [0.13, 0.25],
     "removes": [
      "darkness"
     ],
@@ -262,6 +266,7 @@
     "id": "hands",
     "name": "Long Hands",
     "hp": 14,
+    "spot": [0.28, 0.38],
     "removes": [
      "grasp"
     ],
@@ -379,6 +384,7 @@
     "id": "left_scythe",
     "name": "Left Scythe",
     "hp": 12,
+    "spot": [0.12, 0.37],
     "removes": [
      "scythe_slash"
     ],
@@ -388,6 +394,7 @@
     "id": "right_scythe",
     "name": "Right Scythe",
     "hp": 12,
+    "spot": [0.9, 0.43],
     "removes": [
      "double_cut"
     ],
@@ -505,6 +512,7 @@
     "id": "veil",
     "name": "Veil",
     "hp": 10,
+    "spot": [0.55, 0.12],
     "removes": [
      "lament"
     ],
@@ -514,6 +522,7 @@
     "id": "mirror",
     "name": "Hand Mirror",
     "hp": 14,
+    "spot": [0.87, 0.2],
     "removes": [
      "reflection"
     ],
@@ -626,6 +635,7 @@
     "id": "jaw",
     "name": "Jaw",
     "hp": 14,
+    "spot": [0.17, 0.28],
     "removes": [
      "maul"
     ],
@@ -635,6 +645,7 @@
     "id": "legs",
     "name": "Hind Legs",
     "hp": 14,
+    "spot": [0.4, 0.87],
     "removes": [
      "pounce"
     ],
@@ -753,6 +764,7 @@
     "id": "head",
     "name": "Head",
     "hp": 16,
+    "spot": [0.55, 0.1],
     "removes": [
      "sermon"
     ],
@@ -762,6 +774,7 @@
     "id": "core",
     "name": "Core",
     "hp": 20,
+    "spot": [0.55, 0.33],
     "removes": [
      "mend"
     ],
@@ -877,6 +890,7 @@
     "id": "maw",
     "name": "Maw",
     "hp": 24,
+    "spot": [0.22, 0.18],
     "removes": [
      "devour"
     ],
@@ -886,6 +900,7 @@
     "id": "shell",
     "name": "Shell",
     "hp": 30,
+    "spot": [0.33, 0.73],
     "removes": [
      "burrow"
     ],
@@ -895,6 +910,7 @@
     "id": "tail",
     "name": "Tail",
     "hp": 20,
+    "spot": [0.87, 0.53],
     "removes": [
      "tail_sweep"
     ],

@@ -126,8 +126,19 @@ func start_hunt(monster_id: StringName = &"", capture_allowed: bool = false) -> 
 	if capture_allowed:
 		if not setup.deck.has(&"iron_net"):  # the contract issues a net unless the gear already brings one
 			setup.deck.append(&"iron_net")
+	setup.backdrop = _backdrop()
 	combat = CombatRules.start(setup, ContentDB.data)
 	EventBus.combat_started.emit()
+
+
+## Background of a fight: a random zone of the hero's district (later the rumor's zone); falls back to the district scene.
+func _backdrop() -> String:
+	var district := String(run.hero_district)
+	var zone := EncounterRules.pick_zone(ContentDB.data, run.hero_district, Rng.stream(&"backdrop", run.day))
+	var path := "res://art/city/districts/%s__fight__%s.webp" % [district, zone]
+	if zone != &"" and ResourceLoader.exists(path):
+		return path
+	return "res://art/city/districts/%s__scene__normal.webp" % district
 
 
 ## Returns "" or the reason the card can't be played.

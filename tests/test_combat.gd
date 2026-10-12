@@ -27,6 +27,13 @@ func test_start_draws_hand_and_reveals_intents() -> void:
 	eq(s.phase, CombatState.Phase.PLAYER, "player turn")
 
 
+func test_start_carries_backdrop() -> void:
+	var data := load_content(false)
+	var setup := DeckBuilder.default_setup(data, &"gutter_choir", 7)
+	setup.backdrop = "res://art/city/districts/GREY__fight__fog_hollow.webp"
+	eq(CombatRules.start(setup, data).backdrop, setup.backdrop, "backdrop reaches the fight state")
+
+
 func test_same_seed_same_fight() -> void:
 	var a: CombatState = _start(&"lamplighter", [], 5)[0]
 	var b: CombatState = _start(&"lamplighter", [], 5)[0]

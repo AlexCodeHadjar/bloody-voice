@@ -631,3 +631,14 @@ district_map.GREY.zone.chapel_close,Часовенный двор,Chapel Close
 district_map.GREY.zone.shanty_roofs,Хибары на крышах,Shanty Roofs
 district_map.GREY.zone.ash_quarter,Пепельный квартал,Ash Quarter
 district_map.GREY.zone.lower_yards,Нижние дворы,Lower Yards
+ui.combat.log,Журнал,Log
+ui.combat.turn,Ход {n},Turn {n}
+ui.combat.top.hunt,Охота: {enemy},Hunt: {enemy}
+ui.combat.top.contract,Контракт на поимку: {enemy},Capture contract: {enemy}
+ui.combat.capture_chance,Шанс поимки: {n}%,Capture chance: {n}%
+ui.combat.pile_title,"{pile}: {n}","{pile}: {n}"
+ui.combat.pile_empty,Здесь пусто.,Nothing here.
+ui.combat.close,Закрыть,Close
+ui.combat.settings,Настройки,Settings
+ui.combat.part_tip,"{name}: {hp} / {max}","{name}: {hp} / {max}"
+ui.combat.ap,Очки действия,Action points

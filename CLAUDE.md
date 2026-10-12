@@ -70,7 +70,7 @@
 | Автозагрузки | `EventBus`, `ContentDB`, `Rng`, `SaveService`, `GameState` (фасад-команды), `Sound` (звук, GDD §24), `Profile` (настройки игрока, `user://profile.cfg`), `Tutorial` (подсказки), `DevShots` |
 | Обучение (GDD §22) | данные `data/tutorial/sequences.json`; `ui/tutorial/` (`tutorial_flow` логика, `tutorial_anchors` — экраны регистрируют подсвечиваемое, `tutorial_overlay`); `Tutorial.trigger()/action()` из экранов; настройки `scenes/settings/settings_panel.gd` |
 | Звук | `audio/` (из набора владельца: `tools/import_audio.py`), что где звучит — `data/audio/sounds.json` (`AudioDef`, `AudioValidator`); экраны — `UiKit.sound()/screen_sound()/monster_sound()`, бой — `scenes/combat/combat_sounds.gd`; титры `docs/credits.md` |
-| Экраны | `scenes/boot`, `menu`, `district_map` (главный экран: район), `city_map` (карта города, закрытые районы), `equipment` (оружие, броня), `combat` (бой) |
+| Экраны | `scenes/boot`, `menu`, `district_map` (главный экран: район), `city_map` (карта города, закрытые районы), `equipment` (оружие, броня), `combat` (бой v2, GDD 21: `combat_screen` + `enemy_view`/`hero_view`/`hand_view`/`card_view`/`part_ring`/`log_panel`, помощники `combat_kit`; фон боя — `CombatSetup.backdrop`) |
 | UI | `ui/theme/palette.gd`, `ui_kit.gd` (тема, шрифты `ui/fonts/` — PT Serif, заголовки Old Standard TT), `icons.gd` (иконки по набору и id) |
 | Арт | `assets/` и `assets/png/` исходники (не в git) → `tools/import_art.py` → `art/` (твари, модули, иконки; `TEX__*` — бесшовные текстуры; листы жителей `LIFE__*__sheet` → `art/ui/life/` через `tools/life_sprites.py`); контуры районов `data/city/map_regions.json` |
 | Иконки | каталог `data/ui/icons.json` |

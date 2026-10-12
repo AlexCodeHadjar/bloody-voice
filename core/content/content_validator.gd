@@ -111,6 +111,8 @@ static func _monsters(data: ContentData, errs: ErrorLog) -> void:
 		for p: MonsterDef.PartDef in m.parts:
 			if p.hp <= 0:
 				errs.add(w, "part %s needs hp > 0" % p.id)
+			if p.spot.x < 0.0 or p.spot.x > 1.0 or p.spot.y < 0.0 or p.spot.y > 1.0:
+				errs.add(w, "part %s: spot must be within 0-1" % p.id)
 			for mv: StringName in p.removes:
 				removable[mv] = true
 				_need_move(m, mv, errs, w + "/parts/" + p.id)

@@ -8,6 +8,7 @@ class PartDef:
 	var hp: int
 	var removes: Array[StringName] = []  ## moves lost when this part breaks
 	var trophy: StringName
+	var spot: Vector2  ## where the target ring sits on the combat art, 0-1 of the image (x from left, y from top)
 
 
 class MoveDef:
@@ -78,6 +79,11 @@ static func _part(d: Dictionary, errs: ErrorLog, w: String) -> PartDef:
 	p.hp = DefReader.integer(d, "hp", errs, w + "/parts")
 	p.removes = DefReader.ids(d, "removes", errs, w + "/parts")
 	p.trophy = DefReader.id(d, "trophy", errs, w + "/parts", false)
+	var spot := DefReader.array(d, "spot", errs, w + "/parts/" + p.id)
+	if spot.size() != 2 or typeof(spot[0]) not in [TYPE_INT, TYPE_FLOAT] or typeof(spot[1]) not in [TYPE_INT, TYPE_FLOAT]:
+		errs.add(w + "/parts/" + p.id, "spot must be [x, y]")
+	else:
+		p.spot = Vector2(float(spot[0]), float(spot[1]))
 	return p
 
 

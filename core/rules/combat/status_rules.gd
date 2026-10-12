@@ -12,7 +12,7 @@ static func turn_start(state: CombatState, c: Combatant) -> void:
 	if bleed > 0:
 		c.hp -= bleed
 		c.add_status(&"bleed", -1)
-		state.log_event(&"bleed", Loc.t("log.bleed", {"who": c.display_name, "n": bleed}), bleed)
+		state.log_event(&"bleed", Loc.t("log.bleed", {"who": c.display_name, "n": bleed}), bleed, &"hero" if c == state.hero else &"enemy")
 
 
 static func turn_end(c: Combatant) -> void:

@@ -17,6 +17,7 @@ var next_uid: int = 1
 
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var capture_allowed: bool = false
+var backdrop: String = ""  ## res:// path of the background picture
 var foresight: bool = false
 var captured: bool = false
 var escaped: bool = false
