@@ -30,6 +30,7 @@ var placements: Array[Placement] = []
 var owned_modules: Array[StringName] = []  ## every module the hunter has, placed or not (duplicates allowed)
 var owned_mechanisms: Array[StringName] = []
 var sockets: Dictionary[StringName, Array] = {}  ## armor piece -> mechanism id per socket ("" = empty)
+var extra_sockets: Dictionary[StringName, int] = {}  ## armor piece -> sockets added by the skill web (SkillRules)
 var owned_tiers: Array[int] = []  ## the tier of each owned_modules copy, same index (missing = I)
 
 
@@ -111,6 +112,7 @@ func to_dict() -> Dictionary:
 		"owned_mechanisms": owned_mechanisms.duplicate(),
 		"sockets": socket_out,
 		"owned_tiers": owned_tiers.duplicate(),
+		"extra_sockets": extra_sockets.duplicate(),
 	}
 
 
@@ -129,4 +131,5 @@ static func from_dict(d: Dictionary) -> LoadoutState:
 		l.sockets[StringName(str(piece))] = (socket_in[piece] as Array).duplicate()
 	for t: Variant in d.get("owned_tiers", []) as Array:
 		l.owned_tiers.append(int(t))
+	l.extra_sockets = WorkshopDefs.amounts(d.get("extra_sockets", {}) as Dictionary)
 	return l

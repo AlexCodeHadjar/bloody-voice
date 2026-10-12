@@ -3,7 +3,7 @@ extends RefCounted
 ## Everything that is saved for one playthrough. Pure data: no nodes, no signals.
 ## Only GameState (through rules) changes it.
 
-const SAVE_VERSION := 10
+const SAVE_VERSION := 11
 
 var master_seed: int = 0
 var day: int = 1  ## day 1 = Monday of week 1
@@ -20,6 +20,7 @@ var bag: Array[StringName] = []  ## consumable cards carried into every fight un
 var debt_strikes: int = 0  ## rents in a row left unpaid (GDD 3.2)
 var hero_hp: int = -1  ## HP carried between fights; -1 = full (GDD 4)
 var hero_sanity: int = -1  ## Sanity carried between fights; -1 = full
+var skills: SkillsState = SkillsState.new()  ## nodes bought in the skill webs (GDD 4.4)
 var progress: ProgressState = ProgressState.new()  ## level, XP, attributes (GDD 4); ProgressRules.ensure_start fills it
 var workshop_locked_day: int = 0  ## the workshop is shut for debt on this day
 var workshop: WorkshopState = WorkshopState.new()  ## resources, trophies, blueprints (GDD 6); filled by WorkshopRules.ensure_start
@@ -55,6 +56,7 @@ func to_dict() -> Dictionary:
 		"hero_hp": hero_hp,
 		"hero_sanity": hero_sanity,
 		"progress": progress.to_dict(),
+		"skills": skills.to_dict(),
 		"workshop_locked_day": workshop_locked_day,
 	}
 
@@ -79,5 +81,6 @@ static func from_dict(d: Dictionary) -> RunState:
 	r.hero_hp = int(d.get("hero_hp", -1))
 	r.hero_sanity = int(d.get("hero_sanity", -1))
 	r.progress = ProgressState.from_dict(d.get("progress", {}) as Dictionary)
+	r.skills = SkillsState.from_dict(d.get("skills", {}) as Dictionary)
 	r.workshop_locked_day = int(d.get("workshop_locked_day", 0))
 	return r

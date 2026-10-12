@@ -5,10 +5,11 @@ extends RefCounted
 ## with the fee taken even into debt (the fight's loot is lost — LootRules gives none on a loss).
 
 
-## Base + per level + gear (GDD 4.2).
+## Base + per level + skill web + gear (GDD 4.2).
 static func max_hp(run: RunState, data: ContentData) -> int:
 	var levels := data.balance.hp_per_level * (run.progress.level - 1)
-	return data.balance.base_hp + levels + DeckBuilder.max_hp_bonus(run.loadout, data)
+	var skills := int(SkillRules.mods(run, data).get(&"max_hp", 0))
+	return data.balance.base_hp + levels + skills + DeckBuilder.max_hp_bonus(run.loadout, data)
 
 
 ## Base + 4 per Will (GDD 4.2).

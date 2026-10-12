@@ -48,6 +48,9 @@ static func fields(data: ContentData) -> Array[Dictionary]:
 		_add(out, pe, "petition.%s" % pe.id, ["sender", "text"])
 	for wi: RumorDefs.Witness in data.rumor_data.witnesses:
 		_add(out, wi, "rumor_witness.%s" % wi.id, ["text"])
+	for web: SkillDefs.WebDef in data.webs.values():
+		for nd: SkillDefs.NodeDef in web.nodes.values():
+			_add(out, nd, "skill.%s.%s" % [web.id, nd.id], ["name", "text"])
 	for g: RumorDefs.Witness in data.rumor_data.gossip:
 		_add(out, g, "rumor_gossip.%s" % g.id, ["text"])
 	return out

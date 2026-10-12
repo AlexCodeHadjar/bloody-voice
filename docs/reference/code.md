@@ -10,7 +10,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 |---|---|---|---|
 | `autoload/content_db.gd` |  | Loads and validates all content once at start-up. If `errors` is not empty the game must not start. | reload, is_ok |
 | `autoload/event_bus.gd` |  | Global signals. Systems talk through these instead of holding references to each other. |  |
-| `autoload/game_state.gd` |  | Facade between the screens and the game rules (GDD 19.3): the place and day actions — contracts, rumors, the | accept_contract, craft_item, upgrade_module, salvage_item, leave_workshop, investigate_rumor, work_shift, rest, treat, verify_rumor, study_trophy, buy_item, sell_stock, raise_attribute |
+| `autoload/game_state.gd` |  | Facade between the screens and the game rules (GDD 19.3): the place and day actions — contracts, rumors, the | accept_contract, craft_item, upgrade_module, salvage_item, leave_workshop, investigate_rumor, work_shift, rest, treat, verify_rumor, study_trophy, buy_item, sell_stock, raise_attribute, buy_skill, reset_skills |
 | `autoload/game_state_core.gd` |  | Core of the GameState facade (GDD 19.3): the run, saving, days, gear and fights. autoload/game_state.gd extends it | has_run, new_game, continue_game, save_game, move_hero, is_open, set_hero_node, end_day, equip_module, unequip_module, set_socket, dev_grant_all_gear, start_hunt, combat_play, combat_end_turn, finish_combat |
 | `autoload/profile_service.gd` |  | The player profile (ProfileState in user://profile.cfg): settings screen and tutorial read and change it here. | save, apply, apply_volumes, set_volume, set_fullscreen, set_hints, reset_tutorial |
 | `autoload/rng_service.gd` |  | Seeded randomness (GDD 17.1). One master seed per playthrough; every system draws from its own | set_seed, stream |
@@ -45,6 +45,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/content/defs/progress_defs.gd` | ProgressDefs | The "progress" block of balance.json (GDD 4.1–4.3): XP, levels, points, what each attribute does. | balance |
 | `core/content/defs/rumor_defs.gd` | RumorDefs | Rumor content (GDD 8): witnesses and per-zone pictures and tags (data/rumors/rumors.json), and the rumor numbers | from_dict, balance |
 | `core/content/defs/shop_defs.gd` | ShopDefs | The "shop" and "tavern" blocks of balance.json (GDD 11.1, 3.3): stock slots, prices, trophy prices, the bag, | balance, tavern |
+| `core/content/defs/skill_defs.gd` | SkillDefs | Skill webs (data/skills/*.json, GDD 4.4, 23.2): nodes with a type, a place on the web, links and an effect; | web, balance |
 | `core/content/defs/tutorial_def.gd` | TutorialDef | One tutorial hint sequence (data/tutorial/sequences.json, GDD 22). | from_dict |
 | `core/content/defs/weapon_def.gd` | WeaponDef | A weapon: base cards, magazine and its sections with typed cells (data/gear/weapons.json, GDD 5.2). | from_dict, section |
 | `core/content/defs/workshop_defs.gd` | WorkshopDefs | Workshop content (GDD 6, 23.1): blueprints (data/gear/blueprints.json) and the "workshop" block of balance.json | blueprint, balance, amounts |
@@ -58,6 +59,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/content/loc.gd` | Loc | Game text by key from locale/strings.csv (GDD 22.5). Russian is the game language; English comes later. | apply_locale, has, t, or_default, format, plural_index, placeholders |
 | `core/content/rumor_validator.gd` | RumorValidator | Checks rumor content (GDD 8): witnesses exist, every zone of a district map with creatures has pictures and | validate |
 | `core/content/shop_validator.gd` | ShopValidator | Checks the shop, tavern, rent, health and progress numbers (GDD 11.1, 3.2–3.3, 4): slots, every resource priced, | validate |
+| `core/content/skill_validator.gd` | SkillValidator | Checks the skill webs (GDD 4.4): known node types, one start node, links to existing nodes, every node reachable | validate |
 | `core/content/workshop_validator.gd` | WorkshopValidator | Checks workshop content (GDD 6): every module and mechanism has a blueprint, costs name known resources or | validate |
 | `core/dev/combat_bot.gd` | CombatBot | A simple, honest player for balance testing (GDD 18.1 "bots test balance"). | run_fight, play_turn |
 | `core/dev/dev_shots.gd` |  | Developer auto-screenshots. Does nothing unless started with: |  |
@@ -79,7 +81,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/rules/combat/gear_effect_rules.gd` | GearEffectRules | How passive gear mods (GearMods) act during a fight. Called by CombatRules and EffectApplier. | first_turn, preview_count, extra_first_draw, bonus_damage, after_shot, status_stacks, hp_cost |
 | `core/rules/combat/status_rules.gd` | StatusRules | Status timing: bleed hurts at the start of its owner's turn; weak/exposed/enraged fade at the end. | turn_start, turn_end |
 | `core/rules/contracts/contract_rules.gd` | ContractRules | Tavern contracts (GDD 7): a new board every Monday, accepting a leaflet, deadlines, the fight that finishes a | refresh_board, board, active, can_accept, accept, days_left, is_overdue, targets, for_monster, prepare_fight, reward_for, resolve_fight |
-| `core/rules/gear/armor_rules.gd` | ArmorRules | Mechanisms in armor sockets (GDD 5.1). Every armor piece has a number of sockets; any mechanism fits any socket. | set_socket, installed, mechanism_at |
+| `core/rules/gear/armor_rules.gd` | ArmorRules | Mechanisms in armor sockets (GDD 5.1). Every armor piece has a number of sockets; any mechanism fits any socket. | set_socket, installed, mechanism_at, socket_count, trim |
 | `core/rules/gear/deck_builder.gd` | DeckBuilder | "Your gear is your deck" (GDD 5.3): the fight deck and bonuses come from the hunter's own cards, | build, max_hp_bonus, setup, default_setup |
 | `core/rules/gear/weapon_grid_rules.gd` | WeaponGridRules | Placing modules into weapon cells (GDD 5.2). Modules may be rotated in quarter turns. | rotated, covered, can_place, place, remove_at, placement_at, touching, problems, drop_invalid |
 | `core/rules/health/health_rules.gd` | HealthRules | Health between fights (GDD 4, owner 2026-10-12): HP and Sanity carry over. Rest at the garret restores a third; | max_hp, max_sanity, hp, sanity, rest, treat_cost, can_treat, treat, heal_fully, after_fight, fall |
@@ -87,11 +89,12 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/rules/progress/progress_rules.gd` | ProgressRules | The hunter's growth (GDD 4.1–4.3, owner 2026-10-12): XP for won fights, finished contracts and discoveries; | ensure_start, xp_to_next, fight_xp, add_xp, levels_from, raise, hand_bonus, preview, discount, flagged |
 | `core/rules/rumors/rumor_rules.gd` | RumorRules | Rumors (GDD 8, owner 2026-10-12): each morning 1–2 new diamonds on the district map (at most 5), each lives 3 | visible, new_morning, seed_targets, overheard, matches, best_contract, investigate |
 | `core/rules/shop/shop_rules.gd` | ShopRules | The Rag-and-Bone shop (GDD 11.1, owner 2026-10-12): a new table every Monday, buying (only with money in hand — | refresh, price, can_buy, buy, trophy_price, resource_sell_price, sell, spend_bag |
+| `core/rules/skills/skill_rules.gd` | SkillRules | The skill webs (GDD 4.4, owner 2026-10-12): a node is bought for skill points of the shared pool when a node it | is_owned, can_buy, buy, owned_nodes, mods, crafts_bonus, sync_sockets, reset_cost, can_reset, reset |
 | `core/rules/tavern/shift_rules.gd` | ShiftRules | A shift behind the bar of the Lantern & Hook (GDD 3.3, owner 2026-10-12): the day's main action. Pays money and | work |
 | `core/rules/time/calendar_rules.gd` | CalendarRules | Days, weeks and chapters (GDD 3.2). Day 1 is the Monday of week 1. | week, weekday, weekday_name, chapter_week, is_rent_day, is_shop_refresh_day, days_until_rent |
 | `core/rules/time/day_rules.gd` | DayRules | Ending a day (GDD 3.2–3.3): advance the calendar, tick district states, take rent on Rentday. Rent left unpaid | end_day |
 | `core/rules/workshop/loot_rules.gd` | LootRules | What a won fight gives (GDD 17.2 LootGenerator, owner 2026-10-12): ichor and scrap by the creature's rank (ichor | fight_loot, preview_blueprints, take, add_resources, add_to |
-| `core/rules/workshop/workshop_rules.gd` | WorkshopRules | The workshop (GDD 6.2, owner 2026-10-12): crafting from known blueprints, upgrading one module copy to tier II–III, | ensure_start, crafts_left, missing, can_craft, craft, upgrade_cost, can_upgrade, upgrade, salvage_refund, can_salvage, salvage, leave, is_locked |
+| `core/rules/workshop/workshop_rules.gd` | WorkshopRules | The workshop (GDD 6.2, owner 2026-10-12): crafting from known blueprints, upgrading one module copy to tier II–III, | ensure_start, crafts_per_day, crafts_left, missing, can_craft, craft, upgrade_cost, can_upgrade, upgrade, salvage_refund, can_salvage, salvage, leave, is_locked |
 | `core/state/city_state.gd` | CityState | States of districts, areas and landmarks. Keys: "NORDHAL", "NORDHAL/tavern_street", ... | get_place, state_of, to_dict, from_dict |
 | `core/state/combat/card_instance.gd` | CardInstance | One physical card in a fight. uid tells apart two copies of the same CardDef. | create |
 | `core/state/combat/combat_event.gd` | CombatEvent | One line of the fight log. Screens read new events to animate and to show the log. | create |
@@ -111,6 +114,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/state/run_state.gd` | RunState | Everything that is saved for one playthrough. Pure data: no nodes, no signals. | create, to_dict, from_dict |
 | `core/state/save_migrations.gd` | SaveMigrations | Brings old save dictionaries up to RunState.SAVE_VERSION, one version step at a time. | migrate |
 | `core/state/shop_state.gd` | ShopState | The Rag-and-Bone shop's table this week (GDD 11.1). Saved. Prices are fixed when the stock is made. | find, to_dict, from_dict |
+| `core/state/skills_state.gd` | SkillsState | Nodes the hunter bought in the skill webs (GDD 4.4): web id -> node ids (the start node is always owned and not | owned_in, to_dict, from_dict |
 | `core/state/workshop_state.gd` | WorkshopState | The hunter's stock and workshop (GDD 6): resources, trophies, known blueprints and today's workshop day. | amount, to_dict, from_dict, create |
 
 ## scenes/
@@ -157,7 +161,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `scenes/equipment/equipment_screen.gd` |  | Equipment (GDD 5): weapon cells with modules, armor sockets with mechanisms, and the deck they make. |  |
 | `scenes/equipment/shape_icon.gd` | ShapeIcon | Small picture of a module's cell shape (for the spare-module list). | setup |
 | `scenes/equipment/weapon_tablet_view.gd` | WeaponTabletView | Draws the weapon's sections as cell grids, the placed modules (their art, rotated) and a ghost of the | setup, set_ghost, refresh |
-| `scenes/hero/hero_panel.gd` | HeroPanel | «Охотник» (GDD 4, 23.2 zones 1 and 4): level and XP toward the next, HP and Sanity, free skill and attribute |  |
+| `scenes/hero/hero_panel.gd` | HeroPanel | «Охотник» (GDD 4, 23.2 zones 1 and 4): level and XP toward the next, HP and Sanity, free skill points with the way |  |
 | `scenes/menu/main_menu.gd` |  | Title screen: New game / Continue / Quit over the city map. |  |
 | `scenes/places/infirmary_panel.gd` | InfirmaryPanel | The Ash Sisters' infirmary (GDD 4, owner 2026-10-12): HP and Sanity now, the price of a full treatment and |  |
 | `scenes/places/library_panel.gd` | LibraryPanel | The Crypt Scriptorium (GDD 3.3, owner 2026-10-12): spend the day verifying one rumor (its tablet will show what it |  |
@@ -168,6 +172,8 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `scenes/settings/settings_panel.gd` | SettingsPanel | Settings over any screen (owner, 2026-10-12): volumes, tutorial hints, reset tutorial, full screen. | open |
 | `scenes/shop/shop_kit.gd` | ShopKit | Texts and pictures of the shop's cards (GDD 11.1). Reads content and the run; never changes them. | picture, title, about, sell_price |
 | `scenes/shop/shop_table.gd` | ShopTable | The Rag-and-Bone shop (GDD 11.1): the dealer's wooden table with this week's cards — ready modules, blueprints, | close_shop |
+| `scenes/skills/skill_web_screen.gd` |  | «Развитие охотника» (GDD 23.2): level, XP and free points on top, the web tabs (the Monster web comes in the next |  |
+| `scenes/skills/skill_web_view.gd` | SkillWebView | One skill web drawn as a graph (GDD 23.2 zone 3): node pictures by type, links (bright when both ends are owned), | setup, center, refresh |
 | `scenes/tavern/shift_panel.gd` | ShiftPanel | The morning after a tavern shift (GDD 3.3): the keeper's portrait, the money earned, a line of gossip and the | show_report, close_panel |
 | `scenes/workshop/blueprint_list.gd` | BlueprintList | The blueprint list of the workshop (GDD 23.1 zones 2–4): tabs Модули · Механизмы, «только доступные», rows with | refresh |
 | `scenes/workshop/workbench_view.gd` | WorkbenchView | The workbench (GDD 23.1 zones 5–7, 9): the selected item large — picture, section and cell, tier, what it does, | show_item |
@@ -209,6 +215,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `tests/test_save.gd` |  | Save / load round trip and save migrations (GDD 19.1). | test_round_trip_through_json, test_new_run_starts_in_grey_only, test_migrate_v2_to_v3, test_save_service_file |
 | `tests/test_scripts.gd` |  | Every script in the project must compile. | test_all_scripts_compile |
 | `tests/test_shop.gd` |  | The shop, the bag, the tavern shift and rent debt (GDD 11.1, 3.2–3.3). | test_weekly_table_follows_the_slots, test_buying_never_goes_into_debt, test_bag_fills_and_is_spent_in_fights, test_selling_trophies_and_resources, test_tavern_shift_pays_and_overhears, test_two_unpaid_rents_lock_the_workshop, test_shop_survives_save_and_old_saves_migrate |
+| `tests/test_skills.gd` |  | The Mechanic skill web (GDD 4.4): buying linked nodes, blueprints, sockets, workshop crafts, passives, reset. | test_nodes_need_a_linked_owned_node_and_points, test_effects_blueprint_socket_crafts_and_passives, test_reset_refunds_points_for_money_and_keeps_blueprints, test_skills_survive_save_and_old_saves_migrate |
 | `tests/test_suite.gd` | TestSuite | Base class for test suites. Every method named test_* is a test. | check, eq, near, load_content |
 | `tests/test_tutorial.gd` |  | Tutorial hints (GDD 22): sequences are valid data, play once, wait for «do» actions, queue, can be skipped; | test_sequences_are_loaded, test_sequence_plays_once_and_waits_for_actions, test_hints_off_and_skip_all, test_one_off_hint_waits_in_queue, test_profile_round_trip, test_abort_keeps_the_hint_for_later, test_bad_tutorial_data_is_reported |
 | `tests/test_workshop.gd` |  | Workshop and loot (GDD 6, 17.2): start stock, crafting, the workshop day, tiers, salvage, fight loot, unlocks. | test_new_run_has_start_stock_and_blueprints, test_craft_spends_and_the_workshop_day_holds_two_items, test_unknown_blueprint_and_missing_resources, test_upgrade_raises_one_copy, test_salvage_only_spare_and_returns_half, test_fight_loot_and_trophy_unlocks, test_workshop_survives_save_and_old_saves_get_the_start |

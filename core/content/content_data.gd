@@ -24,6 +24,7 @@ var petitions: Array[ContractDefs.PetitionDef] = []
 var rumor_data: RumorDefs.Data = RumorDefs.Data.new()  ## witnesses and zone pictures/tags of rumors (GDD 8)
 var blueprints: Dictionary[StringName, WorkshopDefs.BlueprintDef] = {}  ## item id -> blueprint (GDD 6.2)
 var blueprint_order: Array[StringName] = []
+var webs: Dictionary[StringName, SkillDefs.WebDef] = {}  ## skill webs by id: mechanic, later monster (GDD 4.4)
 
 
 func district(id: StringName) -> DistrictDef:

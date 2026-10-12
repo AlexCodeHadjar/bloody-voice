@@ -56,13 +56,16 @@ ui.library.no_trophies,Трофеев нет.,No trophies.
 ui.library.do,Заняться,Do it
 ui.library.verified,Переписчики сверили записи: за слухом — «{outcome}». Это видно на его табличке.,The copyists checked the records: the rumor leads to «{outcome}». Its tablet shows it.
 ui.library.studied,Записи о твари «{name}»: новую верную примету узнали заказы — {n}.,Notes on «{name}»: {n} contracts learned a new true sign.
+ui.library.reset_title,Сбросить ветку Механика (без затраты дня),Reset the Mechanic web (no day spent)
+ui.library.reset_text,Вернуть все очки ветки Механика — {n} крон. Чертежи останутся.,Get back every point of the Mechanic web — {n}. Blueprints stay.
+ui.library.reset_done,Ветка сброшена: очки вернулись.,The web is reset: the points are back.
 ui.progress.button,Охотник,Hunter
 ui.progress.title,Охотник — уровень {n},The hunter — level {n}
 ui.progress.xp,Опыт: {n} / {of},XP: {n} / {of}
 ui.progress.max_level,Наивысший уровень,Highest level
 ui.progress.xp_gain,Опыт +{n},XP +{n}
 ui.progress.level_up,Новый уровень!,Level up!
-ui.progress.skill_points,Очки навыков: {n} (ветки — скоро),Skill points: {n} (webs coming)
+ui.progress.skill_points,Очки навыков: {n},Skill points: {n}
 ui.progress.attributes,Атрибуты (свободных очков: {n}),Attributes (free points: {n})
 ui.progress.attr.will,Воля,Will
 ui.progress.attr.will.about,+4 Рассудка за очко; позже — пороги Голоса.,+4 Sanity per point; later the Voice thresholds.
@@ -70,6 +73,21 @@ ui.progress.attr.agility,Ловкость,Agility
 ui.progress.attr.agility.about,+1 карта в руке на 4 и 8; 3 % шанс увернуться от удара за очко.,+1 card in hand at 4 and 8; 3 % dodge chance per point.
 ui.progress.attr.cunning,Хитрость,Cunning
 ui.progress.attr.cunning.about,Шанс поимки; +1 видимый ход твари на 3 и 6; видит враньё в слухах; скидка в лавке 3 % за очко.,Capture chance; +1 visible creature move at 3 and 6; sees lies in rumors; 3 % shop discount per point.
+ui.progress.to_webs,Ветки навыков,Skill webs
+ui.skills.title,Развитие охотника,The hunter's growth
+ui.skills.top,Уровень {level} · очков навыков: {points} (общие на обе ветки),Level {level} · skill points: {points} (shared by both webs)
+ui.skills.tab.mechanic,Ветка Механика,The Mechanic web
+ui.skills.tab.monster,Ветка Твари,The Monster web
+ui.skills.monster_soon,Откроется со следующим шагом: образцы крови и Голос.,Opens with the next step: blood samples and the Voice.
+ui.skills.type.start,Начало,Start
+ui.skills.type.passive,Пассивный навык,Passive
+ui.skills.type.blueprint,Чертёж,Blueprint
+ui.skills.type.socket,Гнездо,Socket
+ui.skills.type.keystone,Ключевой узел,Keystone
+ui.skills.blueprint_note,Чертёж появится в мастерской; для изготовления по-прежнему нужен трофей.,The blueprint appears in the workshop; crafting still needs its trophy.
+ui.skills.owned,Изучено,Learned
+ui.skills.buy,Изучить ({n} очко),Learn ({n} point)
+ui.skills.reset_note,Сбросить ветку можно в Скриптории за деньги; выученные чертежи останутся.,The web can be reset in the Scriptorium for money; learned blueprints stay.
 ui.district.hint.rumors,Площадь: столб со слухами,Square: the rumor post
 ui.district.hint.locked,Закрыто,Closed
 ui.district.hint.soon,Откроется позже,Opens later
@@ -384,6 +402,12 @@ rule.library.no_trophy,Такого трофея нет.,No such trophy.
 rule.library.nothing_to_learn,Нет заказов на эту тварь — записи ничего не дадут.,No contracts on this creature; the notes would teach nothing.
 rule.progress.unknown,Нет такого атрибута.,No such attribute.
 rule.progress.no_points,Нет свободных очков атрибутов.,No free attribute points.
+rule.skill.unknown,Такого узла нет.,No such node.
+rule.skill.owned,Этот узел уже изучен.,Already learned.
+rule.skill.not_linked,Сначала изучите соседний узел.,Learn a linked node first.
+rule.skill.no_points,Нет свободных очков навыков.,No free skill points.
+rule.skill.nothing_to_reset,В ветке нечего сбрасывать.,Nothing to reset in this web.
+rule.skill.no_money,Не хватает денег на сброс.,Not enough money for the reset.
 intent.attack,Атака,Attack
 intent.defend,Защита,Defend
 intent.fear,Страх,Fear
@@ -975,6 +999,56 @@ rumor_witness.ash_sister.text,Пепельная сестра записала �
 rumor_witness.digger.text,Подручный могильщика бурчит:,The gravedigger's boy mutters:
 rumor_witness.leaflet.text,На столбе у костра приколот листок без подписи:,An unsigned leaflet is pinned to the post by the bonfire:
 rumor_witness.widow.text,Вдова с третьего этажа не спит уже третью ночь:,The widow from the third floor has not slept for three nights:
+skill.mechanic.start.name,Механик,The Mechanic
+skill.mechanic.start.text,Отсюда начинается паутина.,Where the web begins.
+skill.mechanic.g_hp1.name,Мягкая подкладка,Padded Lining
+skill.mechanic.g_hp1.text,+4 к наибольшему здоровью.,+4 max HP.
+skill.mechanic.g_helm.name,Гнездо шлема,Helmet Socket
+skill.mechanic.g_helm.text,+1 гнездо механизма в шлеме.,+1 mechanism socket in the helmet.
+skill.mechanic.g_chest.name,Гнездо нагрудника,Chestplate Socket
+skill.mechanic.g_chest.text,+1 гнездо механизма в нагруднике.,+1 mechanism socket in the chestplate.
+skill.mechanic.g_greaves.name,Гнездо поножей,Greaves Socket
+skill.mechanic.g_greaves.text,+1 гнездо механизма в поножах.,+1 mechanism socket in the greaves.
+skill.mechanic.g_gaunt.name,Гнездо наручей,Gauntlet Socket
+skill.mechanic.g_gaunt.text,+1 гнездо механизма в наручах.,+1 mechanism socket in the gauntlets.
+skill.mechanic.g_key.name,Железная шкура,Iron Hide
+skill.mechanic.g_key.text,+10 к наибольшему здоровью; выстрелы дают 1 защиту.,+10 max HP; shots also give 1 Block.
+skill.mechanic.w_dmg1.name,Твёрдая рука,Steady Aim
+skill.mechanic.w_dmg1.text,Выстрелы наносят +1 урона.,Shots deal +1 damage.
+skill.mechanic.w_ammo.name,Патронташ,Bandolier
+skill.mechanic.w_ammo.text,+1 патрон.,+1 bullet.
+skill.mechanic.w_part.name,Уроки анатомии,Anatomy Lessons
+skill.mechanic.w_part.text,Выстрелы по частям тела наносят +2 урона.,Hits on body parts deal +2 damage.
+skill.mechanic.w_coil.name,Чертежи катушки,Coil Drawings
+skill.mechanic.w_coil.text,Учит чертёж катушечного ускорителя.,Teaches the Coil Accelerator blueprint.
+skill.mechanic.w_flame.name,Чертежи сопла,Nozzle Drawings
+skill.mechanic.w_flame.text,Учит чертёж огнемётного сопла.,Teaches the Flame Nozzle blueprint.
+skill.mechanic.w_key.name,Спокойные руки,Steady Hands
+skill.mechanic.w_key.text,Перезарядка даёт взять карту; выстрелы наносят +1 урона.,Reloading draws a card; shots deal +1 damage.
+skill.mechanic.m_draw.name,Быстрые пальцы,Quick Fingers
+skill.mechanic.m_draw.text,Первый ход: взять на 1 карту больше.,Draw 1 more card on the first turn.
+skill.mechanic.m_ichor.name,Рецепт ихора,Ichor Recipe
+skill.mechanic.m_ichor.text,Учит чертёж патронов с ихором.,Teaches the Ichor Cartridges blueprint.
+skill.mechanic.m_cap.name,Схема конденсаторов,Capacitor Scheme
+skill.mechanic.m_cap.text,Учит чертёж батареи конденсаторов.,Teaches the Capacitor Bank blueprint.
+skill.mechanic.m_bleed.name,Насечки,Serrations
+skill.mechanic.m_bleed.text,Ваше кровотечение сильнее на 1.,Your Bleed deals +1 damage.
+skill.mechanic.m_galv.name,Гальванические записи,Galvanic Notes
+skill.mechanic.m_galv.text,Учит чертёж гальванического ядра.,Teaches the Galvanic Core blueprint.
+skill.mechanic.m_key.name,Умелец,Tinkerer
+skill.mechanic.m_key.text,Ещё одно изделие за день в мастерской.,One more craft in a workshop day.
+skill.mechanic.c_lantern.name,Чертежи фонаря,Lantern Plans
+skill.mechanic.c_lantern.text,Учит чертёж фонаря откровения.,Teaches the Lantern of Revealing blueprint.
+skill.mechanic.c_holster.name,Выкройка кобуры,Holster Pattern
+skill.mechanic.c_holster.text,Учит чертёж быстрой кобуры.,Teaches the Quick Holster blueprint.
+skill.mechanic.c_bellows.name,Чертежи мехов,Bellows Plans
+skill.mechanic.c_bellows.text,Учит чертёж дымовых мехов.,Teaches the Smoke Bellows blueprint.
+skill.mechanic.c_plates.name,Заклёпки пластин,Plate Rivets
+skill.mechanic.c_plates.text,Учит чертёж клёпаных пластин.,Teaches the Riveted Plates blueprint.
+skill.mechanic.c_ap.name,Часовая пружина,Clockwork Spring
+skill.mechanic.c_ap.text,Первый ход: +1 ОД.,+1 AP on the first turn.
+skill.mechanic.c_key.name,Запасные гнёзда,Spare Sockets
+skill.mechanic.c_key.text,+1 гнездо механизма в каждой части брони.,+1 mechanism socket in every armor piece.
 rumor_gossip.pale_hounds.text,"Бледные Псы опять пили здесь. Говорят о Реестре охотников, будто он им принадлежит.",The Pale Hounds were drinking here again. They talk about the Hunter's Register as if they owned it.
 rumor_gossip.grey_candles.text,"По ночам в Старой Часовне горят серые свечи, хотя священника там нет уже много лет.","Grey candles burn in the Old Chapel at night, though no priest has been there for years."
 rumor_gossip.ringwall_guns.text,На прошлой неделе стража на северной стене развернула пушки внутрь. Никто не говорит зачем.,The guards on the north wall turned the guns inward last week. Nobody says why.

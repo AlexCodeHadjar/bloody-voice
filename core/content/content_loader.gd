@@ -21,6 +21,7 @@ const TUTORIAL := "tutorial/sequences.json"
 const TAGS := "contracts/tags.json"
 const PETITIONS := "contracts/petitions.json"
 const RUMORS := "rumors/rumors.json"
+const SKILLS_DIR := "skills"
 
 
 static func load_all(root: String, errs: ErrorLog) -> ContentData:
@@ -99,7 +100,7 @@ static func _load_district_life(root: String, data: ContentData, errs: ErrorLog)
 		data.district_life[def.district] = def
 
 
-## Contracts and rumors (GDD 7, 8): tag catalogue, petition letters, witnesses and zone pictures.
+## Contracts, rumors and skill webs (GDD 7, 8, 4.4): tag catalogue, petitions, witnesses, zone pictures, webs.
 static func _load_investigation(root: String, data: ContentData, errs: ErrorLog) -> void:
 	var tags := read_object(root.path_join(TAGS), errs)
 	for key: Variant in tags:
@@ -111,7 +112,14 @@ static func _load_investigation(root: String, data: ContentData, errs: ErrorLog)
 			errs.add(PETITIONS, "duplicate petition id '%s'" % p.id)
 		data.petitions.append(p)
 	data.rumor_data = RumorDefs.from_dict(read_object(root.path_join(RUMORS), errs), errs)
-
+	var dir := DirAccess.open(root.path_join(SKILLS_DIR))
+	if dir == null:
+		errs.add(SKILLS_DIR, "folder not found")
+		return
+	for f: String in dir.get_files():
+		if f.ends_with(".json"):
+			var web := SkillDefs.web(read_object(root.path_join(SKILLS_DIR).path_join(f), errs), errs, "skills/" + f)
+			data.webs[web.id] = web
 
 static func _load_gear(root: String, data: ContentData, errs: ErrorLog) -> void:
 	for d: Variant in read_array(root.path_join(WEAPONS), errs):

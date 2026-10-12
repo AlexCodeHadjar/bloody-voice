@@ -8,7 +8,7 @@ static func set_socket(l: LoadoutState, data: ContentData, piece: StringName, in
 	var armor := _armor(data, piece)
 	if armor == null:
 		return Loc.t("rule.unknown_armor")
-	if index < 0 or index >= armor.sockets:
+	if index < 0 or index >= socket_count(l, armor):
 		return Loc.t("rule.no_socket")
 	var slots := _slots(l, armor)
 	if mechanism != &"":
@@ -36,9 +36,22 @@ static func mechanism_at(l: LoadoutState, piece: StringName, index: int) -> Stri
 	return StringName(str(slots[index])) if index < slots.size() else &""
 
 
+## The piece's own sockets plus those the skill web added.
+static func socket_count(l: LoadoutState, armor: GearDefs.ArmorDef) -> int:
+	return armor.sockets + int(l.extra_sockets.get(armor.id, 0))
+
+
+## Drops sockets beyond each piece's count (a reset web); their mechanisms become spare again.
+static func trim(l: LoadoutState, data: ContentData) -> void:
+	for a: GearDefs.ArmorDef in data.armor:
+		var slots: Array = l.sockets.get(a.id, [])
+		if slots.size() > socket_count(l, a):
+			l.sockets[a.id] = slots.slice(0, socket_count(l, a))
+
+
 static func _slots(l: LoadoutState, armor: GearDefs.ArmorDef) -> Array:
 	var slots: Array = (l.sockets.get(armor.id, []) as Array).duplicate()
-	while slots.size() < armor.sockets:
+	while slots.size() < socket_count(l, armor):
 		slots.append("")
 	return slots
 

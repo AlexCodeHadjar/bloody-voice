@@ -118,7 +118,7 @@ func _refresh() -> void:
 		cell.mouse_filter = Control.MOUSE_FILTER_PASS
 		_stock.add_child(cell)
 	var left := WorkshopRules.crafts_left(GameState.run, ContentDB.data)
-	var per_day := ContentDB.data.balance.workshop.crafts_per_day
+	var per_day := WorkshopRules.crafts_per_day(GameState.run, ContentDB.data)
 	_crafts.text = Loc.t("ui.workshop.crafts_today", {"n": left, "of": per_day})
 	if left < per_day:  # a workshop day is on: leaving ends it
 		_crafts.text += Loc.t("ui.workshop.day_on")

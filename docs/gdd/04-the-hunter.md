@@ -86,3 +86,12 @@ screens `scenes/places/` (infirmary, Scriptorium).
 
 Numbers: `balance.json → progress`. Code: `core/rules/progress/progress_rules.gd`, `core/state/progress_state.gd`,
 screen `scenes/hero/hero_panel.gd`.
+
+## 4.7 The Mechanic web now (Phase 6 step 2, owner 2026-10-12)
+
+| Rule | Value |
+|---|---|
+| Shape | `data/skills/mechanic.json`: the start and 6 nodes per direction — Gear (up: max HP, a socket in each armor piece, keystone «Железная шкура»), Weapon (right: shot / part damage, a bullet, the Coil and Nozzle blueprints, keystone «Спокойные руки»), Modules (down: first-turn card, bleed, the Ichor / Capacitor / Galvanic blueprints, keystone «Умелец» = +1 workshop craft), Mechanisms (left: the 4 mechanism blueprints, first-turn AP, keystone «Запасные гнёзда» = +1 socket in every piece). 24 nodes, ~17 points by level 15. |
+| Buying | 1 point of the shared pool; a node needs an owned linked node. Blueprint nodes are a second way to existing trophy blueprints — crafting still takes the trophy. |
+| Reset | In the Scriptorium: 15 money per refunded point, no day, no credit; learned blueprints stay; mechanisms in vanished sockets go back to spare. |
+| Screen | «Развитие охотника» (`scenes/skills/`, from «Охотник» → «Ветки навыков»): drag and wheel-zoom web, node pictures by type, owned lit, buyable in a pulsing gold ring, locked dark; the node card with «Изучить». The Monster tab waits for step 3. |

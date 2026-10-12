@@ -15,9 +15,14 @@ static func ensure_start(run: RunState, data: ContentData) -> bool:
 	return true
 
 
+## Items a workshop day holds: the base plus the skill web's Tinkerer.
+static func crafts_per_day(run: RunState, data: ContentData) -> int:
+	return data.balance.workshop.crafts_per_day + SkillRules.crafts_bonus(run, data)
+
+
 static func crafts_left(run: RunState, data: ContentData) -> int:
 	var used := run.workshop.crafts_used if run.workshop.day == run.day else 0
-	return maxi(0, data.balance.workshop.crafts_per_day - used)
+	return maxi(0, crafts_per_day(run, data) - used)
 
 
 ## Ids of `cost` the hunter has too few of.
@@ -142,7 +147,7 @@ static func _can_spend(run: RunState, data: ContentData, cost: Dictionary) -> St
 	if is_locked(run):
 		return Loc.t("rule.workshop.locked")
 	if crafts_left(run, data) <= 0:
-		return Loc.t("rule.workshop.no_crafts", {"n": data.balance.workshop.crafts_per_day})
+		return Loc.t("rule.workshop.no_crafts", {"n": crafts_per_day(run, data)})
 	if not missing(run.workshop, cost).is_empty():
 		return Loc.t("rule.workshop.no_resources")
 	return ""

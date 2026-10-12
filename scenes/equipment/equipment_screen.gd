@@ -161,7 +161,7 @@ func _refresh_armor() -> void:
 		c.queue_free()
 	var l := GameState.run.loadout
 	for a: GearDefs.ArmorDef in ContentDB.data.armor:
-		for i: int in a.sockets:
+		for i: int in ArmorRules.socket_count(GameState.run.loadout, a):
 			var row := HBoxContainer.new()
 			row.add_child(Icons.rect("ARMOR", a.id, 34))
 			row.add_child(UiKit.label("%s:" % a.name, 18))

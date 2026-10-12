@@ -48,6 +48,8 @@ func test_key_families_exist() -> void:
 		keys.append("ui.combat.outcome.%s" % o)
 	for t: StringName in ContractDefs.TYPES:
 		keys.append("ui.contract.type.%s" % t)
+	for t: StringName in SkillDefs.TYPES:
+		keys.append("ui.skills.type.%s" % t)
 	for a: StringName in ProgressDefs.ATTRIBUTES:
 		keys.append("ui.progress.attr.%s" % a)
 		keys.append("ui.progress.attr.%s.about" % a)

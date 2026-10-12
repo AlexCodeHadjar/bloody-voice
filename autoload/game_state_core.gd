@@ -171,7 +171,7 @@ func _start_fight(id: StringName, contract: ContractsState.Contract, zone: Strin
 
 
 ## The hunter as the run has them (GDD 4): carried HP and Sanity, maxima by level and Will, Agility's cards and
-## dodge, Cunning's capture chance and preview.
+## dodge, Cunning's capture chance and preview, the skill webs' bonuses.
 func _hero_into(setup: CombatSetup, data: ContentData) -> void:
 	setup.hero_max_hp = HealthRules.max_hp(run, data)
 	setup.hero_hp = HealthRules.hp(run, data)
@@ -181,6 +181,9 @@ func _hero_into(setup: CombatSetup, data: ContentData) -> void:
 	setup.cunning = run.progress.attribute(&"cunning")
 	setup.agility = run.progress.attribute(&"agility")
 	setup.preview = ProgressRules.preview(run, data)
+	var skill_mods := SkillRules.mods(run, data)  # the skill webs' passives (GDD 4.4)
+	GearMods.sum(setup.mods, skill_mods)
+	setup.max_ammo += int(skill_mods.get(&"max_ammo", 0))
 
 
 ## Background of a fight: the rumor's zone (a random zone of the district when none); falls back to the district scene.

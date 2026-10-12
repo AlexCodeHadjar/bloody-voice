@@ -272,5 +272,10 @@
   "flag_per_cunning": 0.1,
   "discount_per_cunning": 0.03,
   "max_discount": 0.3
+ },
+ "skills": {
+  "_comment": "Skill webs (GDD 4.4; owner 2026-10-12): each node costs node_cost points of the shared pool; resetting the Mechanic web in the Scriptorium costs reset_cost_per_point money per refunded point (no day spent, no credit); learned blueprints stay.",
+  "node_cost": 1,
+  "reset_cost_per_point": 15
  }
 }

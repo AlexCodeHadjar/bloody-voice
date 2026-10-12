@@ -27,6 +27,8 @@ static func migrate(d: Dictionary, start_loadout: Dictionary = {}) -> Dictionary
 				_from_8(d)
 			9:
 				_from_9(d)
+			10:
+				_from_10(d)
 			_:
 				push_warning("[save] no migration from version %d" % version)
 		version += 1
@@ -95,3 +97,8 @@ static func _from_8(d: Dictionary) -> void:
 ## v9 -> v10: levels and attributes (GDD 4). Level 1, no XP; GameState gives the start attributes on load.
 static func _from_9(d: Dictionary) -> void:
 	d["progress"] = ProgressState.new().to_dict()
+
+
+## v10 -> v11: skill webs (GDD 4.4). Nothing bought yet; the points earned so far wait in progress.skill_points.
+static func _from_10(d: Dictionary) -> void:
+	d["skills"] = SkillsState.new().to_dict()

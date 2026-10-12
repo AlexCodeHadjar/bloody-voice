@@ -38,6 +38,10 @@ Node states: owned (filled with the web colour, bright line to its parent), avai
 locked (dark). One image per node shape; states, web rings and links are drawn by code (tint, glow, `Line2D`). Keystones sit on the outer ring. The Monster web shows the Voice cost on every node card
 and warns before a node would cross a Voice stage.
 
+Built (Phase 6 step 2): the Mechanic tab — top bar with level and points, the web (drag, zoom), node card with
+«Изучить». Not yet: the attributes column (they live in the «Охотник» panel), the four equipment sub-web buttons, the
+legend; the Monster tab comes with step 3.
+
 ## 23.3 Art to generate later
 
 The screens work with the existing art (module art, icons, silhouettes) plus the workshop and skill-web pieces
@@ -52,8 +56,6 @@ refund, the stash with trophies, «К снаряжению» / «В район»
 ## 23.4 Open questions for the owner
 
 - ~~Workshop time~~ — answered 2026-10-12: a workshop day = 2 items (GDD 6.3).
-- Can skill points be reset (for money / at a story moment), or are choices final?
-- Do the two webs share one pool of skill points (as GDD §4.3 reads now), or does each web have its own points?
-  With one pool, investing in the Voice costs Mechanic progress — should the tabs warn about that?
+- ~~Reset~~ / ~~shared pool~~ — answered 2026-10-12: one pool, the Mechanic web resets for money (GDD 4.7).
 - Are weapons and consumables crafted in the same workshop (the tabs exist), or elsewhere?
 - Can items be sold in the workshop, or only in the shop?

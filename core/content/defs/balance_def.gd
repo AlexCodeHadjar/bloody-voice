@@ -41,6 +41,7 @@ var shop: ShopDefs.Balance = ShopDefs.Balance.new()  ## the Rag-and-Bone shop (G
 var tavern: ShopDefs.Tavern = ShopDefs.Tavern.new()  ## the tavern shift (GDD 3.3)
 var health: HealthDefs.Balance = HealthDefs.Balance.new()  ## rest, infirmary, the Hunter's Fall (GDD 4)
 var progress: ProgressDefs.Balance = ProgressDefs.Balance.new()  ## XP, levels, attributes (GDD 4.1–4.3)
+var skills: SkillDefs.Balance = SkillDefs.Balance.new()  ## skill webs (GDD 4.4)
 
 
 static func from_dict(d: Dictionary, errs: ErrorLog) -> BalanceDef:
@@ -81,7 +82,7 @@ static func from_dict(d: Dictionary, errs: ErrorLog) -> BalanceDef:
 	return b
 
 
-## The blocks with their own def classes: contracts, rumors, workshop, shop, tavern, health, progress.
+## The blocks with their own def classes: contracts, rumors, workshop, shop, tavern, health, progress, skills.
 static func _blocks(b: BalanceDef, d: Dictionary, errs: ErrorLog) -> void:
 	var w := "balance.json"
 	b.contracts = ContractDefs.balance(DefReader.dict(d, "contracts", errs, w), errs)
@@ -91,3 +92,4 @@ static func _blocks(b: BalanceDef, d: Dictionary, errs: ErrorLog) -> void:
 	b.tavern = ShopDefs.tavern(DefReader.dict(d, "tavern", errs, w), errs)
 	b.health = HealthDefs.balance(DefReader.dict(d, "health", errs, w), errs)
 	b.progress = ProgressDefs.balance(DefReader.dict(d, "progress", errs, w), errs)
+	b.skills = SkillDefs.balance(DefReader.dict(d, "skills", errs, w), errs)

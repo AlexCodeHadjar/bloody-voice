@@ -18,6 +18,7 @@ static func validate(data: ContentData, errs: ErrorLog, check_files: bool = true
 	RumorValidator.validate(data, errs, check_files)
 	WorkshopValidator.validate(data, errs)
 	ShopValidator.validate(data, errs)
+	SkillValidator.validate(data, errs)
 	if check_files:
 		_art(data, errs)
 

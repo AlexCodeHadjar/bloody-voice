@@ -171,3 +171,30 @@ func raise_attribute(attribute: StringName) -> String:
 		EventBus.progress_changed.emit()
 		save_game()
 	return problem
+
+
+## Buys a node of a skill web (GDD 4.4). "" or why not.
+func buy_skill(web_id: StringName, node_id: StringName) -> String:
+	if run == null or combat != null or ContentDB.data.webs.get(web_id) == null:
+		return Loc.t("rule.not_now")
+	var problem := SkillRules.buy(run, ContentDB.data, ContentDB.data.webs[web_id], node_id)
+	if problem == "":
+		_skills_changed()
+	return problem
+
+
+## Resets a web in the Scriptorium for money (owner, 2026-10-12): its points come back, learned blueprints stay.
+func reset_skills(web_id: StringName) -> String:
+	if run == null or combat != null or ContentDB.data.webs.get(web_id) == null:
+		return Loc.t("rule.not_now")
+	var problem := SkillRules.reset(run, ContentDB.data, ContentDB.data.webs[web_id])
+	if problem == "":
+		EventBus.money_changed.emit(run.money)
+		_skills_changed()
+	return problem
+
+
+func _skills_changed() -> void:
+	EventBus.progress_changed.emit()
+	EventBus.stock_changed.emit()
+	_loadout_changed()
