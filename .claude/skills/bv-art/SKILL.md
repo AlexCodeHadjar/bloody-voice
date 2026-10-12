@@ -45,8 +45,7 @@ tools/check_all.sh                  # только по просьбе влад�
 ## Промты для ChatGPT
 
 - Город, районы, состояния районов, интерфейс — `docs/gdd/16-art-direction-and-generation-prompts.md`.
-- Модули, твари, иконки — `docs/art-prompts/*.md`, генерируются из данных: `python tools/gen_art_prompts.py`.
-  Шаблоны к ним: `python tools/gen_art_templates.py` → `docs/assets/templates/`.
-- Схема города: `python tools/gen_city_sketch.py` → `docs/assets/map/`.
-- Новые иконки или модули добавляй сначала в данные (`data/ui/icons.json`, `data/gear/modules.json`),
-  потом перегенерируй промты — так промты и нарезка не разойдутся.
+- Ещё не полученный арт — `docs/art-prompts/remaining-ui-transparent.md` и `art-backlog.md`.
+- Промты к полученному арту удалены (2026-10-12, экономия токенов); новый промт пиши по образцу GDD §16,
+  шаблоны-картинки лежат в `docs/assets/templates/`.
+- Новые иконки или модули добавляй сначала в данные (`data/ui/icons.json`, `data/gear/modules.json`).

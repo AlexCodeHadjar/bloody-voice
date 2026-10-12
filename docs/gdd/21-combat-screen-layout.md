@@ -2,7 +2,7 @@
 
 > Owner feedback (2026-10-07): the current combat screen does not look good — **layout, card look, flat panels
 > and the creature presentation** all need work. This section is the new target. Sketches
-> (`python tools/gen_ui_sketches.py`): `docs/assets/ui/combat_layout.png`, `card_anatomy.png`.
+>: `docs/assets/ui/combat_layout.png`, `card_anatomy.png`.
 
 ## 21.1 Principles
 
@@ -53,29 +53,14 @@
 - `monsters/*.json → parts[].spot: [x, y]` — where the part's target ring sits on the combat art (0–1 of the image).
 - Card art ids later (`cards[].art`), optional.
 
-## 21.5 Art to generate
+## 21.5 Art
 
-Prompts and the full file list: [`docs/art-prompts/combat-ui.md`](../art-prompts/combat-ui.md). Main files (`assets/ui/`):
-
-| File | Use |
-|---|---|
-| `COMBAT__card_frame__<type>.png` (6) | Card frames per type (9-slice friendly) |
-| `COMBAT__card_back.png` | Draw pile |
-| `COMBAT__intent_medallion.png` | Intent medallion base |
-| `COMBAT__part_ring__normal.png`, `__broken.png` | Body part target rings |
-| `COMBAT__vial__hp.png`, `__sanity.png`, `COMBAT__vial__glass.png` | Hunter's gauges |
-| `COMBAT__ap_lamp__lit.png`, `__dark.png` | Action points |
-| `COMBAT__weapon_plate.png`, `COMBAT__chamber.png` | Weapon and ammo |
-| `COMBAT__end_turn_lever.png` | End turn |
-| `COMBAT__plate.png` | Creature plate and hunter frame (9-slice) |
-| `COMBAT__log_scroll.png` | Log |
-| `COMBAT__hunter_portrait.png` | Hunter medallion |
+Generated and imported: `art/ui/COMBAT__*` (card frames per type, card back, intent medallion, part rings, vials, AP lamps, weapon plate, bullet, end-turn lever, plate, log scroll, hunter portraits), fight backgrounds `art/city/districts/GREY__fight__<zone>.webp`, card art `art/ui/CARD__art__*`.
 
 ## 21.6 Implementation plan
 
 | Step | What |
 |---|---|
-| 0 | Data: `parts[].spot` for all creatures + validator (0–1) |
 | 0 | Data: `parts[].spot` for all creatures + validator (0–1) |
 | 1 | New layout with the existing art and drawn placeholders (no new art needed): stage, medallions, rings on the body (spots in data), vials, lamps, fan hand, piles, lever, log tab |
 | 2 | Animations: card hover/fan, play → fly to target, damage numbers, hit flash, lamps going out |

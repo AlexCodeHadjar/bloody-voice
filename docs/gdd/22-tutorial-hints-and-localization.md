@@ -2,7 +2,7 @@
 
 > Owner decisions (2026-10-07): **the whole interface is in Russian** (English later through the same
 > translation files); the game **teaches itself with hints that dim the screen and light up the place being
-> explained**. Sketch: `docs/assets/ui/tutorial_overlay.png` (`python tools/gen_ui_sketches.py`).
+> explained**. Sketch: `docs/assets/ui/tutorial_overlay.png`.
 
 ## 22.1 How a hint looks
 

@@ -5,7 +5,7 @@ investigation through rumors, crafting your own weapons, and a living city that 
 
 Engine: **Godot 4.7** · Language: **GDScript** · Status: **Phase 2 — Gear = deck** (grey-box)
 
-The full design is in [`docs/gdd/`](docs/gdd/README.md); art prompts in [`docs/art-prompts/`](docs/art-prompts/README.md).
+The full design is in [`docs/gdd/`](docs/gdd/README.md).
 
 ## Run
 

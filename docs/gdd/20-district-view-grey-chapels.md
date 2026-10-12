@@ -5,17 +5,11 @@
 > edges but **darkened and locked**. The map is bigger than the screen and is **dragged with the held left
 > mouse button**. Movement: **click a place → the figurine walks along the streets**.
 
-Sketch files are regenerated with `python tools/gen_district_sketch.py`.
-
 **Status (2026-10-12):** the playable map is the owner's retouched art (`art/city/district_maps/GREY__map.webp`,
 4000 × 6000). **The district screen is built** (`scenes/district_map/`): street graph, landmark spots, zones and contour
 were re-traced on the final art into `data/city/district_maps/GREY.json` (the old `layout.json` plan does not match the
 art and is no longer used by the game). Check the calibration with F3 in the game (debug builds) or
 `python tools/check_district_map.py GREY`. Owner decisions for this step — see §20.11.
-
-Everything for generating the map — steps, prompts, reference images for ChatGPT, labelled sketches for the
-owner, examples — is in one folder: [`docs/art-prompts/grey-chapels-map/`](../art-prompts/grey-chapels-map/README.md).
-`layout.json` there (contour, landmarks, street graph) becomes the game data.
 
 ## 20.1 Two levels of map
 
@@ -33,12 +27,12 @@ question 20.10).
 - **Size:** 4000 × 6000 px art (owner's retouched map). Houses are ~150–200 px — roofs, chimneys, washing lines are
   visible; painted people are ~22 px.
 - **Shape:** the district border follows the black outline of GREY on `HALLOWDEEP__map__normal` exactly
-  (traced in `tools/gen_district_sketch.py`, `CONTOUR`). The east side is the **Ringwall**; beyond it, the abyss fog.
+  (`data/city/district_maps/GREY.json → contour`). The east side is the **Ringwall**; beyond it, the abyss fog.
 - **Borders — no walls between districts:** north — a boundary street, west — the tram embankment (the line ends
   in the Tram Depot, landmark 21), south — a brick road viaduct without rails (the South Passage is a tunnel under it),
   east — the Ringwall, a fortress wall three houses thick with towers, the Edge Walk ledge at its foot.
   The Fog Hollow is a sunken gully two storeys deep; the Candle Bridge crosses it at street level; the Old Aqueduct
-  is a raised viaduct on arches. Side views: `docs/art-prompts/grey-chapels-map/for-owner/sections.png`.
+  is a raised viaduct on arches.
 - **Style (owner, 2026-10-08):** realistic painterly night after rain, desaturated, wet roofs, fog, warm lamp
   points — owner's references in `assets/refs/` (local, not in git).
 - **Neighbours:** strips of Nordhal (north), Lumen Campus and Rowan Market (west), Deepwright Lifts and Scarlet
@@ -84,7 +78,7 @@ question 20.10).
 | Lower Yards | Нижние дворы | Yards, sheds and graves along the aqueduct down to the south edge; the broken hoist leaning over the abyss | abandoned, hungry | digging sounds, opened graves | ghouls, Burrow Wyrm (rare) |
 | Edge Walk | Дорожка над Бездной | A railing path along the inner face of the Ringwall, lamps on chains, the abyss beyond the parapet | dizzying | voices from below the edge | things climbing up |
 
-## 20.6 Landmarks (numbers as on `sketch.png`)
+## 20.6 Landmarks
 
 | # | Name (game, RU) | English (prompts) | Zone | Game role | What it looks like (for art) |
 |---|---|---|---|---|---|
@@ -131,39 +125,9 @@ Quarter and Chapel Close, a short walk apart, so the first week is learned insid
 | Gutter Road | Сточная дорога | Fog Cellars → Infirmary → Nameless Yard → South Passage | street |
 | Grave Path | Кладбищенская тропа | Nameless Yard → Broken Hoist | alley |
 
-## 20.8 Generating the art (ChatGPT)
+## 20.9 Implementation
 
-Full prompts: [`docs/art-prompts/grey-chapels-map/`](../art-prompts/grey-chapels-map/README.md).
-
-1. **Overview** (one image, 3:4) — the whole district from the plan, to lock the look of every landmark.
-2. **12 tiles** (1024 × 1024 each, rows r0–r3, columns c0–c2), row by row. Each gets its `tile_refs/` image
-   (plan with numbers only — no words to copy) and the overview as style reference. For the seam, generate a
-   **seam canvas** first: `python tools/gen_district_sketch.py --canvas r1c1` pastes the left / top 128 px strips of
-   the already generated neighbours onto a grey 1024 canvas; ChatGPT is asked to keep the strips and paint the grey.
-   The tiles that are mostly neighbours or wall (r0c2, r3c0, r3c2) are generated last; they are darkened anyway.
-3. Save as `assets/district_maps/GREY__map__r{row}c{col}.png`. The import tool resizes each to exactly 1024,
-   stitches them with a soft blend in the overlap into `art/city/district_maps/GREY__map.webp` (2816 × 3712) and
-   reports seams whose overlap strips differ too much (then that tile is regenerated).
-4. **Calibration.** ChatGPT never repeats the plan pixel for pixel. After stitching, a debug overlay draws the street
-   graph, landmark spots and the contour over the art; nodes, landmark spots and contour in the data are moved by
-   hand onto the painted streets and buildings. Only the calibrated data is used by the game.
-5. **Fallback** if the 12 tiles do not join well: one large overview (D0 at the biggest size) upscaled to
-   2816 × 3712, with close-up detail added in the game as separate building sprites over it (each landmark its own
-   generated image).
-6. Until the art exists, the game uses the plan of `sketch.png` as placeholder art — same size and coordinates.
-
-## 20.9 Implementation plan (code)
-
-| Step | What | Where |
-|---|---|---|
-| 1 | Data: `data/city/district_maps/GREY.json` from `layout.json` (contour, landmarks with actions, nodes, streets, neighbour labels); validator: nodes connected, landmarks on nodes, all inside the contour | `core/content/defs/district_map_def.gd`, validator |
-| 2 | Rules: shortest path over the street graph; landmark → action | `core/rules/city/district_map_rules.gd` (pure, tested) |
-| 3 | State: `RunState.hero_node` (save v3 + migration: home node); `GameState.walk_to(node)`; start district GREY in `balance.json` | `core/state`, `autoload/GameState` |
-| 4 | Screen: map view with drag/zoom camera, neighbour veil (polygon mask), landmark hotspots + tooltips, walking figurine, «Карта города» button | `scenes/district_map/` |
-| 5 | City map: only unlocked districts lit; others dark «закрыто» | `scenes/city_map/` |
-| 6 | Import: resize + stitch `GREY__map__r*c*.png` tiles, seam report | `tools/import_art.py` |
-| 6b | Calibration overlay (debug key): graph, spots, contour over the art; fix the data | `scenes/district_map/` |
-| 7 | Tests + dev shots (`11_district_map`, `12_district_walk`) | `tests/`, `core/dev/dev_shots.gd` |
+Done 2026-10-12 — see §20.11 and CLAUDE.md («Район»).
 
 ## 20.10 Open questions for the owner
 

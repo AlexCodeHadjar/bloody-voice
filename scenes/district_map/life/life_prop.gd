@@ -1,7 +1,7 @@
 class_name LifeProp
 extends Node2D
 ## A picture on the district map that only moves a little: bonfire flicker, drifting smoke, ripples, swaying laundry,
-## a breathing crowd (map-life-people.md, map-life.md). `position` is the centre of the picture, in art px.
+## a breathing crowd (map-life-people.md). `position` is the centre of the picture, in art px.
 
 var _def: DistrictLifeDef.PropDef
 var _sprite := Sprite2D.new()

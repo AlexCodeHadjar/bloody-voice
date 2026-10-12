@@ -9,7 +9,7 @@ Everything else is done: combat UI, district, tutorial, common UI and the backlo
 
 Hand-written (not generated). One file for all three screens. Design: [GDD §23](../gdd/23-workshop-and-skill-web-screens.md);
 sketches `docs/assets/ui/workshop_layout.png`, `skills_mechanic_layout.png`, `skills_monster_layout.png`
-(`python tools/gen_screen_sketches.py`).
+(sketches in `docs/assets/ui/`).
 
 ## What the game draws itself (no images needed)
 
@@ -20,7 +20,7 @@ sketches `docs/assets/ui/workshop_layout.png`, `skills_mechanic_layout.png`, `sk
 | Node states: owned / available / locked; selected rows, pressed buttons, spent tokens, empty tier pips | One image per piece, the state is a tint, glow or darkening applied by code |
 | Liquid in the XP bar and the Voice gauge, the «можно купить» glow | Coloured fill / shader inside the tube images |
 | Missing resource | The number turns red |
-| Top bar, side panels | `COMBAT__plate` from [combat-ui.md](combat-ui.md) (9-slice) |
+| Top bar, side panels | `art/ui/COMBAT__plate.webp` (9-slice) |
 | Plain buttons («В район», «Разобрать», «К снаряжению»), «Изучить» in the Mechanic web | `UI__button__brass` / `UI__button__iron` (already generated) |
 | Blueprint rows (zone 4) and stash items (zone 8) in the workshop; selected = brighter tint | `UI__tooltip_dark` (already generated, 9-slice) |
 

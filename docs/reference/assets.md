@@ -36,9 +36,5 @@
 | Prompt file | Named | Missing |
 |---|---|---|
 | `art-backlog.md` | 91 | 0 |
-| `combat-ui.md` | 23 | 0 |
 | `map-life-people.md` | 13 | 0 |
-| `map-life.md` | 48 | 0 |
-| `modules.md` | 1 | 0 |
-| `next-art-pack.md` | 41 | 0 |
 | `remaining-ui-transparent.md` | 28 | 28: SKILLS__attribute_plus, SKILLS__button__monster, SKILLS__node_beast__blueprint, SKILLS__node_beast__keystone, SKILLS__node_beast__passive, SKILLS__node_beast__socket, SKILLS__node_card__mechanic, SKILLS__node_card__monster, SKILLS__node_mech__blueprint, SKILLS__node_mech__keystone, SKILLS__node_mech__passive, SKILLS__node_mech__socket … |

@@ -307,15 +307,21 @@ def main(force: bool) -> int:
             img = fit_to_shape(img, shapes[code])
         save_webp(img.convert("RGBA" if img.mode in ("RGBA", "LA", "P") else "RGB"), out)
         written += 1
-    import district_detail_tiles  # the playable district map: overview + painted detail pieces
-    if force or district_detail_tiles.needs_stitch():
-        used = district_detail_tiles.stitch()
-        print("district map GREY: " + ("the finished map assets/district_maps/GREY__map.png" if used == ["final"]
-                                       else f"{len(used)} detail pieces on the scaled overview"))
+    _district_maps(force)
     for e in errors:
         print("ERROR", e)
     print(f"written {written}, up to date {skipped}, errors {len(errors)}")
     return 1 if errors else 0
+
+
+def _district_maps(force: bool) -> None:
+    """The owner's finished district maps: assets/district_maps/<ID>__map.png -> art/city/district_maps/<ID>__map.webp."""
+    for src in sorted((ROOT / "assets" / "district_maps").glob("*__map.png")):
+        out = ROOT / "art" / "city" / "district_maps" / (src.stem + ".webp")
+        if force or not out.exists() or src.stat().st_mtime > out.stat().st_mtime:
+            out.parent.mkdir(parents=True, exist_ok=True)
+            Image.open(src).convert("RGB").save(out, "WEBP", quality=88)
+            print("district map:", out.relative_to(ROOT))
 
 
 if __name__ == "__main__":

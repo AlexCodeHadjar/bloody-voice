@@ -1,6 +1,6 @@
 # 23. Workshop and Skill Web Screens
 
-Layout sketches (`python tools/gen_screen_sketches.py`, uses the real imported art):
+Layout sketches:
 `docs/assets/ui/workshop_layout.png`, `skills_mechanic_layout.png`, `skills_monster_layout.png`.
 Rules behind the screens: workshop — GDD §6, hunter progression and webs — GDD §4. All text in Russian (GDD §22).
 

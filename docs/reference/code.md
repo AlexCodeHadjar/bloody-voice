@@ -156,20 +156,8 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 |---|---|
 | `tools/check_district_map.py` | Render a district map's data (data/city/district_maps/<ID>.json) over its art to check the calibration (GDD 20.9 step 6b). |
 | `tools/check_map_regions.py` | Render data/city/map_regions.json over the city map art to check the traced regions. |
-| `tools/compare_map.py` | Side-by-side for checking a generated district map: the plan (left), the generated image (middle), the approved |
-| `tools/district_atlas.py` | Atlas of the Grey Chapels map for the owner: the plan with zones in strong colours, borders by type, |
-| `tools/district_detail.py` | Detailed drawing for tools/gen_district_sketch.py: house terraces along streets, the sunken gully with the |
-| `tools/district_detail_tiles.py` | Detail pass for a district map: the approved overview (ChatGPT, ~1333x2000) becomes the playable map at |
-| `tools/district_layout_grey.py` | Grey Chapels layout for tools/gen_district_sketch.py (GDD 20): contour, zones, landmarks, street graph. |
-| `tools/district_sections.py` | Side views (cross-sections) for the Grey Chapels map, so ChatGPT understands heights: the Candle Bridge over |
-| `tools/gen_art_prompts.py` | Art prompts for ChatGPT as Markdown, generated from game data (so prompts never drift from the game). |
-| `tools/gen_art_templates.py` | Templates to attach to ChatGPT image prompts (modules and creatures). |
-| `tools/gen_city_sketch.py` | Bloody Voice - city reference sketch generator. |
-| `tools/gen_district_sketch.py` | Bloody Voice - close-up district map sketch (GDD 20). First district: Grey Chapels (GREY). |
 | `tools/gen_locale.py` | Keep locale/strings.csv (keys, ru, en) in step with the game data (GDD 22.5). |
 | `tools/gen_reference.py` | Reference files for Claude (and people): where everything is, without searching the code. |
-| `tools/gen_screen_sketches.py` | Bloody Voice - layout sketches of the workshop and the skill webs (GDD 23). Writes into docs/assets/ui/: |
-| `tools/gen_ui_sketches.py` | Bloody Voice - UI layout sketches (GDD 21, 22). Writes into docs/assets/ui/: |
 | `tools/import_art.py` | Import source art from assets/ into the game folder art/. |
 | `tools/import_audio.py` | Copy the sounds the game uses from the owner's sound kit into audio/ (committed), under game names. |
 | `tools/life_sprites.py` | Map-life sheets (docs/art-prompts/map-life-people.md): assets/ui/LIFE__<set>__sheet.png is a 4 x 2 grid of figures; |

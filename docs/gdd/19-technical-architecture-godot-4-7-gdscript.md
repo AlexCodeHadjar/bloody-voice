@@ -182,7 +182,6 @@ func stream(name: StringName, day: int = 0) -> RandomNumberGenerator:
 | tests/run_tests.gd | Headless test runner, one suite per rules file; also a 'compile all scripts' test |
 | content_validator.gd | Checks ids, references, effect ops, tags, district codes; the game refuses to start on errors |
 | tests/bot/autoplay.gd | Plays fights and whole weeks with simple heuristics; reports win rate, deadlines missed, money curve |
-| tools/gen_city_sketch.py | Regenerates the city sketch, cross-section and ASCII grid from one layout |
 | tools/import_art.py | Imports generated art: checks naming (CODE__state), resizes, converts to webp |
 | Auto-screenshots | `--shots=<dir>` runs scripted scenes and saves PNGs for visual review |
 

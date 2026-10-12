@@ -10,13 +10,11 @@ edit these Markdown files directly (one file per section, so only the needed par
 | Rules of a system (combat, gear, investigation…) | sections 3–12 |
 | The city: layout, districts, layers | [13. The City](13-the-city-of-hallowdeep.md) |
 | How districts change after events | [14](14-the-living-city-district-states.md), [15](15-world-events.md) |
-| Prompts for the city art | [16](16-art-direction-and-generation-prompts.md); modules, creatures, icons — [../art-prompts](../art-prompts/README.md) |
+| Prompts for the city art | [16](16-art-direction-and-generation-prompts.md); style blocks for future art — [../art-prompts/style-blocks.md](../art-prompts/style-blocks.md) |
 | The close-up district map (Grey Chapels), combat screen v2, tutorial hints and Russian | [20](20-district-view-grey-chapels.md), [21](21-combat-screen-layout.md), [22](22-tutorial-hints-and-localization.md); workshop and skill web screens — [23](23-workshop-and-skill-web-screens.md) |
 | What to build and in which order | [18. Roadmap](18-development-roadmap.md) |
 | How the code must be structured | [19. Architecture](19-technical-architecture-godot-4-7-gdscript.md) |
 
-City sketch files (`docs/assets/map/`): `city_sketch.png`, `city_cross_section.png`, `city_grid.txt` —
-regenerate with `python tools/gen_city_sketch.py`.
 
 ## Sections
 

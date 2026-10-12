@@ -7,7 +7,7 @@
 местные персонажи живут по своему распорядку, люди собираются в группы ради дела, а маленькие сюжеты разыгрываются
 сами: вор крадёт кошелёк — констебль свистит — погоня.
 
-Остальная жизнь карты (транспорт, сценки у мест, огни, дым, декор) — [map-life.md](map-life.md). Блоки стиля
+Остальная жизнь карты (транспорт, сценки у мест, огни, дым, декор) — [style-blocks.md](style-blocks.md). Блоки стиля
 LIFE STYLE, SPRITE и SHEET — там же («Блоки стиля»). Hand-written; prompts in English, instructions in Russian.
 
 ## Три слоя жизни
@@ -43,7 +43,7 @@ LIFE STYLE, SPRITE и SHEET — там же («Блоки стиля»). Hand-wr
 ## Как генерировать
 
 - Все листы — **холст wide, 8 слотов 4 × 2**, раскладка `docs/assets/templates/icons/ACTION__grid.png`.
-  Блоки: LIFE STYLE + SPRITE + SHEET (из [map-life.md](map-life.md)).
+  Блоки: LIFE STYLE + SPRITE + SHEET (из [style-blocks.md](style-blocks.md)).
 - Для масштаба и цвета приложи кусок карты из `assets/district_maps/` (у тебя): `GREY__detail__r0c1.png` (рынок),
   `GREY__detail__r1c1.png` (центр, часовня, крыши), `GREY__detail__r4c1.png` (нижние дворы, кладбище).
 - **Один чат на часть** (A, B, C, F). В части B у каждого персонажа 4 позы — все четыре должны быть **одним и тем же
@@ -336,7 +336,7 @@ Each group is ONE picture; a group may use the full width of its slot, at the sa
 Блоки LIFE STYLE + SPRITE, холст **square**, `assets/ui/`. Стоят у места, игра «оживляет» покачиванием.
 Общая часть: `A group scene that stands on the map, seen from high above at about 60 degrees, the group about the size of two houses.`
 (Другие сценки у мест — концерт, торг, культ, лазарет, драка, преступление, похороны, картёжники, гадалка,
-пушка — уже в [map-life.md](map-life.md), часть C; здесь — новые.)
+пушка — уже в [style-blocks.md](style-blocks.md), часть C; здесь — новые.)
 
 | # | Файл | Где, когда | Промт |
 |---|---|---|---|
@@ -373,7 +373,7 @@ Each group is ONE picture; a group may use the full width of its slot, at the sa
 ## E. Значки над головой — 1 лист (чат «People — groups»)
 
 Игра ставит значок над жителем на 2–3 секунды: болтают, торгуются, испугались. Без букв и знаков препинания.
-`LIFE__emote__sheet.png`, UI STYLE + TRANSPARENT (из [next-art-pack.md](next-art-pack.md)) + SHEET, холст wide.
+`LIFE__emote__sheet.png`, UI STYLE + TRANSPARENT (из [style-blocks.md](style-blocks.md)) + SHEET, холст wide.
 
 ```text
 Eight small round speech-bubble icons of aged parchment with a thin dark outline, each with one simple symbol inside,
@@ -457,7 +457,7 @@ readable at 24 px:
 ## Вопросы владельцу
 
 1. **Имена и характеры** персонажей B — черновики. Оставить, поменять, кого-то убрать? Заодно: некоторые сценки из
-   [map-life.md](map-life.md) пересекаются с персонажами (концерт барда ↔ Тобиас, гадалка ↔ Мадам Вейл, сценка похорон ↔
+   [style-blocks.md](style-blocks.md) пересекаются с персонажами (концерт барда ↔ Тобиас, гадалка ↔ Мадам Вейл, сценка похорон ↔
    похоронная процессия) — оставить обе версии (стоящую и ходячую) или одну?
 2. **Сколько людей сразу:** ~20 (мрачно и тихо), ~40 (живо) или ~60 (шумные трущобы)?
 3. **Сюжеты из части D** — какие нравятся? Нужно ли, чтобы некоторые давали что-то герою (слух от Хорна, Пип крадёт
