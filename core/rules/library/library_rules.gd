@@ -11,6 +11,8 @@ static func can_verify(run: RunState, uid: int) -> String:
 		return Loc.t("rule.library.no_rumor")
 	if r.verified:
 		return Loc.t("rule.library.verified")
+	if r.expires_day <= run.day + 1:  # the day spent here would let it cool before it could be used
+		return Loc.t("rule.library.cools")
 	return ""
 
 

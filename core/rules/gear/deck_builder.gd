@@ -37,6 +37,20 @@ static func build(l: LoadoutState, data: ContentData, capture_allowed: bool = fa
 	return b
 
 
+## The max-HP bonus of the gear alone (cheap: no deck assembly), for the health shown between fights.
+static func max_hp_bonus(l: LoadoutState, data: ContentData) -> int:
+	var n := 0
+	for p: LoadoutState.Placement in l.placements:
+		var m := data.module(p.module)
+		if m != null:
+			n += int(m.mods_at(l.tier(p.module)).get(&"max_hp", 0))
+	for mech_id: StringName in ArmorRules.installed(l):
+		var mech := data.mechanism(mech_id)
+		if mech != null:
+			n += int(mech.mods.get(&"max_hp", 0))
+	return n
+
+
 ## Fight setup for the run's hunter.
 static func setup(l: LoadoutState, data: ContentData, monster: StringName, seed_value: int,
 		capture_allowed: bool = false) -> CombatSetup:

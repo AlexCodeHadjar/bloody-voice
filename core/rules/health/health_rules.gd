@@ -6,7 +6,7 @@ extends RefCounted
 
 
 static func max_hp(run: RunState, data: ContentData) -> int:
-	return data.balance.base_hp + int(DeckBuilder.build(run.loadout, data).mods.get(&"max_hp", 0))
+	return data.balance.base_hp + DeckBuilder.max_hp_bonus(run.loadout, data)
 
 
 static func max_sanity(data: ContentData) -> int:

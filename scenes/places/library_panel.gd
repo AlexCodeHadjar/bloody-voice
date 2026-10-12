@@ -61,6 +61,4 @@ func _study(trophy: StringName) -> void:
 	if taught.is_empty():
 		message.text = LibraryRules.can_study(GameState.run, ContentDB.data, trophy)
 		return
-	var c := taught[0]
-	show_done(Loc.t("ui.library.studied", {"name": ContractKit.monster_name(c), "tag": ContractKit.tag_name(c.known_tags[-1]),
-		"n": taught.size()}))
+	show_done(Loc.t("ui.library.studied", {"name": ContractKit.monster_name(taught[0]), "n": taught.size()}))

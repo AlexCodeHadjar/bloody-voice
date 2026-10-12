@@ -55,7 +55,7 @@ ui.library.no_rumors,Слухов на карте нет.,No rumors on the map.
 ui.library.no_trophies,Трофеев нет.,No trophies.
 ui.library.do,Заняться,Do it
 ui.library.verified,Переписчики сверили записи: за слухом — «{outcome}». Это видно на его табличке.,The copyists checked the records: the rumor leads to «{outcome}». Its tablet shows it.
-ui.library.studied,Записи о твари «{name}»: новая примета — {tag}. Заказов обновлено: {n}.,Notes on «{name}»: a new sign — {tag}. Contracts updated: {n}.
+ui.library.studied,Записи о твари «{name}»: новую верную примету узнали заказы — {n}.,Notes on «{name}»: {n} contracts learned a new true sign.
 ui.district.hint.rumors,Площадь: столб со слухами,Square: the rumor post
 ui.district.hint.locked,Закрыто,Closed
 ui.district.hint.soon,Откроется позже,Opens later
@@ -359,6 +359,7 @@ rule.health.healthy,Вы здоровы — лечить нечего.,You are h
 rule.health.no_money,Не хватает денег на лечение.,Not enough money for the treatment.
 rule.library.no_rumor,Такого слуха уже нет.,That rumor is gone.
 rule.library.verified,Этот слух уже проверен.,This rumor is already verified.
+rule.library.cools,"Этот слух остынет раньше, чем вы успеете им воспользоваться.",This rumor would cool before you could use it.
 rule.library.no_trophy,Такого трофея нет.,No such trophy.
 rule.library.nothing_to_learn,Нет заказов на эту тварь — записи ничего не дадут.,No contracts on this creature; the notes would teach nothing.
 intent.attack,Атака,Attack
