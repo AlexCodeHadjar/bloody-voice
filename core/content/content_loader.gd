@@ -121,6 +121,7 @@ static func _load_investigation(root: String, data: ContentData, errs: ErrorLog)
 			var web := SkillDefs.web(read_object(root.path_join(SKILLS_DIR).path_join(f), errs), errs, "skills/" + f)
 			data.webs[web.id] = web
 
+
 static func _load_gear(root: String, data: ContentData, errs: ErrorLog) -> void:
 	for d: Variant in read_array(root.path_join(WEAPONS), errs):
 		var w := WeaponDef.from_dict(d as Dictionary, errs)

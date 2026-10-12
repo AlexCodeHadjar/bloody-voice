@@ -6,7 +6,7 @@ signal closed
 
 
 func setup(title: String, cards: Array[CardInstance]) -> CardListPopup:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)  # a root made in code: fill the screen
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var dim := ColorRect.new()
 	dim.color = Color(0.02, 0.015, 0.015, 0.86)

@@ -27,6 +27,7 @@ var _dragging := false
 var _press := Vector2.ZERO
 var _pulse := 0.0
 var _states: Dictionary[StringName, StringName] = {}  ## node -> owned / available / locked, cached in refresh()
+var _any_available := false
 
 
 func setup(web_def: SkillDefs.WebDef, prefix: String) -> void:
@@ -49,8 +50,10 @@ func center() -> void:
 
 
 func refresh() -> void:
+	_any_available = false
 	for id: StringName in _buttons:
 		_states[id] = _state(id)
+		_any_available = _any_available or _states[id] == &"available"
 		_buttons[id].modulate = Color.WHITE if _states[id] != &"locked" else Color(0.38, 0.36, 0.34)
 	queue_redraw()
 
@@ -67,6 +70,8 @@ func _node_button(nd: SkillDefs.NodeDef) -> TextureButton:
 	b.size = Vector2(side, side)
 	b.position = nd.pos * SPACING - b.size * 0.5
 	b.tooltip_text = nd.name
+	b.mouse_filter = Control.MOUSE_FILTER_PASS  # wheel zoom and drags that start on a node reach the view too
+	b.button_down.connect(func() -> void: _dragging = false)  # a press on a node is a fresh gesture
 	b.pressed.connect(func() -> void:
 		if not _dragging:
 			selected = nd.id
@@ -88,6 +93,8 @@ func _state(id: StringName) -> StringName:
 
 
 func _process(delta: float) -> void:
+	if not _any_available or not is_visible_in_tree():
+		return
 	_pulse = fmod(_pulse + delta * 2.0, TAU)
 	queue_redraw()  # the gold rings pulse; drawing reads the cached states only
 

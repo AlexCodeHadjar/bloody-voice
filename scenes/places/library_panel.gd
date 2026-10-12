@@ -65,7 +65,7 @@ func _verify(uid: int) -> void:
 ## A reset spends no day: the panel stays open with the points back.
 func _reset(web_id: StringName) -> void:
 	var problem := GameState.reset_skills(web_id)
-	message.text = problem if problem != "" else Loc.t("ui.library.reset_done")
+	message.text = problem if problem != "" else Loc.t("ui.library.reset_done")  # HP above a lower maximum is capped
 	UiKit.sound(&"ui.error" if problem != "" else &"money.coins")
 	refill()
 

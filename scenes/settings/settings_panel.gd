@@ -24,7 +24,7 @@ static func open(parent: Node, in_game: bool) -> SettingsPanel:
 
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)  # a root made in code: fill the screen
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var dim := ColorRect.new()
 	dim.color = Color(0, 0, 0, 0.6)

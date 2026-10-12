@@ -58,7 +58,7 @@ ui.library.verified,Переписчики сверили записи: за с�
 ui.library.studied,Записи о твари «{name}»: новую верную примету узнали заказы — {n}.,Notes on «{name}»: {n} contracts learned a new true sign.
 ui.library.reset_title,Сбросить ветку Механика (без затраты дня),Reset the Mechanic web (no day spent)
 ui.library.reset_text,Вернуть все очки ветки Механика — {n} крон. Чертежи останутся.,Get back every point of the Mechanic web — {n}. Blueprints stay.
-ui.library.reset_done,Ветка сброшена: очки вернулись.,The web is reset: the points are back.
+ui.library.reset_done,Ветка сброшена: очки вернулись. Бонусы ветки (и лишнее здоровье) пропали.,The web is reset: the points are back. Its bonuses (and the extra HP) are gone.
 ui.progress.button,Охотник,Hunter
 ui.progress.title,Охотник — уровень {n},The hunter — level {n}
 ui.progress.xp,Опыт: {n} / {of},XP: {n} / {of}
@@ -85,6 +85,7 @@ ui.skills.type.blueprint,Чертёж,Blueprint
 ui.skills.type.socket,Гнездо,Socket
 ui.skills.type.keystone,Ключевой узел,Keystone
 ui.skills.blueprint_note,Чертёж появится в мастерской; для изготовления по-прежнему нужен трофей.,The blueprint appears in the workshop; crafting still needs its trophy.
+ui.skills.blueprint_known,Этот чертёж уже известен — узел даст только путь дальше.,This blueprint is already known; the node only opens the way on.
 ui.skills.owned,Изучено,Learned
 ui.skills.buy,Изучить ({n} очко),Learn ({n} point)
 ui.skills.reset_note,Сбросить ветку можно в Скриптории за деньги; выученные чертежи останутся.,The web can be reset in the Scriptorium for money; learned blueprints stay.

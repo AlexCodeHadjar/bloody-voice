@@ -107,7 +107,8 @@ func _show_card() -> void:
 	_card.add_child(UiKit.label(Loc.t("ui.skills.type.%s" % nd.type), 16, Palette.INK_MUTED))
 	_card.add_child(UiKit.paragraph(nd.text, 18, Palette.PARCHMENT))
 	if nd.blueprint != &"":
-		_card.add_child(UiKit.paragraph(Loc.t("ui.skills.blueprint_note"), 15, Palette.FOG))
+		var known := GameState.run.workshop.blueprints.has(nd.blueprint)
+		_card.add_child(UiKit.paragraph(Loc.t("ui.skills.blueprint_known" if known else "ui.skills.blueprint_note"), 15, Palette.FOG))
 	var run := GameState.run
 	if SkillRules.is_owned(run, _web, nd.id):
 		_card.add_child(UiKit.label(Loc.t("ui.skills.owned"), 18, Palette.BRASS))

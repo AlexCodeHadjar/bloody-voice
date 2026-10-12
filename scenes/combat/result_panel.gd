@@ -9,7 +9,7 @@ signal back_pressed
 func show_result(s: CombatState) -> void:
 	if visible:
 		return
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)  # a root made in code: fill the screen
 	visible = true
 	var panel := PanelContainer.new()
 	panel.add_theme_stylebox_override("panel", UiKit.panel_box(Color(0.06, 0.05, 0.05, 0.96), Palette.BRASS_LIGHT))

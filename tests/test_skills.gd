@@ -76,3 +76,16 @@ func test_skills_survive_save_and_old_saves_migrate() -> void:
 	eq(back.skills.owned_in(&"mechanic"), [&"w_dmg1"] as Array[StringName], "round trip")
 	var old := RunState.from_dict(SaveMigrations.migrate({"version": 10, "master_seed": 9}))
 	check(old.skills.owned.is_empty(), "v10 save: nothing bought")
+
+
+func test_skill_hp_and_sockets_all() -> void:
+	var data := load_content(false)
+	var run := _run(data)
+	var web := _web(data)
+	var hp := HealthRules.max_hp(run, data)
+	SkillRules.buy(run, data, web, &"g_hp1")
+	eq(HealthRules.max_hp(run, data), hp + 4, "the panel's max HP includes the web")
+	for id: StringName in [&"c_lantern", &"c_holster", &"c_plates", &"c_bellows", &"c_ap", &"c_key"]:
+		SkillRules.buy(run, data, web, id)
+	for a: GearDefs.ArmorDef in data.armor:
+		check(ArmorRules.socket_count(run.loadout, a) >= a.sockets + 1, "Spare Sockets: +1 in %s" % a.id)
