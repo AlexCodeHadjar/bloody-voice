@@ -70,7 +70,7 @@ static func is_overdue(c: ContractsState.Contract, day: int) -> bool:
 	return day > c.deadline_day
 
 
-## Creatures of the hunter's open contracts (a hunt meets them more often while rumors are not in).
+## Creatures of the hunter's open contracts (a «wrong creature» rumor never picks them).
 static func targets(cs: ContractsState) -> Array[StringName]:
 	var out: Array[StringName] = []
 	for c: ContractsState.Contract in active(cs):

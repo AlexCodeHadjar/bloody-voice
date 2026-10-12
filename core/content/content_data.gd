@@ -21,6 +21,7 @@ var audio: AudioDef = AudioDef.new()
 var tutorial: Dictionary[StringName, TutorialDef] = {}
 var tags: Dictionary[StringName, ContractDefs.TagDef] = {}  ## creature sign tags (GDD 8.2)
 var petitions: Array[ContractDefs.PetitionDef] = []
+var rumor_data: RumorDefs.Data = RumorDefs.Data.new()  ## witnesses and zone pictures/tags of rumors (GDD 8)
 
 
 func district(id: StringName) -> DistrictDef:

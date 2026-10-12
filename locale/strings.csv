@@ -28,12 +28,12 @@ ui.district.to_home,Домой,Home
 ui.district.city_map,Карта города,City map
 ui.district.action.rest,Отдохнуть до утра,Rest until morning
 ui.district.action.equipment,Снаряжение,Equipment
-ui.district.action.hunt,Выйти на охоту,Go hunting
+ui.district.action.rumors,Столб со слухами,Rumor post
 ui.district.action.locked,Закрыто,Closed
 ui.district.action.soon,Откроется позже,Opens later
 ui.district.hint.rest,Дом: отдых до утра,Home: rest until morning
 ui.district.hint.equipment,Мастерская: снаряжение,Workshop: equipment
-ui.district.hint.hunt,Отсюда уходят на охоту,Hunts start here
+ui.district.hint.rumors,Площадь: столб со слухами,Square: the rumor post
 ui.district.hint.locked,Закрыто,Closed
 ui.district.hint.soon,Откроется позже,Opens later
 ui.district.action.tavern,Доска заказов,Contract board
@@ -58,6 +58,31 @@ ui.contract.done,Выполнен,Done
 ui.contract.tracker,Заказы,Contracts
 ui.contract.open_hint,Открыть табличку заказа,Open the contract tablet
 ui.contract.region_hint,"Показать на карте, где видели: {zone}",Show where it was seen: {zone}
+ui.contract.crossed,Не её приметы:,Not its signs:
+ui.rumor.title,Слух,Rumor
+ui.rumor.diamond_tip,Слух: {zone}. Остынет через {n} {n:день|дня|дней}.,Rumor: {zone}. Cools in {n} d.
+ui.rumor.cools,остынет через {n} {n:день|дня|дней},cools in {n} d
+ui.rumor.match,Заказ «{name}»: совпадает {n} из {of} известных примет,Contract «{name}»: {n} of {of} known signs match
+ui.rumor.known,Известные приметы: {list},Known signs: {list}
+ui.rumor.no_contract,Открытых заказов нет — слух может вывести на любую тварь или ни к чему.,No open contracts: the rumor may lead to any creature or to nothing.
+ui.rumor.no_contract_short,без заказа,no contract
+ui.rumor.investigate,Расследовать (весь день),Investigate (the whole day)
+ui.rumor.skip,Пропустить,Skip
+ui.rumor.money,+{n},+{n}
+ui.rumor.crossed,Примета {tag} зачёркнута в заказе «{name}».,The sign {tag} is crossed out on the contract «{name}».
+ui.rumor.day_over,День прошёл.,The day is over.
+ui.rumor.next,Дальше,Next
+ui.rumor.post_title,Столб со слухами,Rumor post
+ui.rumor.post_empty,"Слухов нет. Новые появляются по утрам, а по каждому заказу — свой.","No rumors. New ones come in the morning, and every contract brings its own."
+ui.rumor.go,Идти,Go
+ui.rumor.outcome.target,Цель,The target
+ui.rumor.outcome.wrong_monster,Не та тварь,Wrong creature
+ui.rumor.outcome.discovery,Находка,Discovery
+ui.rumor.outcome.discovery.text,"Твари там не было, зато в развалинах нашлось кое-что ценное.","No creature there, but something of value lay in the ruins."
+ui.rumor.outcome.false_lead,Ложный след,False lead
+ui.rumor.outcome.false_lead.text,"Слух оказался враньём. Зато теперь ясно, что одна примета — чужая.",The rumor was a lie. At least one sign is now known to be false.
+ui.rumor.outcome.empty_night,Пустая ночь,Empty night
+ui.rumor.outcome.empty_night.text,"Всю ночь — ни звука. Пара монет в грязи и одна примета, которая не сходится.",Not a sound all night. A few coins in the mud and one sign that does not fit.
 ui.city.back_to_district,К району,To the district
 ui.combat.outcome.slain,Тварь убита,The creature is slain
 ui.combat.outcome.captured,Тварь поймана,The creature is captured
@@ -301,7 +326,7 @@ tutorial.district_intro.2.text,«К охотнику» и «Домой» вер�
 tutorial.district_intro.3.title,Прогулка,A walk
 tutorial.district_intro.3.text,Нажмите на улицу или здание — охотник пойдёт туда по улицам. Ходьба по району не тратит время.,Click a street or a building and the hunter walks there along the streets. Walking in the district costs no time.
 tutorial.district_intro.4.title,Места,Places
-tutorial.district_intro.4.text,"Дойдите до места, чтобы открыть его карточку. Пепельный чердак — отдых до утра, «Ржавая Шестерня» — снаряжение, Костровая площадь — охота.",Walk to a place to open its card. Ash Garret: rest until morning; the Rusty Cog: equipment; Bonfire Square: the hunt.
+tutorial.district_intro.4.text,"Дойдите до места, чтобы открыть его карточку. Пепельный чердак — отдых до утра, «Ржавая Шестерня» — снаряжение, «Фонарь и Крюк» — заказы, Костровая площадь — слухи.",Walk to a place to open its card. Ash Garret: rest until morning; the Rusty Cog: equipment; the Lantern & Hook: contracts; Bonfire Square: rumors.
 tutorial.first_part_broken.1.title,Часть сломана,A part is broken
 tutorial.first_part_broken.1.text,Сломанная часть больше не действует: тварь потеряла связанные с ней ходы.,A broken part no longer works: the creature lost the moves tied to it.
 tutorial.first_panic.1.title,Паника,Panic
@@ -313,7 +338,13 @@ tutorial.first_rent.1.text,Завтра день аренды. Держите д
 tutorial.contract_board.1.title,Доска заказов,Contract board
 tutorial.contract_board.1.text,"Здесь висят заказы на тварей Серых Часовен. Нажмите на листок — откроется табличка: кто просит, приметы твари, где её видели, срок и награда. Новые листки — каждый понедельник.","Contracts on the creatures of the Grey Chapels hang here. Click a leaflet to open its tablet: who asks, the creature's signs, where it was seen, the deadline and the reward. New leaflets every Monday."
 tutorial.contract_taken.1.title,Ваши заказы,Your contracts
-tutorial.contract_taken.1.text,"Принятые заказы — в правом верхнем углу. Значок места подсветит на карте, где видели тварь. Охота с Костровой площади чаще выводит на тварей из ваших заказов. Не успеете к сроку — заказ останется, но тварь станет сильнее.","Taken contracts are in the top-right corner. The place icon lights up where the creature was seen. Hunts from Bonfire Square meet the creatures of your contracts more often. Miss the deadline and the contract stays, but the creature grows stronger."
+tutorial.contract_taken.1.text,"Принятые заказы — в правом верхнем углу. Значок места подсветит на карте, где видели тварь. По заказу на карте появятся ромбы-слухи. Не успеете к сроку — заказ останется, но тварь станет сильнее.","Taken contracts are in the top-right corner. The place icon lights up where the creature was seen. Rumor diamonds about it will appear on the map. Miss the deadline and the contract stays, but the creature grows stronger."
+tutorial.first_rumor.1.title,Слух,A rumor
+tutorial.first_rumor.1.text,"Приметы из слуха. Часть может быть враньём, а зачёркнутые уже оказались чужими.",The rumor's signs. Some may be lies; struck-through ones already proved false.
+tutorial.first_rumor.2.title,Совпадение,The match
+tutorial.first_rumor.2.text,Сколько примет совпадает с вашим заказом. Это не гарантия: слух может вывести на другую тварь или в пустоту.,How many signs match your contract. Never a guarantee: the rumor may lead to another creature or to nothing.
+tutorial.first_rumor.3.title,Решение,The choice
+tutorial.first_rumor.3.text,«Расследовать» займёт весь день. Можно пропустить и подождать другой слух — через 3 дня этот остынет.,«Investigate» takes the whole day. You can skip it and wait for another rumor: this one cools in 3 days.
 ui.combat.log,Журнал,Log
 ui.combat.turn,Ход {n},Turn {n}
 ui.combat.top.hunt,Охота: {enemy},Hunt: {enemy}
@@ -724,3 +755,11 @@ petition.ash_sisters.from,Лазарет Пепельных Сестёр,The Ash
 petition.ash_sisters.text,Нам нужна живая тварь: раны больных не похожи ни на что из книг. Приведите её живой — сёстры хорошо заплатят.,We need the creature alive: our patients' wounds match nothing in the books. Bring it breathing and the sisters will pay well.
 petition.crypt_copyist.from,Переписчик Скриптория в Крипте,A copyist of the Crypt Scriptorium
 petition.crypt_copyist.text,"Скрипторию нужен живой образец для описи. Мёртвое тело лжёт, живое — нет. Сеть выдадим.",The Scriptorium needs a living specimen for its register. A dead body lies; a living one does not. We will issue you a net.
+rumor_witness.washerwoman.text,Прачка у колонки клянётся всеми святыми:,A washerwoman at the pump swears by every saint:
+rumor_witness.drunk.text,"Пьяница в «Фонаре и Крюке» рассказывает, пока ему подливают:",A drunk in the Lantern & Hook tells it while someone keeps pouring:
+rumor_witness.urchin.text,Чумазый мальчишка шепчет за медяк:,A grubby urchin whispers it for a copper:
+rumor_witness.watchman.text,"Ночной сторож говорит, глядя в сторону:",The night watchman says it without looking at you:
+rumor_witness.ash_sister.text,Пепельная сестра записала со слов больного:,An Ash Sister wrote it down from a patient's words:
+rumor_witness.digger.text,Подручный могильщика бурчит:,The gravedigger's boy mutters:
+rumor_witness.leaflet.text,На столбе у костра приколот листок без подписи:,An unsigned leaflet is pinned to the post by the bonfire:
+rumor_witness.widow.text,Вдова с третьего этажа не спит уже третью ночь:,The widow from the third floor has not slept for three nights:

@@ -105,18 +105,6 @@ func test_overdue_contract_makes_the_creature_stronger() -> void:
 	eq(x.reward, reward, "the reward does not grow")
 
 
-func test_hunts_meet_contract_targets_more_often() -> void:
-	var data := load_content(false)
-	var pool := EncounterRules.pool(data, &"GREY")
-	var target := pool[0]
-	var rng := SeededRng.make_stream(11, &"encounters", 1)
-	var hits := 0
-	for i: int in 600:
-		if EncounterRules.pick_monster(data, &"GREY", rng, [target], 3.0) == target:
-			hits += 1
-	check(hits > 600.0 / pool.size() * 1.5, "favoured target met %d times of 600" % hits)
-
-
 func test_contracts_survive_save_and_old_saves_get_an_empty_board() -> void:
 	var data := load_content(false)
 	var run := _new_run(data)

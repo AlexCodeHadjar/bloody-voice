@@ -85,8 +85,32 @@
   "capture_reward_mult": 1.5,
   "known_tags_min": 2,
   "known_tags_max": 3,
-  "hunt_target_weight": 3,
   "overdue_hp_mult": 1.25,
   "overdue_damage_bonus": 1
+ },
+ "rumors": {
+  "_comment": "Rumor diamonds on the district map (GDD 8, 17.2; owner 2026-10-12): 1-2 new each morning, at most 5 on the map, each lives 3 days; every taken contract seeds a true rumor every 2-3 days (the first one at once). Outcomes without the target give a little money; a false lead or an empty night crosses out a tag.",
+  "new_min": 1,
+  "new_max": 2,
+  "max_on_map": 5,
+  "lifetime_days": 3,
+  "true_every_min": 2,
+  "true_every_max": 3,
+  "kind_weights": {
+   "wrong_monster": 0.35,
+   "discovery": 0.25,
+   "false_lead": 0.25,
+   "empty_night": 0.15
+  },
+  "true_tags_min": 1,
+  "true_tags_max": 2,
+  "noise_chance": 0.35,
+  "lie_tags_min": 1,
+  "lie_tags_max": 3,
+  "zone_tag_weight": 3,
+  "discovery_money_min": 10,
+  "discovery_money_max": 25,
+  "small_money_min": 3,
+  "small_money_max": 8
  }
 }

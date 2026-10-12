@@ -17,7 +17,7 @@ stream(name) = RandomNumberGenerator with seed = hash(master_seed, name, day)
 | Generator | Input | Output | Key rules |
 |---|---|---|---|
 | ContractGenerator | week, chapter, district states, hero rank, reputation | 3–6 side contracts on the board each Monday | Monster from district pool (weighted by state); reward scales with rank; deadline 4–10 days; never more than 2 of the same type. **v1 (built):** district pool and creature rank only, 3–5 leaflets, cap 3 per type while only Slay/Capture exist, 2 per creature (GDD 7.4) |
-| RumorGenerator | district, active contracts, day, Cunning | Diamonds in the search ring | Each active contract seeds 1 TRUE rumor per 2–3 days; others are wrong-monster / discovery / false / empty; 0–1 noise tags per rumor; weights from district state |
+| RumorGenerator | district, active contracts, day, Cunning | Diamonds in the search ring | Each active contract seeds 1 TRUE rumor per 2–3 days; others are wrong-monster / discovery / false / empty; 0–1 noise tags per rumor; weights from district state. **v1 (built):** diamonds on the district map, zone by the creature's tags, no Cunning or district-state weights yet (GDD 8.4) |
 | OutcomeResolver | rumor, contract | What happens on Investigate | Determined when the rumor is generated (stored), so reloading does not reroll |
 | ShopGenerator | week, Exchange reputation, district state | Cards on the shop table | Fixed slots: 2 weapons, 4 modules, 4 consumables, 3 resource lots; rarity by chapter |
 | EventScheduler | chapter, day, flags | Random world events | Weighted table with cooldowns; at most 1 random event active; story events always win |

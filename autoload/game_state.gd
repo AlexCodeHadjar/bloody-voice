@@ -15,6 +15,7 @@ func new_game(seed_value: int = 0) -> void:
 	run = RunState.create(s, ContentDB.data.balance)
 	Rng.set_seed(s)
 	_refresh_board()
+	_new_morning()
 	EventBus.run_started.emit()
 
 
@@ -27,6 +28,7 @@ func continue_game() -> bool:
 	run = loaded
 	Rng.set_seed(run.master_seed)
 	_refresh_board()  # an old save or a save from last week gets this week's board
+	_new_morning()
 	EventBus.run_loaded.emit()
 	return true
 
@@ -68,6 +70,7 @@ func end_day() -> void:
 	if report.rent_taken != 0:
 		EventBus.money_changed.emit(run.money)
 	_refresh_board()
+	_new_morning()
 	EventBus.day_changed.emit(run.day)
 	save_game()
 
@@ -79,13 +82,22 @@ func _refresh_board() -> void:
 		EventBus.contracts_changed.emit()
 
 
-## Free action (GDD 3.3): take a leaflet from the tavern board. "" or the reason it can't be taken.
+## The morning's rumor diamonds (GDD 8): once per day.
+func _new_morning() -> void:
+	if RumorRules.new_morning(run, ContentDB.data, Rng.stream(&"rumors", run.day)):
+		EventBus.rumors_changed.emit()
+
+
+## Free action (GDD 3.3): take a leaflet from the tavern board; its first true rumor appears at once.
+## "" or the reason it can't be taken.
 func accept_contract(uid: int) -> String:
 	if run == null:
 		return Loc.t("rule.not_now")
 	var problem := ContractRules.accept(run.contracts, ContentDB.data, uid)
 	if problem == "":
 		EventBus.contracts_changed.emit()
+		if RumorRules.seed_targets(run, ContentDB.data, Rng.stream(StringName("rumor_target_%d" % uid), run.day)):
+			EventBus.rumors_changed.emit()
 		save_game()
 	return problem
 
@@ -137,15 +149,42 @@ func _loadout_changed() -> void:
 	save_game()
 
 
-## Placeholder for "Investigate a rumor" (GDD 8): a fight in the hero's district.
+## Investigate a rumor (GDD 8): costs the day. A fight starts for the target or another creature (the day ends
+## after it); otherwise the money and a crossed-out sign are taken and the day ends now. null if not possible.
+func investigate_rumor(uid: int) -> RumorRules.Outcome:
+	if run == null or combat != null:
+		return null
+	var o := RumorRules.investigate(run, ContentDB.data, uid)
+	if o == null:
+		return null
+	EventBus.rumors_changed.emit()
+	if o.monster != &"":
+		var contract := run.contracts.find(o.contract_uid)
+		_start_fight(o.monster, contract if ContractRules.active(run.contracts).has(contract) else null, o.zone)
+		return o
+	if o.money != 0:
+		EventBus.money_changed.emit(run.money)
+	if o.crossed != &"":
+		EventBus.contracts_changed.emit()
+	end_day()
+	return o
+
+
+## Developer and test fights (dev shots, the combat screen started on its own): a creature of the hero's district.
 func start_hunt(monster_id: StringName = &"", capture_allowed: bool = false) -> void:
 	if run == null:
 		return
+	var id := monster_id if monster_id != &"" else EncounterRules.pick_monster(ContentDB.data, run.hero_district,
+		Rng.stream(&"encounters", run.day))
+	_start_fight(id, null, &"", capture_allowed)
+
+
+## A fight with `id`; an open contract on it counts (a net for a capture, a stronger creature when overdue).
+func _start_fight(id: StringName, contract: ContractsState.Contract, zone: StringName,
+		capture_allowed: bool = false) -> void:
 	var data := ContentDB.data
-	var rng := Rng.stream(&"encounters", run.day)
-	var id := monster_id if monster_id != &"" else EncounterRules.pick_monster(data, run.hero_district, rng,
-		ContractRules.targets(run.contracts), data.balance.contracts.hunt_target_weight)
-	var contract := ContractRules.for_monster(run.contracts, id)
+	if contract == null:
+		contract = ContractRules.for_monster(run.contracts, id)
 	if contract != null and contract.type == &"capture":
 		capture_allowed = true
 	var setup := DeckBuilder.setup(run.loadout, data, id, Rng.stream(&"combat", run.day).randi(), capture_allowed)
@@ -153,15 +192,16 @@ func start_hunt(monster_id: StringName = &"", capture_allowed: bool = false) -> 
 	if capture_allowed:
 		if not setup.deck.has(&"iron_net"):  # the contract issues a net unless the gear already brings one
 			setup.deck.append(&"iron_net")
-	setup.backdrop = _backdrop()
-	combat = CombatRules.start(setup, ContentDB.data)
+	setup.backdrop = _backdrop(zone)
+	combat = CombatRules.start(setup, data)
 	EventBus.combat_started.emit()
 
 
-## Background of a fight: a random zone of the hero's district (later the rumor's zone); falls back to the district scene.
-func _backdrop() -> String:
+## Background of a fight: the rumor's zone (a random zone of the district when none); falls back to the district scene.
+func _backdrop(zone: StringName) -> String:
 	var district := String(run.hero_district)
-	var zone := EncounterRules.pick_zone(ContentDB.data, run.hero_district, Rng.stream(&"backdrop", run.day))
+	if zone == &"":
+		zone = EncounterRules.pick_zone(ContentDB.data, run.hero_district, Rng.stream(&"backdrop", run.day))
 	var path := "res://art/city/districts/%s__fight__%s.webp" % [district, zone]
 	if zone != &"" and ResourceLoader.exists(path):
 		return path

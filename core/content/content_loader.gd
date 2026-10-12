@@ -19,6 +19,7 @@ const AUDIO := "audio/sounds.json"
 const TUTORIAL := "tutorial/sequences.json"
 const TAGS := "contracts/tags.json"
 const PETITIONS := "contracts/petitions.json"
+const RUMORS := "rumors/rumors.json"
 
 
 static func load_all(root: String, errs: ErrorLog) -> ContentData:
@@ -56,7 +57,7 @@ static func load_all(root: String, errs: ErrorLog) -> ContentData:
 	for key: String in seqs:
 		if not key.begins_with("_"):
 			data.tutorial[StringName(key)] = TutorialDef.from_dict(StringName(key), seqs[key] as Dictionary, errs)
-	_load_contracts(root, data, errs)
+	_load_investigation(root, data, errs)
 	ContentLoc.apply(data)  # shown texts in the game language (GDD 22.5)
 	return data
 
@@ -97,7 +98,8 @@ static func _load_district_life(root: String, data: ContentData, errs: ErrorLog)
 		data.district_life[def.district] = def
 
 
-static func _load_contracts(root: String, data: ContentData, errs: ErrorLog) -> void:
+## Contracts and rumors (GDD 7, 8): tag catalogue, petition letters, witnesses and zone pictures.
+static func _load_investigation(root: String, data: ContentData, errs: ErrorLog) -> void:
 	var tags := read_object(root.path_join(TAGS), errs)
 	for key: Variant in tags:
 		if not str(key).begins_with("_"):
@@ -107,6 +109,7 @@ static func _load_contracts(root: String, data: ContentData, errs: ErrorLog) -> 
 		if data.petition(p.id) != null:
 			errs.add(PETITIONS, "duplicate petition id '%s'" % p.id)
 		data.petitions.append(p)
+	data.rumor_data = RumorDefs.from_dict(read_object(root.path_join(RUMORS), errs), errs)
 
 
 static func _load_gear(root: String, data: ContentData, errs: ErrorLog) -> void:

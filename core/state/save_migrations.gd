@@ -15,6 +15,8 @@ static func migrate(d: Dictionary, start_loadout: Dictionary = {}) -> Dictionary
 				_from_2(d)
 			3:
 				_from_3(d)
+			4:
+				_from_4(d)
 			_:
 				push_warning("[save] no migration from version %d" % version)
 		version += 1
@@ -39,3 +41,8 @@ static func _from_2(d: Dictionary) -> void:
 ## v3 -> v4: contracts (GDD 7). An empty board; GameState fills it for the current week on load.
 static func _from_3(d: Dictionary) -> void:
 	d["contracts"] = ContractsState.new().to_dict()
+
+
+## v4 -> v5: rumors (GDD 8). None yet; GameState adds the morning's rumors on load.
+static func _from_4(d: Dictionary) -> void:
+	d["rumors"] = RumorsState.new().to_dict()

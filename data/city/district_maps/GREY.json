@@ -1,5 +1,5 @@
 {
- "_comment": "District map of the Grey Chapels (GDD 20), calibrated to the final art (4000 x 6000 px). Nodes and positions are art pixels. Streets join consecutive nodes both ways. action: rest | equipment | hunt | tavern | locked | soon.",
+ "_comment": "District map of the Grey Chapels (GDD 20), calibrated to the final art (4000 x 6000 px). Nodes and positions are art pixels. Streets join consecutive nodes both ways. action: rest | equipment | rumors | tavern | locked | soon.",
  "district": "GREY",
  "image": "res://art/city/district_maps/GREY__map.webp",
  "image_size": [4000, 6000],
@@ -113,7 +113,7 @@
   {"id": "lantern_and_hook", "number": 6, "name": "The Lantern & Hook", "zone": "ash_quarter", "pos": [1130, 1640], "node": "tavern", "radius": 120, "action": "tavern"},
   {"id": "ash_garret", "number": 7, "name": "Ash Garret", "zone": "ash_quarter", "pos": [860, 1900], "node": "home", "radius": 110, "action": "rest"},
   {"id": "rusty_cog", "number": 8, "name": "The Rusty Cog", "zone": "ash_quarter", "pos": [1490, 1860], "node": "workshop", "radius": 110, "action": "equipment"},
-  {"id": "bonfire_square", "number": 9, "name": "Bonfire Square", "zone": "ash_quarter", "pos": [2164, 1945], "node": "square", "radius": 150, "action": "hunt"},
+  {"id": "bonfire_square", "number": 9, "name": "Bonfire Square", "zone": "ash_quarter", "pos": [2164, 1945], "node": "square", "radius": 150, "action": "rumors"},
   {"id": "candle_bridge", "number": 10, "name": "Candle Bridge", "zone": "fog_hollow", "pos": [1450, 2440], "node": "bridge_m", "radius": 160, "action": "soon"},
   {"id": "fog_cellars", "number": 11, "name": "The Fog Cellars", "zone": "fog_hollow", "pos": [1880, 2960], "node": "cellars", "radius": 130, "action": "soon"},
   {"id": "crypt_scriptorium", "number": 12, "name": "Crypt Scriptorium", "zone": "chapel_close", "pos": [3120, 2250], "node": "scriptorium", "radius": 130, "action": "soon"},

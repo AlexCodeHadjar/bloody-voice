@@ -37,7 +37,6 @@ class Balance:
 	var capture_reward_mult: float = 1.0
 	var known_tags_min: int = 2
 	var known_tags_max: int = 3
-	var hunt_target_weight: float = 1.0
 	var overdue_hp_mult: float = 1.0
 	var overdue_damage_bonus: int = 0
 
@@ -82,7 +81,6 @@ static func balance(d: Dictionary, errs: ErrorLog) -> Balance:
 	b.capture_reward_mult = DefReader.number(d, "capture_reward_mult", errs, w, 1.0)
 	b.known_tags_min = DefReader.integer(d, "known_tags_min", errs, w, 2)
 	b.known_tags_max = DefReader.integer(d, "known_tags_max", errs, w, 3)
-	b.hunt_target_weight = DefReader.number(d, "hunt_target_weight", errs, w, 1.0)
 	b.overdue_hp_mult = DefReader.number(d, "overdue_hp_mult", errs, w, 1.0)
 	b.overdue_damage_bonus = DefReader.integer(d, "overdue_damage_bonus", errs, w)
 	return b

@@ -143,6 +143,16 @@ func _fill_facts(c: ContractsState.Contract) -> void:
 	_body.add_child(UiKit.label(Loc.t("ui.contract.signs"), 18, Palette.BRASS))
 	for tag: StringName in c.known_tags:
 		_body.add_child(Icons.with_text("TAG", ContractKit.tag_category(tag), ContractKit.tag_name(tag), 26, 17))
+	if not c.crossed_tags.is_empty():  # signs false leads proved not to be the creature's (GDD 8.2)
+		var crossed := PackedStringArray(c.crossed_tags.map(func(t: StringName) -> String: return "[s]%s[/s]" % ContractKit.tag_name(t)))
+		var l := RichTextLabel.new()
+		l.bbcode_enabled = true
+		l.fit_content = true
+		l.scroll_active = false
+		l.add_theme_font_size_override("normal_font_size", 16)
+		l.add_theme_color_override("default_color", Palette.INK_MUTED)
+		l.text = "%s %s" % [Loc.t("ui.contract.crossed"), ", ".join(crossed)]
+		_body.add_child(l)
 	_body.add_child(_fact("CONTRACT", &"region", "ui.contract.last_seen", ContractKit.last_seen(c), Palette.PARCHMENT))
 	_body.add_child(_fact("CONTRACT", &"deadline", "ui.contract.deadline", ContractKit.deadline_text(c),
 		ContractKit.deadline_color(c, Palette.PARCHMENT)))

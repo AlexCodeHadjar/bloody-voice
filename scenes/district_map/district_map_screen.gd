@@ -23,6 +23,7 @@ var _day_label: Label
 var _money_label: Label
 var _spot: DistrictMapRules.Spot  ## where the hero stands or walks to
 var _target: DistrictMapDef.LandmarkDef = null  ## the card opens when the hero gets there
+var _target_rumor := 0  ## the rumor tablet opens when the hero gets to this diamond
 var _sound_clock := 0.0
 
 
@@ -58,6 +59,10 @@ func _build() -> void:
 	_life = LifeLayer.new()  # residents (map-life-people.md), below the hero
 	_life.setup(_map, ContentDB.data)
 	_view.add_layer(_life)
+	var rumors := RumorLayer.new()  # rumor diamonds (GDD 8), below the hero
+	rumors.setup(_map)
+	rumors.rumor_clicked.connect(_go_to_rumor)
+	_view.add_layer(rumors)
 	_hero = HeroWalker.new()
 	_view.add_layer(_hero)
 	_life.hero = _hero
@@ -181,6 +186,7 @@ func _on_hovered(lm: DistrictMapDef.LandmarkDef) -> void:
 
 func _on_landmark_clicked(lm: DistrictMapDef.LandmarkDef) -> void:
 	_target = lm
+	_target_rumor = 0
 	_walk_to(DistrictMapRules.spot_at_node(_map, lm.node))
 
 
@@ -189,6 +195,7 @@ func _on_street_clicked(p: Vector2) -> void:
 	if spot == null:
 		return
 	_target = null
+	_target_rumor = 0
 	_walk_to(spot)
 
 
@@ -213,6 +220,9 @@ func _on_arrived() -> void:
 	GameState.set_hero_node(DistrictMapRules.nearest_node(_map, _spot))
 	GameState.save_game()
 	Tutorial.action(&"hero_walked")
+	if _target_rumor != 0:
+		_open_rumor(_target_rumor)
+		_target_rumor = 0
 	if _target != null:
 		_card.position.y = _tracker.position.y + _tracker.size.y + 14.0 if _tracker.visible else 90.0
 		_card.show_landmark(_target, _zone_name(_target.zone))
@@ -242,10 +252,11 @@ func _on_action(action: StringName) -> void:
 		&"tavern":
 			_card.close_card()
 			_open_overlay(ContractBoard.new())
-		&"hunt":
-			GameState.save_game()
-			GameState.start_hunt()
-			get_tree().change_scene_to_file(COMBAT)
+		&"rumors":
+			_card.close_card()
+			var post := RumorPost.new()
+			_open_overlay(post)
+			post.rumor_chosen.connect(_go_to_rumor)
 
 
 func _open_overlay(o: Control) -> void:
@@ -268,6 +279,27 @@ func _on_overlay_closed() -> void:
 	_overlay_open = null
 	if not ContractRules.active(GameState.run.contracts).is_empty():
 		Tutorial.trigger.call_deferred(&"contract_taken")
+
+
+## The hunter walks to the diamond; its tablet opens there (GDD 8.1).
+func _go_to_rumor(uid: int) -> void:
+	var r := GameState.run.rumors.find(uid)
+	if r == null:
+		return
+	_target = null
+	_target_rumor = uid
+	_walk_to(DistrictMapRules.spot_at_node(_map, r.node))
+
+
+func _open_rumor(uid: int) -> void:
+	if _overlay_open != null:
+		return
+	var tablet := RumorTablet.new()
+	_open_overlay(tablet)
+	tablet.fight_started.connect(func() -> void:
+		GameState.save_game()
+		get_tree().change_scene_to_file(COMBAT))
+	tablet.open_rumor(uid)
 
 
 ## The tracker's region icon: the zone where the creature was last seen glows and the view glides there

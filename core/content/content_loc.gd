@@ -44,6 +44,8 @@ static func fields(data: ContentData) -> Array[Dictionary]:
 		_add(out, t, "tag.%s" % t.id, [""])
 	for pe: ContractDefs.PetitionDef in data.petitions:
 		_add(out, pe, "petition.%s" % pe.id, ["sender", "text"])
+	for wi: RumorDefs.Witness in data.rumor_data.witnesses:
+		_add(out, wi, "rumor_witness.%s" % wi.id, ["text"])
 	return out
 
 

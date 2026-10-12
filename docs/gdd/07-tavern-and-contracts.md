@@ -42,7 +42,7 @@
 | Reward | Money only (XP and reputation come with Phase 6): by the creature's rank A 30 / P 50 / D 80 / S 130, ±20 %, ×1.5 for a capture, rounded to 5. |
 | Deadline | 4–10 days. **Overdue: the contract stays, the creature is stronger (hp ×1.25, +1 damage per hit), the reward does not grow** (owner). Shown red in the tracker and on the fight's top bar. |
 | Region icon | Makes the zone where the creature was last seen glow blue on the district map; the camera glides there. |
-| Until rumors (step 2) | The hunt from Bonfire Square meets the creatures of open contracts 3× more often; a fight with such a creature counts for the contract with the nearest deadline. |
+| Rumors (step 2) | A taken contract seeds a true rumor diamond at once and then every 2–3 days (GDD 8.4). Any fight with a contract's creature counts for the contract with the nearest deadline. |
 
 Numbers: `balance.json → contracts`. Code: `core/generation/contract_generator.gd`, `core/rules/contracts/contract_rules.gd`,
 `core/state/contracts_state.gd`, screens `scenes/contracts/`.

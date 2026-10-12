@@ -38,5 +38,6 @@
  "first_no_ammo": {"trigger": "no_ammo", "steps": [{"anchor": "weapon"}]},
  "first_rent": {"trigger": "rent_tomorrow", "steps": [{"anchor": "day_bar"}]},
  "contract_board": {"trigger": "contract_board_open", "steps": [{"anchor": "contract_board"}]},
- "contract_taken": {"trigger": "contract_taken", "steps": [{"anchor": "contract_tracker"}]}
+ "contract_taken": {"trigger": "contract_taken", "steps": [{"anchor": "contract_tracker"}]},
+ "first_rumor": {"trigger": "first_rumor", "steps": [{"anchor": "rumor_tags"}, {"anchor": "rumor_match"}, {"anchor": "rumor_buttons"}]}
 }

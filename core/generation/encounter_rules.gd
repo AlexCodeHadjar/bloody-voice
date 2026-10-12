@@ -1,6 +1,6 @@
 class_name EncounterRules
 extends RefCounted
-## Which creatures live in a district and which one the hunter meets (placeholder until rumors, GDD 8).
+## Which creatures live in a district, a creature for a developer fight, a zone for a fight background.
 
 
 ## Creatures that live in the district (GDD 13: monsters[].districts).
@@ -12,16 +12,12 @@ static func pool(data: ContentData, district: StringName) -> Array[StringName]:
 	return out
 
 
-## A creature of the district (any creature when none lives there). Contract targets in `favoured` weigh more.
-static func pick_monster(data: ContentData, district: StringName, rng: RandomNumberGenerator,
-		favoured: Array[StringName] = [], favoured_weight: float = 1.0) -> StringName:
+## A creature of the district (any creature when none lives there).
+static func pick_monster(data: ContentData, district: StringName, rng: RandomNumberGenerator) -> StringName:
 	var candidates := pool(data, district)
 	if candidates.is_empty():
 		candidates = data.monster_order
-	var weights: Dictionary[StringName, float] = {}
-	for id: StringName in candidates:
-		weights[id] = favoured_weight if favoured.has(id) else 1.0
-	return SeededRng.weighted(weights, rng)
+	return candidates[rng.randi_range(0, candidates.size() - 1)]
 
 
 ## A random zone id of the district map (the fight's background), or &"" when the district has no map.

@@ -16,10 +16,13 @@ class Contract:
 	var reward: int
 	var accepted: bool = false
 	var done: bool = false
+	var next_rumor_day: int = 0  ## the morning its next true rumor appears (0 = at once, GDD 17.2)
+	var crossed_tags: Array[StringName] = []  ## signs proven not to be the creature's (false leads, GDD 8.2)
 
 	func to_dict() -> Dictionary:
 		return {"uid": uid, "monster": monster, "type": type, "petition": petition, "known_tags": known_tags,
-			"zone": zone, "week": week, "deadline_day": deadline_day, "reward": reward, "accepted": accepted, "done": done}
+			"zone": zone, "week": week, "deadline_day": deadline_day, "reward": reward, "accepted": accepted, "done": done,
+			"next_rumor_day": next_rumor_day, "crossed_tags": crossed_tags}
 
 	static func from_dict(d: Dictionary) -> Contract:
 		var c := Contract.new()
@@ -27,14 +30,15 @@ class Contract:
 		c.monster = StringName(str(d.get("monster", "")))
 		c.type = StringName(str(d.get("type", "slay")))
 		c.petition = StringName(str(d.get("petition", "")))
-		for t: Variant in d.get("known_tags", []) as Array:
-			c.known_tags.append(StringName(str(t)))
+		c.known_tags = RumorsState.names(d.get("known_tags", []) as Array)
 		c.zone = StringName(str(d.get("zone", "")))
 		c.week = int(d.get("week", 0))
 		c.deadline_day = int(d.get("deadline_day", 0))
 		c.reward = int(d.get("reward", 0))
 		c.accepted = bool(d.get("accepted", false))
 		c.done = bool(d.get("done", false))
+		c.next_rumor_day = int(d.get("next_rumor_day", 0))
+		c.crossed_tags = RumorsState.names(d.get("crossed_tags", []) as Array)
 		return c
 
 

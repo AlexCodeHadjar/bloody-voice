@@ -26,6 +26,7 @@ func _run() -> void:
 	GameState.new_game(1)
 	await _district_shots()
 	await _contract_shots()
+	await _rumor_shots()
 	get_tree().change_scene_to_file(CITY_MAP)
 	await _wait(1.5)
 	await _shot("02_city_map")
@@ -95,6 +96,34 @@ func _contract_shots() -> void:
 	screen.call("_on_zone_requested", leaflets[0].zone)
 	await _wait(1.2)
 	await _shot("18_contract_tracker_zone")
+
+
+## Rumors (GDD 8): diamonds on the map, the post on Bonfire Square, a rumor tablet.
+func _rumor_shots() -> void:
+	var screen := get_tree().current_scene
+	var list := RumorRules.visible(GameState.run.rumors)
+	if list.is_empty():
+		return
+	var map := ContentDB.data.district_map(GameState.run.hero_district)
+	for n: Node in screen.find_children("*", "Control", true, false):
+		if n is DistrictView:
+			(n as DistrictView).follow = null
+			(n as DistrictView).center_on(map.node_pos(list[0].node))
+	await _wait(0.6)
+	await _shot("19_rumor_diamonds")
+	screen.call("_on_action", &"rumors")
+	await _wait(0.6)
+	await _shot("20_rumor_post")
+	for n: Node in screen.get_children():
+		if n is RumorPost:
+			(n as RumorPost).close_post()
+	await _wait(0.3)
+	screen.call("_open_rumor", list[0].uid)
+	await _wait(0.6)
+	await _shot("21_rumor_tablet")
+	for n: Node in screen.get_children():
+		if n is RumorTablet:
+			(n as RumorTablet).close_tablet()
 
 
 func _equipment_shots() -> void:

@@ -46,12 +46,8 @@ static func last_seen(c: ContractsState.Contract) -> String:
 
 
 static func zone_name(map: DistrictMapDef, zone: StringName) -> String:
-	if map == null:
-		return ""
-	for z: DistrictMapDef.ZoneDef in map.zones:
-		if z.id == zone:
-			return z.name
-	return ""
+	var z: DistrictMapDef.ZoneDef = map.zone(zone) if map != null else null
+	return z.name if z != null else ""
 
 
 static func tag_name(tag: StringName) -> String:
