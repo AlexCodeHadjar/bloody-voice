@@ -15,6 +15,22 @@
 | `art/ui/icons` | 169 | ACTION 8, ARMOR 5, ATTRIBUTE 3, CARD_TYPE 6, CELL 3, CONTRACT 6, DIRECTION 4, DISTRICT 12, FACTION 15, INTENT 7, KNOWLEDGE 5, MECHANISM 4, OUTCOME 5, PLACE 8, RANK 4, REPUTATION 5, RESOURCE 6, SECTION 5, SETTINGS 5, SKILL 6, STAT 8, STATE 13, STATUS 6, TAG 6, UI 14 |
 | `art/ui/life` | 200 | LIFE 200 |
 
+## audio/
+
+| Folder | Files | Prefixes |
+|---|---|---|
+| `audio/ambience` | 4 | AMB 4 |
+| `audio/monsters/BURROW_WYRM` | 9 | BURROW_WYRM 9 |
+| `audio/monsters/CLAY_SAINT` | 9 | CLAY_SAINT 9 |
+| `audio/monsters/GUTTER_CHOIR` | 9 | GUTTER_CHOIR 9 |
+| `audio/monsters/LAMPLIGHTER` | 9 | LAMPLIGHTER 9 |
+| `audio/monsters/MOTH_MATRON` | 9 | MOTH_MATRON 9 |
+| `audio/monsters/MOURNING_BRIDE` | 9 | MOURNING_BRIDE 9 |
+| `audio/monsters/RUST_MANTIS` | 9 | RUST_MANTIS 9 |
+| `audio/monsters/VIGIL_HOUND` | 9 | VIGIL_HOUND 9 |
+| `audio/music` | 4 | MUSIC 4 |
+| `audio/sfx` | 43 | BODY 1, BOOK 3, CARD 5, COMBAT 4, GEAR 1, PAPER 2, SHOP 1, TURN 1, UI 13, WORKSHOP 1, WORLD 11 |
+
 ## Prompt files: images not delivered yet
 
 | Prompt file | Named | Missing |

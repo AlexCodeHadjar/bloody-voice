@@ -106,16 +106,16 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 |---|---|---|---|
 | `tests/bot/autoplay.gd` |  | Balance report: the bot fights every creature N times with the starter deck. |  |
 | `tests/run_tests.gd` |  | Headless test runner: |  |
-| `tests/test_calendar.gd` |  |  | test_weeks_and_weekdays, test_rent_and_shop_days, test_chapter_week_wraps |
-| `tests/test_combat.gd` |  | Combat core (GDD 9–10). | test_start_draws_hand_and_reveals_intents, test_same_seed_same_fight, test_strike_damages_and_costs_ap, test_not_enough_ap, test_shot_needs_ammo_and_reload_refills, test_breaking_a_part_removes_its_move, test_broken_part_cannot_be_targeted, test_phase_triggers_below_threshold, test_block_absorbs_and_dodge_negates, test_weak_and_exposed_modify_damage, test_enemy_turn_hits_hero_and_new_turn_starts, test_fear_to_zero_causes_panic, test_capture_chance_formula, test_every_effect_op_is_implemented … |
+| `tests/test_calendar.gd` |  | Calendar: weekdays, weeks, rent and shop days (GDD 3.2). | test_weeks_and_weekdays, test_rent_and_shop_days, test_chapter_week_wraps |
+| `tests/test_combat.gd` |  | Combat core (GDD 9–10). | test_start_draws_hand_and_reveals_intents, test_same_seed_same_fight, test_strike_damages_and_costs_ap, test_not_enough_ap, test_shot_needs_ammo_and_reload_refills, test_breaking_a_part_removes_its_move, test_broken_part_cannot_be_targeted, test_phase_triggers_below_threshold, test_block_absorbs_and_dodge_negates, test_weak_and_exposed_modify_damage, test_enemy_turn_hits_hero_and_new_turn_starts, test_fear_to_zero_causes_panic, test_capture_chance_formula, test_every_effect_op_is_implemented, test_bot_finishes_every_fight, test_move_text_is_built_from_effects |
 | `tests/test_content.gd` |  | Real content is valid; the validator catches typical mistakes. | test_real_content_is_valid, test_every_icon_has_art, test_missing_creature_art_is_reported, test_bad_weekday_is_reported, test_unknown_region_district_is_reported, test_duplicate_symbol_is_reported, test_missing_normal_state_is_reported, test_broken_json_is_reported, test_move_text_field_is_rejected |
-| `tests/test_day_rules.gd` |  |  | test_rent_is_taken_on_rentday, test_no_rent_on_other_days, test_day_ticks_district_states |
-| `tests/test_district_states.gd` |  |  | test_timed_state_returns_to_previous, test_chain_goes_to_next_state, test_untimed_state_stays, test_unknown_place_is_normal |
+| `tests/test_day_rules.gd` |  | End of day: rent, time passing, district state changes (GDD 3). | test_rent_is_taken_on_rentday, test_no_rent_on_other_days, test_day_ticks_district_states |
+| `tests/test_district_states.gd` |  | District states and their transitions (GDD 14). | test_timed_state_returns_to_previous, test_chain_goes_to_next_state, test_untimed_state_stays, test_unknown_place_is_normal |
 | `tests/test_gear.gd` |  | Weapon cells, modules, links, armor sockets, deck building and gear bonuses in combat (GDD 5). | test_rotation, test_start_loadout_is_valid_and_builds_the_starter_deck, test_placement_rules, test_every_gear_module_fits_the_starting_rifle, test_links_swap_cards_when_modules_touch, test_armor_sockets_add_cards_and_mods, test_gear_bonuses_in_combat, test_reload_draw_and_rage_discount, test_loadout_survives_save_and_old_saves_get_start_gear, test_rotation_with_offset_and_touching_edges_only, test_replacing_a_socket_frees_the_old_mechanism, test_duplicate_modules_stack, test_capture_cards_only_on_capture_contracts, test_invalid_saved_placements_are_dropped |
 | `tests/test_locale.gd` |  | The game speaks Russian (GDD 22.5): every key used by code and data has a Russian text, placeholders agree with | test_russian_plural_forms, test_every_content_text_has_russian, test_key_families_exist, test_keys_written_in_code_exist, test_placeholders_agree_with_english |
 | `tests/test_map_regions.gd` |  | Known points of the city map art must land in the right district. | test_samples, test_every_anchor_is_inside_its_region |
-| `tests/test_rng.gd` |  |  | test_same_inputs_same_sequence, test_streams_are_independent |
-| `tests/test_save.gd` |  |  | test_round_trip_through_json, test_save_service_file |
+| `tests/test_rng.gd` |  | Seeded randomness: the same seed gives the same streams (GDD 17.1). | test_same_inputs_same_sequence, test_streams_are_independent |
+| `tests/test_save.gd` |  | Save / load round trip and save migrations (GDD 19.1). | test_round_trip_through_json, test_save_service_file |
 | `tests/test_scripts.gd` |  | Every script in the project must compile. | test_all_scripts_compile |
 | `tests/test_suite.gd` | TestSuite | Base class for test suites. Every method named test_* is a test. | check, eq, near, load_content |
 
@@ -139,6 +139,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `tools/gen_screen_sketches.py` | Bloody Voice - layout sketches of the workshop and the skill webs (GDD 23). Writes into docs/assets/ui/: |
 | `tools/gen_ui_sketches.py` | Bloody Voice - UI layout sketches (GDD 21, 22). Writes into docs/assets/ui/: |
 | `tools/import_art.py` | Import source art from assets/ into the game folder art/. |
+| `tools/import_audio.py` | Copy the sounds the game uses from the owner's sound kit into audio/ (committed), under game names. |
 | `tools/life_sprites.py` | Map-life sheets (docs/art-prompts/map-life-people.md): assets/ui/LIFE__<set>__sheet.png is a 4 x 2 grid of figures; |
 | `tools/tune_monsters.py` | Apply a tuning table to a monsters file. |
 | `tools/check_all.sh` | One-stop project check (run from the project root in Git Bash): |

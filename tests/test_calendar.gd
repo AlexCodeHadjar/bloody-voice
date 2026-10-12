@@ -1,4 +1,5 @@
 extends TestSuite
+## Calendar: weekdays, weeks, rent and shop days (GDD 3.2).
 
 
 func test_weeks_and_weekdays() -> void:

@@ -32,6 +32,7 @@ def _doc_line(text: str) -> str:
 def code_md() -> str:
     autoloads = re.findall(r'^(\w+)="\*res://([^"]+)"', (ROOT / "project.godot").read_text(encoding="utf-8"), re.M)
     lines = ["# Code map", "", "Autoloads: " + ", ".join(f"`{n}` ({p})" for n, p in autoloads), ""]
+    undocumented: list[str] = []
     for top in CODE_DIRS:
         files = sorted((ROOT / top).rglob("*.gd"))
         if not files:
@@ -41,8 +42,11 @@ def code_md() -> str:
             text = f.read_text(encoding="utf-8")
             cls = re.search(r"^class_name (\w+)", text, re.M)
             funcs = [m.group(2) for m in FUNC_RE.finditer(text) if not m.group(2).startswith("_")]
-            lines.append(f"| `{f.relative_to(ROOT).as_posix()}` | {cls.group(1) if cls else ''} | {_doc_line(text)} | "
-                         f"{', '.join(funcs[:14])}{' …' if len(funcs) > 14 else ''} |")
+            doc = _doc_line(text)
+            if not doc:
+                undocumented.append(f.relative_to(ROOT).as_posix())
+            lines.append(f"| `{f.relative_to(ROOT).as_posix()}` | {cls.group(1) if cls else ''} | {doc} | "
+                         f"{', '.join(funcs[:20])}{' …' if len(funcs) > 20 else ''} |")
         lines.append("")
     tools = sorted((ROOT / "tools").glob("*.py")) + sorted((ROOT / "tools").glob("*.sh"))
     lines += ["## tools/", "", "| File | What |", "|---|---|"]
@@ -50,11 +54,15 @@ def code_md() -> str:
         text = f.read_text(encoding="utf-8")
         doc = re.search(r'"""(.+?)(?:\n|""")', text) or re.search(r"^# (.+)$", text, re.M)
         lines.append(f"| `{f.relative_to(ROOT).as_posix()}` | {doc.group(1).strip() if doc else ''} |")
+    if undocumented:
+        lines += ["", "Scripts without a `##` line at the top (add one): " + ", ".join(f"`{u}`" for u in undocumented)]
     return HEADER + "\n".join(lines) + "\n"
 
 
 def _ids(value) -> list[str]:
     if isinstance(value, list):
+        if value and isinstance(value[0], dict) and "icons" in value[0]:  # data/ui/icons.json: sets of icons
+            return [f"{s.get('set')} {len(s.get('icons', []))}" for s in value]
         return [str(x.get("id")) for x in value if isinstance(x, dict) and "id" in x]
     if isinstance(value, dict):
         for key in ("monsters", "cards"):
@@ -65,7 +73,7 @@ def _ids(value) -> list[str]:
 
 
 def data_md() -> str:
-    lines = ["# Data map", "", "| File | Entries | Ids |", "|---|---|---|"]
+    lines = ["# Data map", "", "| File | Entries | Ids (or top-level keys) |", "|---|---|---|"]
     for f in sorted((ROOT / "data").rglob("*.json")):
         ids = _ids(json.loads(f.read_text(encoding="utf-8")))
         shown = ", ".join(ids[:18]) + (" …" if len(ids) > 18 else "")

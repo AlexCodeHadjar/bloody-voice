@@ -1,4 +1,5 @@
 extends TestSuite
+## End of day: rent, time passing, district state changes (GDD 3).
 
 
 func test_rent_is_taken_on_rentday() -> void:

@@ -1,4 +1,5 @@
 extends TestSuite
+## District states and their transitions (GDD 14).
 
 
 func test_timed_state_returns_to_previous() -> void:

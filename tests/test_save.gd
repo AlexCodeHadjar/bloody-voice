@@ -1,4 +1,5 @@
 extends TestSuite
+## Save / load round trip and save migrations (GDD 19.1).
 
 const SaveServiceScript := preload("res://autoload/save_service.gd")
 const PATH := "user://test_save_slot.json"

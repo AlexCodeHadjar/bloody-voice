@@ -1,4 +1,5 @@
 extends TestSuite
+## Seeded randomness: the same seed gives the same streams (GDD 17.1).
 
 
 func test_same_inputs_same_sequence() -> void:

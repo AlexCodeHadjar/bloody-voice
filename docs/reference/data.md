@@ -2,8 +2,9 @@
 
 # Data map
 
-| File | Entries | Ids |
+| File | Entries | Ids (or top-level keys) |
 |---|---|---|
+| `data/audio/sounds.json` | 6 | sounds, music, ambience, screens, monster_events, combat_log |
 | `data/balance.json` | 6 | calendar, economy, hero, capture, combat, gear |
 | `data/cards/base.json` | 6 | strike, guard, shot, reload, read_the_beast, sidestep |
 | `data/cards/modules.json` | 8 | shock_harpoon, flash, smoke_screen, serrated_edge, harpoon_shot, gout_of_flame, overcharge, bayonet_thrust |
@@ -17,7 +18,7 @@
 | `data/gear/shapes.json` | 11 | M1, I2, I3, L3, I4, O4, T4, L4, J4, S4, Z4 |
 | `data/gear/weapons.json` | 1 | hunting_rifle |
 | `data/monsters/mvp.json` | 8 | gutter_choir, moth_matron, lamplighter, rust_mantis, mourning_bride, vigil_hound, clay_saint, burrow_wyrm |
-| `data/ui/icons.json` | 0 |  |
+| `data/ui/icons.json` | 25 | RESOURCE 6, STAT 8, ATTRIBUTE 3, STATUS 6, INTENT 7, CARD_TYPE 6, CELL 3, SECTION 5, ARMOR 5, SKILL 6, DIRECTION 4, CONTRACT 6, OUTCOME 5, TAG 6, ACTION 8, FACTION 15, RANK 4, REPUTATION 5 … |
 
 ## Locale `locale/strings.csv` — 482 keys
 
