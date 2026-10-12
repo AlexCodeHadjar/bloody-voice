@@ -22,6 +22,7 @@ ContentDB="*res://autoload/content_db.gd"
 Rng="*res://autoload/rng_service.gd"
 SaveService="*res://autoload/save_service.gd"
 GameState="*res://autoload/game_state.gd"
+Sound="*res://autoload/sound_service.gd"
 DevShots="*res://core/dev/dev_shots.gd"
 
 [debug]

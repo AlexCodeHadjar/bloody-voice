@@ -18,9 +18,11 @@ var _selected_uid: int = 0
 
 func _ready() -> void:
 	theme = UiKit.theme()
+	UiKit.screen_sound(&"combat")
 	if GameState.combat == null:
 		GameState.start_hunt()
 	_build()
+	add_child(CombatSounds.new())
 	EventBus.combat_updated.connect(_refresh)
 	_refresh()
 
@@ -199,8 +201,11 @@ func _on_card_chosen(uid: int) -> void:
 		var problem := CombatRules.can_play(s, card, CombatTarget.enemy())
 		_message.text = problem if problem != "" else Loc.t("ui.combat.choose_target")
 		_selected_uid = uid if problem == "" else 0
+		UiKit.sound(&"ui.error" if problem != "" else &"card.draw")
 	else:
 		_message.text = GameState.combat_play(uid, CombatTarget.self_target())
+		if _message.text != "":
+			UiKit.sound(&"ui.error")
 		return
 	_refresh()
 
@@ -211,11 +216,14 @@ func _on_target(target: CombatTarget) -> void:
 	var uid := _selected_uid
 	_selected_uid = 0
 	_message.text = GameState.combat_play(uid, target)
+	if _message.text != "":
+		UiKit.sound(&"ui.error")
 
 
 func _end_turn() -> void:
 	_selected_uid = 0
 	_message.text = ""
+	UiKit.sound(&"turn.end")
 	GameState.combat_end_turn()
 
 

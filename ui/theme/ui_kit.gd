@@ -38,7 +38,37 @@ static func button(text: String, size: int = 22) -> Button:
 	b.text = text
 	b.add_theme_font_size_override("font_size", size)
 	b.custom_minimum_size = Vector2(260, 52)
+	b.mouse_entered.connect(func() -> void:
+		if not b.disabled:
+			sound(&"ui.hover"))
+	b.pressed.connect(func() -> void: sound(&"ui.click"))
 	return b
+
+
+## Plays a sound through the Sound autoload (GDD 24); silent when it is not running (tests, tools).
+static func sound(id: StringName) -> void:
+	var s := _sound_service()
+	if s != null:
+		s.call("play", id)
+
+
+## Music and ambience of a screen (data/audio/sounds.json/screens).
+static func screen_sound(screen_id: StringName) -> void:
+	var s := _sound_service()
+	if s != null:
+		s.call("screen", screen_id)
+
+
+## A creature's own voice (select / attack / hit / idle / phase2).
+static func monster_sound(monster: StringName, event: StringName) -> void:
+	var s := _sound_service()
+	if s != null:
+		s.call("play_monster", monster, event)
+
+
+static func _sound_service() -> Node:
+	var tree := Engine.get_main_loop() as SceneTree
+	return tree.root.get_node_or_null(^"Sound") if tree != null else null
 
 
 static func panel_box(fill: Color = Palette.PANEL, border: Color = Palette.BRASS) -> StyleBoxFlat:

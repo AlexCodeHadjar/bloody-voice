@@ -17,6 +17,7 @@ var _rot: int = 0
 
 func _ready() -> void:
 	theme = UiKit.theme()
+	UiKit.screen_sound(&"equipment")
 	if not GameState.has_run():
 		GameState.new_game()
 	_build()
@@ -230,6 +231,7 @@ func _on_cell(section: StringName, cell: Vector2i) -> void:
 	if _held != &"":
 		var problem := GameState.equip_module(_held, section, cell, _rot)
 		_message.text = problem
+		UiKit.sound(&"gear.install" if problem == "" else &"ui.error")
 		if problem == "":
 			_held = &""
 			_refresh()

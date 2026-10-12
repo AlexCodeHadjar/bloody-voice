@@ -14,6 +14,7 @@ var _money_label: Label
 
 func _ready() -> void:
 	theme = UiKit.theme()
+	UiKit.screen_sound(&"city")
 	if not GameState.has_run():
 		GameState.new_game()
 	_build()

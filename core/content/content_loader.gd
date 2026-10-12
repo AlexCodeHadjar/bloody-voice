@@ -13,6 +13,7 @@ const MODULES := "gear/modules.json"
 const SHAPES := "gear/shapes.json"
 const ARMOR := "gear/armor.json"
 const MECHANISMS := "gear/mechanisms.json"
+const AUDIO := "audio/sounds.json"
 
 
 static func load_all(root: String, errs: ErrorLog) -> ContentData:
@@ -43,6 +44,7 @@ static func load_all(root: String, errs: ErrorLog) -> ContentData:
 		data.monsters[monster.id] = monster
 		data.monster_order.append(monster.id)
 	_load_gear(root, data, errs)
+	data.audio = AudioDef.from_dict(read_object(root.path_join(AUDIO), errs), errs)
 	ContentLoc.apply(data)  # shown texts in the game language (GDD 22.5)
 	return data
 

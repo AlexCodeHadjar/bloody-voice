@@ -2,7 +2,7 @@
 
 # Code map
 
-Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.gd), `Rng` (autoload/rng_service.gd), `SaveService` (autoload/save_service.gd), `GameState` (autoload/game_state.gd), `DevShots` (core/dev/dev_shots.gd)
+Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.gd), `Rng` (autoload/rng_service.gd), `SaveService` (autoload/save_service.gd), `GameState` (autoload/game_state.gd), `Sound` (autoload/sound_service.gd), `DevShots` (core/dev/dev_shots.gd)
 
 ## autoload/
 
@@ -13,16 +13,19 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `autoload/game_state.gd` |  | Facade between the screens and the game rules (GDD 19.3). | has_run, new_game, continue_game, save_game, move_hero, end_day, equip_module, unequip_module, set_socket, dev_grant_all_gear, start_hunt, combat_play, combat_end_turn, finish_combat |
 | `autoload/rng_service.gd` |  | Seeded randomness (GDD 17.1). One master seed per playthrough; every system draws from its own | set_seed, stream |
 | `autoload/save_service.gd` |  | Save / load of RunState as JSON, with versioned migrations (GDD 19.1). | has_save, save_run, load_run |
+| `autoload/sound_service.gd` |  | Plays the game's sounds (GDD 24): short sounds by id, creature voices, music and ambience per screen. | play, play_monster, screen |
 
 ## core/
 
 | File | Class | What | Public functions |
 |---|---|---|---|
+| `core/content/audio_validator.gd` | AudioValidator | Checks data/audio/sounds.json against the files in res://audio/ and the creatures (GDD 24). | validate |
 | `core/content/content_data.gd` | ContentData | All loaded game content. Read-only after loading; rules receive it as a parameter. | district, card, monster, weapon, module, mechanism |
 | `core/content/content_loader.gd` | ContentLoader | Reads data/*.json into a ContentData. Never stops at the first problem: everything goes to the ErrorLog. | load_all, read_folder, read_json, read_object, read_array |
 | `core/content/content_loc.gd` | ContentLoc | Puts the game-language texts into loaded content (GDD 22.5). Data JSON keeps ids, numbers and the English working | apply, fields, area_keys |
 | `core/content/content_validator.gd` | ContentValidator | Cross-checks loaded content. Any error here stops the game at boot (GDD 19.6). | validate |
 | `core/content/def_reader.gd` | DefReader | Typed, checked reads from JSON dictionaries. Every problem goes to the ErrorLog with its location, | string, id, number, integer, flag, dict, array, ids |
+| `core/content/defs/audio_def.gd` | AudioDef | Which sound plays on which game event (data/audio/sounds.json, GDD 24). Files live under res://audio/. | from_dict, monster_files |
 | `core/content/defs/balance_def.gd` | BalanceDef | All tuning numbers from data/balance.json. Code reads them from here, never hard-codes them. | from_dict |
 | `core/content/defs/card_def.gd` | CardDef | A hunter card (data/cards/*.json, GDD 9.3). Effects are data ops run by EffectApplier. | from_dict, needs_enemy_target |
 | `core/content/defs/district_def.gd` | DistrictDef | One district of the Upper City (data/city/districts.json, GDD 13.5). | from_dict, art_path |
@@ -83,6 +86,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `scenes/city_map/map_view.gd` | MapView | Draws the city map art, highlights the district under the mouse and shows the hero figure. | setup, set_hero_district, image_to_global |
 | `scenes/combat/card_view.gd` | CardView | One card in the hand: cost, name, type, text. Emits `chosen` when clicked. | setup |
 | `scenes/combat/combat_screen.gd` |  | Fight screen (GDD 9.1). Reads GameState.combat, sends commands through GameState, redraws on signals. |  |
+| `scenes/combat/combat_sounds.gd` | CombatSounds | Turns new combat log events into sounds (data/audio/sounds.json/combat_log, GDD 24): card plays, hits, |  |
 | `scenes/combat/enemy_view.gd` | EnemyView | The creature's card: its art (phase art once it changes phase), name, rank, HP, block, statuses | refresh |
 | `scenes/combat/hero_view.gd` | HeroView | The hunter's side: HP, Sanity, block, statuses, AP, and the weapon card with ammo (GDD 9.1). | refresh |
 | `scenes/combat/intent_view.gd` | IntentView | A planned move of the creature, shown beside it (GDD 9.1). | setup |
@@ -98,7 +102,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 |---|---|---|---|
 | `ui/theme/icons.gd` | Icons | Game icons (data/ui/icons.json, imported to art/ui/icons/<SET>__<id>.webp) and small icon widgets. | path, texture, rect, with_text, fill_statuses, button |
 | `ui/theme/palette.gd` | Palette | Colours of the style bible (GDD 16.2). UI code uses these names, never raw hex values. |  |
-| `ui/theme/ui_kit.gd` | UiKit | Small factory for themed UI pieces so screens stay short and consistent. | theme, serif, label, paragraph, button, panel_box, texture |
+| `ui/theme/ui_kit.gd` | UiKit | Small factory for themed UI pieces so screens stay short and consistent. | theme, serif, label, paragraph, button, sound, screen_sound, monster_sound, panel_box, texture |
 
 ## tests/
 
@@ -108,7 +112,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `tests/run_tests.gd` |  | Headless test runner: |  |
 | `tests/test_calendar.gd` |  | Calendar: weekdays, weeks, rent and shop days (GDD 3.2). | test_weeks_and_weekdays, test_rent_and_shop_days, test_chapter_week_wraps |
 | `tests/test_combat.gd` |  | Combat core (GDD 9–10). | test_start_draws_hand_and_reveals_intents, test_same_seed_same_fight, test_strike_damages_and_costs_ap, test_not_enough_ap, test_shot_needs_ammo_and_reload_refills, test_breaking_a_part_removes_its_move, test_broken_part_cannot_be_targeted, test_phase_triggers_below_threshold, test_block_absorbs_and_dodge_negates, test_weak_and_exposed_modify_damage, test_enemy_turn_hits_hero_and_new_turn_starts, test_fear_to_zero_causes_panic, test_capture_chance_formula, test_every_effect_op_is_implemented, test_bot_finishes_every_fight, test_move_text_is_built_from_effects |
-| `tests/test_content.gd` |  | Real content is valid; the validator catches typical mistakes. | test_real_content_is_valid, test_every_icon_has_art, test_missing_creature_art_is_reported, test_bad_weekday_is_reported, test_unknown_region_district_is_reported, test_duplicate_symbol_is_reported, test_missing_normal_state_is_reported, test_broken_json_is_reported, test_move_text_field_is_rejected |
+| `tests/test_content.gd` |  | Real content is valid; the validator catches typical mistakes. | test_real_content_is_valid, test_every_icon_has_art, test_missing_creature_art_is_reported, test_bad_weekday_is_reported, test_unknown_region_district_is_reported, test_duplicate_symbol_is_reported, test_missing_normal_state_is_reported, test_broken_json_is_reported, test_move_text_field_is_rejected, test_missing_sound_is_reported |
 | `tests/test_day_rules.gd` |  | End of day: rent, time passing, district state changes (GDD 3). | test_rent_is_taken_on_rentday, test_no_rent_on_other_days, test_day_ticks_district_states |
 | `tests/test_district_states.gd` |  | District states and their transitions (GDD 14). | test_timed_state_returns_to_previous, test_chain_goes_to_next_state, test_untimed_state_stays, test_unknown_place_is_normal |
 | `tests/test_gear.gd` |  | Weapon cells, modules, links, armor sockets, deck building and gear bonuses in combat (GDD 5). | test_rotation, test_start_loadout_is_valid_and_builds_the_starter_deck, test_placement_rules, test_every_gear_module_fits_the_starting_rifle, test_links_swap_cards_when_modules_touch, test_armor_sockets_add_cards_and_mods, test_gear_bonuses_in_combat, test_reload_draw_and_rage_discount, test_loadout_survives_save_and_old_saves_get_start_gear, test_rotation_with_offset_and_touching_edges_only, test_replacing_a_socket_frees_the_old_mechanism, test_duplicate_modules_stack, test_capture_cards_only_on_capture_contracts, test_invalid_saved_placements_are_dropped |

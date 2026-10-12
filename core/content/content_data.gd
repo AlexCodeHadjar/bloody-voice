@@ -15,6 +15,7 @@ var modules: Dictionary[StringName, ModuleDef] = {}
 var shapes: Dictionary[StringName, GearDefs.ShapeDef] = {}
 var armor: Array[GearDefs.ArmorDef] = []
 var mechanisms: Dictionary[StringName, GearDefs.MechanismDef] = {}
+var audio: AudioDef = AudioDef.new()
 
 
 func district(id: StringName) -> DistrictDef:

@@ -83,3 +83,23 @@ func _has(messages: PackedStringArray, needle: String) -> bool:
 		if m.contains(needle):
 			return true
 	return false
+
+
+## Sounds (GDD 24): every file in data/audio/sounds.json exists and every creature has its own voice.
+func test_missing_sound_is_reported() -> void:
+	var data := load_content()
+	check(data.audio.sounds.has(&"ui.click"), "sounds are loaded")
+	var click: AudioDef.SoundDef = data.audio.sounds[&"ui.click"]
+	click.files = ["res://audio/sfx/NO_SUCH__sound.ogg"]
+	var m: MonsterDef = data.monsters.values()[0]
+	data.monster_order[0] = &"no_such_creature"
+	var errs := ErrorLog.new()
+	ContentValidator.validate(data, errs, true)
+	check(_has(errs.messages, "missing audio file"), "missing sound file must fail")
+	check(_has(errs.messages, "has no 'attack' sound"), "creature without a voice must fail (%s)" % m.id)
+	data.audio.combat_log[&"play"] = &"no.such_sound"
+	data.audio.screens[&"menu"] = {"music": "no_such_track", "ambience": ""}
+	errs = ErrorLog.new()
+	ContentValidator.validate(data, errs, false)
+	check(_has(errs.messages, "unknown sound 'no.such_sound'"), "combat_log must point to a known sound")
+	check(_has(errs.messages, "unknown music 'no_such_track'"), "screens must point to known music")

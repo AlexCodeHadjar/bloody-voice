@@ -1,0 +1,67 @@
+{
+ "_comment": "Which sound plays on which game event (GDD 24). Files are under res://audio/ (tools/import_audio.py). db = volume, bus = UI | SFX | Music | Ambience. Several files = a random one each time.",
+ "sounds": {
+  "ui.hover": {"files": ["sfx/UI__hover_tick.ogg"], "db": -20, "bus": "UI", "min_gap": 0.06},
+  "ui.click": {"files": ["sfx/UI__click.ogg"], "db": -14, "bus": "UI"},
+  "ui.back": {"files": ["sfx/UI__back.ogg"], "db": -14, "bus": "UI"},
+  "ui.error": {"files": ["sfx/UI__error.wav"], "db": -14, "bus": "UI"},
+  "ui.confirm": {"files": ["sfx/UI__confirm.wav"], "db": -14, "bus": "UI"},
+  "ui.open": {"files": ["sfx/UI__open.ogg"], "db": -15, "bus": "UI"},
+  "ui.close": {"files": ["sfx/UI__close.ogg"], "db": -15, "bus": "UI"},
+  "card.draw": {"files": ["sfx/CARD__draw.ogg"], "db": -16, "bus": "SFX", "min_gap": 0.05},
+  "card.play": {"files": ["sfx/CARD__play.ogg"], "db": -12, "bus": "SFX"},
+  "card.shuffle": {"files": ["sfx/CARD__shuffle.ogg"], "db": -16, "bus": "SFX"},
+  "card.exhaust": {"files": ["sfx/PAPER__exhaust.wav"], "db": -15, "bus": "SFX"},
+  "turn.end": {"files": ["sfx/TURN__lever.ogg"], "db": -10, "bus": "SFX"},
+  "combat.impact": {"files": ["sfx/COMBAT__impact.ogg"], "db": -10, "bus": "SFX", "min_gap": 0.08},
+  "combat.block": {"files": ["sfx/COMBAT__metal_hit.ogg"], "db": -13, "bus": "SFX"},
+  "combat.reload": {"files": ["sfx/COMBAT__knife_draw.ogg"], "db": -13, "bus": "SFX"},
+  "combat.heartbeat": {"files": ["sfx/BODY__heartbeat.wav"], "db": -14, "bus": "SFX"},
+  "gear.install": {"files": ["sfx/WORKSHOP__hammer.ogg"], "db": -15, "bus": "SFX"},
+  "money.coins": {"files": ["sfx/SHOP__coins.ogg"], "db": -14, "bus": "SFX"},
+  "paper.map": {"files": ["sfx/PAPER__map.wav"], "db": -16, "bus": "SFX"},
+  "world.bell": {"files": ["sfx/WORLD__bell.ogg"], "db": -22, "bus": "SFX"},
+  "world.crow": {"files": ["sfx/WORLD__crow.wav"], "db": -20, "bus": "SFX"},
+  "world.step": {"files": ["sfx/WORLD__step_stone.ogg"], "db": -20, "bus": "SFX", "min_gap": 0.25}
+ },
+ "music": {
+  "menu": {"file": "music/MUSIC__graveyard.ogg", "db": -14},
+  "city": {"file": "music/MUSIC__investigation.ogg", "db": -16},
+  "combat": {"file": "music/MUSIC__horror.ogg", "db": -14}
+ },
+ "ambience": {
+  "rain": {"file": "ambience/AMB__rain_night.ogg", "db": -20},
+  "cellar": {"file": "ambience/AMB__dungeon.ogg", "db": -18}
+ },
+ "screens": {
+  "menu": {"music": "menu", "ambience": ""},
+  "city": {"music": "city", "ambience": "rain"},
+  "equipment": {"music": "city", "ambience": "rain"},
+  "combat": {"music": "combat", "ambience": ""}
+ },
+ "monster_events": {
+  "_comment": "Creature voices: res://audio/monsters/<ID>/<ID>__<event>_NN.ogg, a random variant each time.",
+  "select": {"db": -14, "min_gap": 0.3},
+  "attack": {"db": -8},
+  "hit": {"db": -10, "min_gap": 0.1},
+  "idle": {"db": -18},
+  "phase2": {"db": -6}
+ },
+ "combat_log": {
+  "_comment": "Combat log event kind -> sound. 'monster.<event>' plays the current creature's own voice.",
+  "start": "monster.select",
+  "play": "card.play",
+  "damage_enemy": "monster.hit",
+  "damage_hero": "combat.impact",
+  "blocked": "combat.block",
+  "block": "combat.block",
+  "intent": "monster.attack",
+  "phase": "monster.phase2",
+  "part_broken": "combat.impact",
+  "shuffle": "card.shuffle",
+  "reload": "combat.reload",
+  "panic": "combat.heartbeat",
+  "won": "world.bell",
+  "lost": "combat.heartbeat"
+ }
+}

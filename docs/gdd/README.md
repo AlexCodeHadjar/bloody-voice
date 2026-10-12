@@ -43,6 +43,7 @@ regenerate with `python tools/gen_city_sketch.py`.
 - [21. Combat Screen v2](21-combat-screen-layout.md)
 - [22. Tutorial Hints and Localization](22-tutorial-hints-and-localization.md)
 - [23. Workshop and Skill Web Screens](23-workshop-and-skill-web-screens.md)
+- [24. Audio](24-audio.md)
 - [Appendix A. Names and Inspiration Mapping](appendix-a-names-and-inspiration-mapping.md)
 - [Appendix B. MVP Monster Roster](appendix-b-mvp-monster-roster.md)
 - [Appendix C. Starter Deck and Example Cards](appendix-c-starter-deck-and-example-cards.md)

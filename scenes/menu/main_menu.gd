@@ -7,6 +7,7 @@ const BACKGROUND := "res://art/city/map/HALLOWDEEP__map__normal.webp"
 
 func _ready() -> void:
 	theme = UiKit.theme()
+	UiKit.screen_sound(&"menu")
 	_build()
 
 
