@@ -161,6 +161,7 @@ ui.contract.affixes,Особенности:,Affixes:
 ui.contract.deadline,Срок:,Deadline:
 ui.contract.reward,Награда:,Reward:
 ui.contract.days_left,осталось {n} {n:день|дня|дней},{n} d left
+ui.contract.no_deadline,без срока,no deadline
 ui.contract.last_day,последний день,last day
 ui.contract.overdue,просрочен — тварь усилилась,overdue — the creature grew stronger
 ui.contract.accept,Принять заказ,Accept
@@ -188,6 +189,10 @@ ui.rumor.money,+{n},+{n}
 ui.rumor.crossed,Примета {tag} зачёркнута в заказе «{name}».,The sign {tag} is crossed out on the contract «{name}».
 ui.rumor.day_over,День прошёл.,The day is over.
 ui.rumor.next,Дальше,Next
+ui.story.title.step,Письмо,A letter
+ui.story.title.after,Записка,A note
+ui.story.title.end,Конец главы,End of the chapter
+ui.story.contract,Сюжетный заказ в трекере: {name} — {type}.,Story contract in the tracker: {name} — {type}.
 ui.event.title,Новости: {name},News: {name}
 ui.event.badge,{state} · ещё {n} дн.,{state} · {n} more days
 ui.event.closed,Закрыто: {state},Closed: {state}
@@ -452,7 +457,8 @@ rule.not_now,Не сейчас.,Not now.
 rule.no_fight,Боя нет.,No fight.
 rule.contract.unknown,Такого заказа нет.,No such contract.
 rule.contract.taken,Этот заказ уже принят.,This contract is already taken.
-rule.contract.cant_abandon,Отказаться можно только от взятого заказа (не от экзамена).,Only a taken contract can be given up (not an exam).
+rule.contract.cant_abandon,Отказаться можно только от взятого заказа (не от экзамена и не от сюжетного).,Only a taken contract can be given up (not an exam).
+rule.story.no_choice,Сейчас выбирать нечего.,Nothing to choose now.
 rule.contract.too_many,Больше {n} {n:заказа|заказов|заказов} сразу не взять.,You can't hold more than {n} contracts.
 rule.workshop.unknown,Этот чертёж ещё не известен.,This blueprint is not known yet.
 rule.workshop.no_crafts,Сегодня в мастерской уже сделано {n} {n:изделие|изделия|изделий}.,Today's {n} crafts are done.
@@ -1075,6 +1081,14 @@ petition.crypt_copyist.from,Переписчик Скриптория в Кри�
 petition.crypt_copyist.text,"Скрипторию нужен живой образец для описи. Мёртвое тело лжёт, живое — нет. Сеть выдадим.",The Scriptorium needs a living specimen for its register. A dead body lies; a living one does not. We will issue you a net.
 petition.register_exam.from,"Реестр Люмена, через пост Бдения","The Lumen Register, by the Vigil's post"
 petition.register_exam.text,"Реестр рассмотрит повышение вашего ранга. Одолейте названную тварь — она сильнее, чем говорят слухи, — до срока. Оправданий Реестр не записывает.","The Register will consider raising your rank. Bring down the creature named here, stronger than the rumours say, before the deadline. No excuses are entered in the Register."
+petition.story_first_blood.from,Хозяин «Фонаря и Крюка»,The keeper of the Lantern & Hook
+petition.story_first_blood.text,"Ты новенький, с ружьём? Хорошо. Что-то в стоках под Нижними дворами забирает детей, что ходят за водой. Говорят, оно поёт. Убей его — и первая из многих кружек за мой счёт.","You're the new one with the rifle? Good. Something in the storm drains under Lower Yards has been taking children who go for water. It sings, they say. Kill it, and the first drink of many is on me."
+petition.story_candles.from,"Сестра Агата, Пепельные Сёстры",Sister Agatha of the Ash Sisters
+petition.story_candles.text,"Наши больные говорят о высоком свете, что бродит ночью по Часовенному двору и оставляет за собой мёртвые фонари. Не убивай его. Принеси живым, в сети, — мы узнаем, что это. Сёстры не забудут.","Our sick speak of a tall light that walks the Chapel Close at night and leaves the lamps dead behind it. Do not kill it. Bring it to us alive, in a net, and we will learn what it is. The sisters will remember."
+petition.story_hound.from,"Инспектор Крейн, Железное Бдение",Inspector Crane of the Iron Vigil
+petition.story_hound.text,"У ворот склепа Старой Серой Часовни спит пёс размером с телегу. На нём обрывки охотничьего плаща. Причастие делает вид, что не видит его. Бдение видит. Прикончи его.",A hound the size of a cart sleeps by the crypt gate of the Old Grey Chapel. It wears what is left of a hunter's coat. The Communion pretends not to see it. The Vigil does see it. Put it down.
+petition.story_wyrm.from,"Мортимер, переписчик Склепа-скриптория","Mortimer, copyist of the Crypt Scriptorium"
+petition.story_wyrm.text,"Ночью провалился пол склепа. Что-то роет под часовней, а книги, что ты принёс, говорят о «посланце снизу». Если оно выйдет на улицу, Бдение сожжёт весь квартал, чтобы его остановить. Прошу — раньше них.","The crypt floor fell in last night. Something is digging under the chapel, and the ledgers you brought me talk of a 'messenger from below'. If it reaches the street, the Vigil will burn the whole quarter to stop it. Please — before they do."
 rumor_witness.washerwoman.text,Прачка у колонки клянётся всеми святыми:,A washerwoman at the pump swears by every saint:
 rumor_witness.drunk.text,"Пьяница в «Фонаре и Крюке» рассказывает, пока ему подливают:",A drunk in the Lantern & Hook tells it while someone keeps pouring:
 rumor_witness.urchin.text,Чумазый мальчишка шепчет за медяк:,A grubby urchin whispers it for a copper:
@@ -1167,6 +1181,18 @@ skill.monster.b_sw.name,Беспокойная кровь,Restless Blood
 skill.monster.b_sw.text,В первый ход берите на 1 карту больше.,Draw 1 more card on the first turn.
 skill.monster.b_nw.name,Горькая кровь,Bitter Blood
 skill.monster.b_nw.text,Ваше Кровотечение на 1 сильнее.,Bleed you apply is 1 stack stronger.
+story.end.end_from,«Фонарь и Крюк»,The Lantern & Hook
+story.end.end_text,"Квартал теперь говорит о тебе — кто с тостом, кто прикрыв рот ладонью. То, что отвечало снизу, затихло. Пока. (Конец главы Серых Часовен; город за стеной ждёт.)","The quarter talks about you now — some with a toast, some behind their hands. Whatever answers from below has gone quiet. For now. (End of the Grey Chapels chapter; the city beyond waits.)"
+story.first_blood.after_from,Твои записи,Your own notes
+story.first_blood.after_text,"В стоке, среди мелких костей, — огарок серой свечи. На воске — печать Серого Причастия. Зачем свечам часовни гореть там, внизу?","In the drain, among the small bones, a stub of grey candle. Its wax carries the seal of the Grey Communion. Why would the chapel's candles burn down there?"
+story.candles.after_from,Сестра Агата,Sister Agatha
+story.candles.after_text,"Тварь, которую ты принёс, жгла в фонаре ладан часовни. Внутри стекла — молитвенная записка со списком имён. Все — наши мертвецы, невостребованные, которых Причастие хоронит без камня. Я не понимаю этого. Мне страшно понимать.","The thing you brought us burned chapel incense in its lantern. Inside the glass we found a prayer slip — a list of names. All of them are our dead, the unclaimed ones the Communion buries without a stone. I do not understand it. I am afraid to."
+story.hound.after_from,Твои записи,Your own notes
+story.hound.after_text,"Под ошейником пса — ключ от склепа. Под часовней — книги рукой дьякона. Годами Причастие кормило тварей невостребованными мертвецами, и каждая страница кончается одинаково: «оно отвечает снизу».","Under the hound's collar — a key to the crypt. Below the chapel: ledgers in the deacon's hand. The Communion has been feeding the creatures with the unclaimed dead for years, and every page ends the same way: 'it answers from below'."
+story.wyrm.after_from,Твои записи,Your own notes
+story.wyrm.after_text,"Землекоп мёртв в обломках склепа. Книги всё ещё у тебя под плащом. Инспектор Крейн хочет их: с ними Бдение закроет часовню навсегда. Дьякон умоляет сжечь их: без часовни, говорит он, у бедняков Серых Часовен не останется ничего.","The digger is dead in the rubble of the crypt. The ledgers are still in your coat. Inspector Crane wants them: with them the Vigil will close the chapel for good. The deacon begs you to burn them: without the chapel, he says, the poor of the Grey Chapels have nothing at all."
+story.wyrm.choice.vigil.text,Отдать книги Железному Бдению,Give the ledgers to the Iron Vigil
+story.wyrm.choice.communion.text,Сжечь книги ради Причастия,Burn the ledgers for the Communion
 affix.frenzy,Бешенство,Frenzy
 affix.frenzy.move,Бешеный удар,Frenzied Rend
 affix.carapace,Панцирь,Carapace

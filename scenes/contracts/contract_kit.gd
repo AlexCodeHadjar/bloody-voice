@@ -15,6 +15,8 @@ static func rank(c: ContractsState.Contract) -> String:
 
 
 static func type_name(c: ContractsState.Contract) -> String:
+	if c.story != &"":
+		return Loc.t("ui.contract.type.story")
 	return Loc.t("ui.contract.type.exam") if c.exam else Loc.t("ui.contract.type.%s" % c.type)
 
 
@@ -26,6 +28,8 @@ static func silhouette(c: ContractsState.Contract) -> Texture2D:
 ## "через 3 дня" / "последний день" / "просрочен — тварь сильнее".
 static func deadline_text(c: ContractsState.Contract) -> String:
 	var day := GameState.run.day
+	if not ContractRules.has_deadline(c):
+		return Loc.t("ui.contract.no_deadline")
 	if ContractRules.is_overdue(c, day):
 		return Loc.t("ui.contract.overdue")
 	var left := ContractRules.days_left(c, day)

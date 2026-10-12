@@ -8,6 +8,7 @@ var district_order: Array[StringName] = []
 var district_states: Dictionary[StringName, DistrictStateDef] = {}
 var events: Array[EventDefs.EventDef] = []  ## district events (GDD 15)
 var affixes: Array[AffixDefs.AffixDef] = []  ## creature affixes (GDD 17)
+var story: StoryDefs.StoryDef = null  ## the district story (GDD 2.4)
 var map_regions: MapRegionsDef = MapRegionsDef.new()
 var district_maps: Dictionary[StringName, DistrictMapDef] = {}
 var district_life: Dictionary[StringName, DistrictLifeDef] = {}

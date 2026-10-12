@@ -21,6 +21,7 @@ static func validate(data: ContentData, errs: ErrorLog, check_files: bool = true
 	SkillValidator.validate(data, errs)
 	StandingValidator.validate(data, errs)
 	AffixValidator.validate(data, errs)
+	StoryValidator.validate(data, errs, check_files)
 	if check_files:
 		_art(data, errs)
 

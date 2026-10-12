@@ -23,6 +23,7 @@ const TAGS := "contracts/tags.json"
 const PETITIONS := "contracts/petitions.json"
 const FACTIONS := "factions/factions.json"
 const AFFIXES := "affixes/affixes.json"
+const STORY := "story/grey.json"
 const RUMORS := "rumors/rumors.json"
 const SKILLS_DIR := "skills"
 
@@ -122,6 +123,7 @@ static func _load_investigation(root: String, data: ContentData, errs: ErrorLog)
 		data.factions.append(StandingDefs.faction(d as Dictionary, errs))
 	for d: Variant in DefReader.array(read_object(root.path_join(AFFIXES), errs), "affixes", errs, AFFIXES):
 		data.affixes.append(AffixDefs.affix(d as Dictionary, errs))
+	data.story = StoryDefs.story(read_object(root.path_join(STORY), errs), errs)
 	var dir := DirAccess.open(root.path_join(SKILLS_DIR))
 	if dir == null:
 		errs.add(SKILLS_DIR, "folder not found")

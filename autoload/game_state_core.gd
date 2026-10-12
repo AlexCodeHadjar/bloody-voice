@@ -16,6 +16,7 @@ func new_game(seed_value: int = 0) -> void:
 	run = RunState.create(s, ContentDB.data.balance)
 	WorkshopRules.ensure_start(run, ContentDB.data)
 	ProgressRules.ensure_start(run, ContentDB.data)
+	StoryRules.ensure_start(run, ContentDB.data)  # the prologue's letter and contract (GDD 2.4)
 	Rng.set_seed(s)
 	_refresh_board()
 	_new_morning()
@@ -31,6 +32,7 @@ func continue_game() -> bool:
 	run = loaded
 	WorkshopRules.ensure_start(run, ContentDB.data)  # saves from before the workshop
 	ProgressRules.ensure_start(run, ContentDB.data)  # saves from before levels
+	StoryRules.ensure_start(run, ContentDB.data)  # saves from before the story
 	Rng.set_seed(run.master_seed)
 	_refresh_board()  # an old save or a save from last week gets this week's board
 	_new_morning()
@@ -268,6 +270,7 @@ func _standing_after_fight(c: ContractsState.Contract, paid: int, rep: Dictionar
 	FactionRules.apply(run, rep)
 	if paid > 0:
 		RegisterRules.contract_done(run, c)
+		StoryRules.step_done(run, ContentDB.data, c)  # its note and the next step (GDD 2.4)
 	EventBus.progress_changed.emit()
 
 

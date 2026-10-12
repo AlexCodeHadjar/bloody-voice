@@ -57,13 +57,19 @@ static func fields(data: ContentData) -> Array[Dictionary]:
 	return out
 
 
-## Affixes, district events, factions.
+## Affixes, district events, the story, factions.
 static func _world(out: Array[Dictionary], data: ContentData) -> void:
 	for a: AffixDefs.AffixDef in data.affixes:
 		_add(out, a, "affix.%s" % a.id, [""])
 		_add(out, a.move, "affix.%s.move" % a.id, [""])
 	for e: EventDefs.EventDef in data.events:
 		_add(out, e, "event.%s" % e.id, ["name", "news", "end_news"])
+	if data.story != null:
+		_add(out, data.story, "story.end", ["end_from", "end_text"])
+		for s: StoryDefs.StepDef in data.story.steps:
+			_add(out, s, "story.%s" % s.id, ["after_from", "after_text"])
+			for c: StoryDefs.ChoiceDef in s.choices:
+				_add(out, c, "story.%s.choice.%s" % [s.id, c.id], ["text"])
 	for f: StandingDefs.FactionDef in data.factions:
 		_add(out, f, "faction.%s" % f.id, ["name", "text"])
 

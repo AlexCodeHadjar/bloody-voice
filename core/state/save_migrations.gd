@@ -37,6 +37,8 @@ static func migrate(d: Dictionary, start_loadout: Dictionary = {}) -> Dictionary
 				_from_13(d)
 			14:
 				_from_14(d)
+			15:
+				_from_15(d)
 			_:
 				push_warning("[save] no migration from version %d" % version)
 		version += 1
@@ -136,3 +138,8 @@ static func _from_13(d: Dictionary) -> void:
 static func _from_14(d: Dictionary) -> void:
 	for c: Variant in (d.get("contracts", {}) as Dictionary).get("items", []) as Array:
 		(c as Dictionary)["affixes"] = []
+
+
+## v15 -> v16: the district story (GDD 2.4). Not started yet: the prologue's letter comes on load.
+static func _from_15(d: Dictionary) -> void:
+	d["story"] = {"started": false, "done": [], "choice": "", "finished": false, "letters": []}

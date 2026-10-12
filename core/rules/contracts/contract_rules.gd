@@ -34,7 +34,7 @@ static func refresh_board(run: RunState, data: ContentData, rng: RandomNumberGen
 static func board(cs: ContractsState) -> Array[ContractsState.Contract]:
 	var out: Array[ContractsState.Contract] = []
 	for c: ContractsState.Contract in cs.items:
-		if c.week == cs.board_week:
+		if c.week == cs.board_week and c.story == &"":
 			out.append(c)
 	return out
 
@@ -56,7 +56,8 @@ static func can_accept(cs: ContractsState, data: ContentData, uid: int) -> Strin
 		return Loc.t("rule.contract.unknown")
 	if c.accepted:
 		return Loc.t("rule.contract.taken")
-	if not c.exam and active(cs).filter(func(a: ContractsState.Contract) -> bool: return not a.exam).size() >= data.balance.contracts.max_active:
+	var counted := active(cs).filter(func(a: ContractsState.Contract) -> bool: return not a.exam and a.story == &"")
+	if not c.exam and c.story == &"" and counted.size() >= data.balance.contracts.max_active:
 		return Loc.t("rule.contract.too_many", {"n": data.balance.contracts.max_active})
 	return ""
 
@@ -71,7 +72,7 @@ static func accept(cs: ContractsState, data: ContentData, uid: int) -> String:
 ## "" or why the hunter can't give the contract up: only a taken one that is not done and not a Register exam.
 static func can_abandon(cs: ContractsState, uid: int) -> String:
 	var c := cs.find(uid)
-	if c == null or not c.accepted or c.done or c.exam:
+	if c == null or not c.accepted or c.done or c.exam or c.story != &"":
 		return Loc.t("rule.contract.cant_abandon")
 	return ""
 
@@ -89,8 +90,13 @@ static func days_left(c: ContractsState.Contract, day: int) -> int:
 	return c.deadline_day - day
 
 
+## Story contracts (GDD 2.4) have no deadline.
+static func has_deadline(c: ContractsState.Contract) -> bool:
+	return c.story == &""
+
+
 static func is_overdue(c: ContractsState.Contract, day: int) -> bool:
-	return day > c.deadline_day
+	return has_deadline(c) and day > c.deadline_day
 
 
 ## Creatures of the hunter's open contracts (a «wrong creature» rumor never picks them).
@@ -102,13 +108,18 @@ static func targets(cs: ContractsState) -> Array[StringName]:
 	return out
 
 
-## The open contract a fight with `monster` counts for: a Register exam first, else the nearest deadline. null if none.
+## The open contract a fight with `monster` counts for: a Register exam first, then a story step, else the nearest
+## deadline. null if none.
 static func for_monster(cs: ContractsState, monster: StringName) -> ContractsState.Contract:
 	var found: ContractsState.Contract = null
 	for c: ContractsState.Contract in active(cs):
-		if c.monster == monster and (found == null or (c.exam and not found.exam)):
+		if c.monster == monster and (found == null or _priority(c) > _priority(found)):
 			found = c
 	return found
+
+
+static func _priority(c: ContractsState.Contract) -> int:
+	return 2 if c.exam else (1 if c.story != &"" else 0)
 
 
 ## Puts the contract into the fight: its uid, a net for a capture, a stronger creature when overdue or an exam.

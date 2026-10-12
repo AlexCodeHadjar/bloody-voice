@@ -49,14 +49,22 @@ func open_for(action: StringName) -> bool:
 	return true
 
 
-## The morning news leaflets (GDD 15), one after another; nothing while another panel is open.
+## The morning news leaflets (GDD 15), then the story letters (GDD 2.4), one after another; nothing while another
+## panel is open.
 func show_news() -> void:
-	var news := EventRules.next_news(GameState.run)
-	if news == "" or current != null:
+	if current != null:
 		return
-	var panel := NewsPanel.new()
-	panel.news = news
-	open(panel)
+	var news := EventRules.next_news(GameState.run)
+	if news != "":
+		var panel := NewsPanel.new()
+		panel.news = news
+		open(panel)
+		return
+	var letter := StoryRules.next_letter(GameState.run)
+	if letter != "":
+		var lp := LetterPanel.new()
+		lp.letter = letter
+		open(lp)
 
 
 func open_contract(list: Array[ContractsState.Contract], index: int) -> void:
@@ -81,6 +89,10 @@ func _on_closed() -> void:
 	current = null
 	if was is NewsPanel:
 		GameState.read_news()
+	elif was is LetterPanel and (was as LetterPanel).letter != "":
+		GameState.read_letter()
+		if StoryRules.next_letter(GameState.run) == (was as LetterPanel).letter:
+			return  # the choice was put off: the note comes back on the next morning or visit, not at once
 	show_news.call_deferred()  # news that came while a panel was open (a day action) or the next leaflet
 	if (was is ContractBoard or was is ContractTablet) and not ContractRules.active(GameState.run.contracts).is_empty():
 		Tutorial.trigger.call_deferred(&"contract_taken")

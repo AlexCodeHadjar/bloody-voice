@@ -3,7 +3,7 @@ extends RefCounted
 ## Everything that is saved for one playthrough. Pure data: no nodes, no signals.
 ## Only GameState (through rules) changes it.
 
-const SAVE_VERSION := 15
+const SAVE_VERSION := 16
 
 var master_seed: int = 0
 var day: int = 1  ## day 1 = Monday of week 1
@@ -13,6 +13,7 @@ var hero_node: StringName = &""  ## where the hero stands on the district map; "
 var open_districts: Array[StringName] = []  ## districts the hero may enter; the rest are locked
 var city: CityState = CityState.new()
 var events: EventsState = EventsState.new()  ## district events and unread news (GDD 15)
+var story: StoryState = StoryState.new()  ## the district story and its unread letters (GDD 2.4)
 var loadout: LoadoutState = LoadoutState.new()
 var contracts: ContractsState = ContractsState.new()  ## tavern board and accepted contracts (GDD 7)
 var rumors: RumorsState = RumorsState.new()  ## rumor diamonds on the district map (GDD 8)
@@ -51,6 +52,7 @@ func to_dict() -> Dictionary:
 		"open_districts": open_districts,
 		"city": city.to_dict(),
 		"events": events.to_dict(),
+		"story": story.to_dict(),
 		"loadout": loadout.to_dict(),
 		"contracts": contracts.to_dict(),
 		"rumors": rumors.to_dict(),
@@ -80,6 +82,7 @@ static func from_dict(d: Dictionary) -> RunState:
 		r.open_districts.append(StringName(str(v)))
 	r.city = CityState.from_dict(d.get("city", {}) as Dictionary)
 	r.events = EventsState.from_dict(d.get("events", {}) as Dictionary)
+	r.story = StoryState.from_dict(d.get("story", {}) as Dictionary)
 	r.loadout = LoadoutState.from_dict(d.get("loadout", {}) as Dictionary)
 	r.contracts = ContractsState.from_dict(d.get("contracts", {}) as Dictionary)
 	r.rumors = RumorsState.from_dict(d.get("rumors", {}) as Dictionary)

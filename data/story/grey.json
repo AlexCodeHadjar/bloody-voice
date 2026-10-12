@@ -1,0 +1,81 @@
+{
+ "_comment": "The Grey Chapels story (owner 2026-10-12: «the mystery of the Grey Communion», a prologue and 3 story contracts, no deadlines, told by letters and notes; Claude's draft, the owner edits). Steps in order: the step's contract (petition = its letter in contracts/petitions.json) starts at once when the previous one is done; its note (after) is the morning letter once the contract is finished. The last step's note offers choices (reputation changes); the end letter closes the chapter.",
+ "chapter": "grey_1",
+ "steps": [
+  {
+   "id": "first_blood",
+   "petition": "story_first_blood",
+   "monster": "gutter_choir",
+   "type": "slay",
+   "zone": "lower_yards",
+   "reward": 40,
+   "portrait": "tavern_keeper",
+   "after": {
+    "from": "Your own notes",
+    "text": "In the drain, among the small bones, a stub of grey candle. Its wax carries the seal of the Grey Communion. Why would the chapel's candles burn down there?"
+   }
+  },
+  {
+   "id": "candles",
+   "petition": "story_candles",
+   "monster": "lamplighter",
+   "type": "capture",
+   "zone": "chapel_close",
+   "reward": 70,
+   "portrait": "ash_sister",
+   "after": {
+    "from": "Sister Agatha",
+    "text": "The thing you brought us burned chapel incense in its lantern. Inside the glass we found a prayer slip — a list of names. All of them are our dead, the unclaimed ones the Communion buries without a stone. I do not understand it. I am afraid to."
+   }
+  },
+  {
+   "id": "hound",
+   "petition": "story_hound",
+   "monster": "vigil_hound",
+   "type": "slay",
+   "zone": "chapel_close",
+   "reward": 80,
+   "portrait": "scribe",
+   "after": {
+    "from": "Your own notes",
+    "text": "Under the hound's collar — a key to the crypt. Below the chapel: ledgers in the deacon's hand. The Communion has been feeding the creatures with the unclaimed dead for years, and every page ends the same way: 'it answers from below'."
+   }
+  },
+  {
+   "id": "wyrm",
+   "petition": "story_wyrm",
+   "monster": "burrow_wyrm",
+   "type": "slay",
+   "zone": "edge_walk",
+   "reward": 140,
+   "portrait": "scribe",
+   "after": {
+    "from": "Your own notes",
+    "text": "The digger is dead in the rubble of the crypt. The ledgers are still in your coat. Inspector Crane wants them: with them the Vigil will close the chapel for good. The deacon begs you to burn them: without the chapel, he says, the poor of the Grey Chapels have nothing at all."
+   },
+   "choices": [
+    {
+     "id": "vigil",
+     "text": "Give the ledgers to the Iron Vigil",
+     "rep": {
+      "vigil": 30,
+      "grey_communion": -30
+     }
+    },
+    {
+     "id": "communion",
+     "text": "Burn the ledgers for the Communion",
+     "rep": {
+      "grey_communion": 30,
+      "vigil": -30
+     }
+    }
+   ]
+  }
+ ],
+ "end": {
+  "from": "The Lantern & Hook",
+  "text": "The quarter talks about you now — some with a toast, some behind their hands. Whatever answers from below has gone quiet. For now. (End of the Grey Chapels chapter; the city beyond waits.)"
+ },
+ "end_xp": 80
+}

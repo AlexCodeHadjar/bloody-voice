@@ -203,6 +203,26 @@ func sell_stock(id: StringName) -> int:
 	return paid
 
 
+## A story letter was read (GDD 2.4); a note waiting for a choice stays.
+func read_letter() -> void:
+	if run != null and StoryRules.next_letter(run) != "":
+		StoryRules.read_letter(run, ContentDB.data)
+		save_game()
+
+
+## The hunter's choice at the end of the story: reputation, the end letter and its XP. "" or why not.
+func story_choice(choice_id: StringName) -> String:
+	if run == null or combat != null:
+		return Loc.t("rule.not_now")
+	var problem := StoryRules.choose(run, ContentDB.data, choice_id)
+	if problem == "":
+		StoryRules.read_letter(run, ContentDB.data)  # the note that asked is answered
+		ProgressRules.add_xp(run, ContentDB.data, ContentDB.data.story.end_xp)
+		EventBus.progress_changed.emit()
+		save_game()
+	return problem
+
+
 ## The morning news leaflet was read (GDD 15).
 func read_news() -> void:
 	if run != null and EventRules.next_news(run) != "":
