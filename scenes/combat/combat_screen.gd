@@ -182,12 +182,23 @@ func _refresh() -> void:
 	_piles[&"discard_pile"].set_count(s.discard_pile.size())
 	_piles[&"exhaust_pile"].set_count(s.exhaust_pile.size())
 	_log.refresh(s)
-	_top_left.text = Loc.t("ui.combat.top.contract" if s.capture_allowed else "ui.combat.top.hunt", {"enemy": s.enemy.display_name})
+	_top_left.text = _top_text(s)
 	_top_turn.text = Loc.t("ui.combat.turn", {"n": s.turn})
 	_play_fx(s)
 	if s.is_over() and not _result_queued:
 		_result_queued = true  # a short pause so the last card's flight and numbers are seen
 		create_tween().tween_callback(func() -> void: _result.show_result(s)).set_delay(RESULT_DELAY)
+
+
+## «Охота: X», «Заказ: убить X» or «Заказ на поимку: X»; «тварь усилилась» when the contract is overdue.
+func _top_text(s: CombatState) -> String:
+	var key := "ui.combat.top.hunt"
+	if s.capture_allowed:
+		key = "ui.combat.top.contract"
+	elif s.contract_uid != 0:
+		key = "ui.combat.top.contract_slay"
+	var text := Loc.t(key, {"enemy": s.enemy.display_name})
+	return text + Loc.t("ui.combat.top.stronger") if s.enemy.damage_bonus > 0 else text
 
 
 func _refresh_hand(s: CombatState) -> void:

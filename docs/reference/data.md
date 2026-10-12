@@ -5,7 +5,7 @@
 | File | Entries | Ids (or top-level keys) |
 |---|---|---|
 | `data/audio/sounds.json` | 6 | sounds, music, ambience, screens, monster_events, combat_log |
-| `data/balance.json` | 6 | calendar, economy, hero, capture, combat, gear |
+| `data/balance.json` | 7 | calendar, economy, hero, capture, combat, gear, contracts |
 | `data/cards/base.json` | 6 | strike, guard, shot, reload, read_the_beast, sidestep |
 | `data/cards/modules.json` | 8 | shock_harpoon, flash, smoke_screen, serrated_edge, harpoon_shot, gout_of_flame, overcharge, bayonet_thrust |
 | `data/cards/special.json` | 5 | iron_net, tonic_of_morrell, hounds_rage, panic, dread |
@@ -14,15 +14,17 @@
 | `data/city/district_states.json` | 14 | normal, fog_breach, flooded, burning, burned, rebuilding, rebuilt, quarantine, riot, martial_law, festival, eclipse, collapsed, cleansed |
 | `data/city/districts.json` | 12 | CROWN, SILVERHILL, VIGIL, LUMEN, MARKET, EXCHANGE, AVENUES, MORRELL, NORDHAL, GREY, DEEPWRIGHT, SCARLET |
 | `data/city/map_regions.json` | 4 | image, image_size, wall, regions |
+| `data/contracts/petitions.json` | 8 | laundress_widow, gravedigger, chapel_deacon, tavern_keeper, tinker_odi, watch_corporal, ash_sisters, crypt_copyist |
+| `data/contracts/tags.json` | 33 | children_singing, wet_handprints, near_water, during_rain, drowned_shallow, dust_on_sleepers, moonlight, never_wake, silent_wings, lamps_die, too_tall, only_in_fog, burnt_eyes, grinding_metal, acid_burns, foundries, eats_machinery, covered_mirrors … |
 | `data/gear/armor.json` | 4 | helmet, chestplate, gauntlets, greaves |
 | `data/gear/mechanisms.json` | 4 | lantern_of_revealing, smoke_bellows, riveted_plates, quick_holster |
 | `data/gear/modules.json` | 20 | harpoon_launcher, rifled_barrel, coil_accelerator, flame_nozzle, net_caster, brass_scope, lantern_lens, hound_eye, drum_magazine, quick_loader, ichor_cartridges, capacitor_bank, recoil_spring, bayonet_mount, bone_brace, gyro_stabilizer, galvanic_core, vein_lattice … |
 | `data/gear/shapes.json` | 11 | M1, I2, I3, L3, I4, O4, T4, L4, J4, S4, Z4 |
 | `data/gear/weapons.json` | 1 | hunting_rifle |
 | `data/monsters/mvp.json` | 8 | gutter_choir, moth_matron, lamplighter, rust_mantis, mourning_bride, vigil_hound, clay_saint, burrow_wyrm |
-| `data/tutorial/sequences.json` | 7 | combat_intro, equipment_intro, district_intro, first_part_broken, first_panic, first_no_ammo, first_rent |
+| `data/tutorial/sequences.json` | 9 | combat_intro, equipment_intro, district_intro, first_part_broken, first_panic, first_no_ammo, first_rent, contract_board, contract_taken |
 | `data/ui/icons.json` | 25 | RESOURCE 6, STAT 8, ATTRIBUTE 3, STATUS 6, INTENT 7, CARD_TYPE 6, CELL 3, SECTION 5, ARMOR 5, SKILL 6, DIRECTION 4, CONTRACT 6, OUTCOME 5, TAG 6, ACTION 8, FACTION 15, RANK 4, REPUTATION 5 … |
 
-## Locale `locale/strings.csv` — 635 keys
+## Locale `locale/strings.csv` — 717 keys
 
-`armor.*` 4 · `card.*` 38 · `card_type.*` 6 · `cell.*` 3 · `district.*` 103 · `district_map.*` 63 · `effect.*` 17 · `intent.*` 7 · `log.*` 28 · `mechanism.*` 8 · `mod.*` 12 · `module.*` 40 · `monster.*` 73 · `rule.*` 23 · `section.*` 5 · `shape.*` 11 · `state.*` 14 · `status.*` 5 · `trophy.*` 14 · `tutorial.*` 44 · `ui.*` 111 · `weapon.*` 6
+`armor.*` 4 · `card.*` 38 · `card_type.*` 6 · `cell.*` 3 · `district.*` 103 · `district_map.*` 63 · `effect.*` 17 · `intent.*` 7 · `log.*` 28 · `mechanism.*` 8 · `mod.*` 12 · `module.*` 40 · `monster.*` 73 · `petition.*` 16 · `rule.*` 26 · `section.*` 5 · `shape.*` 11 · `state.*` 14 · `status.*` 5 · `tag.*` 33 · `trophy.*` 14 · `tutorial.*` 48 · `ui.*` 137 · `weapon.*` 6

@@ -33,6 +33,8 @@ var capture_per_cunning: float = 0.0
 var capture_per_broken_part: float = 0.0
 var capture_max_chance: float = 0.0
 
+var contracts: ContractDefs.Balance = ContractDefs.Balance.new()  ## tavern contracts (GDD 7)
+
 
 static func from_dict(d: Dictionary, errs: ErrorLog) -> BalanceDef:
 	var b := BalanceDef.new()
@@ -67,4 +69,5 @@ static func from_dict(d: Dictionary, errs: ErrorLog) -> BalanceDef:
 	b.capture_per_cunning = DefReader.number(cap, "per_cunning", errs, w + "/capture")
 	b.capture_per_broken_part = DefReader.number(cap, "per_broken_part", errs, w + "/capture")
 	b.capture_max_chance = DefReader.number(cap, "max_chance", errs, w + "/capture")
+	b.contracts = ContractDefs.balance(DefReader.dict(d, "contracts", errs, w), errs)
 	return b

@@ -1,6 +1,7 @@
 class_name ResultPanel
 extends CenterContainer
-## The end-of-fight panel: outcome, the creature's cracked silhouette on a kill, turns, trophies, back to the district.
+## The end-of-fight panel: outcome, the creature's cracked silhouette on a kill, turns, trophies, the contract reward,
+## back to the district.
 
 signal back_pressed
 
@@ -27,6 +28,19 @@ func show_result(s: CombatState) -> void:
 	var trophies := ", ".join(PackedStringArray(s.trophies.map(func(t: StringName) -> String: return Loc.or_default("trophy.%s" % t, String(t).capitalize()))))
 	v.add_child(UiKit.label(Loc.t("ui.combat.summary", {"turns": s.turn, "hp": maxi(s.hero.hp, 0)}), 20))
 	v.add_child(Icons.with_text("RESOURCE", &"trophy", Loc.t("ui.combat.trophies", {"list": trophies if trophies != "" else Loc.t("ui.combat.none")}), 30, 20))
+	_add_contract_line(v, s)
 	var back := UiKit.button(Loc.t("ui.combat.back"))
 	back.pressed.connect(back_pressed.emit)
 	v.add_child(back)
+
+
+## The contract this fight counted for: paid on «back to the district» (GameState.finish_combat), or still open.
+func _add_contract_line(v: VBoxContainer, s: CombatState) -> void:
+	var c := GameState.run.contracts.find(s.contract_uid)
+	if c == null:
+		return
+	var paid := ContractRules.reward_for(c, s.outcome())
+	if paid > 0:
+		v.add_child(Icons.with_text("RESOURCE", &"money", Loc.t("ui.combat.contract_done", {"n": paid}), 30, 20, Palette.BRASS_LIGHT))
+	else:
+		v.add_child(UiKit.label(Loc.t("ui.combat.contract_open"), 18, Palette.FOG))

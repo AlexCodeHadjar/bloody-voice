@@ -25,6 +25,7 @@ func _run() -> void:
 	await _shot("01_main_menu")
 	GameState.new_game(1)
 	await _district_shots()
+	await _contract_shots()
 	get_tree().change_scene_to_file(CITY_MAP)
 	await _wait(1.5)
 	await _shot("02_city_map")
@@ -66,6 +67,34 @@ func _district_shots() -> void:
 			v.center_on(map.node_pos(&"square"))
 	await _wait(0.5)
 	await _shot("14_district_calibration")
+
+
+## Contracts (GDD 7): the tavern board, a tablet, then the taken contract in the tracker with its zone glowing.
+func _contract_shots() -> void:
+	get_tree().change_scene_to_file(DISTRICT)
+	await _wait(1.5)
+	var screen := get_tree().current_scene
+	screen.call("_on_action", &"tavern")
+	await _wait(0.8)
+	await _shot("15_contract_board")
+	var board: ContractBoard = null
+	for n: Node in screen.get_children():
+		if n is ContractBoard:
+			board = n as ContractBoard
+	var leaflets := ContractRules.board(GameState.run.contracts)
+	if board == null or leaflets.is_empty():
+		return
+	board.open_tablet(leaflets, 0)
+	await _wait(0.6)
+	await _shot("16_contract_tablet")
+	GameState.accept_contract(leaflets[0].uid)
+	await _wait(0.6)
+	await _shot("17_contract_taken")
+	board.close_board()
+	await _wait(0.3)
+	screen.call("_on_zone_requested", leaflets[0].zone)
+	await _wait(1.2)
+	await _shot("18_contract_tracker_zone")
 
 
 func _equipment_shots() -> void:

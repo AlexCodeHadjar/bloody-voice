@@ -144,7 +144,7 @@ Done 2026-10-12 — see §20.11 and CLAUDE.md («Район»).
 | Topic | What the game does |
 |---|---|
 | Flow | New game / Continue / back from a fight or the equipment screen → the district screen. «Карта города» opens the city map; only open districts (`RunState.open_districts`, start `["GREY"]`) are lit, the rest are dark «закрыто»; «К району» returns |
-| Places | Click a place → the hero walks there → a card: name, zone, a line about it. **Ash Garret** — «Отдохнуть до утра» (ends the day); **Rusty Cog** — «Снаряжение»; **Bonfire Square** — «Выйти на охоту» (a fight as before); gates (North Gate, South Passage, West Crossing) — «Закрыто»; the rest — «Откроется позже» |
+| Places | Click a place → the hero walks there → a card: name, zone, a line about it. **Ash Garret** — «Отдохнуть до утра» (ends the day); **Rusty Cog** — «Снаряжение»; **the Lantern & Hook** — «Доска заказов» (GDD 7.4); **Bonfire Square** — «Выйти на охоту» (creatures of open contracts come more often); gates (North Gate, South Passage, West Crossing) — «Закрыто»; the rest — «Откроется позже» |
 | Hover | A brass ring round the place and a tooltip: name + what it does |
 | Streets | A click on a street (≤ 110 px from it) sends the hero there; the hero's node is saved (`RunState.hero_node`, save v3). Old v2 saves are moved to GREY and every other district is locked — on purpose (the game starts confined to GREY) |
 | Hero | The stone figurine (four views), 350 px/s, footsteps; the camera follows unless the player drags |

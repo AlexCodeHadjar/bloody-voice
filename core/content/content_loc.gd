@@ -40,6 +40,10 @@ static func fields(data: ContentData) -> Array[Dictionary]:
 		_add(out, d, "district.%s" % d.id, ["name", "district_class", "controller", "danger", "look"])
 	for dm: DistrictMapDef in data.district_maps.values():
 		_district_map(out, dm)
+	for t: ContractDefs.TagDef in data.tags.values():
+		_add(out, t, "tag.%s" % t.id, [""])
+	for pe: ContractDefs.PetitionDef in data.petitions:
+		_add(out, pe, "petition.%s" % pe.id, ["sender", "text"])
 	return out
 
 
@@ -82,4 +86,9 @@ static func _add(out: Array[Dictionary], owner: Object, base: String, props: Arr
 
 
 static func _key_field(prop: String) -> String:
-	return "class" if prop == "district_class" else prop
+	match prop:
+		"district_class":
+			return "class"
+		"sender":
+			return "from"
+	return prop

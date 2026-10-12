@@ -9,6 +9,7 @@ static func start(setup: CombatSetup, data: ContentData) -> CombatState:
 	s.rng.seed = setup.rng_seed
 	s.capture_allowed = setup.capture_allowed
 	s.backdrop = setup.backdrop
+	s.contract_uid = setup.contract_uid
 	var h := s.hero
 	h.display_name = Loc.t("log.hunter_name")
 	h.hp = setup.hero_hp
@@ -22,6 +23,7 @@ static func start(setup: CombatSetup, data: ContentData) -> CombatState:
 	h.cunning = setup.cunning
 	h.mods = setup.mods.duplicate()
 	EnemyRules.setup(s, data.monster(setup.monster_id))
+	EnemyRules.strengthen(s.enemy, setup.enemy_hp_mult, setup.enemy_damage_bonus)
 	DeckRules.build(s, setup.deck, data)
 	s.log_event(&"start", Loc.t("log.start", {"enemy": s.enemy.display_name}))
 	_start_player_turn(s, data)

@@ -28,3 +28,21 @@
 | Capture | Bring the creature alive | Contract-only capture consumables are issued. Higher reward and a pure blood sample if kept. |
 | Research | Observe the creature in combat | Play 'Observe' on N body parts and survive N turns. Low money, big Bestiary gain. |
 | Story | Chapter progression | Authored, may contain dialogue choices and special fights. |
+
+## 7.4 How it works now (Phase 3 step 1, owner 2026-10-12)
+
+| Rule | Value |
+|---|---|
+| Where | The board hangs in the Lantern & Hook (Grey Chapels, place 6 on the district map, action `tavern`); the tracker sits in the top-right corner of the district screen, the place card opens below it. |
+| Board | Every Monday (and at a new game / on loading a save from an earlier week) 3–5 leaflets on creatures that live in the hero's district (`monsters[].districts`; GREY: Gutter Choir, Lamplighter, Vigil Hound, Burrow Wyrm). Leaflets nobody took go on Monday; taken ones stay in the tracker. |
+| Types now | Slay and Capture (Research and Story come later). Capture: the fight gets an iron net; only a captured creature counts. Slay: slain or captured. |
+| Leaflet | Type icon, rank badge, black silhouette, creature name, reward, days left; a wax seal once taken. |
+| Tablet | Petition (who asks + letter, `data/contracts/petitions.json`), type, rank, silhouette, 2–3 known signs (tags with category icons, `data/contracts/tags.json`), last seen (a zone of the district map), deadline, reward; arrows; «Принять заказ». |
+| Limits | At most 3 open contracts; 2 leaflets on one creature per board. |
+| Reward | Money only (XP and reputation come with Phase 6): by the creature's rank A 30 / P 50 / D 80 / S 130, ±20 %, ×1.5 for a capture, rounded to 5. |
+| Deadline | 4–10 days. **Overdue: the contract stays, the creature is stronger (hp ×1.25, +1 damage per hit), the reward does not grow** (owner). Shown red in the tracker and on the fight's top bar. |
+| Region icon | Makes the zone where the creature was last seen glow blue on the district map; the camera glides there. |
+| Until rumors (step 2) | The hunt from Bonfire Square meets the creatures of open contracts 3× more often; a fight with such a creature counts for the contract with the nearest deadline. |
+
+Numbers: `balance.json → contracts`. Code: `core/generation/contract_generator.gd`, `core/rules/contracts/contract_rules.gd`,
+`core/state/contracts_state.gd`, screens `scenes/contracts/`.

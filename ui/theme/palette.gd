@@ -13,3 +13,4 @@ const MOON := Color("c9ccd8")
 const INK_MUTED := Color("8c8174")
 const PANEL := Color(0.09, 0.075, 0.065, 0.92)
 const SHADE := Color(0.0, 0.0, 0.0, 0.55)
+const ALARM := Color("d65a4a")  ## overdue / warning text on dark panels

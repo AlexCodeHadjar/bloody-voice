@@ -14,6 +14,7 @@ func new_game(seed_value: int = 0) -> void:
 	var s := seed_value if seed_value != 0 else SeededRng.new_master_seed()
 	run = RunState.create(s, ContentDB.data.balance)
 	Rng.set_seed(s)
+	_refresh_board()
 	EventBus.run_started.emit()
 
 
@@ -25,6 +26,7 @@ func continue_game() -> bool:
 		push_warning("[save] gear removed: " + problem)
 	run = loaded
 	Rng.set_seed(run.master_seed)
+	_refresh_board()  # an old save or a save from last week gets this week's board
 	EventBus.run_loaded.emit()
 	return true
 
@@ -65,8 +67,27 @@ func end_day() -> void:
 		EventBus.district_state_changed.emit(c.key, c.old_state, c.new_state)
 	if report.rent_taken != 0:
 		EventBus.money_changed.emit(run.money)
+	_refresh_board()
 	EventBus.day_changed.emit(run.day)
 	save_game()
+
+
+## Every Monday the tavern board gets new leaflets (GDD 3.2, 7.1).
+func _refresh_board() -> void:
+	var rng := Rng.stream(&"contracts", CalendarRules.week(run.day, ContentDB.data.balance))
+	if ContractRules.refresh_board(run, ContentDB.data, rng):
+		EventBus.contracts_changed.emit()
+
+
+## Free action (GDD 3.3): take a leaflet from the tavern board. "" or the reason it can't be taken.
+func accept_contract(uid: int) -> String:
+	if run == null:
+		return Loc.t("rule.not_now")
+	var problem := ContractRules.accept(run.contracts, ContentDB.data, uid)
+	if problem == "":
+		EventBus.contracts_changed.emit()
+		save_game()
+	return problem
 
 
 ## Gear can be changed anywhere outside a fight, for free (owner's decision, GDD 5).
@@ -120,9 +141,15 @@ func _loadout_changed() -> void:
 func start_hunt(monster_id: StringName = &"", capture_allowed: bool = false) -> void:
 	if run == null:
 		return
+	var data := ContentDB.data
 	var rng := Rng.stream(&"encounters", run.day)
-	var id := monster_id if monster_id != &"" else EncounterRules.pick_monster(ContentDB.data, run.hero_district, rng)
-	var setup := DeckBuilder.setup(run.loadout, ContentDB.data, id, Rng.stream(&"combat", run.day).randi(), capture_allowed)
+	var id := monster_id if monster_id != &"" else EncounterRules.pick_monster(data, run.hero_district, rng,
+		ContractRules.targets(run.contracts), data.balance.contracts.hunt_target_weight)
+	var contract := ContractRules.for_monster(run.contracts, id)
+	if contract != null and contract.type == &"capture":
+		capture_allowed = true
+	var setup := DeckBuilder.setup(run.loadout, data, id, Rng.stream(&"combat", run.day).randi(), capture_allowed)
+	ContractRules.prepare_fight(setup, contract, run.day, data.balance)
 	if capture_allowed:
 		if not setup.deck.has(&"iron_net"):  # the contract issues a net unless the gear already brings one
 			setup.deck.append(&"iron_net")
@@ -162,6 +189,10 @@ func finish_combat() -> void:
 	if combat == null:
 		return
 	var outcome := combat.outcome()
+	var paid := ContractRules.resolve_fight(run, combat.contract_uid, outcome)
 	combat = null
 	EventBus.combat_finished.emit(outcome)
+	if paid > 0:
+		EventBus.money_changed.emit(run.money)
+		EventBus.contracts_changed.emit()
 	end_day()

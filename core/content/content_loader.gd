@@ -17,6 +17,8 @@ const ARMOR := "gear/armor.json"
 const MECHANISMS := "gear/mechanisms.json"
 const AUDIO := "audio/sounds.json"
 const TUTORIAL := "tutorial/sequences.json"
+const TAGS := "contracts/tags.json"
+const PETITIONS := "contracts/petitions.json"
 
 
 static func load_all(root: String, errs: ErrorLog) -> ContentData:
@@ -54,6 +56,7 @@ static func load_all(root: String, errs: ErrorLog) -> ContentData:
 	for key: String in seqs:
 		if not key.begins_with("_"):
 			data.tutorial[StringName(key)] = TutorialDef.from_dict(StringName(key), seqs[key] as Dictionary, errs)
+	_load_contracts(root, data, errs)
 	ContentLoc.apply(data)  # shown texts in the game language (GDD 22.5)
 	return data
 
@@ -92,6 +95,18 @@ static func _load_district_life(root: String, data: ContentData, errs: ErrorLog)
 		if data.district_life.has(def.district):
 			errs.add("district_life/" + f, "duplicate district life '%s'" % def.district)
 		data.district_life[def.district] = def
+
+
+static func _load_contracts(root: String, data: ContentData, errs: ErrorLog) -> void:
+	var tags := read_object(root.path_join(TAGS), errs)
+	for key: Variant in tags:
+		if not str(key).begins_with("_"):
+			data.tags[StringName(str(key))] = ContractDefs.tag(StringName(str(key)), tags[key] as Dictionary, errs)
+	for d: Variant in read_array(root.path_join(PETITIONS), errs):
+		var p := ContractDefs.petition(d as Dictionary, errs)
+		if data.petition(p.id) != null:
+			errs.add(PETITIONS, "duplicate petition id '%s'" % p.id)
+		data.petitions.append(p)
 
 
 static func _load_gear(root: String, data: ContentData, errs: ErrorLog) -> void:

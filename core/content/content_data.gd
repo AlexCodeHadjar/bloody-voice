@@ -19,6 +19,8 @@ var armor: Array[GearDefs.ArmorDef] = []
 var mechanisms: Dictionary[StringName, GearDefs.MechanismDef] = {}
 var audio: AudioDef = AudioDef.new()
 var tutorial: Dictionary[StringName, TutorialDef] = {}
+var tags: Dictionary[StringName, ContractDefs.TagDef] = {}  ## creature sign tags (GDD 8.2)
+var petitions: Array[ContractDefs.PetitionDef] = []
 
 
 func district(id: StringName) -> DistrictDef:
@@ -51,3 +53,14 @@ func module(id: StringName) -> ModuleDef:
 
 func mechanism(id: StringName) -> GearDefs.MechanismDef:
 	return mechanisms.get(id) as GearDefs.MechanismDef
+
+
+func tag(id: StringName) -> ContractDefs.TagDef:
+	return tags.get(id) as ContractDefs.TagDef
+
+
+func petition(id: StringName) -> ContractDefs.PetitionDef:
+	for p: ContractDefs.PetitionDef in petitions:
+		if p.id == id:
+			return p
+	return null

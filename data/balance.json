@@ -60,5 +60,33 @@
    }
   ],
   "start_mechanisms": []
+ },
+ "contracts": {
+  "_comment": "Tavern contracts (GDD 7, 17.2). A new board every Monday. Rewards are money by the creature's rank; overdue contracts stay but the creature gets stronger (owner, 2026-10-12).",
+  "board_min": 3,
+  "board_max": 5,
+  "deadline_min": 4,
+  "deadline_max": 10,
+  "max_same_type": 3,
+  "max_same_monster": 2,
+  "max_active": 3,
+  "type_weights": {
+   "slay": 3,
+   "capture": 1
+  },
+  "reward_by_rank": {
+   "A": 30,
+   "P": 50,
+   "D": 80,
+   "S": 130
+  },
+  "reward_spread": 0.2,
+  "reward_step": 5,
+  "capture_reward_mult": 1.5,
+  "known_tags_min": 2,
+  "known_tags_max": 3,
+  "hunt_target_weight": 3,
+  "overdue_hp_mult": 1.25,
+  "overdue_damage_bonus": 1
  }
 }

@@ -1,0 +1,10 @@
+[
+ {"id": "laundress_widow", "types": ["slay"], "from": "Mara, a laundress's widow", "text": "The neighbour's boy went for water and never came back. The watch does not come down here. I have saved a little: find the thing and put an end to it."},
+ {"id": "gravedigger", "types": ["slay"], "from": "Old Jonas, gravedigger", "text": "Something digs up the fresh graves before I do. The dead do not mind. I do. I will pay from the common jar."},
+ {"id": "chapel_deacon", "types": ["slay", "capture"], "from": "A deacon of the Old Grey Chapel", "text": "The faithful are afraid to come to evening prayer. The Grey Communion asks a hunter to rid the quarter of this plague."},
+ {"id": "tavern_keeper", "types": ["slay"], "from": "The keeper of the Lantern & Hook", "text": "People stopped staying after dark. Bad for business. Rid us of whatever scares them: a drink and coin are yours."},
+ {"id": "tinker_odi", "types": ["slay"], "from": "Odi, a tinker", "text": "Something scratches at my shutters every night and people walk round my shop. I am no fighter. You are."},
+ {"id": "watch_corporal", "types": ["slay"], "from": "A night-watch corporal (unofficially)", "text": "Officially nothing happened. Unofficially, three people vanished this week. The money is from my own pocket, no papers."},
+ {"id": "ash_sisters", "types": ["capture"], "from": "The Ash Sisters' Infirmary", "text": "We need the creature alive: our patients' wounds match nothing in the books. Bring it breathing and the sisters will pay well."},
+ {"id": "crypt_copyist", "types": ["capture"], "from": "A copyist of the Crypt Scriptorium", "text": "The Scriptorium needs a living specimen for its register. A dead body lies; a living one does not. We will issue you a net."}
+]

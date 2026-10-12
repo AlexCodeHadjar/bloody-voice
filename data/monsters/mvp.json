@@ -7,7 +7,8 @@
   "intents_per_turn": 1,
   "districts": [
    "AVENUES",
-   "SCARLET"
+   "SCARLET",
+   "GREY"
   ],
   "tags": [
    "children_singing",
@@ -243,7 +244,8 @@
   "intents_per_turn": 2,
   "districts": [
    "AVENUES",
-   "CROWN"
+   "CROWN",
+   "GREY"
   ],
   "tags": [
    "lamps_die",
@@ -622,7 +624,8 @@
   "hp": 92,
   "intents_per_turn": 2,
   "districts": [
-   "NORDHAL"
+   "NORDHAL",
+   "GREY"
   ],
   "tags": [
    "howl",
@@ -877,7 +880,8 @@
   "hp": 80,
   "intents_per_turn": 2,
   "districts": [
-   "DEEPWRIGHT"
+   "DEEPWRIGHT",
+   "GREY"
   ],
   "tags": [
    "tremors",

@@ -4,7 +4,7 @@ extends RefCounted
 ## landmarks, sound zones. Coordinates are pixels of the map image (image_size).
 
 const KINDS: Array[StringName] = [&"main", &"street", &"alley", &"rope"]
-const ACTIONS: Array[StringName] = [&"rest", &"equipment", &"hunt", &"locked", &"soon"]
+const ACTIONS: Array[StringName] = [&"rest", &"equipment", &"hunt", &"tavern", &"locked", &"soon"]
 
 
 class LandmarkDef:

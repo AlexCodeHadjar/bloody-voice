@@ -10,6 +10,7 @@ var move_discard: Array[StringName] = []
 var intents: Array[StringName] = []
 var removed_moves: Dictionary[StringName, bool] = {}
 var next_phase: int = 0  ## index into the phases sorted from highest threshold
+var damage_bonus: int = 0  ## added to every hit (a creature left alone past a contract deadline)
 
 
 func broken_parts() -> int:

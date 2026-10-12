@@ -36,6 +36,28 @@ ui.district.hint.equipment,Мастерская: снаряжение,Workshop: 
 ui.district.hint.hunt,Отсюда уходят на охоту,Hunts start here
 ui.district.hint.locked,Закрыто,Closed
 ui.district.hint.soon,Откроется позже,Opens later
+ui.district.action.tavern,Доска заказов,Contract board
+ui.district.hint.tavern,Таверна: доска заказов,Tavern: contract board
+ui.contract.board_title,Доска заказов — «Фонарь и Крюк»,Contract board — the Lantern & Hook
+ui.contract.board_empty,Заказов нет. Новые листки повесят в понедельник.,No contracts. New leaflets go up on Monday.
+ui.contract.type.slay,Убить,Slay
+ui.contract.type.capture,Поймать живой,Capture
+ui.contract.type.research,Изучить,Research
+ui.contract.type.story,Сюжет,Story
+ui.contract.rank,Ранг {rank},Rank {rank}
+ui.contract.signs,Известные приметы,Known signs
+ui.contract.last_seen,Видели:,Last seen:
+ui.contract.deadline,Срок:,Deadline:
+ui.contract.reward,Награда:,Reward:
+ui.contract.days_left,осталось {n} {n:день|дня|дней},{n} d left
+ui.contract.last_day,последний день,last day
+ui.contract.overdue,просрочен — тварь усилилась,overdue — the creature grew stronger
+ui.contract.accept,Принять заказ,Accept
+ui.contract.taken,Заказ принят,Taken
+ui.contract.done,Выполнен,Done
+ui.contract.tracker,Заказы,Contracts
+ui.contract.open_hint,Открыть табличку заказа,Open the contract tablet
+ui.contract.region_hint,"Показать на карте, где видели: {zone}",Show where it was seen: {zone}
 ui.city.back_to_district,К району,To the district
 ui.combat.outcome.slain,Тварь убита,The creature is slain
 ui.combat.outcome.captured,Тварь поймана,The creature is captured
@@ -215,6 +237,9 @@ rule.card_unplayable,«{card}» нельзя разыграть.,{card} cannot b
 rule.fits_only,«{module}» ставится только в секцию «{section}».,{module} fits only into the {section}.
 rule.not_now,Не сейчас.,Not now.
 rule.no_fight,Боя нет.,No fight.
+rule.contract.unknown,Такого заказа нет.,No such contract.
+rule.contract.taken,Этот заказ уже принят.,This contract is already taken.
+rule.contract.too_many,Больше {n} {n:заказа|заказов|заказов} сразу не взять.,You can't hold more than {n} contracts.
 intent.attack,Атака,Attack
 intent.defend,Защита,Defend
 intent.fear,Страх,Fear
@@ -272,11 +297,11 @@ tutorial.equipment_intro.5.text,В гнёзда брони ставятся ме
 tutorial.district_intro.1.title,Серые Часовни,The Grey Chapels
 tutorial.district_intro.1.text,"Это ваш район — трущобы у края платформы. Зажмите левую кнопку мыши и тяните, чтобы осмотреться; колесо приближает.","This is your district, the slums at the platform edge. Hold the left mouse button and drag to look around; the wheel zooms."
 tutorial.district_intro.2.title,Не потеряйтесь,Do not get lost
-tutorial.district_intro.2.text,"«К охотнику» и «Домой» вернут взгляд к фигурке охотника или к его чердаку. Пробел — тоже к охотнику.","«To the hunter» and «Home» bring the view back to the hunter's figure or the garret. Space works too."
+tutorial.district_intro.2.text,«К охотнику» и «Домой» вернут взгляд к фигурке охотника или к его чердаку. Пробел — тоже к охотнику.,«To the hunter» and «Home» bring the view back to the hunter's figure or the garret. Space works too.
 tutorial.district_intro.3.title,Прогулка,A walk
 tutorial.district_intro.3.text,Нажмите на улицу или здание — охотник пойдёт туда по улицам. Ходьба по району не тратит время.,Click a street or a building and the hunter walks there along the streets. Walking in the district costs no time.
 tutorial.district_intro.4.title,Места,Places
-tutorial.district_intro.4.text,"Дойдите до места, чтобы открыть его карточку. Пепельный чердак — отдых до утра, «Ржавая Шестерня» — снаряжение, Костровая площадь — охота.","Walk to a place to open its card. Ash Garret: rest until morning; the Rusty Cog: equipment; Bonfire Square: the hunt."
+tutorial.district_intro.4.text,"Дойдите до места, чтобы открыть его карточку. Пепельный чердак — отдых до утра, «Ржавая Шестерня» — снаряжение, Костровая площадь — охота.",Walk to a place to open its card. Ash Garret: rest until morning; the Rusty Cog: equipment; Bonfire Square: the hunt.
 tutorial.first_part_broken.1.title,Часть сломана,A part is broken
 tutorial.first_part_broken.1.text,Сломанная часть больше не действует: тварь потеряла связанные с ней ходы.,A broken part no longer works: the creature lost the moves tied to it.
 tutorial.first_panic.1.title,Паника,Panic
@@ -285,6 +310,25 @@ tutorial.first_no_ammo.1.title,Нет патронов,Out of ammo
 tutorial.first_no_ammo.1.text,"Магазин пуст. Сыграйте «Перезарядку», чтобы снова стрелять.",The magazine is empty. Play Reload to shoot again.
 tutorial.first_rent.1.title,Аренда,Rent
 tutorial.first_rent.1.text,Завтра день аренды. Держите деньги на оплату комнаты.,Rent is due tomorrow. Keep money for the room.
+tutorial.contract_board.1.title,Доска заказов,Contract board
+tutorial.contract_board.1.text,"Здесь висят заказы на тварей Серых Часовен. Нажмите на листок — откроется табличка: кто просит, приметы твари, где её видели, срок и награда. Новые листки — каждый понедельник.","Contracts on the creatures of the Grey Chapels hang here. Click a leaflet to open its tablet: who asks, the creature's signs, where it was seen, the deadline and the reward. New leaflets every Monday."
+tutorial.contract_taken.1.title,Ваши заказы,Your contracts
+tutorial.contract_taken.1.text,"Принятые заказы — в правом верхнем углу. Значок места подсветит на карте, где видели тварь. Охота с Костровой площади чаще выводит на тварей из ваших заказов. Не успеете к сроку — заказ останется, но тварь станет сильнее.","Taken contracts are in the top-right corner. The place icon lights up where the creature was seen. Hunts from Bonfire Square meet the creatures of your contracts more often. Miss the deadline and the contract stays, but the creature grows stronger."
+ui.combat.log,Журнал,Log
+ui.combat.turn,Ход {n},Turn {n}
+ui.combat.top.hunt,Охота: {enemy},Hunt: {enemy}
+ui.combat.top.contract,Заказ на поимку: {enemy},Capture contract: {enemy}
+ui.combat.top.contract_slay,Заказ: убить {enemy},Contract: slay {enemy}
+ui.combat.top.stronger, · тварь усилилась, · the creature grew stronger
+ui.combat.contract_done,Заказ выполнен: +{n},Contract done: +{n}
+ui.combat.contract_open,Заказ не выполнен — он остаётся в трекере.,The contract is not done; it stays in the tracker.
+ui.combat.capture_chance,Шанс поимки: {n}%,Capture chance: {n}%
+ui.combat.pile_title,{pile}: {n},{pile}: {n}
+ui.combat.pile_empty,Здесь пусто.,Nothing here.
+ui.combat.close,Закрыть,Close
+ui.combat.settings,Настройки,Settings
+ui.combat.part_tip,{name}: {hp} / {max},{name}: {hp} / {max}
+ui.combat.ap,Очки действия,Action points
 card.strike.name,Удар,Strike
 card.strike.text,Нанесите 6 урона.,Deal 6 damage.
 card.guard.name,Защита,Guard
@@ -631,14 +675,52 @@ district_map.GREY.zone.chapel_close,Часовенный двор,Chapel Close
 district_map.GREY.zone.shanty_roofs,Хибары на крышах,Shanty Roofs
 district_map.GREY.zone.ash_quarter,Пепельный квартал,Ash Quarter
 district_map.GREY.zone.lower_yards,Нижние дворы,Lower Yards
-ui.combat.log,Журнал,Log
-ui.combat.turn,Ход {n},Turn {n}
-ui.combat.top.hunt,Охота: {enemy},Hunt: {enemy}
-ui.combat.top.contract,Контракт на поимку: {enemy},Capture contract: {enemy}
-ui.combat.capture_chance,Шанс поимки: {n}%,Capture chance: {n}%
-ui.combat.pile_title,"{pile}: {n}","{pile}: {n}"
-ui.combat.pile_empty,Здесь пусто.,Nothing here.
-ui.combat.close,Закрыть,Close
-ui.combat.settings,Настройки,Settings
-ui.combat.part_tip,"{name}: {hp} / {max}","{name}: {hp} / {max}"
-ui.combat.ap,Очки действия,Action points
+tag.children_singing,детское пение,Children singing
+tag.wet_handprints,мокрые отпечатки ладоней,Wet handprints
+tag.near_water,у воды,Near water
+tag.during_rain,во время дождя,During rain
+tag.drowned_shallow,утонули на мелководье,Drowned in shallow water
+tag.dust_on_sleepers,пыль на спящих,Dust on the sleepers
+tag.moonlight,при лунном свете,In moonlight
+tag.never_wake,спящие не просыпаются,Sleepers never wake
+tag.silent_wings,бесшумные крылья,Silent wings
+tag.lamps_die,гаснут фонари,Street lamps die
+tag.too_tall,слишком высокий,Too tall
+tag.only_in_fog,только в тумане,Only in fog
+tag.burnt_eyes,выжженные глаза,Burnt-out eyes
+tag.grinding_metal,скрежет металла,Grinding metal
+tag.acid_burns,кислотные ожоги,Acid burns
+tag.foundries,у литейных,Near the foundries
+tag.eats_machinery,сожранные машины,Machines eaten
+tag.covered_mirrors,завешенные зеркала,Covered mirrors
+tag.one_guest_too_many,лишний гость,One guest too many
+tag.victim_smiling,жертва улыбалась,The victim was smiling
+tag.perfume,запах духов,Smell of perfume
+tag.howl,вой,A howl
+tag.prints_turn_to_paws,следы становятся лапами,Footprints turn into paws
+tag.smell_of_medicine,запах лекарств,Smell of medicine
+tag.former_hunter,похож на охотника,Looks like a hunter
+tag.formalin,запах формалина,Smell of formalin
+tag.glass_chiming,звон стекла,Glass chiming
+tag.surgical_wounds,хирургические раны,Surgical wounds
+tag.walks_in_daylight,ходит днём,Walks in daylight
+tag.tremors,дрожь под ногами,Tremors underfoot
+tag.floors_collapse,проваливаются полы,Floors cave in
+tag.acid,лужи кислоты,Pools of acid
+tag.knocking_below,стук снизу,Knocking from below
+petition.laundress_widow.from,"Мара, вдова прачки","Mara, a laundress's widow"
+petition.laundress_widow.text,Соседский мальчишка пошёл за водой и не вернулся. Стража к нам не спускается. Я скопила немного — найдите эту тварь и покончите с ней.,The neighbour's boy went for water and never came back. The watch does not come down here. I have saved a little: find the thing and put an end to it.
+petition.gravedigger.from,"Старый Йонас, могильщик","Old Jonas, gravedigger"
+petition.gravedigger.text,"Кто-то разрывает свежие могилы раньше меня. Мертвецам всё равно, а мне нет. Заплачу из общей кружки.",Something digs up the fresh graves before I do. The dead do not mind. I do. I will pay from the common jar.
+petition.chapel_deacon.from,Дьякон Старой Серой Часовни,A deacon of the Old Grey Chapel
+petition.chapel_deacon.text,Прихожане боятся идти к вечерне. Серое Причастие просит охотника избавить квартал от напасти.,The faithful are afraid to come to evening prayer. The Grey Communion asks a hunter to rid the quarter of this plague.
+petition.tavern_keeper.from,Хозяин «Фонаря и Крюка»,The keeper of the Lantern & Hook
+petition.tavern_keeper.text,"Посетители перестали засиживаться после темноты. Плохо для дела. Избавьте нас от того, что их пугает, — налью и заплачу.",People stopped staying after dark. Bad for business. Rid us of whatever scares them: a drink and coin are yours.
+petition.tinker_odi.from,"Оди, жестянщица","Odi, a tinker"
+petition.tinker_odi.text,"Каждую ночь кто-то скребётся в мои ставни, люди обходят лавку стороной. Я не боец. Вы — да.",Something scratches at my shutters every night and people walk round my shop. I am no fighter. You are.
+petition.watch_corporal.from,Капрал ночной стражи (неофициально),A night-watch corporal (unofficially)
+petition.watch_corporal.text,"Официально ничего не случилось. Неофициально — трое пропавших за неделю. Деньги из моего кармана, без бумаг.","Officially nothing happened. Unofficially, three people vanished this week. The money is from my own pocket, no papers."
+petition.ash_sisters.from,Лазарет Пепельных Сестёр,The Ash Sisters' Infirmary
+petition.ash_sisters.text,Нам нужна живая тварь: раны больных не похожи ни на что из книг. Приведите её живой — сёстры хорошо заплатят.,We need the creature alive: our patients' wounds match nothing in the books. Bring it breathing and the sisters will pay well.
+petition.crypt_copyist.from,Переписчик Скриптория в Крипте,A copyist of the Crypt Scriptorium
+petition.crypt_copyist.text,"Скрипторию нужен живой образец для описи. Мёртвое тело лжёт, живое — нет. Сеть выдадим.",The Scriptorium needs a living specimen for its register. A dead body lies; a living one does not. We will issue you a net.

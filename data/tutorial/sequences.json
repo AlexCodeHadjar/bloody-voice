@@ -36,5 +36,7 @@
  "first_part_broken": {"trigger": "part_broken", "steps": [{"anchor": "parts"}]},
  "first_panic": {"trigger": "panic", "steps": [{"anchor": "vials"}]},
  "first_no_ammo": {"trigger": "no_ammo", "steps": [{"anchor": "weapon"}]},
- "first_rent": {"trigger": "rent_tomorrow", "steps": [{"anchor": "day_bar"}]}
+ "first_rent": {"trigger": "rent_tomorrow", "steps": [{"anchor": "day_bar"}]},
+ "contract_board": {"trigger": "contract_board_open", "steps": [{"anchor": "contract_board"}]},
+ "contract_taken": {"trigger": "contract_taken", "steps": [{"anchor": "contract_tracker"}]}
 }

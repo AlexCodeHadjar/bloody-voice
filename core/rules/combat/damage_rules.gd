@@ -8,6 +8,8 @@ static func compute(base: int, attacker: Combatant, defender: Combatant, b: Bala
 	var v := float(base)
 	if attacker.status(&"enraged") > 0:
 		v += b.enraged_bonus
+	if attacker is EnemyCombatant:
+		v += (attacker as EnemyCombatant).damage_bonus
 	if attacker.status(&"weak") > 0:
 		v *= b.weak_mult
 	if defender.status(&"exposed") > 0:

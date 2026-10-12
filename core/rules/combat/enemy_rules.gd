@@ -16,6 +16,13 @@ static func setup(state: CombatState, def: MonsterDef) -> void:
 	_shuffle(state, e.move_draw)
 
 
+## A stronger creature (overdue contract): more hp, harder hits.
+static func strengthen(e: EnemyCombatant, hp_mult: float, damage_bonus: int) -> void:
+	e.max_hp = ceili(e.max_hp * hp_mult)
+	e.hp = e.max_hp
+	e.damage_bonus = damage_bonus
+
+
 ## Reveal the moves the creature will make at the end of the hunter's turn.
 static func reveal_intents(state: CombatState) -> void:
 	var e := state.enemy

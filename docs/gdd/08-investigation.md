@@ -1,5 +1,10 @@
 # 8. Investigation
 
+> **Owner, 2026-10-12:** while the game is confined to the Grey Chapels, rumors appear as **diamonds right on the
+> district map** (GDD §20), in zones that fit their tags; the leaflet post on Bonfire Square lists them too. The hero
+> walks to a diamond, opens the rumor tablet, «Расследовать» costs the day. Built in Phase 3 step 2; the city-map
+> figure and search ring below return when other districts open.
+
 ## 8.1 Flow
 
 1. Select a contract in the tracker, click its region icon — the region glows on the city map.

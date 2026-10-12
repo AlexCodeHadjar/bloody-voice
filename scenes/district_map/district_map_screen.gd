@@ -15,6 +15,8 @@ var _view: DistrictView
 var _hero: HeroWalker
 var _life: LifeLayer
 var _card: LandmarkCard
+var _tracker: ContractTracker
+var _overlay_open: Control = null  ## the contract board or a tablet over the map
 var _tip: PanelContainer
 var _tip_label: Label
 var _day_label: Label
@@ -70,6 +72,7 @@ func _build() -> void:
 	_hero.arrived.connect(_on_arrived)
 	_hero.stepped.connect(func() -> void: UiKit.sound(&"world.step"))
 	_build_card()
+	_build_tracker()
 	_build_tip()
 
 
@@ -114,6 +117,18 @@ func _build_card() -> void:
 	_card.position = Vector2(-LandmarkCard.WIDTH - 24.0, 90.0)
 	_card.action_chosen.connect(_on_action)
 	add_child(_card)
+
+
+## Taken contracts in the top-right corner (GDD 7.1); the place card opens below them.
+func _build_tracker() -> void:
+	_tracker = ContractTracker.new()
+	_tracker.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	_tracker.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_tracker.position = Vector2(-ContractTracker.WIDTH - 24.0, 74.0)
+	_tracker.zone_requested.connect(_on_zone_requested)
+	_tracker.contract_opened.connect(_open_tablet)
+	add_child(_tracker)
+	TutorialAnchors.register(&"contract_tracker", _tracker)
 
 
 func _build_tip() -> void:
@@ -179,6 +194,7 @@ func _on_street_clicked(p: Vector2) -> void:
 
 func _walk_to(to: DistrictMapRules.Spot) -> void:
 	_card.close_card()
+	_view.follow = _hero  # the camera may have been sent to a contract's zone
 	var from := _current_spot()
 	var route := DistrictMapRules.route(_map, from, to)
 	_spot = to
@@ -198,6 +214,7 @@ func _on_arrived() -> void:
 	GameState.save_game()
 	Tutorial.action(&"hero_walked")
 	if _target != null:
+		_card.position.y = _tracker.position.y + _tracker.size.y + 14.0 if _tracker.visible else 90.0
 		_card.show_landmark(_target, _zone_name(_target.zone))
 		_target = null
 
@@ -222,14 +239,47 @@ func _on_action(action: StringName) -> void:
 			GameState.end_day()
 		&"equipment":
 			_to_equipment()
+		&"tavern":
+			_card.close_card()
+			_open_overlay(ContractBoard.new())
 		&"hunt":
 			GameState.save_game()
 			GameState.start_hunt()
 			get_tree().change_scene_to_file(COMBAT)
 
 
+func _open_overlay(o: Control) -> void:
+	if _overlay_open != null:
+		return
+	_overlay_open = o
+	add_child(o)
+	o.connect(&"closed", _on_overlay_closed)
+
+
+func _open_tablet(list: Array[ContractsState.Contract], index: int) -> void:
+	if _overlay_open != null:
+		return
+	var tablet := ContractTablet.new()
+	_open_overlay(tablet)
+	tablet.open_list(list, index)
+
+
+func _on_overlay_closed() -> void:
+	_overlay_open = null
+	if not ContractRules.active(GameState.run.contracts).is_empty():
+		Tutorial.trigger.call_deferred(&"contract_taken")
+
+
+## The tracker's region icon: the zone where the creature was last seen glows and the view glides there
+## (the camera stops following the hero until the hunter walks again).
+func _on_zone_requested(zone: StringName) -> void:
+	_view.follow = null
+	_view.center_on(_view.overlay.flash_zone(zone), true)
+	UiKit.sound(&"paper.map")
+
+
 func _unhandled_input(event: InputEvent) -> void:
-	if _view == null:
+	if _view == null or _overlay_open != null:
 		return
 	if event.is_action_pressed("ui_cancel"):
 		if _card.visible:
@@ -246,6 +296,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _to_hero() -> void:
+	_view.follow = _hero
 	_view.center_on(_hero.position, true)
 
 

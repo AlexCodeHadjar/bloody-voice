@@ -3,6 +3,7 @@ extends Node2D
 ## Drawn over the district art (GDD 20.2): the veil over the locked neighbours (70 % black with diagonal hatching,
 ## owner 2026-10-12) with «<name> — закрыто» labels, the brass outline of the landmark under the mouse and, in debug
 ## builds (F3), the calibration overlay: street graph, landmark spots, zones and the contour (GDD 20.9 step 6b).
+## flash_zone() makes a zone glow for a moment: where a contract's creature was last seen (GDD 7.1).
 
 const VEIL := Color(0.0, 0.0, 0.0, 0.7)
 const HATCH := Color(0.55, 0.5, 0.45, 0.22)
@@ -10,6 +11,10 @@ const HATCH_STEP := 46.0
 const LABEL_SIZE := 64
 const RING := Color(0.85, 0.7, 0.4, 0.95)
 const RING_FILL := Color(1.0, 0.85, 0.5, 0.10)
+const FLASH := Color(0.55, 0.75, 1.0)  ## the blue glow of a contract's region
+const FLASH_IN := 0.35
+const FLASH_HOLD := 1.2
+const FLASH_OUT := 2.0
 
 var debug_visible := false
 
@@ -19,6 +24,12 @@ var _hatch: Array[PackedVector2Array] = []
 var _labels: Array[Array] = []  ## [[pos: Vector2, text: String], ...]
 var _hovered: DistrictMapDef.LandmarkDef = null
 var _font: Font
+var _flash := PackedVector2Array()
+var _flash_tween: Tween
+var flash_alpha := 0.0:
+	set(v):
+		flash_alpha = v
+		queue_redraw()
 
 
 func setup(map: DistrictMapDef) -> void:
@@ -38,6 +49,27 @@ func set_hovered(lm: DistrictMapDef.LandmarkDef) -> void:
 	queue_redraw()
 
 
+## Glows the zone's outline in, holds and fades out. Returns the zone's centre (art px), or the art centre if unknown.
+func flash_zone(zone: StringName) -> Vector2:
+	_flash = PackedVector2Array()
+	for z: DistrictMapDef.ZoneDef in _map.zones:
+		if z.id == zone:
+			_flash = z.polygon
+	if _flash.is_empty():
+		return _map.image_size * 0.5
+	if _flash_tween != null:
+		_flash_tween.kill()
+	flash_alpha = 0.0
+	_flash_tween = create_tween()
+	_flash_tween.tween_property(self, "flash_alpha", 1.0, FLASH_IN)
+	_flash_tween.tween_interval(FLASH_HOLD)
+	_flash_tween.tween_property(self, "flash_alpha", 0.0, FLASH_OUT)
+	var sum := Vector2.ZERO
+	for p: Vector2 in _flash:
+		sum += p
+	return sum / _flash.size()
+
+
 func toggle_debug() -> void:
 	debug_visible = not debug_visible
 	queue_redraw()
@@ -52,11 +84,21 @@ func _draw() -> void:
 		draw_line(line[0], line[1], HATCH, 3.0)
 	for l: Array in _labels:
 		_draw_label(l[0] as Vector2, l[1] as String)
+	if flash_alpha > 0.0 and not _flash.is_empty():
+		_draw_flash()
 	if _hovered != null:
 		draw_circle(_hovered.pos, _hovered.radius, RING_FILL)
 		draw_arc(_hovered.pos, _hovered.radius, 0.0, TAU, 64, RING, 5.0, true)
 	if debug_visible:
 		_draw_debug()
+
+
+func _draw_flash() -> void:
+	if not Geometry2D.triangulate_polygon(_flash).is_empty():
+		draw_colored_polygon(_flash, Color(FLASH, 0.16 * flash_alpha))
+	var outline := _closed(_flash)
+	draw_polyline(outline, Color(FLASH, 0.25 * flash_alpha), 26.0, true)
+	draw_polyline(outline, Color(FLASH, 0.95 * flash_alpha), 7.0, true)
 
 
 func _draw_label(pos: Vector2, text: String) -> void:

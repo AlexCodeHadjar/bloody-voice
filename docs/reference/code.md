@@ -10,7 +10,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 |---|---|---|---|
 | `autoload/content_db.gd` |  | Loads and validates all content once at start-up. If `errors` is not empty the game must not start. | reload, is_ok |
 | `autoload/event_bus.gd` |  | Global signals. Systems talk through these instead of holding references to each other. |  |
-| `autoload/game_state.gd` |  | Facade between the screens and the game rules (GDD 19.3). | has_run, new_game, continue_game, save_game, move_hero, is_open, set_hero_node, end_day, equip_module, unequip_module, set_socket, dev_grant_all_gear, start_hunt, combat_play, combat_end_turn, finish_combat |
+| `autoload/game_state.gd` |  | Facade between the screens and the game rules (GDD 19.3). | has_run, new_game, continue_game, save_game, move_hero, is_open, set_hero_node, end_day, accept_contract, equip_module, unequip_module, set_socket, dev_grant_all_gear, start_hunt, combat_play, combat_end_turn, finish_combat |
 | `autoload/profile_service.gd` |  | The player profile (ProfileState in user://profile.cfg): settings screen and tutorial read and change it here. | save, apply, apply_volumes, set_volume, set_fullscreen, set_hints, reset_tutorial |
 | `autoload/rng_service.gd` |  | Seeded randomness (GDD 17.1). One master seed per playthrough; every system draws from its own | set_seed, stream |
 | `autoload/save_service.gd` |  | Save / load of RunState as JSON, with versioned migrations (GDD 19.1). | has_save, save_run, load_run |
@@ -22,14 +22,16 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | File | Class | What | Public functions |
 |---|---|---|---|
 | `core/content/audio_validator.gd` | AudioValidator | Checks data/audio/sounds.json against the files in res://audio/ and the creatures (GDD 24). | validate |
-| `core/content/content_data.gd` | ContentData | All loaded game content. Read-only after loading; rules receive it as a parameter. | district, district_map, life, card, monster, weapon, module, mechanism |
+| `core/content/content_data.gd` | ContentData | All loaded game content. Read-only after loading; rules receive it as a parameter. | district, district_map, life, card, monster, weapon, module, mechanism, tag, petition |
 | `core/content/content_loader.gd` | ContentLoader | Reads data/*.json into a ContentData. Never stops at the first problem: everything goes to the ErrorLog. | load_all, read_folder, read_json, read_object, read_array |
 | `core/content/content_loc.gd` | ContentLoc | Puts the game-language texts into loaded content (GDD 22.5). Data JSON keeps ids, numbers and the English working | apply, fields, area_keys |
 | `core/content/content_validator.gd` | ContentValidator | Cross-checks loaded content. Any error here stops the game at boot (GDD 19.6). | validate |
+| `core/content/contract_validator.gd` | ContractValidator | Checks contract content (GDD 7, 8.2): every creature tag is in the catalogue, petitions cover the generated | validate |
 | `core/content/def_reader.gd` | DefReader | Typed, checked reads from JSON dictionaries. Every problem goes to the ErrorLog with its location, | string, id, number, integer, flag, dict, array, ids |
 | `core/content/defs/audio_def.gd` | AudioDef | Which sound plays on which game event (data/audio/sounds.json, GDD 24). Files live under res://audio/. | from_dict, monster_files |
 | `core/content/defs/balance_def.gd` | BalanceDef | All tuning numbers from data/balance.json. Code reads them from here, never hard-codes them. | from_dict |
 | `core/content/defs/card_def.gd` | CardDef | A hunter card (data/cards/*.json, GDD 9.3). Effects are data ops run by EffectApplier. | from_dict, needs_enemy_target |
+| `core/content/defs/contract_defs.gd` | ContractDefs | Contract content (GDD 7, 8.2): sign tags of creatures (data/contracts/tags.json), petition letters | tag, petition, balance |
 | `core/content/defs/district_def.gd` | DistrictDef | One district of the Upper City (data/city/districts.json, GDD 13.5). | from_dict, art_path |
 | `core/content/defs/district_life_def.gd` | DistrictLifeDef | Life on one district map (data/city/district_life/<ID>.json, map-life-people.md): passers-by, groups, local | from_dict, kinds_for, figure_path, prop_path |
 | `core/content/defs/district_map_def.gd` | DistrictMapDef | Walkable map of one district (data/city/district_maps/<ID>.json, GDD 20): border contour, street graph of nodes, | from_dict, landmark, node_pos, has_node_id |
@@ -50,8 +52,9 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/content/loc.gd` | Loc | Game text by key from locale/strings.csv (GDD 22.5). Russian is the game language; English comes later. | apply_locale, has, t, or_default, format, plural_index, placeholders |
 | `core/dev/combat_bot.gd` | CombatBot | A simple, honest player for balance testing (GDD 18.1 "bots test balance"). | run_fight, play_turn |
 | `core/dev/dev_shots.gd` |  | Developer auto-screenshots. Does nothing unless started with: |  |
-| `core/generation/encounter_rules.gd` | EncounterRules | Which creature the hunter meets in a district (placeholder until rumors/contracts, GDD 8). | pick_monster, pick_zone |
-| `core/generation/seeded_rng.gd` | SeededRng | Pure helpers behind the Rng autoload, usable from tests and generators without the scene tree. | make_stream, new_master_seed |
+| `core/generation/contract_generator.gd` | ContractGenerator | The tavern board of a week (GDD 17.2 ContractGenerator v1): 3–5 side contracts on creatures of the district. | generate, reward |
+| `core/generation/encounter_rules.gd` | EncounterRules | Which creatures live in a district and which one the hunter meets (placeholder until rumors, GDD 8). | pool, pick_monster, pick_zone |
+| `core/generation/seeded_rng.gd` | SeededRng | Pure helpers behind the Rng autoload, usable from tests and generators without the scene tree. | make_stream, new_master_seed, sample, weighted |
 | `core/rules/city/district_map_rules.gd` | DistrictMapRules | Walking on a district map (GDD 20): shortest street paths, spots on the streets, routes, and what lies under a point | spot_at_node, nearest_spot, shortest_path, route, nearest_node, landmark_at, zone_at, ambience_at, inside |
 | `core/rules/city/district_state_rules.gd` | DistrictStateRules | Changing and ticking district / area / landmark states (GDD 14.3). | apply, tick |
 | `core/rules/city/map_region_rules.gd` | MapRegionRules | Hit-testing on the city map. Points are in source-image pixels (MapRegionsDef.image_size). | region_at, district_at, home_region |
@@ -61,9 +64,10 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/rules/combat/deck_rules.gd` | DeckRules | The hunter's piles: draw (always shuffled), hand, discard, exhaust (GDD 9.2). | build, new_card, shuffle, draw, discard_hand, add_cards |
 | `core/rules/combat/effect_applier.gd` | EffectApplier | Runs effect ops from cards and monster moves (EffectSchema lists them; GDD 19.4 "effects as data"). | apply |
 | `core/rules/combat/effect_context.gd` | EffectContext | Who is acting on whom while effects run. | create, part_id |
-| `core/rules/combat/enemy_rules.gd` | EnemyRules | The creature's side: move deck, visible intents, its turn, broken parts and phases (GDD 9.4). | setup, reveal_intents, peek, run_turn, break_part, check_phase, sorted_phases, incoming_damage |
+| `core/rules/combat/enemy_rules.gd` | EnemyRules | The creature's side: move deck, visible intents, its turn, broken parts and phases (GDD 9.4). | setup, strengthen, reveal_intents, peek, run_turn, break_part, check_phase, sorted_phases, incoming_damage |
 | `core/rules/combat/gear_effect_rules.gd` | GearEffectRules | How passive gear mods (GearMods) act during a fight. Called by CombatRules and EffectApplier. | first_turn, extra_first_draw, bonus_damage, after_shot, status_stacks, hp_cost |
 | `core/rules/combat/status_rules.gd` | StatusRules | Status timing: bleed hurts at the start of its owner's turn; weak/exposed/enraged fade at the end. | turn_start, turn_end |
+| `core/rules/contracts/contract_rules.gd` | ContractRules | Tavern contracts (GDD 7): a new board every Monday, accepting a leaflet, deadlines, the fight that finishes a | refresh_board, board, active, can_accept, accept, days_left, is_overdue, targets, for_monster, prepare_fight, reward_for, resolve_fight |
 | `core/rules/gear/armor_rules.gd` | ArmorRules | Mechanisms in armor sockets (GDD 5.1). Every armor piece has a number of sockets; any mechanism fits any socket. | set_socket, installed, mechanism_at |
 | `core/rules/gear/deck_builder.gd` | DeckBuilder | "Your gear is your deck" (GDD 5.3): the fight deck and bonuses come from the hunter's own cards, | build, setup, default_setup |
 | `core/rules/gear/weapon_grid_rules.gd` | WeaponGridRules | Placing modules into weapon cells (GDD 5.2). Modules may be rotated in quarter turns. | rotated, covered, can_place, place, remove_at, placement_at, touching, problems, drop_invalid |
@@ -79,6 +83,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/state/combat/enemy_combatant.gd` | EnemyCombatant | The creature during a fight: its move deck, visible intents, parts and phases. | broken_parts, move_available |
 | `core/state/combat/hero_combatant.gd` | HeroCombatant | The hunter during a fight (GDD 4.2). | mod |
 | `core/state/combat/part_state.gd` | PartState | A body part of the creature during a fight. | create |
+| `core/state/contracts_state.gd` | ContractsState | The tavern board and the hunter's contracts (GDD 7). Saved. One list: this week's leaflets plus contracts | find, to_dict, from_dict |
 | `core/state/loadout_state.gd` | LoadoutState | The hunter's gear (GDD 5): weapon, modules placed in its cells, owned parts, armor sockets. Saved. | spare_modules, spare_mechanisms, to_dict, from_dict |
 | `core/state/place_state.gd` | PlaceState | Current state of a district / area / landmark (GDD 14). Pure data, serialisable. | to_dict, from_dict |
 | `core/state/profile_state.gd` | ProfileState | Player settings that outlive a run (GDD 22.2): tutorial progress, hints on/off, volumes, full screen. | mark_seen, has_seen, reset_tutorial, to_config, from_config, load_from, save_to |
@@ -106,11 +111,16 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `scenes/combat/log_panel.gd` | LogPanel | The fight log: a «Журнал» tab on the right edge that unrolls a parchment scroll (GDD 21.2 zone 6). | refresh, is_open, toggle, set_open |
 | `scenes/combat/part_ring.gd` | PartRing | A target ring on the creature's body at the part's spot: the red arc is the part's HP; it glows and takes clicks while | refresh |
 | `scenes/combat/pile_view.gd` | PileView | A pile of cards in a corner (draw, discard, exhaust): the card back with a count; a click asks for the list (GDD 21.2). | set_count |
-| `scenes/combat/result_panel.gd` | ResultPanel | The end-of-fight panel: outcome, the creature's cracked silhouette on a kill, turns, trophies, back to the district. | show_result |
+| `scenes/combat/result_panel.gd` | ResultPanel | The end-of-fight panel: outcome, the creature's cracked silhouette on a kill, turns, trophies, the contract reward, | show_result |
 | `scenes/combat/stat_bar.gd` | StatBar | A drawn bar: dark trough, coloured fill that eases to new values, phase notches and a centred caption (creature HP). | setup, show_value |
 | `scenes/combat/vial_view.gd` | VialView | A glass vial that fills by value and eases to new values (hunter HP: blood, Sanity: violet; GDD 21.2 zone 7). | show_value |
+| `scenes/contracts/contract_board.gd` | ContractBoard | The contract board of the Lantern & Hook (GDD 7.1): the wooden wall with this week's leaflets. A click on a | open_tablet, close_board |
+| `scenes/contracts/contract_kit.gd` | ContractKit | Shared bits of the contract screens (GDD 7): texts and small widgets for the board, the tablet and the tracker. | monster_name, rank, type_name, silhouette, deadline_text, deadline_color, last_seen, zone_name, tag_name, tag_category, picture |
+| `scenes/contracts/contract_leaflet.gd` | ContractLeaflet | One leaflet pinned on the tavern board (GDD 7.1): type, danger rank, the creature's black silhouette, reward | setup |
+| `scenes/contracts/contract_tablet.gd` | ContractTablet | The contract tablet (GDD 7.2) in front of the hero: petition, type, silhouette, known signs, where the creature | open_list, close_tablet |
+| `scenes/contracts/contract_tracker.gd` | ContractTracker | The tracker in the top-right corner (GDD 7.1): one row per taken contract — silhouette, name, days left and | refresh |
 | `scenes/district_map/district_map_screen.gd` |  | District screen (GDD 20): the Grey Chapels up close. The hunter walks the streets by click, the map is dragged with |  |
-| `scenes/district_map/district_overlay.gd` | DistrictOverlay | Drawn over the district art (GDD 20.2): the veil over the locked neighbours (70 % black with diagonal hatching, | setup, set_hovered, toggle_debug |
+| `scenes/district_map/district_overlay.gd` | DistrictOverlay | Drawn over the district art (GDD 20.2): the veil over the locked neighbours (70 % black with diagonal hatching, | setup, set_hovered, flash_zone, toggle_debug |
 | `scenes/district_map/district_view.gd` | DistrictView | The district map in a camera (GDD 20.3): drag with the held left button, zoom with the wheel, clicks on landmarks | setup, add_layer, add_overlay, zoom_level, camera_center, screen_to_art, art_to_screen, center_on |
 | `scenes/district_map/hero_walker.gd` | HeroWalker | The hunter on the district map: a stone figurine on a stand (owner, 2026-10-12). Walks a route along the streets | is_walking, place, walk |
 | `scenes/district_map/landmark_card.gd` | LandmarkCard | The card of a place the hero has walked to (owner, 2026-10-12): name, zone, a line about it and what can be done | show_landmark, close_card |
@@ -146,6 +156,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `tests/test_calendar.gd` |  | Calendar: weekdays, weeks, rent and shop days (GDD 3.2). | test_weeks_and_weekdays, test_rent_and_shop_days, test_chapter_week_wraps |
 | `tests/test_combat.gd` |  | Combat core (GDD 9–10). | test_start_draws_hand_and_reveals_intents, test_start_carries_backdrop, test_same_seed_same_fight, test_strike_damages_and_costs_ap, test_not_enough_ap, test_shot_needs_ammo_and_reload_refills, test_breaking_a_part_removes_its_move, test_broken_part_cannot_be_targeted, test_phase_triggers_below_threshold, test_block_absorbs_and_dodge_negates, test_weak_and_exposed_modify_damage, test_enemy_turn_hits_hero_and_new_turn_starts, test_fear_to_zero_causes_panic, test_capture_chance_formula, test_every_effect_op_is_implemented, test_bot_finishes_every_fight, test_move_text_is_built_from_effects |
 | `tests/test_content.gd` |  | Real content is valid; the validator catches typical mistakes. | test_real_content_is_valid, test_every_icon_has_art, test_missing_creature_art_is_reported, test_bad_weekday_is_reported, test_unknown_region_district_is_reported, test_duplicate_symbol_is_reported, test_missing_normal_state_is_reported, test_broken_json_is_reported, test_move_text_field_is_rejected, test_part_spot_is_checked, test_pick_zone, test_missing_sound_is_reported |
+| `tests/test_contracts.gd` |  | Tavern contracts (GDD 7, 17.2): the Monday board, accepting, deadlines, overdue creatures, rewards, saves. | test_board_follows_the_rules, test_same_seed_same_board, test_accept_and_the_limit_of_open_contracts, test_monday_keeps_taken_contracts_and_replaces_the_rest, test_fight_outcomes_and_rewards, test_overdue_contract_makes_the_creature_stronger, test_hunts_meet_contract_targets_more_often, test_contracts_survive_save_and_old_saves_get_an_empty_board |
 | `tests/test_day_rules.gd` |  | End of day: rent, time passing, district state changes (GDD 3). | test_rent_is_taken_on_rentday, test_no_rent_on_other_days, test_day_ticks_district_states |
 | `tests/test_district_life.gd` |  | District life (map-life-people.md): the Grey Chapels life data loads and validates, the validator catches a missing | test_grey_life_loads_and_is_valid, test_validator_reports_broken_life, test_facing_picks_view_and_mirror, test_weighted_index, test_layer_builds_and_runs |
 | `tests/test_district_map.gd` |  | District map (GDD 20): the Grey Chapels map loads and validates, the validator catches broken maps, walking | test_grey_map_loads_and_is_valid, test_path_from_home_to_every_landmark, test_shortest_path_picks_the_shorter_route, test_route_on_same_edge_and_across_edges, test_nearest_spot_respects_max_dist, test_lookups_on_grey, test_validator_catches_broken_maps, test_validator_catches_duplicate_landmark_and_bad_district, test_bad_district_map_json_is_reported |

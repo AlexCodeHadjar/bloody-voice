@@ -30,7 +30,9 @@ save), so a new run does not repeat them. Settings: «Подсказки: вкл
 | `first_panic` | Sanity hits 0 for the first time | 1 |
 | `first_no_ammo` | Ammo reaches 0 for the first time | 1 |
 | `first_rent` | The day before the first rent | 1 |
-| `first_rumor` | First rumor pinned on Bonfire Square (Phase 3) | 3 |
+| `contract_board` | The tavern contract board opens for the first time | 1 |
+| `contract_taken` | The board or a tablet closes with a contract taken | 1 |
+| `first_rumor` | First rumor pinned on Bonfire Square (Phase 3 step 2) | 3 |
 
 ## 22.3 Step texts (Russian drafts)
 
@@ -90,7 +92,7 @@ save), so a new run does not repeat them. Settings: «Подсказки: вкл
 | Profile (seen sequences, hints on/off, volumes, full screen) | `core/state/profile_state.gd` + autoload `Profile` → `user://profile.cfg` |
 | Tests: sequences load, play once, wait for actions, queue, abort, skip, bad data is reported, profile round trip | `tests/test_tutorial.gd` |
 
-Not yet (later): `district_intro` (with the district screen, GDD §20) and `first_rumor` (Phase 3); the bubble pointer
+Not yet (later): `first_rumor` (Phase 3 step 2); the bubble pointer
 (`TUTORIAL__pointer` art exists) and a rounded hole.
 
 ## 22.5 Localization

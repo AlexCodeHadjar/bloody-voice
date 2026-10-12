@@ -46,6 +46,8 @@ func test_key_families_exist() -> void:
 		keys.append("ui.weekday.%d" % i)
 	for o: String in ["slain", "captured", "fallen", "escaped"]:
 		keys.append("ui.combat.outcome.%s" % o)
+	for t: StringName in ContractDefs.TYPES:
+		keys.append("ui.contract.type.%s" % t)
 	for m: MonsterDef in data.monsters.values():
 		for mv: MonsterDef.MoveDef in m.moves.values():
 			keys.append("intent.%s" % mv.kind)

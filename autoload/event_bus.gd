@@ -11,6 +11,7 @@ signal hero_moved(district: StringName)
 signal hero_node_changed(node: StringName)
 signal district_state_changed(target: StringName, old_state: StringName, new_state: StringName)
 signal loadout_changed
+signal contracts_changed
 signal combat_started
 signal combat_updated
 signal combat_finished(outcome: StringName)

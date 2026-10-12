@@ -14,6 +14,7 @@ static func validate(data: ContentData, errs: ErrorLog, check_files: bool = true
 	AudioValidator.validate(data, errs, check_files)
 	DistrictMapValidator.validate(data, errs, check_files)
 	DistrictLifeValidator.validate(data, errs, check_files)
+	ContractValidator.validate(data, errs)
 	if check_files:
 		_art(data, errs)
 
