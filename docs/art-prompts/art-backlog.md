@@ -1,8 +1,8 @@
 # Art Prompts — full art backlog (everything else the game will need)
 
-> **Готово (2026-10-10):** части G–Q (93 картинки, +3 наброска R) сгенерированы и импортированы в `art/`; листы иконок `MECHANISM` и
-> `SETTINGS` разрезаны (наборы добавлены в `data/ui/icons.json`). Наброски тварей R лежат в `assets/refs/CONCEPT__*` —
-> в игру не идут, ждут решения владельца. Q1 (значок) — из `art/ui/WAX__seal.webp`, когда понадобится.
+> **Готово (2026-10-10):** части G–Q (93 картинки) сгенерированы и импортированы в `art/`; листы иконок `MECHANISM` и
+> `SETTINGS` разрезаны (наборы добавлены в `data/ui/icons.json`). Q1 (значок) — из `art/ui/WAX__seal.webp`, когда понадобится.
+> **Ждём:** P2 (карты состояний района) и R (три новые твари — войдут в игру с артом).
 
 Всё, что ещё понадобится игре из арта, **кроме** уже расписанного:
 
@@ -312,7 +312,7 @@ Output: transparent PNG, 2:3 portrait (1024×1536).
 [STYLE BLOCK]
 Attached: RAT_SWARM__combat__normal.png (the same creature, first phase).
 Repaint THE SAME CREATURE in the same pose, camera, scale and position — its second phase "The swarm splits":
-the mass tears into two smaller swarms pouring left and right, the bone crown cracked and tilted, more teeth and tails everywhere.
+the mass tears into two swarms, a larger one on the left still carrying the cracked, tilted bone crown and a smaller one on the right, bared teeth along both front edges, more tails everywhere.
 Keep the body parts Bone Crown, Teeth in the same places; broken-looking is fine.
 Stronger glow, more threatening. Transparent background, no text.
 Output: transparent PNG, 2:3 portrait (1024×1536).
@@ -353,7 +353,7 @@ Output: transparent PNG, 1:1 (1024×1024).
 [STYLE BLOCK]
 Attached: COMBAT__frame.png (framing guide), TAVERN__contract_board (silhouette style reference).
 Full-body art of the creature "Ghoul" (danger rank P) for the combat screen.
-The creature: a gaunt grave-eating ghoul crouching on an opened grave, grey stretched skin, long dirty black claws on both hands, a torn burial shroud over its shoulders, an unhinged lower jaw full of broken teeth.
+The creature: a gaunt grave-eating ghoul crouching low on bare ground (no grave drawn), grey stretched skin, long dirty black claws on both hands, a torn burial shroud over its shoulders, an unhinged lower jaw full of broken teeth.
 Mostly in deep shadow, lit by a cold rim light from behind and a weak warm light from the front;
 slightly turned (3/4 view), standing on the ground line of the frame, filling the dashed safe area.
 These body parts must be clearly visible and separate from each other (the player aims at them):
@@ -409,7 +409,7 @@ Output: transparent PNG, 1:1 (1024×1024).
 [STYLE BLOCK]
 Attached: COMBAT__frame.png (framing guide), TAVERN__contract_board (silhouette style reference).
 Full-body art of the creature "Abyss Thing" (danger rank S) for the combat screen.
-The creature: a long-limbed pale thing climbing over a stone parapet out of grey fog, far too many joints in its two long arms, a smooth hollow face with no features, a bent jointed spine like a row of knuckles, fog dripping off it like water.
+The creature: a long-limbed pale thing rising out of a low wisp of grey fog at its feet (no wall or parapet drawn), far too many joints in its two long arms, a smooth hollow face with no features, a bent jointed spine like a row of knuckles, fog dripping off it like water.
 Mostly in deep shadow, lit by a cold rim light from behind and a weak warm light from the front;
 slightly turned (3/4 view), standing on the ground line of the frame, filling the dashed safe area.
 These body parts must be clearly visible and separate from each other (the player aims at them):
