@@ -2,7 +2,7 @@ class_name ShopTable
 extends Control
 ## The Rag-and-Bone shop (GDD 11.1): the dealer's wooden table with this week's cards — ready modules, blueprints,
 ## consumables for the bag, resource lots — each with its price and «Купить»; on the right the hunter sells
-## trophies and resources. Never sells into debt. Full-screen overlay.
+## trophies, resources and blood samples. Never sells into debt. Full-screen overlay.
 
 signal closed
 
@@ -155,7 +155,7 @@ func _refresh_sell() -> void:
 	for r: StringName in ContentDB.data.balance.workshop.resources:
 		if ws.amount(r) > 0:
 			ids.append(r)
-	if ids.is_empty():
+	if ids.is_empty() and ws.samples.is_empty() and ws.pure_samples.is_empty():
 		_sell.add_child(UiKit.paragraph(Loc.t("ui.shop.nothing_to_sell"), 16, Palette.INK_MUTED))
 	for id: StringName in ids:
 		var price := ShopKit.sell_price(id)
@@ -165,6 +165,15 @@ func _refresh_sell() -> void:
 		b.custom_minimum_size = Vector2(0, 46)
 		b.pressed.connect(_sell_one.bind(id))
 		_sell.add_child(b)
+	for pure: bool in [false, true]:  # blood samples (GDD 4.4): a pure one fetches more
+		var pool: Dictionary[StringName, int] = ws.pure_samples if pure else ws.samples
+		for c: StringName in pool:
+			var b := Icons.button("STAT", &"voice", Loc.t("ui.shop.sell_row", {"name": WorkshopKit.sample_name(c, pure),
+				"have": pool[c], "n": ShopRules.sample_price(ContentDB.data, c, pure)}), 16)
+			b.alignment = HORIZONTAL_ALIGNMENT_LEFT
+			b.custom_minimum_size = Vector2(0, 46)
+			b.pressed.connect(_sell_sample.bind(c, pure))
+			_sell.add_child(b)
 
 
 func _buy(uid: int) -> void:
@@ -177,6 +186,13 @@ func _sell_one(id: StringName) -> void:
 	var paid := GameState.sell_stock(id)
 	if paid > 0:
 		_message.text = Loc.t("ui.shop.sold_line", {"name": WorkshopKit.stock_name(id), "n": paid})
+		UiKit.sound(&"money.coins")
+
+
+func _sell_sample(creature: StringName, pure: bool) -> void:
+	var paid := GameState.sell_sample(creature, pure)
+	if paid > 0:
+		_message.text = Loc.t("ui.shop.sold_line", {"name": WorkshopKit.sample_name(creature, pure), "n": paid})
 		UiKit.sound(&"money.coins")
 
 

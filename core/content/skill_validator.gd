@@ -1,7 +1,7 @@
 class_name SkillValidator
 extends RefCounted
 ## Checks the skill webs (GDD 4.4): known node types, one start node, links to existing nodes, every node reachable
-## from the start, blueprints and armor pieces that exist.
+## from the start, blueprints, armor pieces, sample creatures and cards that exist; the Voice numbers.
 
 
 static func validate(data: ContentData, errs: ErrorLog) -> void:
@@ -19,6 +19,11 @@ static func validate(data: ContentData, errs: ErrorLog) -> void:
 	var b := data.balance.skills
 	if b.node_cost < 1 or b.reset_cost_per_point < 0:
 		errs.add("balance.json/skills", "node_cost >= 1, reset_cost_per_point >= 0")
+	var v := data.balance.voice
+	if v.stages.size() != 3 or data.card(v.rage_card) == null or data.card(v.beast_card) == null:
+		errs.add("balance.json/voice", "needs 3 stages and existing rage_card and beast_card")
+	if v.hunger_chance < 0.0 or v.hunger_chance > 1.0 or v.lose_control_chance < 0.0 or v.lose_control_chance > 1.0:
+		errs.add("balance.json/voice", "chances must be in 0..1")
 
 
 static func _node(data: ContentData, web: SkillDefs.WebDef, nd: SkillDefs.NodeDef, errs: ErrorLog, w: String) -> void:
@@ -32,6 +37,15 @@ static func _node(data: ContentData, web: SkillDefs.WebDef, nd: SkillDefs.NodeDe
 		errs.add(nw, "needs a link")
 	if nd.blueprint != &"" and data.blueprint(nd.blueprint) == null:
 		errs.add(nw, "unknown blueprint '%s'" % nd.blueprint)
+	if nd.sample != &"" and data.monster(nd.sample) == null:
+		errs.add(nw, "unknown creature '%s' for the sample" % nd.sample)
+	if nd.pure and nd.sample == &"":
+		errs.add(nw, "a pure node needs a sample creature")
+	if nd.voice < 0:
+		errs.add(nw, "voice must be >= 0")
+	for c: StringName in nd.cards:
+		if data.card(c) == null:
+			errs.add(nw, "unknown card '%s'" % c)
 	if nd.socket != &"" and not data.armor.any(func(a: GearDefs.ArmorDef) -> bool: return a.id == nd.socket):
 		errs.add(nw, "unknown armor piece '%s'" % nd.socket)
 

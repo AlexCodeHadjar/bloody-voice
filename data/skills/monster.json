@@ -1,0 +1,365 @@
+{
+ "_comment": "Skill web of the Monster — the Voice (GDD 4.4; owner 2026-10-12): a branch per Grey Chapels creature — formula I, formula II, a keystone that needs a PURE sample (from a capture) — and four shared blood nodes between the branches. sample: the creature whose blood sample the node uses up (formula nodes take a normal or pure one, keystones a pure one); voice: how much the Voice grows. Same node format as mechanic.json, plus effect.cards (cards added to every fight's deck). This web is not reset.",
+ "web": "monster",
+ "nodes": [
+  {
+   "id": "start",
+   "type": "start",
+   "dir": "",
+   "pos": [
+    0,
+    0
+   ],
+   "links": [],
+   "name": "The Voice",
+   "text": "Where the blood begins to speak.",
+   "effect": {}
+  },
+  {
+   "id": "ch1",
+   "type": "passive",
+   "dir": "gutter_choir",
+   "pos": [
+    0,
+    -1
+   ],
+   "links": [
+    "start"
+   ],
+   "name": "Formula of the Gutter Choir",
+   "text": "Bleed you apply is 1 stack stronger.",
+   "effect": {
+    "mods": {
+     "bleed_bonus": 1
+    }
+   },
+   "sample": "gutter_choir",
+   "voice": 2
+  },
+  {
+   "id": "ch2",
+   "type": "passive",
+   "dir": "gutter_choir",
+   "pos": [
+    0,
+    -2
+   ],
+   "links": [
+    "ch1"
+   ],
+   "name": "Drowned Hymn",
+   "text": "Shots apply 1 Bleed.",
+   "effect": {
+    "mods": {
+     "shot_bleed": 1
+    }
+   },
+   "sample": "gutter_choir",
+   "voice": 3
+  },
+  {
+   "id": "ch_key",
+   "type": "keystone",
+   "dir": "gutter_choir",
+   "pos": [
+    0,
+    -3
+   ],
+   "links": [
+    "ch2"
+   ],
+   "name": "Choir of the Drowned",
+   "text": "Draw 2 more cards on the first turn.",
+   "effect": {
+    "mods": {
+     "first_turn_draw": 2
+    }
+   },
+   "sample": "gutter_choir",
+   "pure": true,
+   "voice": 4
+  },
+  {
+   "id": "l1",
+   "type": "passive",
+   "dir": "lamplighter",
+   "pos": [
+    1,
+    0
+   ],
+   "links": [
+    "start"
+   ],
+   "name": "Formula of the Lamplighter",
+   "text": "See the creature's next moves at the start of a fight.",
+   "effect": {
+    "mods": {
+     "foresight_start": 1
+    }
+   },
+   "sample": "lamplighter",
+   "voice": 2
+  },
+  {
+   "id": "l2",
+   "type": "passive",
+   "dir": "lamplighter",
+   "pos": [
+    2,
+    0
+   ],
+   "links": [
+    "l1"
+   ],
+   "name": "Burnt Gaze",
+   "text": "Hits on body parts deal +2 damage.",
+   "effect": {
+    "mods": {
+     "part_damage": 2
+    }
+   },
+   "sample": "lamplighter",
+   "voice": 3
+  },
+  {
+   "id": "l_key",
+   "type": "keystone",
+   "dir": "lamplighter",
+   "pos": [
+    3,
+    0
+   ],
+   "links": [
+    "l2"
+   ],
+   "name": "Lantern Eyes",
+   "text": "+1 AP on the first turn; see 2 moves ahead at the start.",
+   "effect": {
+    "mods": {
+     "first_turn_ap": 1,
+     "foresight_start": 2
+    }
+   },
+   "sample": "lamplighter",
+   "pure": true,
+   "voice": 4
+  },
+  {
+   "id": "h1",
+   "type": "passive",
+   "dir": "vigil_hound",
+   "pos": [
+    0,
+    1
+   ],
+   "links": [
+    "start"
+   ],
+   "name": "Formula of the Vigil Hound",
+   "text": "+6 max HP.",
+   "effect": {
+    "mods": {
+     "max_hp": 6
+    }
+   },
+   "sample": "vigil_hound",
+   "voice": 2
+  },
+  {
+   "id": "h2",
+   "type": "passive",
+   "dir": "vigil_hound",
+   "pos": [
+    0,
+    2
+   ],
+   "links": [
+    "h1"
+   ],
+   "name": "Hound's Hunger",
+   "text": "Rage cards cost 2 less HP; adds a Hound's Rage to the deck.",
+   "effect": {
+    "mods": {
+     "rage_hp_discount": 2
+    },
+    "cards": [
+     "hounds_rage"
+    ]
+   },
+   "sample": "vigil_hound",
+   "voice": 3
+  },
+  {
+   "id": "h_key",
+   "type": "keystone",
+   "dir": "vigil_hound",
+   "pos": [
+    0,
+    3
+   ],
+   "links": [
+    "h2"
+   ],
+   "name": "The Pack Within",
+   "text": "Shots deal +2 damage; +6 max HP.",
+   "effect": {
+    "mods": {
+     "shot_damage": 2,
+     "max_hp": 6
+    }
+   },
+   "sample": "vigil_hound",
+   "pure": true,
+   "voice": 4
+  },
+  {
+   "id": "w1",
+   "type": "passive",
+   "dir": "burrow_wyrm",
+   "pos": [
+    -1,
+    0
+   ],
+   "links": [
+    "start"
+   ],
+   "name": "Formula of the Burrow Wyrm",
+   "text": "Shots give 2 Block.",
+   "effect": {
+    "mods": {
+     "shot_block": 2
+    }
+   },
+   "sample": "burrow_wyrm",
+   "voice": 2
+  },
+  {
+   "id": "w2",
+   "type": "passive",
+   "dir": "burrow_wyrm",
+   "pos": [
+    -2,
+    0
+   ],
+   "links": [
+    "w1"
+   ],
+   "name": "Chitin Skin",
+   "text": "+8 max HP.",
+   "effect": {
+    "mods": {
+     "max_hp": 8
+    }
+   },
+   "sample": "burrow_wyrm",
+   "voice": 3
+  },
+  {
+   "id": "w_key",
+   "type": "keystone",
+   "dir": "burrow_wyrm",
+   "pos": [
+    -3,
+    0
+   ],
+   "links": [
+    "w2"
+   ],
+   "name": "Wyrm's Patience",
+   "text": "Shots give 2 more Block; +1 bullet.",
+   "effect": {
+    "mods": {
+     "shot_block": 2,
+     "max_ammo": 1
+    }
+   },
+   "sample": "burrow_wyrm",
+   "pure": true,
+   "voice": 4
+  },
+  {
+   "id": "b_ne",
+   "type": "passive",
+   "dir": "blood",
+   "pos": [
+    1,
+    -1
+   ],
+   "links": [
+    "ch1",
+    "l1"
+   ],
+   "name": "Quickened Blood",
+   "text": "Reloading draws a card.",
+   "effect": {
+    "mods": {
+     "reload_draw": 1
+    }
+   },
+   "voice": 1
+  },
+  {
+   "id": "b_se",
+   "type": "passive",
+   "dir": "blood",
+   "pos": [
+    1,
+    1
+   ],
+   "links": [
+    "l1",
+    "h1"
+   ],
+   "name": "Thick Blood",
+   "text": "+4 max HP.",
+   "effect": {
+    "mods": {
+     "max_hp": 4
+    }
+   },
+   "voice": 1
+  },
+  {
+   "id": "b_sw",
+   "type": "passive",
+   "dir": "blood",
+   "pos": [
+    -1,
+    1
+   ],
+   "links": [
+    "h1",
+    "w1"
+   ],
+   "name": "Restless Blood",
+   "text": "Draw 1 more card on the first turn.",
+   "effect": {
+    "mods": {
+     "first_turn_draw": 1
+    }
+   },
+   "voice": 1
+  },
+  {
+   "id": "b_nw",
+   "type": "passive",
+   "dir": "blood",
+   "pos": [
+    -1,
+    -1
+   ],
+   "links": [
+    "w1",
+    "ch1"
+   ],
+   "name": "Bitter Blood",
+   "text": "Bleed you apply is 1 stack stronger.",
+   "effect": {
+    "mods": {
+     "bleed_bonus": 1
+    }
+   },
+   "voice": 1
+  }
+ ]
+}

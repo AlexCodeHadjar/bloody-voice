@@ -86,6 +86,28 @@ static func sell(run: RunState, data: ContentData, id: StringName) -> int:
 	return paid
 
 
+## What one blood sample fetches: the creature's trophy price by rank, ×pure_sell_mult for a pure one.
+static func sample_price(data: ContentData, creature: StringName, pure: bool) -> int:
+	var m := data.monster(creature)
+	if m == null:
+		return 0
+	var base := int(data.balance.shop.trophy_price_by_rank.get(m.rank, 0))
+	return base * data.balance.voice.pure_sell_mult if pure else base
+
+
+## Sells one blood sample; returns the money paid (0 = none to sell).
+static func sell_sample(run: RunState, data: ContentData, creature: StringName, pure: bool) -> int:
+	var pool: Dictionary[StringName, int] = run.workshop.pure_samples if pure else run.workshop.samples
+	if pool.get(creature, 0) <= 0:
+		return 0
+	pool[creature] = pool.get(creature, 0) - 1
+	if pool[creature] <= 0:
+		pool.erase(creature)
+	var paid := sample_price(data, creature, pure)
+	run.money += paid
+	return paid
+
+
 ## After a fight: consumables of the bag that were played are used up (one bag copy per played card). Only the bag
 ## gives consumables today; if gear ever does, bag cards will need their own mark.
 static func spend_bag(run: RunState, s: CombatState) -> void:

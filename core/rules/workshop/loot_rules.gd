@@ -2,16 +2,19 @@ class_name LootRules
 extends RefCounted
 ## What a won fight gives (GDD 17.2 LootGenerator, owner 2026-10-12): ichor and scrap by the creature's rank (ichor
 ## x2 for a capture), the creature's own extra loot, the trophies of broken parts. The first find of a trophy teaches
-## the blueprints it unlocks. A lost fight gives nothing.
+## the blueprints it unlocks; a blood sample of the creature (a pure one from a capture) for the Monster web
+## (GDD 4.4). A lost fight gives nothing.
 
 
 class Loot:
 	var resources: Dictionary[StringName, int] = {}
 	var trophies: Dictionary[StringName, int] = {}
+	var samples: Dictionary[StringName, int] = {}  ## creature -> blood samples
+	var pure_samples: Dictionary[StringName, int] = {}  ## creature -> pure samples (captures)
 	var blueprints: Array[StringName] = []  ## blueprints this loot teaches (filled by preview / take)
 
 	func is_empty() -> bool:
-		return resources.is_empty() and trophies.is_empty()
+		return resources.is_empty() and trophies.is_empty() and samples.is_empty() and pure_samples.is_empty()
 
 
 static func fight_loot(data: ContentData, s: CombatState) -> Loot:
@@ -24,6 +27,10 @@ static func fight_loot(data: ContentData, s: CombatState) -> Loot:
 	add_to(loot.resources, m.loot)
 	if outcome == &"captured" and loot.resources.has(&"ichor"):
 		loot.resources[&"ichor"] *= data.balance.workshop.capture_ichor_mult
+	if outcome == &"captured":
+		loot.pure_samples[m.id] = 1
+	else:
+		loot.samples[m.id] = 1
 	for t: StringName in s.trophies:
 		loot.trophies[t] = int(loot.trophies.get(t, 0)) + 1
 	return loot
@@ -44,6 +51,8 @@ static func take(run: RunState, data: ContentData, loot: Loot) -> void:
 	loot.blueprints = preview_blueprints(run, data, loot)
 	add_resources(run.workshop, loot.resources)
 	add_to(run.workshop.trophies, loot.trophies)
+	add_to(run.workshop.samples, loot.samples)
+	add_to(run.workshop.pure_samples, loot.pure_samples)
 	run.workshop.blueprints.append_array(loot.blueprints)
 
 

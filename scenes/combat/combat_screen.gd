@@ -177,6 +177,7 @@ func _refresh() -> void:
 	var targeting := selected != null
 	_enemy_view.refresh(s, targeting, targeting and selected.def.target == &"enemy_or_part", _capture_chance(s))
 	_hero_view.refresh(s.hero)
+	_hero_view.show_voice(s.voice_stage)
 	_refresh_hand(s)
 	_piles[&"draw_pile"].set_count(s.draw_pile.size())
 	_piles[&"discard_pile"].set_count(s.discard_pile.size())

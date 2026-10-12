@@ -15,6 +15,8 @@ var max_ammo: int
 var cunning: int = 0
 var agility: int = 0  ## dodge chance per point (GDD 4.1)
 var preview: int = 0  ## creature moves always visible ahead (Cunning)
+var voice_stage: int = 0  ## the Voice's stage 0..3 (the portrait shows it)
+var hunger_chance: float = 0.0  ## the Voice at stage 2+: an attack card may play itself each turn
 var capture_allowed: bool = false
 var rng_seed: int = 0
 var backdrop: String = ""  ## res:// path of the fight's background picture ("" = none)

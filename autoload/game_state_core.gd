@@ -171,7 +171,7 @@ func _start_fight(id: StringName, contract: ContractsState.Contract, zone: Strin
 
 
 ## The hunter as the run has them (GDD 4): carried HP and Sanity, maxima by level and Will, Agility's cards and
-## dodge, Cunning's capture chance and preview, the skill webs' bonuses.
+## dodge, Cunning's capture chance and preview, the skill webs' bonuses and cards, the Voice's cards and Hunger.
 func _hero_into(setup: CombatSetup, data: ContentData) -> void:
 	setup.hero_max_hp = HealthRules.max_hp(run, data)
 	setup.hero_hp = HealthRules.hp(run, data)
@@ -184,6 +184,10 @@ func _hero_into(setup: CombatSetup, data: ContentData) -> void:
 	var skill_mods := SkillRules.mods(run, data)  # the skill webs' passives (GDD 4.4)
 	GearMods.sum(setup.mods, skill_mods)
 	setup.max_ammo += int(skill_mods.get(&"max_ammo", 0))
+	setup.deck.append_array(SkillRules.cards(run, data))
+	setup.deck.append_array(VoiceRules.fight_cards(run, data))  # the Voice (GDD 4.2)
+	setup.hunger_chance = VoiceRules.hunger_chance(run, data)
+	setup.voice_stage = VoiceRules.stage(run, data)
 
 
 ## Background of a fight: the rumor's zone (a random zone of the district when none); falls back to the district scene.
@@ -221,6 +225,7 @@ func finish_combat() -> void:
 	var paid := ContractRules.resolve_fight(run, combat.contract_uid, outcome)
 	var xp := ProgressRules.fight_xp(ContentDB.data, combat) + (ContentDB.data.balance.progress.contract_xp if paid > 0 else 0)
 	var loot := LootRules.fight_loot(ContentDB.data, combat)
+	var beast := lost_control()  # rolled before the loot: a new sample can't change it
 	LootRules.take(run, ContentDB.data, loot)
 	ShopRules.spend_bag(run, combat)
 	HealthRules.after_fight(run, combat)
@@ -237,4 +242,11 @@ func finish_combat() -> void:
 	if paid > 0:
 		EventBus.money_changed.emit(run.money)
 		EventBus.contracts_changed.emit()
+	if beast:  # the Beast took over: the hunter comes to somewhere in the gutters a day later
+		end_day()
 	end_day()
+
+
+## At the Voice's third stage the Beast may take the hunter after a fight (the same roll the result panel shows).
+func lost_control() -> bool:
+	return run != null and VoiceRules.loses_control(run, ContentDB.data, Rng.stream(&"voice", run.day))

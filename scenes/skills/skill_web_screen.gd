@@ -1,13 +1,16 @@
 extends Control
-## «Развитие охотника» (GDD 23.2): level, XP and free points on top, the web tabs (the Monster web comes in the next
-## step), the web itself and the card of the picked node with «Изучить». Resetting a web is done in the Scriptorium.
+## «Развитие охотника» (GDD 23.2): level, free points and the Voice on top, the Mechanic and Monster web tabs, the
+## web itself and the card of the picked node with «Изучить» (a Monster node shows its blood sample and how much the
+## Voice grows, and warns when it crosses a stage). Resetting the Mechanic web is done in the Scriptorium.
 
 const DISTRICT := "res://scenes/district_map/district_map_screen.tscn"
-const TEXTURE := "res://art/ui/SKILLS__texture_mechanic.webp"
-const CARD_ART := "res://art/ui/SKILLS__node_card__mechanic.webp"
+const WEBS: Array[StringName] = [&"mechanic", &"monster"]
+const PREFIX: Dictionary[StringName, String] = {&"mechanic": "mech", &"monster": "beast"}
 
 var _web: SkillDefs.WebDef
-var _view: SkillWebView
+var _views: Dictionary[StringName, SkillWebView] = {}
+var _tabs: Dictionary[StringName, Button] = {}
+var _bg: TextureRect
 var _top: Label
 var _card: VBoxContainer
 var _picked: StringName = &"start"
@@ -18,19 +21,17 @@ func _ready() -> void:
 	UiKit.screen_sound(&"equipment")
 	if not GameState.has_run():
 		GameState.new_game()
-	_web = ContentDB.data.webs.get(&"mechanic") as SkillDefs.WebDef
 	_build()
 	EventBus.progress_changed.connect(_refresh)
-	_refresh()
+	_switch(&"mechanic")
 
 
 func _build() -> void:
-	var bg := TextureRect.new()
-	bg.texture = UiKit.texture(TEXTURE)
-	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	bg.stretch_mode = TextureRect.STRETCH_TILE
-	bg.modulate = Color(0.55, 0.55, 0.55)
-	add_child(bg)
+	_bg = TextureRect.new()
+	_bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_bg.stretch_mode = TextureRect.STRETCH_TILE
+	_bg.modulate = Color(0.55, 0.55, 0.55)
+	add_child(_bg)
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for side: String in ["left", "right", "top", "bottom"]:
@@ -44,11 +45,14 @@ func _build() -> void:
 	main.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	main.add_theme_constant_override("separation", 16)
 	root.add_child(main)
-	_view = SkillWebView.new()
-	_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_view.setup(_web, "mech")
-	_view.node_picked.connect(_pick)
-	main.add_child(_view)
+	for id: StringName in WEBS:
+		var view := SkillWebView.new()
+		view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		view.setup(ContentDB.data.webs[id], PREFIX[id])
+		view.node_picked.connect(_pick)
+		view.visible = false
+		main.add_child(view)
+		_views[id] = view
 	var panel := PanelContainer.new()
 	panel.custom_minimum_size = Vector2(430, 0)
 	panel.add_theme_stylebox_override("panel", UiKit.panel_box(Color(0.07, 0.06, 0.05, 0.94), Palette.BRASS))
@@ -68,15 +72,13 @@ func _build_top() -> Control:
 	_top = UiKit.label("", 18, Palette.PARCHMENT)
 	_top.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(_top)
-	for tab: Array in [["ui.skills.tab.mechanic", false], ["ui.skills.tab.monster", true]]:
-		var b := UiKit.button(Loc.t(tab[0] as String), 18)
+	for id: StringName in WEBS:
+		var b := Icons.button("SKILL", id, Loc.t("ui.skills.tab.%s" % id), 18)
 		b.custom_minimum_size = Vector2(190, 42)
 		b.toggle_mode = true
-		b.button_pressed = not tab[1]
-		b.disabled = tab[1]
-		if tab[1]:
-			b.tooltip_text = Loc.t("ui.skills.monster_soon")
+		b.pressed.connect(_switch.bind(id))
 		row.add_child(b)
+		_tabs[id] = b
 	var back := UiKit.button(Loc.t("ui.workshop.back"), 18)
 	back.custom_minimum_size = Vector2(200, 42)
 	back.pressed.connect(func() -> void: get_tree().change_scene_to_file(DISTRICT))
@@ -84,10 +86,22 @@ func _build_top() -> Control:
 	return bar
 
 
+func _switch(web_id: StringName) -> void:
+	_web = ContentDB.data.webs[web_id]
+	_picked = &"start"
+	_bg.texture = UiKit.texture("res://art/ui/SKILLS__texture_%s.webp" % web_id)
+	for id: StringName in WEBS:
+		_views[id].visible = id == web_id
+		_tabs[id].set_pressed_no_signal(id == web_id)
+	_refresh()
+
+
 func _refresh() -> void:
-	var pr := GameState.run.progress
-	_top.text = Loc.t("ui.skills.top", {"level": pr.level, "points": pr.skill_points})
-	_view.refresh()
+	var run := GameState.run
+	var data := ContentDB.data
+	_top.text = Loc.t("ui.skills.top", {"level": run.progress.level, "points": run.progress.skill_points})
+	_top.text += "   " + Loc.t("ui.voice.now", {"n": run.voice, "stage": Loc.t("ui.voice.stage.%d" % VoiceRules.stage(run, data))})
+	_views[_web.id].refresh()
 	_show_card()
 
 
@@ -102,7 +116,7 @@ func _show_card() -> void:
 	var nd := _web.node(_picked)
 	if nd == null:
 		return
-	_card.add_child(UiKit.picture(UiKit.texture(CARD_ART), Vector2(0, 120)))
+	_card.add_child(UiKit.picture(UiKit.texture("res://art/ui/SKILLS__node_card__%s.webp" % _web.id), Vector2(0, 120)))
 	_card.add_child(UiKit.label(nd.name, 28, Palette.BRASS_LIGHT))
 	_card.add_child(UiKit.label(Loc.t("ui.skills.type.%s" % nd.type), 16, Palette.INK_MUTED))
 	_card.add_child(UiKit.paragraph(nd.text, 18, Palette.PARCHMENT))
@@ -110,6 +124,8 @@ func _show_card() -> void:
 		var known := GameState.run.workshop.blueprints.has(nd.blueprint)
 		_card.add_child(UiKit.paragraph(Loc.t("ui.skills.blueprint_known" if known else "ui.skills.blueprint_note"), 15, Palette.FOG))
 	var run := GameState.run
+	if nd.sample != &"" or nd.voice > 0:
+		_blood_lines(nd)
 	if SkillRules.is_owned(run, _web, nd.id):
 		_card.add_child(UiKit.label(Loc.t("ui.skills.owned"), 18, Palette.BRASS))
 	else:
@@ -121,7 +137,25 @@ func _show_card() -> void:
 		_card.add_child(b)
 		if problem != "":
 			_card.add_child(UiKit.paragraph(problem, 15, Palette.ALARM))
-	_card.add_child(UiKit.paragraph(Loc.t("ui.skills.reset_note"), 14, Palette.INK_MUTED))
+	var note := "ui.skills.reset_note" if _web.id != &"monster" else "ui.skills.monster_note"
+	_card.add_child(UiKit.paragraph(Loc.t(note), 14, Palette.INK_MUTED))
+
+
+## A Monster node: the blood sample it uses up and what the hunter has, the Voice it adds, a stage warning.
+func _blood_lines(nd: SkillDefs.NodeDef) -> void:
+	var run := GameState.run
+	var data := ContentDB.data
+	if nd.sample != &"":
+		var ws := run.workshop
+		_card.add_child(Icons.with_text("STAT", &"voice", Loc.t("ui.skills.sample", {"name": WorkshopKit.sample_name(nd.sample, nd.pure),
+			"n": ws.samples.get(nd.sample, 0), "p": ws.pure_samples.get(nd.sample, 0)}), 26, 16, Palette.PARCHMENT))
+	if nd.voice > 0:
+		_card.add_child(Icons.with_text("STAT", &"voice", Loc.t("ui.skills.voice_cost", {"n": nd.voice}), 26, 16, Palette.PARCHMENT))
+	var after := VoiceRules.stage(run, data, run.voice + nd.voice)
+	if not SkillRules.is_owned(run, _web, nd.id) and after > VoiceRules.stage(run, data):
+		_card.add_child(UiKit.picture(UiKit.texture("res://art/ui/SKILLS__voice_warning.webp"), Vector2(0, 60)))
+		_card.add_child(UiKit.paragraph(Loc.t("ui.skills.voice_warning", {"stage": Loc.t("ui.voice.stage.%d" % after),
+			"what": Loc.t("ui.voice.effect.%d" % after)}), 15, Palette.ALARM))
 
 
 func _buy(node_id: StringName) -> void:

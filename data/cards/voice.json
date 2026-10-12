@@ -1,0 +1,26 @@
+[
+ {
+  "id": "beast_form",
+  "name": "Beast Form",
+  "art": "hounds_rage",
+  "type": "rage",
+  "cost": 1,
+  "target": "enemy_or_part",
+  "exhaust": true,
+  "text": "Deal 20 damage. Gain 8 Block. Lose 6 HP. Exhaust.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 20
+   },
+   {
+    "op": "block",
+    "amount": 8
+   },
+   {
+    "op": "lose_hp",
+    "amount": 6
+   }
+  ]
+ }
+]

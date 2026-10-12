@@ -27,11 +27,12 @@ static func sanity(run: RunState, data: ContentData) -> int:
 	return top if run.hero_sanity < 0 else mini(run.hero_sanity, top)
 
 
-## Rest at the garret (the caller ends the day): a third of each back.
+## Rest at the garret (the caller ends the day): a third of each back; the Voice drops a little.
 static func rest(run: RunState, data: ContentData) -> void:
 	var share := data.balance.health.rest_share
 	run.hero_hp = mini(max_hp(run, data), hp(run, data) + ceili(max_hp(run, data) * share))
 	run.hero_sanity = mini(max_sanity(run, data), sanity(run, data) + ceili(max_sanity(run, data) * share))
+	VoiceRules.lower(run, data.balance.voice.rest_voice)  # sleep quiets the blood a little
 
 
 ## The infirmary's price for what is missing.

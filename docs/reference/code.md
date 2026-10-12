@@ -10,8 +10,8 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 |---|---|---|---|
 | `autoload/content_db.gd` |  | Loads and validates all content once at start-up. If `errors` is not empty the game must not start. | reload, is_ok |
 | `autoload/event_bus.gd` |  | Global signals. Systems talk through these instead of holding references to each other. |  |
-| `autoload/game_state.gd` |  | Facade between the screens and the game rules (GDD 19.3): the place and day actions — contracts, rumors, the | accept_contract, craft_item, upgrade_module, salvage_item, leave_workshop, investigate_rumor, work_shift, rest, treat, verify_rumor, study_trophy, buy_item, sell_stock, raise_attribute, buy_skill, reset_skills |
-| `autoload/game_state_core.gd` |  | Core of the GameState facade (GDD 19.3): the run, saving, days, gear and fights. autoload/game_state.gd extends it | has_run, new_game, continue_game, save_game, move_hero, is_open, set_hero_node, end_day, equip_module, unequip_module, set_socket, dev_grant_all_gear, start_hunt, combat_play, combat_end_turn, finish_combat |
+| `autoload/game_state.gd` |  | Facade between the screens and the game rules (GDD 19.3): the place and day actions — contracts, rumors, the | accept_contract, craft_item, upgrade_module, salvage_item, leave_workshop, investigate_rumor, work_shift, rest, treat, calm_voice, verify_rumor, study_trophy, buy_item, sell_sample, sell_stock, raise_attribute, buy_skill, reset_skills |
+| `autoload/game_state_core.gd` |  | Core of the GameState facade (GDD 19.3): the run, saving, days, gear and fights. autoload/game_state.gd extends it | has_run, new_game, continue_game, save_game, move_hero, is_open, set_hero_node, end_day, equip_module, unequip_module, set_socket, dev_grant_all_gear, start_hunt, combat_play, combat_end_turn, finish_combat, lost_control |
 | `autoload/profile_service.gd` |  | The player profile (ProfileState in user://profile.cfg): settings screen and tutorial read and change it here. | save, apply, apply_volumes, set_volume, set_fullscreen, set_hints, reset_tutorial |
 | `autoload/rng_service.gd` |  | Seeded randomness (GDD 17.1). One master seed per playthrough; every system draws from its own | set_seed, stream |
 | `autoload/save_service.gd` |  | Save / load of RunState as JSON, with versioned migrations (GDD 19.1). | has_save, save_run, load_run |
@@ -47,6 +47,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/content/defs/shop_defs.gd` | ShopDefs | The "shop" and "tavern" blocks of balance.json (GDD 11.1, 3.3): stock slots, prices, trophy prices, the bag, | balance, tavern |
 | `core/content/defs/skill_defs.gd` | SkillDefs | Skill webs (data/skills/*.json, GDD 4.4, 23.2): nodes with a type, a place on the web, links and an effect; | web, balance |
 | `core/content/defs/tutorial_def.gd` | TutorialDef | One tutorial hint sequence (data/tutorial/sequences.json, GDD 22). | from_dict |
+| `core/content/defs/voice_defs.gd` | VoiceDefs | The "voice" block of balance.json (GDD 4.2, 4.4): stage thresholds, what each stage does, how the Voice falls, | balance |
 | `core/content/defs/weapon_def.gd` | WeaponDef | A weapon: base cards, magazine and its sections with typed cells (data/gear/weapons.json, GDD 5.2). | from_dict, section |
 | `core/content/defs/workshop_defs.gd` | WorkshopDefs | Workshop content (GDD 6, 23.1): blueprints (data/gear/blueprints.json) and the "workshop" block of balance.json | blueprint, balance, amounts |
 | `core/content/district_life_validator.gd` | DistrictLifeValidator | Checks district life (data/city/district_life, map-life-people.md): art files, nodes, positions inside the contour. | validate |
@@ -88,11 +89,12 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/rules/library/library_rules.gd` | LibraryRules | The Crypt Scriptorium (GDD 3.3, owner 2026-10-12): a day there verifies one rumor (shows what it leads to) or | can_verify, verify, trophy_creature, contracts_to_teach, can_study, study |
 | `core/rules/progress/progress_rules.gd` | ProgressRules | The hunter's growth (GDD 4.1–4.3, owner 2026-10-12): XP for won fights, finished contracts and discoveries; | ensure_start, xp_to_next, fight_xp, add_xp, levels_from, raise, hand_bonus, preview, discount, flagged |
 | `core/rules/rumors/rumor_rules.gd` | RumorRules | Rumors (GDD 8, owner 2026-10-12): each morning 1–2 new diamonds on the district map (at most 5), each lives 3 | visible, new_morning, seed_targets, overheard, matches, best_contract, investigate |
-| `core/rules/shop/shop_rules.gd` | ShopRules | The Rag-and-Bone shop (GDD 11.1, owner 2026-10-12): a new table every Monday, buying (only with money in hand — | refresh, price, can_buy, buy, trophy_price, resource_sell_price, sell, spend_bag |
-| `core/rules/skills/skill_rules.gd` | SkillRules | The skill webs (GDD 4.4, owner 2026-10-12): a node is bought for skill points of the shared pool when a node it | is_owned, can_buy, buy, owned_nodes, mods, crafts_bonus, sync_sockets, reset_cost, can_reset, reset |
+| `core/rules/shop/shop_rules.gd` | ShopRules | The Rag-and-Bone shop (GDD 11.1, owner 2026-10-12): a new table every Monday, buying (only with money in hand — | refresh, price, can_buy, buy, trophy_price, resource_sell_price, sell, sample_price, sell_sample, spend_bag |
+| `core/rules/skills/skill_rules.gd` | SkillRules | The skill webs (GDD 4.4, owner 2026-10-12): a node is bought for skill points of the shared pool when a node it | is_owned, can_buy, buy, owned_nodes, mods, cards, crafts_bonus, sync_sockets, reset_cost, can_reset, reset |
 | `core/rules/tavern/shift_rules.gd` | ShiftRules | A shift behind the bar of the Lantern & Hook (GDD 3.3, owner 2026-10-12): the day's main action. Pays money and | work |
 | `core/rules/time/calendar_rules.gd` | CalendarRules | Days, weeks and chapters (GDD 3.2). Day 1 is the Monday of week 1. | week, weekday, weekday_name, chapter_week, is_rent_day, is_shop_refresh_day, days_until_rent |
 | `core/rules/time/day_rules.gd` | DayRules | Ending a day (GDD 3.2–3.3): advance the calendar, tick district states, take rent on Rentday. Rent left unpaid | end_day |
+| `core/rules/voice/voice_rules.gd` | VoiceRules | The Voice (GDD 4.2, 4.4; owner 2026-10-12): Monster-web formulas raise it; stages at 10 / 20 / 30 (+3 per Will). | thresholds, stage, fight_cards, hunger_chance, loses_control, lower, can_calm, calm, hunger |
 | `core/rules/workshop/loot_rules.gd` | LootRules | What a won fight gives (GDD 17.2 LootGenerator, owner 2026-10-12): ichor and scrap by the creature's rank (ichor | fight_loot, preview_blueprints, take, add_resources, add_to |
 | `core/rules/workshop/workshop_rules.gd` | WorkshopRules | The workshop (GDD 6.2, owner 2026-10-12): crafting from known blueprints, upgrading one module copy to tier II–III, | ensure_start, crafts_per_day, crafts_left, missing, can_craft, craft, upgrade_cost, can_upgrade, upgrade, salvage_refund, can_salvage, salvage, leave, is_locked |
 | `core/state/city_state.gd` | CityState | States of districts, areas and landmarks. Keys: "NORDHAL", "NORDHAL/tavern_street", ... | get_place, state_of, to_dict, from_dict |
@@ -133,7 +135,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `scenes/combat/enemy_plate.gd` | EnemyPlate | The brass plate under the creature: name and rank, HP bar with phase notches, block badge, statuses and, on capture | refresh |
 | `scenes/combat/enemy_view.gd` | EnemyView | The creature stage (GDD 21.2 zones 2-5): big art that breathes, intent medallions above its head, target rings | refresh, spot_global, center_global, play_hit |
 | `scenes/combat/hand_view.gd` | HandView | The hand as a fan at the bottom centre (GDD 21.2 zone 10). Card views are kept between redraws, so a hovered card keeps | refresh, view_of |
-| `scenes/combat/hero_view.gd` | HeroView | The hunter's corner (GDD 21.2 zones 7-9): portrait medallion, HP and Sanity vials, block badge, statuses, the weapon | refresh, play_hit, portrait_global |
+| `scenes/combat/hero_view.gd` | HeroView | The hunter's corner (GDD 21.2 zones 7-9): portrait medallion, HP and Sanity vials, block badge, statuses, the weapon | refresh, show_voice, play_hit, portrait_global |
 | `scenes/combat/intent_view.gd` | IntentView | One planned move of the creature as a brass medallion: intent icon and a big number; hover shows the full text (GDD 21.2). | number_of, setup |
 | `scenes/combat/log_panel.gd` | LogPanel | The fight log: a «Журнал» tab on the right edge that unrolls a parchment scroll (GDD 21.2 zone 6). | refresh, is_open, toggle, set_open |
 | `scenes/combat/part_ring.gd` | PartRing | A target ring on the creature's body at the part's spot: the red arc is the part's HP; it glows and takes clicks while | refresh |
@@ -172,12 +174,12 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `scenes/settings/settings_panel.gd` | SettingsPanel | Settings over any screen (owner, 2026-10-12): volumes, tutorial hints, reset tutorial, full screen. | open |
 | `scenes/shop/shop_kit.gd` | ShopKit | Texts and pictures of the shop's cards (GDD 11.1). Reads content and the run; never changes them. | picture, title, about, sell_price |
 | `scenes/shop/shop_table.gd` | ShopTable | The Rag-and-Bone shop (GDD 11.1): the dealer's wooden table with this week's cards — ready modules, blueprints, | close_shop |
-| `scenes/skills/skill_web_screen.gd` |  | «Развитие охотника» (GDD 23.2): level, XP and free points on top, the web tabs (the Monster web comes in the next |  |
+| `scenes/skills/skill_web_screen.gd` |  | «Развитие охотника» (GDD 23.2): level, free points and the Voice on top, the Mechanic and Monster web tabs, the |  |
 | `scenes/skills/skill_web_view.gd` | SkillWebView | One skill web drawn as a graph (GDD 23.2 zone 3): node pictures by type, links (bright when both ends are owned), | setup, center, refresh |
 | `scenes/tavern/shift_panel.gd` | ShiftPanel | The morning after a tavern shift (GDD 3.3): the keeper's portrait, the money earned, a line of gossip and the | show_report, close_panel |
 | `scenes/workshop/blueprint_list.gd` | BlueprintList | The blueprint list of the workshop (GDD 23.1 zones 2–4): tabs Модули · Механизмы, «только доступные», rows with | refresh |
 | `scenes/workshop/workbench_view.gd` | WorkbenchView | The workbench (GDD 23.1 zones 5–7, 9): the selected item large — picture, section and cell, tier, what it does, | show_item |
-| `scenes/workshop/workshop_kit.gd` | WorkshopKit | Shared bits of the workshop screen (GDD 23.1): names, pictures and cost rows of blueprints and stock items. | item_name, item_art, stock_name, stock_icon, cost_row, tier_text |
+| `scenes/workshop/workshop_kit.gd` | WorkshopKit | Shared bits of the workshop screen (GDD 23.1): names, pictures and cost rows of blueprints and stock items. | item_name, item_art, stock_name, stock_icon, cost_row, tier_text, sample_name |
 | `scenes/workshop/workshop_screen.gd` |  | Workshop «Ржавая Шестерня» (GDD 6, 23.1): blueprints on the left, the workbench in the middle, the hunter's stash on |  |
 
 ## ui/
@@ -218,6 +220,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `tests/test_skills.gd` |  | The Mechanic skill web (GDD 4.4): buying linked nodes, blueprints, sockets, workshop crafts, passives, reset. | test_nodes_need_a_linked_owned_node_and_points, test_effects_blueprint_socket_crafts_and_passives, test_reset_refunds_points_for_money_and_keeps_blueprints, test_skills_survive_save_and_old_saves_migrate, test_skill_hp_and_sockets_all |
 | `tests/test_suite.gd` | TestSuite | Base class for test suites. Every method named test_* is a test. | check, eq, near, load_content |
 | `tests/test_tutorial.gd` |  | Tutorial hints (GDD 22): sequences are valid data, play once, wait for «do» actions, queue, can be skipped; | test_sequences_are_loaded, test_sequence_plays_once_and_waits_for_actions, test_hints_off_and_skip_all, test_one_off_hint_waits_in_queue, test_profile_round_trip, test_abort_keeps_the_hint_for_later, test_bad_tutorial_data_is_reported |
+| `tests/test_voice.gd` |  | The Monster web and the Voice (GDD 4.2, 4.4): blood samples from fights, nodes that use them up and raise the Voice, | test_fights_give_samples_and_captures_pure_ones, test_nodes_use_up_samples_and_raise_the_voice, test_stages_cards_and_will, test_rest_and_calm_lower_the_voice, test_lose_control_only_at_the_beast, test_hunger_plays_an_attack_card, test_samples_sell_and_survive_save |
 | `tests/test_workshop.gd` |  | Workshop and loot (GDD 6, 17.2): start stock, crafting, the workshop day, tiers, salvage, fight loot, unlocks. | test_new_run_has_start_stock_and_blueprints, test_craft_spends_and_the_workshop_day_holds_two_items, test_unknown_blueprint_and_missing_resources, test_upgrade_raises_one_copy, test_salvage_only_spare_and_returns_half, test_fight_loot_and_trophy_unlocks, test_workshop_survives_save_and_old_saves_get_the_start |
 
 ## tools/

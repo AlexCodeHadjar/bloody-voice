@@ -277,5 +277,22 @@
   "_comment": "Skill webs (GDD 4.4; owner 2026-10-12): each node costs node_cost points of the shared pool; resetting the Mechanic web in the Scriptorium costs reset_cost_per_point money per refunded point (no day spent, no credit); learned blueprints stay.",
   "node_cost": 1,
   "reset_cost_per_point": 15
+ },
+ "voice": {
+  "_comment": "The Voice (GDD 4.2, 4.4; owner 2026-10-12): grows with Monster-web formulas. Stage thresholds (Whispers, Hunger, the Beast) + per_will per Will point. 1: a rage card in every fight's deck. 2: at the start of each turn an attack card in hand may play itself (hunger_chance). 3: the Beast Form card; after a fight lose_control_chance to lose control (a day passes). Rest lowers it by rest_voice; the infirmary's «calm the blood» (a day and calm_cost money) by calm_voice. Samples: a kill gives one, a capture a pure one; samples sell by the creature's rank (pure x2).",
+  "stages": [
+   10,
+   20,
+   30
+  ],
+  "per_will": 3,
+  "rage_card": "hounds_rage",
+  "beast_card": "beast_form",
+  "hunger_chance": 0.3,
+  "lose_control_chance": 0.25,
+  "rest_voice": 1,
+  "calm_voice": 5,
+  "calm_cost": 20,
+  "pure_sell_mult": 2
  }
 }

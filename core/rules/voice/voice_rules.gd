@@ -1,0 +1,84 @@
+class_name VoiceRules
+extends RefCounted
+## The Voice (GDD 4.2, 4.4; owner 2026-10-12): Monster-web formulas raise it; stages at 10 / 20 / 30 (+3 per Will).
+## 1 Whispers: a rage card in every fight. 2 Hunger: an attack card in hand may play itself at the turn's start.
+## 3 The Beast: the Beast Form card, and after a fight a chance to lose control (a day passes). Rest and the
+## infirmary's «calm the blood» lower it.
+
+
+static func thresholds(run: RunState, data: ContentData) -> Array[int]:
+	var v := data.balance.voice
+	var out: Array[int] = []
+	for t: int in v.stages:
+		out.append(t + v.per_will * run.progress.attribute(&"will"))
+	return out
+
+
+## 0 (silent) .. 3 (the Beast) for a Voice of `voice` (the run's own by default).
+static func stage(run: RunState, data: ContentData, voice: int = -1) -> int:
+	var value := run.voice if voice < 0 else voice
+	var n := 0
+	for t: int in thresholds(run, data):
+		n += 1 if value >= t else 0
+	return n
+
+
+## Cards the stages add to a fight's deck.
+static func fight_cards(run: RunState, data: ContentData) -> Array[StringName]:
+	var v := data.balance.voice
+	var out: Array[StringName] = []
+	var s := stage(run, data)
+	if s >= 1:
+		out.append(v.rage_card)
+	if s >= 3:
+		out.append(v.beast_card)
+	return out
+
+
+static func hunger_chance(run: RunState, data: ContentData) -> float:
+	return data.balance.voice.hunger_chance if stage(run, data) >= 2 else 0.0
+
+
+## After a fight at stage 3: does the hunter lose control? (rolled on the given stream)
+static func loses_control(run: RunState, data: ContentData, rng: RandomNumberGenerator) -> bool:
+	return stage(run, data) >= 3 and rng.randf() < data.balance.voice.lose_control_chance
+
+
+static func lower(run: RunState, amount: int) -> void:
+	run.voice = maxi(0, run.voice - amount)
+
+
+## "" or why the sisters can't calm the blood now (no credit).
+static func can_calm(run: RunState, data: ContentData) -> String:
+	if run.voice <= 0:
+		return Loc.t("rule.voice.silent")
+	if run.money < data.balance.voice.calm_cost:
+		return Loc.t("rule.voice.no_money")
+	return ""
+
+
+## The infirmary's «calm the blood» (the caller ends the day).
+static func calm(run: RunState, data: ContentData) -> String:
+	var problem := can_calm(run, data)
+	if problem == "":
+		run.money -= data.balance.voice.calm_cost
+		lower(run, data.balance.voice.calm_voice)
+	return problem
+
+
+## Hunger in a fight (stage 2+): at the start of the hunter's turn an attack card in hand may play itself at the
+## creature, for free. Called by CombatRules after the draw.
+static func hunger(s: CombatState, data: ContentData) -> void:
+	if s.hunger_chance <= 0.0 or s.is_over() or s.rng.randf() >= s.hunger_chance:
+		return
+	var hungry: Array[CardInstance] = []
+	for c: CardInstance in s.hand:
+		if c.def.type == &"attack" and c.def.needs_enemy_target() and c.def.ammo <= s.hero.ammo:
+			hungry.append(c)
+	if hungry.is_empty():
+		return
+	var card := hungry[s.rng.randi_range(0, hungry.size() - 1)]
+	s.log_event(&"hunger", Loc.t("log.hunger", {"card": card.def.name}))
+	s.hero.ap += card.def.cost  # the Voice pays for it
+	if CombatRules.play_card(s, card.uid, CombatTarget.enemy(), data) != "":
+		s.hero.ap -= card.def.cost  # refused (e.g. panic): no free AP left behind

@@ -19,6 +19,8 @@ var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var capture_allowed: bool = false
 var backdrop: String = ""  ## res:// path of the background picture
 var contract_uid: int = 0  ## the contract this fight counts for (0 = a plain hunt)
+var voice_stage: int = 0  ## the Voice's stage 0..3 (shown on the portrait)
+var hunger_chance: float = 0.0  ## the Voice's Hunger (VoiceRules.hunger)
 var foresight: bool = false
 var captured: bool = false
 var escaped: bool = false

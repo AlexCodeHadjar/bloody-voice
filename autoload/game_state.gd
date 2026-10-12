@@ -115,6 +115,18 @@ func treat() -> String:
 	return problem
 
 
+## Day action: the Ash Sisters calm the blood for money (the Voice drops). "" or the reason they won't.
+func calm_voice() -> String:
+	if run == null or combat != null:
+		return Loc.t("rule.not_now")
+	var problem := VoiceRules.calm(run, ContentDB.data)
+	if problem == "":
+		EventBus.money_changed.emit(run.money)
+		EventBus.progress_changed.emit()
+		end_day()
+	return problem
+
+
 ## Day action in the Scriptorium: verify a rumor. "" or the reason it can't be done.
 func verify_rumor(uid: int) -> String:
 	if run == null or combat != null:
@@ -148,6 +160,18 @@ func buy_item(uid: int) -> String:
 		EventBus.stock_changed.emit()
 		_loadout_changed()
 	return problem
+
+
+## Sells one blood sample (pure or not); returns the money paid.
+func sell_sample(creature: StringName, pure: bool) -> int:
+	if run == null or combat != null:
+		return 0
+	var paid := ShopRules.sell_sample(run, ContentDB.data, creature, pure)
+	if paid > 0:
+		EventBus.money_changed.emit(run.money)
+		EventBus.stock_changed.emit()
+		save_game()
+	return paid
 
 
 ## Sells one trophy or one unit of a resource; returns the money paid.

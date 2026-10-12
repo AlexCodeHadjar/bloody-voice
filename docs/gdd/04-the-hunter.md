@@ -94,4 +94,16 @@ screen `scenes/hero/hero_panel.gd`.
 | Shape | `data/skills/mechanic.json`: the start and 6 nodes per direction — Gear (up: max HP, a socket in each armor piece, keystone «Железная шкура»), Weapon (right: shot / part damage, a bullet, the Coil and Nozzle blueprints, keystone «Спокойные руки»), Modules (down: first-turn card, bleed, the Ichor / Capacitor / Galvanic blueprints, keystone «Умелец» = +1 workshop craft), Mechanisms (left: the 4 mechanism blueprints, first-turn AP, keystone «Запасные гнёзда» = +1 socket in every piece). 24 nodes, ~17 points by level 15. |
 | Buying | 1 point of the shared pool; a node needs an owned linked node. Blueprint nodes are a second way to existing trophy blueprints — crafting still takes the trophy. |
 | Reset | In the Scriptorium: 15 money per refunded point, no day, no credit; learned blueprints stay; mechanisms in vanished sockets go back to spare. |
-| Screen | «Развитие охотника» (`scenes/skills/`, from «Охотник» → «Ветки навыков»): drag and wheel-zoom web, node pictures by type, owned lit, buyable in a pulsing gold ring, locked dark; the node card with «Изучить». The Monster tab waits for step 3. |
+| Screen | «Развитие охотника» (`scenes/skills/`, from «Охотник» → «Ветки навыков»): drag and wheel-zoom web, node pictures by type, owned lit, buyable in a pulsing gold ring, locked dark; the node card with «Изучить». The Monster tab came in step 3 (§4.8). |
+
+## 4.8 The Monster web and the Voice now (Phase 6 step 3, owner 2026-10-12)
+
+| Rule | Value |
+|---|---|
+| Shape | `data/skills/monster.json`: the start, a branch per Grey Chapels creature (Сточный Хор up, Фонарщик right, Сторожевой Пёс down, Роющий Змей left) — formula I (+2 Voice), formula II (+3), a keystone (+4, needs a **pure** sample) — and 4 blood nodes between neighbouring branches (+1 Voice, no sample). 16 nodes. |
+| Samples | A kill gives 1 blood sample of the creature, a capture 1 pure sample (`LootRules`). A node costs 1 skill point and **uses up** its sample: a formula takes a normal one first, else a pure one; a keystone only a pure one. Samples sell in the shop for the creature's trophy price, pure ×2. |
+| Stages | Voice 10 / 20 / 30, each +3 per Will (`balance.json/voice`). 1 Шёпот: «Ярость гончей» in every fight's deck. 2 Голод: at a turn's start an attack card in hand may play itself at the creature (30%, free). 3 Зверь: «Облик Зверя» in the deck; after a fight a 25% chance the Beast takes over — one more day passes. The node card warns when a purchase crosses a stage. |
+| Lowering | Rest at the garret −1; the Ash Sisters' «Успокоить кровь» −5 for 20 money and a day (no credit). |
+| Reset | The Monster web is never reset. |
+| Shown | The Voice and its stage on the district bar (hidden while silent) and on the skill screen; the combat portrait darkens by stage; the fight result lists the sample and warns when the Beast took over. |
+| Deferred | Blood sockets in weapon and armor; story consequences of losing control; Collegium sedatives and Morrell treatments (other districts — owner 2026-10-12: one district until he says so). |

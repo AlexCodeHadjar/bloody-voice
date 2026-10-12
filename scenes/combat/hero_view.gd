@@ -18,6 +18,7 @@ var _lamp_box: Control
 var _lamps: Array[TextureRect] = []
 var _lit: Array[bool] = []
 var _flash: Tween
+var _voice_stage := 0
 
 
 func _init() -> void:
@@ -92,6 +93,13 @@ func refresh(h: HeroCombatant) -> void:
 	CombatKit.fill_statuses(_statuses, h)
 	_refresh_bullets(h)
 	_refresh_lamps(h)
+
+
+## The portrait darkens with the Voice's stage (COMBAT__hunter_portrait__voice1..3).
+func show_voice(stage: int) -> void:
+	if stage != _voice_stage:
+		_voice_stage = stage
+		_portrait.texture = CombatKit.tex("hunter_portrait" if stage <= 0 else "hunter_portrait__voice%d" % stage)
 
 
 ## One bullet per round: loaded rounds bright, spent ones dim.

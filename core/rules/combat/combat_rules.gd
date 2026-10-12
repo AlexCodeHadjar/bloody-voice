@@ -10,6 +10,8 @@ static func start(setup: CombatSetup, data: ContentData) -> CombatState:
 	s.capture_allowed = setup.capture_allowed
 	s.backdrop = setup.backdrop
 	s.contract_uid = setup.contract_uid
+	s.hunger_chance = setup.hunger_chance
+	s.voice_stage = setup.voice_stage
 	var h := s.hero
 	h.display_name = Loc.t("log.hunter_name")
 	h.hp = setup.hero_hp
@@ -115,6 +117,7 @@ static func _start_player_turn(s: CombatState, data: ContentData) -> void:
 	if s.turn == 1:
 		GearEffectRules.first_turn(s)
 	EnemyRules.reveal_intents(s)
+	VoiceRules.hunger(s, data)
 
 
 static func _target_problem(s: CombatState, def: CardDef, target: CombatTarget) -> String:

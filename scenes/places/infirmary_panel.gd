@@ -1,7 +1,7 @@
 class_name InfirmaryPanel
 extends PlacePanel
 ## The Ash Sisters' infirmary (GDD 4, owner 2026-10-12): HP and Sanity now, the price of a full treatment and
-## «Лечиться (весь день)». No credit here; after a Hunter's Fall the sisters treat you anyway (GameState).
+## «Лечиться (весь день)», and «Успокоить кровь» that lowers the Voice (GDD 4.2). No credit here; after a Hunter's Fall the sisters treat you anyway (GameState).
 
 
 func _portrait() -> String:
@@ -26,6 +26,28 @@ func _fill() -> void:
 	body.add_child(b)
 	if problem != "":
 		message.text = problem
+	_calm_row(run, data)
+
+
+func _calm_row(run: RunState, data: ContentData) -> void:
+	body.add_child(HSeparator.new())
+	body.add_child(Icons.with_text("STAT", &"voice", Loc.t("ui.voice.now", {"n": run.voice, "stage": Loc.t("ui.voice.stage.%d" % VoiceRules.stage(run, data))}), 30, 20))
+	var problem := VoiceRules.can_calm(run, data)
+	var b := Icons.button("STAT", &"voice", Loc.t("ui.infirmary.calm", {"n": data.balance.voice.calm_cost, "v": data.balance.voice.calm_voice}), 20)
+	b.disabled = problem != ""
+	b.tooltip_text = problem
+	b.pressed.connect(_calm)
+	body.add_child(b)
+
+
+func _calm() -> void:
+	var problem := GameState.calm_voice()
+	if problem != "":
+		message.text = problem
+		UiKit.sound(&"ui.error")
+		return
+	UiKit.sound(&"ui.confirm")
+	show_done(Loc.t("ui.infirmary.calm_done"))
 
 
 func _treat() -> void:

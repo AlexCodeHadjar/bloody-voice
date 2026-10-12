@@ -48,6 +48,8 @@ ui.infirmary.title,Лазарет Пепельных Сестёр,The Ash Sister
 ui.infirmary.text,Сёстры вылечат раны и успокоят разум — за день и плату. В долг не лечат.,"The sisters mend wounds and calm the mind, for a day and a fee. No credit."
 ui.infirmary.treat,Лечиться (весь день) — {n},Be treated (the whole day) — {n}
 ui.infirmary.done,Сёстры перевязали раны. Здоровье и рассудок восстановлены.,The sisters dressed your wounds. HP and Sanity are restored.
+ui.infirmary.calm,"Успокоить кровь (весь день) — {n}, Голос −{v}","Calm the blood (the whole day) — {n}, Voice −{v}"
+ui.infirmary.calm_done,Сёстры поили вас горькими травами до рассвета. Голос притих.,The sisters fed you bitter herbs till dawn. The Voice grew quieter.
 ui.library.title,Скрипторий в Крипте,The Crypt Scriptorium
 ui.library.verify_title,Проверить слух (весь день),Verify a rumor (the whole day)
 ui.library.study_title,Изучить трофей (весь день),Study a trophy (the whole day)
@@ -78,7 +80,6 @@ ui.skills.title,Развитие охотника,The hunter's growth
 ui.skills.top,Уровень {level} · очков навыков: {points} (общие на обе ветки),Level {level} · skill points: {points} (shared by both webs)
 ui.skills.tab.mechanic,Ветка Механика,The Mechanic web
 ui.skills.tab.monster,Ветка Твари,The Monster web
-ui.skills.monster_soon,Откроется со следующим шагом: образцы крови и Голос.,Opens with the next step: blood samples and the Voice.
 ui.skills.type.start,Начало,Start
 ui.skills.type.passive,Пассивный навык,Passive
 ui.skills.type.blueprint,Чертёж,Blueprint
@@ -89,6 +90,23 @@ ui.skills.blueprint_known,Этот чертёж уже известен — уз
 ui.skills.owned,Изучено,Learned
 ui.skills.buy,Изучить ({n} очко),Learn ({n} point)
 ui.skills.reset_note,Сбросить ветку можно в Скриптории за деньги; выученные чертежи останутся.,The web can be reset in the Scriptorium for money; learned blueprints stay.
+ui.skills.monster_note,"Выпитое не забыть: ветку Твари нельзя сбросить. Образцы крови — с убитых тварей, чистые — с пойманных.","What the blood taught stays: the Monster web cannot be reset. Samples come from slain creatures, pure ones from captures."
+ui.skills.sample,"Нужен: {name} (есть обычных {n}, чистых {p})","Needs: {name} (you have {n} normal, {p} pure)"
+ui.skills.voice_cost,Голос вырастет на {n},The Voice grows by {n}
+ui.skills.voice_warning,Голос перейдёт в стадию «{stage}»: {what},The Voice reaches the stage «{stage}»: {what}
+ui.voice.now,Голос {n} — {stage},Voice {n} — {stage}
+ui.voice.stage.0,тишина,silent
+ui.voice.stage.1,Шёпот,Whispers
+ui.voice.stage.2,Голод,Hunger
+ui.voice.stage.3,Зверь,The Beast
+ui.voice.effect.0,Кровь молчит.,The blood is silent.
+ui.voice.effect.1,в каждом бою в колоде «Ярость гончей».,a Hound's Rage in every fight's deck.
+ui.voice.effect.2,в начале хода карта атаки может сыграть сама.,an attack card may play itself at the start of a turn.
+ui.voice.effect.3,в колоде «Облик Зверя»; после боя Зверь может взять верх — пропадёт день.,Beast Form in the deck; after a fight the Beast may take over and a day is lost.
+ui.voice.sample,Образец крови: {name},Blood sample: {name}
+ui.voice.pure_sample,Чистый образец: {name},Pure sample: {name}
+ui.voice.lost_control,Зверь взял верх. Вы очнётесь в сточной канаве только через день.,The Beast took over. You will come to in a gutter a day later.
+ui.combat.sample,Добыто: {name},Taken: {name}
 ui.district.hint.rumors,Площадь: столб со слухами,Square: the rumor post
 ui.district.hint.locked,Закрыто,Closed
 ui.district.hint.soon,Откроется позже,Opens later
@@ -264,6 +282,7 @@ log.status,{who}: {status} {n}.,{who}: {status} {n}.
 log.sanity,Рассудок −{n}.,Sanity −{n}.
 log.panic,Руки дрожат — паника!,Your hands shake — panic!
 log.no_capture,Здесь нечем её связать.,Nothing to bind it with here.
+log.hunger,Голод! «{card}» срывается с руки сама.,Hunger! {card} plays itself.
 log.captured,Поймано: {enemy}! ({chance}%),{enemy} is captured! ({chance}%)
 log.capture_failed,Сеть соскальзывает ({chance}%). Тварь в ярости.,The net slips ({chance}%). It is enraged.
 log.cancelled,{enemy} больше не может: {move}.,{enemy} can no longer {move}.
@@ -409,6 +428,11 @@ rule.skill.not_linked,Сначала изучите соседний узел.,L
 rule.skill.no_points,Нет свободных очков навыков.,No free skill points.
 rule.skill.nothing_to_reset,В ветке нечего сбрасывать.,Nothing to reset in this web.
 rule.skill.no_money,Не хватает денег на сброс.,Not enough money for the reset.
+rule.skill.no_reset,Ветку Твари нельзя сбросить.,The Monster web cannot be reset.
+rule.skill.no_sample,Нужен образец крови: {name}.,Needs a blood sample: {name}.
+rule.skill.no_pure,Нужен чистый образец: {name} — поймайте тварь живой.,Needs a pure sample: {name}; capture the creature alive.
+rule.voice.silent,Кровь и так молчит.,The blood is already silent.
+rule.voice.no_money,Не хватает денег. В долг сёстры не помогают.,Not enough money. The sisters give no credit.
 intent.attack,Атака,Attack
 intent.defend,Защита,Defend
 intent.fear,Страх,Fear
@@ -595,6 +619,8 @@ card.iron_net_2.name,Железная сеть II,Iron Net II
 card.iron_net_2.text,"Попытка поймать тварь, шанс выше. Чем сильнее она ранена, тем выше шанс.",Try to capture the creature (better chance). Works better the more it is hurt.
 card.iron_net_3.name,Железная сеть III,Iron Net III
 card.iron_net_3.text,"Попытка поймать тварь, шанс ещё выше. Чем сильнее она ранена, тем выше шанс.",Try to capture the creature (best chance). Works better the more it is hurt.
+card.beast_form.name,Облик Зверя,Beast Form
+card.beast_form.text,Урон 20. Защита +8. Потеряйте 6 здоровья. Изгнание.,Deal 20 damage. Gain 8 Block. Lose 6 HP. Exhaust.
 monster.gutter_choir.name,Сточный Хор,Gutter Choir
 monster.gutter_choir.part.left_throat,Левое горло,Left Throat
 monster.gutter_choir.part.right_throat,Правое горло,Right Throat
@@ -1050,6 +1076,40 @@ skill.mechanic.c_ap.name,Часовая пружина,Clockwork Spring
 skill.mechanic.c_ap.text,Первый ход: +1 ОД.,+1 AP on the first turn.
 skill.mechanic.c_key.name,Запасные гнёзда,Spare Sockets
 skill.mechanic.c_key.text,+1 гнездо механизма в каждой части брони.,+1 mechanism socket in every armor piece.
+skill.monster.start.name,Голос,The Voice
+skill.monster.start.text,Здесь кровь начинает говорить.,Where the blood begins to speak.
+skill.monster.ch1.name,Формула Сточного Хора,Formula of the Gutter Choir
+skill.monster.ch1.text,Ваше Кровотечение на 1 сильнее.,Bleed you apply is 1 stack stronger.
+skill.monster.ch2.name,Утопленный гимн,Drowned Hymn
+skill.monster.ch2.text,Выстрелы накладывают 1 Кровотечение.,Shots apply 1 Bleed.
+skill.monster.ch_key.name,Хор утопленников,Choir of the Drowned
+skill.monster.ch_key.text,В первый ход берите на 2 карты больше.,Draw 2 more cards on the first turn.
+skill.monster.l1.name,Формула Фонарщика,Formula of the Lamplighter
+skill.monster.l1.text,В начале боя видны следующие ходы твари.,See the creature's next moves at the start of a fight.
+skill.monster.l2.name,Обожжённый взгляд,Burnt Gaze
+skill.monster.l2.text,Удары по частям тела наносят +2 урона.,Hits on body parts deal +2 damage.
+skill.monster.l_key.name,Глаза-фонари,Lantern Eyes
+skill.monster.l_key.text,+1 ОД в первый ход; в начале боя видно на 2 хода вперёд.,+1 AP on the first turn; see 2 moves ahead at the start.
+skill.monster.h1.name,Формула Сторожевого Пса,Formula of the Vigil Hound
+skill.monster.h1.text,+6 к наибольшему здоровью.,+6 max HP.
+skill.monster.h2.name,Голод гончей,Hound's Hunger
+skill.monster.h2.text,Карты Ярости стоят на 2 здоровья меньше; в колоду добавляется «Ярость гончей».,Rage cards cost 2 less HP; adds a Hound's Rage to the deck.
+skill.monster.h_key.name,Стая внутри,The Pack Within
+skill.monster.h_key.text,Выстрелы наносят +2 урона; +6 к наибольшему здоровью.,Shots deal +2 damage; +6 max HP.
+skill.monster.w1.name,Формула Роющего Змея,Formula of the Burrow Wyrm
+skill.monster.w1.text,Выстрелы дают 2 защиты.,Shots give 2 Block.
+skill.monster.w2.name,Хитиновая кожа,Chitin Skin
+skill.monster.w2.text,+8 к наибольшему здоровью.,+8 max HP.
+skill.monster.w_key.name,Терпение змея,Wyrm's Patience
+skill.monster.w_key.text,Выстрелы дают ещё 2 защиты; +1 патрон.,Shots give 2 more Block; +1 bullet.
+skill.monster.b_ne.name,Быстрая кровь,Quickened Blood
+skill.monster.b_ne.text,Перезарядка добирает карту.,Reloading draws a card.
+skill.monster.b_se.name,Густая кровь,Thick Blood
+skill.monster.b_se.text,+4 к наибольшему здоровью.,+4 max HP.
+skill.monster.b_sw.name,Беспокойная кровь,Restless Blood
+skill.monster.b_sw.text,В первый ход берите на 1 карту больше.,Draw 1 more card on the first turn.
+skill.monster.b_nw.name,Горькая кровь,Bitter Blood
+skill.monster.b_nw.text,Ваше Кровотечение на 1 сильнее.,Bleed you apply is 1 stack stronger.
 rumor_gossip.pale_hounds.text,"Бледные Псы опять пили здесь. Говорят о Реестре охотников, будто он им принадлежит.",The Pale Hounds were drinking here again. They talk about the Hunter's Register as if they owned it.
 rumor_gossip.grey_candles.text,"По ночам в Старой Часовне горят серые свечи, хотя священника там нет уже много лет.","Grey candles burn in the Old Chapel at night, though no priest has been there for years."
 rumor_gossip.ringwall_guns.text,На прошлой неделе стража на северной стене развернула пушки внутрь. Никто не говорит зачем.,The guards on the north wall turned the guns inward last week. Nobody says why.

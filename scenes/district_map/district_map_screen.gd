@@ -24,6 +24,7 @@ var _day_label: Label
 var _money_label: Label
 var _stock_row: HBoxContainer
 var _health_label: Label
+var _voice_box: HBoxContainer  ## the Voice and its stage (GDD 4.2), hidden while silent
 var _spot: DistrictMapRules.Spot  ## where the hero stands or walks to
 var _target: DistrictMapDef.LandmarkDef = null  ## the card opens when the hero gets there
 var _target_rumor := 0  ## the rumor tablet opens when the hero gets to this diamond
@@ -109,6 +110,9 @@ func _build_bar() -> Control:
 	row.add_child(Icons.rect("STAT", &"hp", 30))
 	_health_label = UiKit.label("", 20)  # HP and Sanity carried between fights (GDD 4)
 	row.add_child(_health_label)
+	_voice_box = Icons.with_text("STAT", &"voice", "", 30, 20)
+	_voice_box.mouse_filter = Control.MOUSE_FILTER_PASS
+	row.add_child(_voice_box)
 	_stock_row = HBoxContainer.new()  # resources (GDD 6.1)
 	_stock_row.add_theme_constant_override("separation", 10)
 	row.add_child(_stock_row)
@@ -180,6 +184,10 @@ func _refresh_bar() -> void:
 	_health_label.add_theme_color_override("font_color", Palette.ALARM if low else Palette.PARCHMENT)
 	_money_label.add_theme_color_override("font_color", Palette.ALARM if run.money < 0 else Palette.BRASS_LIGHT)
 	_money_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	var stage := VoiceRules.stage(run, data)
+	_voice_box.visible = run.voice > 0
+	(_voice_box.get_child(1) as Label).text = Loc.t("ui.voice.now", {"n": run.voice, "stage": Loc.t("ui.voice.stage.%d" % stage)})
+	_voice_box.tooltip_text = Loc.t("ui.voice.effect.%d" % stage)
 	_money_label.tooltip_text = "" if run.money >= 0 else Loc.t("ui.district.debt", {"n": run.debt_strikes, "of": b.debt_strikes})
 
 

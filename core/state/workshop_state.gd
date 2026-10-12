@@ -5,6 +5,8 @@ extends RefCounted
 
 var resources: Dictionary[StringName, int] = {}  ## scrap / gears / electronics / ichor -> amount
 var trophies: Dictionary[StringName, int] = {}  ## trophy id -> amount
+var samples: Dictionary[StringName, int] = {}  ## creature -> blood samples from kills (GDD 4.4)
+var pure_samples: Dictionary[StringName, int] = {}  ## creature -> pure samples from captures
 var blueprints: Array[StringName] = []  ## known blueprint (item) ids
 var day: int = 0  ## the day a workshop day was started (0 = none)
 var crafts_used: int = 0  ## crafts and upgrades done on that day
@@ -18,6 +20,7 @@ func amount(id: StringName) -> int:
 
 func to_dict() -> Dictionary:
 	return {"resources": resources.duplicate(), "trophies": trophies.duplicate(), "blueprints": blueprints.duplicate(),
+		"samples": samples.duplicate(), "pure_samples": pure_samples.duplicate(),
 		"day": day, "crafts_used": crafts_used, "started": started}
 
 
@@ -26,6 +29,8 @@ static func from_dict(d: Dictionary) -> WorkshopState:
 	s.resources = WorkshopDefs.amounts(d.get("resources", {}) as Dictionary)
 	s.trophies = WorkshopDefs.amounts(d.get("trophies", {}) as Dictionary)
 	s.blueprints = ContractsState.names(d.get("blueprints", []) as Array)
+	s.samples = WorkshopDefs.amounts(d.get("samples", {}) as Dictionary)
+	s.pure_samples = WorkshopDefs.amounts(d.get("pure_samples", {}) as Dictionary)
 	s.day = int(d.get("day", 0))
 	s.crafts_used = int(d.get("crafts_used", 0))
 	s.started = bool(d.get("started", not s.blueprints.is_empty()))

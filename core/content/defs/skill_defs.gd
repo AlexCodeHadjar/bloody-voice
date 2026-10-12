@@ -19,6 +19,10 @@ class NodeDef:
 	var socket: StringName = &""  ## armor piece that gets +1 socket
 	var sockets_all: int = 0
 	var crafts: int = 0
+	var cards: Array[StringName] = []  ## added to every fight's deck while owned (Monster web)
+	var sample: StringName = &""  ## creature whose blood sample the node uses up ("" = none)
+	var pure: bool = false  ## needs a pure sample (from a capture)
+	var voice: int = 0  ## how much the Voice grows
 
 
 class WebDef:
@@ -64,6 +68,10 @@ static func _node(d: Dictionary, errs: ErrorLog, w: String) -> NodeDef:
 	nd.socket = DefReader.id(e, "socket", errs, nw, false)
 	nd.sockets_all = DefReader.integer(e, "sockets_all", errs, nw, 0, false)
 	nd.crafts = DefReader.integer(e, "crafts", errs, nw, 0, false)
+	nd.cards = DefReader.ids(e, "cards", errs, nw)
+	nd.sample = DefReader.id(d, "sample", errs, nw, false)
+	nd.pure = DefReader.flag(d, "pure")
+	nd.voice = DefReader.integer(d, "voice", errs, nw, 0, false)
 	return nd
 
 

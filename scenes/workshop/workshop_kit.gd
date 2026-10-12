@@ -53,3 +53,9 @@ static func tier_text(tier: int) -> String:
 	for i: int in ModuleDef.MAX_TIER:
 		marks.append(["I", "II", "III"][i] if i < tier else "·")
 	return " ".join(marks)
+
+
+## "Blood sample: <creature>" / "Pure sample: <creature>" (GDD 4.4).
+static func sample_name(creature: StringName, pure: bool) -> String:
+	var m := ContentDB.data.monster(creature)
+	return Loc.t("ui.voice.pure_sample" if pure else "ui.voice.sample", {"name": m.name if m != null else String(creature)})

@@ -29,6 +29,8 @@ static func migrate(d: Dictionary, start_loadout: Dictionary = {}) -> Dictionary
 				_from_9(d)
 			10:
 				_from_10(d)
+			11:
+				_from_11(d)
 			_:
 				push_warning("[save] no migration from version %d" % version)
 		version += 1
@@ -102,3 +104,11 @@ static func _from_9(d: Dictionary) -> void:
 ## v10 -> v11: skill webs (GDD 4.4). Nothing bought yet; the points earned so far wait in progress.skill_points.
 static func _from_10(d: Dictionary) -> void:
 	d["skills"] = SkillsState.new().to_dict()
+
+
+## v11 -> v12: the Voice and blood samples (GDD 4.2, 4.4). Silent at first, no samples yet.
+static func _from_11(d: Dictionary) -> void:
+	d["voice"] = 0
+	var ws: Dictionary = d.get("workshop", {})
+	ws["samples"] = {}
+	ws["pure_samples"] = {}
