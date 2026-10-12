@@ -38,7 +38,22 @@ static func make_random(data: ContentData, district: StringName, day: int, rng: 
 		var discovery := r.kind == &"discovery"
 		r.money = rng.randi_range(b.discovery_money_min if discovery else b.small_money_min,
 			b.discovery_money_max if discovery else b.small_money_max)
+		_finds(r, b, rng)
 	return _place(r, data, district, rng, used_nodes)
+
+
+## Resources a discovery or an empty night turns up (rolled now, so a reload never changes them).
+static func _finds(r: RumorsState.Rumor, b: RumorDefs.Balance, rng: RandomNumberGenerator) -> void:
+	var finds: Dictionary[StringName, Vector2i] = {}
+	if r.kind == &"discovery":
+		finds = b.discovery_resources
+	elif r.kind == &"empty_night":
+		finds = b.empty_night_resources
+	for res: StringName in finds:
+		var span := finds[res]
+		var n := rng.randi_range(span.x, span.y)
+		if n > 0:
+			r.resources[res] = n
 
 
 static func all_tags(data: ContentData) -> Array[StringName]:

@@ -5,10 +5,11 @@
 | File | Entries | Ids (or top-level keys) |
 |---|---|---|
 | `data/audio/sounds.json` | 6 | sounds, music, ambience, screens, monster_events, combat_log |
-| `data/balance.json` | 8 | calendar, economy, hero, capture, combat, gear, contracts, rumors |
+| `data/balance.json` | 9 | calendar, economy, hero, capture, combat, gear, contracts, rumors, workshop |
 | `data/cards/base.json` | 6 | strike, guard, shot, reload, read_the_beast, sidestep |
 | `data/cards/modules.json` | 8 | shock_harpoon, flash, smoke_screen, serrated_edge, harpoon_shot, gout_of_flame, overcharge, bayonet_thrust |
 | `data/cards/special.json` | 5 | iron_net, tonic_of_morrell, hounds_rage, panic, dread |
+| `data/cards/tiers.json` | 18 | harpoon_shot_2, harpoon_shot_3, shock_harpoon_2, shock_harpoon_3, gout_of_flame_2, gout_of_flame_3, flash_2, flash_3, overcharge_2, overcharge_3, bayonet_thrust_2, bayonet_thrust_3, serrated_edge_2, serrated_edge_3, smoke_screen_2, smoke_screen_3, iron_net_2, iron_net_3 |
 | `data/city/district_life/GREY.json` | 10 | district, period, scales, walkers, walking_groups, locals, roles, animals, scenes, fx |
 | `data/city/district_maps/GREY.json` | 11 | district, image, image_size, home, contour, neighbours, zones, sound_spots, nodes, streets, landmarks |
 | `data/city/district_states.json` | 14 | normal, fog_breach, flooded, burning, burned, rebuilding, rebuilt, quarantine, riot, martial_law, festival, eclipse, collapsed, cleansed |
@@ -17,15 +18,16 @@
 | `data/contracts/petitions.json` | 8 | laundress_widow, gravedigger, chapel_deacon, tavern_keeper, tinker_odi, watch_corporal, ash_sisters, crypt_copyist |
 | `data/contracts/tags.json` | 33 | children_singing, wet_handprints, near_water, during_rain, drowned_shallow, dust_on_sleepers, moonlight, never_wake, silent_wings, lamps_die, too_tall, only_in_fog, burnt_eyes, grinding_metal, acid_burns, foundries, eats_machinery, covered_mirrors … |
 | `data/gear/armor.json` | 4 | helmet, chestplate, gauntlets, greaves |
+| `data/gear/blueprints.json` | 1 | blueprints |
 | `data/gear/mechanisms.json` | 4 | lantern_of_revealing, smoke_bellows, riveted_plates, quick_holster |
 | `data/gear/modules.json` | 20 | harpoon_launcher, rifled_barrel, coil_accelerator, flame_nozzle, net_caster, brass_scope, lantern_lens, hound_eye, drum_magazine, quick_loader, ichor_cartridges, capacitor_bank, recoil_spring, bayonet_mount, bone_brace, gyro_stabilizer, galvanic_core, vein_lattice … |
 | `data/gear/shapes.json` | 11 | M1, I2, I3, L3, I4, O4, T4, L4, J4, S4, Z4 |
 | `data/gear/weapons.json` | 1 | hunting_rifle |
 | `data/monsters/mvp.json` | 8 | gutter_choir, moth_matron, lamplighter, rust_mantis, mourning_bride, vigil_hound, clay_saint, burrow_wyrm |
 | `data/rumors/rumors.json` | 2 | witnesses, zones |
-| `data/tutorial/sequences.json` | 10 | combat_intro, equipment_intro, district_intro, first_part_broken, first_panic, first_no_ammo, first_rent, contract_board, contract_taken, first_rumor |
+| `data/tutorial/sequences.json` | 11 | combat_intro, equipment_intro, district_intro, first_part_broken, first_panic, first_no_ammo, first_rent, contract_board, contract_taken, first_rumor, workshop_intro |
 | `data/ui/icons.json` | 25 | RESOURCE 6, STAT 8, ATTRIBUTE 3, STATUS 6, INTENT 7, CARD_TYPE 6, CELL 3, SECTION 5, ARMOR 5, SKILL 6, DIRECTION 4, CONTRACT 6, OUTCOME 5, TAG 6, ACTION 8, FACTION 15, RANK 4, REPUTATION 5 … |
 
-## Locale `locale/strings.csv` — 756 keys
+## Locale `locale/strings.csv` — 880 keys
 
-`armor.*` 4 · `card.*` 38 · `card_type.*` 6 · `cell.*` 3 · `district.*` 103 · `district_map.*` 63 · `effect.*` 17 · `intent.*` 7 · `log.*` 28 · `mechanism.*` 8 · `mod.*` 12 · `module.*` 40 · `monster.*` 73 · `petition.*` 16 · `rule.*` 26 · `rumor_witness.*` 8 · `section.*` 5 · `shape.*` 11 · `state.*` 14 · `status.*` 5 · `tag.*` 33 · `trophy.*` 14 · `tutorial.*` 54 · `ui.*` 162 · `weapon.*` 6
+`armor.*` 4 · `card.*` 74 · `card_type.*` 6 · `cell.*` 3 · `district.*` 103 · `district_map.*` 63 · `effect.*` 17 · `intent.*` 7 · `log.*` 28 · `mechanism.*` 8 · `mod.*` 12 · `module.*` 80 · `monster.*` 73 · `petition.*` 16 · `resource.*` 4 · `rule.*` 32 · `rumor_witness.*` 8 · `section.*` 5 · `shape.*` 11 · `state.*` 14 · `status.*` 5 · `tag.*` 33 · `trophy.*` 14 · `tutorial.*` 62 · `ui.*` 192 · `weapon.*` 6

@@ -6,6 +6,7 @@ extends Control
 const MAIN_MENU := "res://scenes/menu/main_menu.tscn"
 const COMBAT := "res://scenes/combat/combat_screen.tscn"
 const EQUIPMENT := "res://scenes/equipment/equipment_screen.tscn"
+const WORKSHOP := "res://scenes/workshop/workshop_screen.tscn"
 const CITY_MAP := "res://scenes/city_map/city_map_screen.tscn"
 const STREET_PICK := 110.0  ## art px: a click this close to a street sends the hero there
 const SOUND_CHECK := 0.3  ## seconds between checks of the zone under the camera
@@ -21,6 +22,7 @@ var _tip: PanelContainer
 var _tip_label: Label
 var _day_label: Label
 var _money_label: Label
+var _stock_row: HBoxContainer
 var _spot: DistrictMapRules.Spot  ## where the hero stands or walks to
 var _target: DistrictMapDef.LandmarkDef = null  ## the card opens when the hero gets there
 var _target_rumor := 0  ## the rumor tablet opens when the hero gets to this diamond
@@ -32,6 +34,7 @@ func _ready() -> void:
 	UiKit.screen_sound(&"district")
 	if not GameState.has_run():
 		GameState.new_game()
+	GameState.leave_workshop()  # back from the workshop: a started workshop day ends here
 	_map = ContentDB.data.district_map(GameState.run.hero_district)
 	if _map == null:  # the hero is in a district without a close-up map yet: the city map is the way out
 		get_tree().change_scene_to_file.call_deferred(CITY_MAP)
@@ -39,6 +42,7 @@ func _ready() -> void:
 	_build()
 	EventBus.day_changed.connect(_on_day_changed)
 	EventBus.money_changed.connect(func(_m: int) -> void: _refresh_bar())
+	EventBus.stock_changed.connect(_refresh_bar)
 	_refresh_bar()
 	_place_hero()
 	_view.center_on.call_deferred(_hero.position)
@@ -94,6 +98,9 @@ func _build_bar() -> Control:
 	row.add_child(Icons.rect("RESOURCE", &"money", 34))
 	_money_label = UiKit.label("", 22, Palette.BRASS_LIGHT)
 	row.add_child(_money_label)
+	_stock_row = HBoxContainer.new()  # resources (GDD 6.1)
+	_stock_row.add_theme_constant_override("separation", 10)
+	row.add_child(_stock_row)
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(spacer)
@@ -154,6 +161,13 @@ func _refresh_bar() -> void:
 		"week": CalendarRules.week(run.day, b),
 		"rent": Loc.t("ui.city.rent_today") if rent_in == 0 else Loc.t("ui.city.rent_in", {"n": rent_in})})
 	_money_label.text = str(run.money)
+	for child: Node in _stock_row.get_children():
+		child.queue_free()
+	for id: StringName in b.workshop.resources:
+		var cell := Icons.with_text("RESOURCE", id, str(run.workshop.amount(id)), 28, 18)
+		cell.tooltip_text = WorkshopKit.stock_name(id)
+		cell.mouse_filter = Control.MOUSE_FILTER_PASS
+		_stock_row.add_child(cell)
 
 
 func _place_hero() -> void:
@@ -247,8 +261,9 @@ func _on_action(action: StringName) -> void:
 		&"rest":
 			_card.close_card()
 			GameState.end_day()
-		&"equipment":
-			_to_equipment()
+		&"workshop":
+			GameState.save_game()
+			get_tree().change_scene_to_file(WORKSHOP)
 		&"tavern":
 			_card.close_card()
 			_open_overlay(ContractBoard.new())

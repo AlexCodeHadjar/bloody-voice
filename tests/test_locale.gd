@@ -48,6 +48,8 @@ func test_key_families_exist() -> void:
 		keys.append("ui.combat.outcome.%s" % o)
 	for t: StringName in ContractDefs.TYPES:
 		keys.append("ui.contract.type.%s" % t)
+	for r: StringName in data.balance.workshop.resources:
+		keys.append("resource.%s" % r)
 	for k: StringName in RumorDefs.KINDS:
 		keys.append("ui.rumor.outcome.%s" % k)
 		if not RumorDefs.FIGHTS.has(k):

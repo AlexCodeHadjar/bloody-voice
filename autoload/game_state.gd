@@ -13,6 +13,7 @@ func has_run() -> bool:
 func new_game(seed_value: int = 0) -> void:
 	var s := seed_value if seed_value != 0 else SeededRng.new_master_seed()
 	run = RunState.create(s, ContentDB.data.balance)
+	WorkshopRules.ensure_start(run, ContentDB.data)
 	Rng.set_seed(s)
 	_refresh_board()
 	_new_morning()
@@ -26,6 +27,7 @@ func continue_game() -> bool:
 	for problem: String in WeaponGridRules.drop_invalid(loaded.loadout, ContentDB.data):
 		push_warning("[save] gear removed: " + problem)
 	run = loaded
+	WorkshopRules.ensure_start(run, ContentDB.data)  # saves from before the workshop
 	Rng.set_seed(run.master_seed)
 	_refresh_board()  # an old save or a save from last week gets this week's board
 	_new_morning()
@@ -131,6 +133,40 @@ func set_socket(piece: StringName, index: int, mechanism: StringName) -> String:
 	return problem
 
 
+## Workshop (GDD 6.2): craft from a known blueprint. "" or the reason it can't be done.
+func craft_item(item: StringName) -> String:
+	if run == null or combat != null:
+		return Loc.t("rule.not_now")
+	return _workshop_result(WorkshopRules.craft(run, ContentDB.data, item))
+
+
+## Raises a module kind to its next tier.
+func upgrade_module(module: StringName) -> String:
+	if run == null or combat != null:
+		return Loc.t("rule.not_now")
+	return _workshop_result(WorkshopRules.upgrade(run, ContentDB.data, module))
+
+
+## Takes a spare item apart for half its resources (free, no day spent).
+func salvage_item(item: StringName) -> String:
+	if run == null or combat != null:
+		return Loc.t("rule.not_now")
+	return _workshop_result(WorkshopRules.salvage(run, ContentDB.data, item))
+
+
+## Leaving the workshop ends a workshop day that was started today.
+func leave_workshop() -> void:
+	if run != null and combat == null and WorkshopRules.leave(run):
+		end_day()
+
+
+func _workshop_result(problem: String) -> String:
+	if problem == "":
+		EventBus.stock_changed.emit()
+		_loadout_changed()
+	return problem
+
+
 ## Developer only (debug builds): own one of every module and mechanism to try builds.
 func dev_grant_all_gear() -> void:
 	if run == null or not OS.is_debug_build():
@@ -164,6 +200,8 @@ func investigate_rumor(uid: int) -> RumorRules.Outcome:
 		return o
 	if o.money != 0:
 		EventBus.money_changed.emit(run.money)
+	if not o.resources.is_empty():
+		EventBus.stock_changed.emit()
 	if o.crossed != &"":
 		EventBus.contracts_changed.emit()
 	end_day()
@@ -189,9 +227,9 @@ func _start_fight(id: StringName, contract: ContractsState.Contract, zone: Strin
 		capture_allowed = true
 	var setup := DeckBuilder.setup(run.loadout, data, id, Rng.stream(&"combat", run.day).randi(), capture_allowed)
 	ContractRules.prepare_fight(setup, contract, run.day, data.balance)
-	if capture_allowed:
-		if not setup.deck.has(&"iron_net"):  # the contract issues a net unless the gear already brings one
-			setup.deck.append(&"iron_net")
+	var has_net := setup.deck.any(func(c: StringName) -> bool: return data.card(c).type == &"capture")
+	if capture_allowed and not has_net:  # the contract issues a net unless the gear already brings one
+		setup.deck.append(&"iron_net")
 	setup.backdrop = _backdrop(zone)
 	combat = CombatRules.start(setup, data)
 	EventBus.combat_started.emit()
@@ -230,8 +268,12 @@ func finish_combat() -> void:
 		return
 	var outcome := combat.outcome()
 	var paid := ContractRules.resolve_fight(run, combat.contract_uid, outcome)
+	var loot := LootRules.fight_loot(ContentDB.data, combat)
+	LootRules.take(run, ContentDB.data, loot)
 	combat = null
 	EventBus.combat_finished.emit(outcome)
+	if not loot.is_empty():
+		EventBus.stock_changed.emit()
 	if paid > 0:
 		EventBus.money_changed.emit(run.money)
 		EventBus.contracts_changed.emit()

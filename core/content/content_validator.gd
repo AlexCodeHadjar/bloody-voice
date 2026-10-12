@@ -16,6 +16,7 @@ static func validate(data: ContentData, errs: ErrorLog, check_files: bool = true
 	DistrictLifeValidator.validate(data, errs, check_files)
 	ContractValidator.validate(data, errs)
 	RumorValidator.validate(data, errs, check_files)
+	WorkshopValidator.validate(data, errs)
 	if check_files:
 		_art(data, errs)
 

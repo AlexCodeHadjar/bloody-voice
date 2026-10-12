@@ -3,7 +3,7 @@ extends RefCounted
 ## Everything that is saved for one playthrough. Pure data: no nodes, no signals.
 ## Only GameState (through rules) changes it.
 
-const SAVE_VERSION := 5
+const SAVE_VERSION := 6
 
 var master_seed: int = 0
 var day: int = 1  ## day 1 = Monday of week 1
@@ -15,6 +15,7 @@ var city: CityState = CityState.new()
 var loadout: LoadoutState = LoadoutState.new()
 var contracts: ContractsState = ContractsState.new()  ## tavern board and accepted contracts (GDD 7)
 var rumors: RumorsState = RumorsState.new()  ## rumor diamonds on the district map (GDD 8)
+var workshop: WorkshopState = WorkshopState.new()  ## resources, trophies, blueprints (GDD 6); filled by WorkshopRules.ensure_start
 
 
 static func create(seed_value: int, balance: BalanceDef) -> RunState:
@@ -40,6 +41,7 @@ func to_dict() -> Dictionary:
 		"loadout": loadout.to_dict(),
 		"contracts": contracts.to_dict(),
 		"rumors": rumors.to_dict(),
+		"workshop": workshop.to_dict(),
 	}
 
 
@@ -56,4 +58,5 @@ static func from_dict(d: Dictionary) -> RunState:
 	r.loadout = LoadoutState.from_dict(d.get("loadout", {}) as Dictionary)
 	r.contracts = ContractsState.from_dict(d.get("contracts", {}) as Dictionary)
 	r.rumors = RumorsState.from_dict(d.get("rumors", {}) as Dictionary)
+	r.workshop = WorkshopState.from_dict(d.get("workshop", {}) as Dictionary)
 	return r

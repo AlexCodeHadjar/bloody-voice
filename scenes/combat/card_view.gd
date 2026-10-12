@@ -59,7 +59,7 @@ func _add_glow() -> void:
 
 func _add_art(def: CardDef) -> void:
 	var window := Rect2(20, 54, 160, 106)
-	var art_path := "res://art/ui/CARD__art__%s.webp" % def.id
+	var art_path := "res://art/ui/CARD__art__%s.webp" % def.art
 	var art := TextureRect.new()
 	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	art.position = window.position

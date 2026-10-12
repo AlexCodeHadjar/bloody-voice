@@ -45,6 +45,8 @@ class Balance:
 	var discovery_money_max: int = 0
 	var small_money_min: int = 0
 	var small_money_max: int = 0
+	var discovery_resources: Dictionary[StringName, Vector2i] = {}  ## resource -> [min, max]
+	var empty_night_resources: Dictionary[StringName, Vector2i] = {}
 
 
 static func from_dict(d: Dictionary, errs: ErrorLog) -> Data:
@@ -80,4 +82,17 @@ static func balance(d: Dictionary, errs: ErrorLog) -> Balance:
 	var weights := DefReader.dict(d, "kind_weights", errs, w)
 	for k: Variant in weights:
 		b.kind_weights[StringName(str(k))] = float(weights[k])
+	b.discovery_resources = _ranges(DefReader.dict(d, "discovery_resources", errs, w), errs, w)
+	b.empty_night_resources = _ranges(DefReader.dict(d, "empty_night_resources", errs, w), errs, w)
 	return b
+
+
+static func _ranges(d: Dictionary, errs: ErrorLog, w: String) -> Dictionary[StringName, Vector2i]:
+	var out: Dictionary[StringName, Vector2i] = {}
+	for k: Variant in d:
+		var a: Variant = d[k]
+		if typeof(a) != TYPE_ARRAY or (a as Array).size() != 2:
+			errs.add(w, "'%s' must be [min, max]" % k)
+			continue
+		out[StringName(str(k))] = Vector2i(int((a as Array)[0]), int((a as Array)[1]))
+	return out

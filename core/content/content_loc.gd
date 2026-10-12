@@ -30,6 +30,8 @@ static func fields(data: ContentData) -> Array[Dictionary]:
 			_add(out, s, "weapon.%s.section.%s" % [w.id, s.id], [""])
 	for mo: ModuleDef in data.modules.values():
 		_add(out, mo, "module.%s" % mo.id, ["name", "effect"])
+		for i: int in mo.tiers.size():
+			_add(out, mo.tiers[i], "module.%s.tier.%d" % [mo.id, i + 2], ["effect"])
 	for me: GearDefs.MechanismDef in data.mechanisms.values():
 		_add(out, me, "mechanism.%s" % me.id, ["name", "effect"])
 	for a: GearDefs.ArmorDef in data.armor:

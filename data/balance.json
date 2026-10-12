@@ -89,7 +89,7 @@
   "overdue_damage_bonus": 1
  },
  "rumors": {
-  "_comment": "Rumor diamonds on the district map (GDD 8, 17.2; owner 2026-10-12): 1-2 new each morning, at most 5 on the map, each lives 3 days; every taken contract seeds a true rumor every 2-3 days (the first one at once). Outcomes without the target give a little money; a false lead or an empty night crosses out a tag.",
+  "_comment": "Rumor diamonds on the district map (GDD 8, 17.2; owner 2026-10-12): 1-2 new each morning, at most 5 on the map, each lives 3 days; every taken contract seeds a true rumor every 2-3 days (the first one at once). Outcomes without the target give a little money (a discovery and an empty night also resources); a false lead or an empty night crosses out a tag.",
   "new_min": 1,
   "new_max": 2,
   "max_on_map": 5,
@@ -108,9 +108,63 @@
   "lie_tags_min": 1,
   "lie_tags_max": 3,
   "zone_tag_weight": 3,
-  "discovery_money_min": 10,
-  "discovery_money_max": 25,
+  "discovery_money_min": 5,
+  "discovery_money_max": 12,
   "small_money_min": 3,
-  "small_money_max": 8
+  "small_money_max": 8,
+  "discovery_resources": {
+   "scrap": [
+    2,
+    4
+   ],
+   "gears": [
+    0,
+    2
+   ],
+   "electronics": [
+    0,
+    1
+   ]
+  },
+  "empty_night_resources": {
+   "scrap": [
+    1,
+    2
+   ]
+  }
+ },
+ "workshop": {
+  "_comment": "Workshop and loot (GDD 6, 17.2 LootGenerator; owner 2026-10-12): the first craft or upgrade of a day starts a workshop day (2 items), leaving the workshop ends it. Salvage is free and returns half. A won fight gives ichor and scrap by the creature's rank (x2 ichor for a capture) plus monsters[].loot and the trophies of broken parts.",
+  "resources": [
+   "scrap",
+   "gears",
+   "electronics",
+   "ichor"
+  ],
+  "start_resources": {
+   "scrap": 8,
+   "gears": 4
+  },
+  "crafts_per_day": 2,
+  "salvage_share": 0.5,
+  "loot_by_rank": {
+   "A": {
+    "ichor": 1,
+    "scrap": 2
+   },
+   "P": {
+    "ichor": 2,
+    "scrap": 3
+   },
+   "D": {
+    "ichor": 3,
+    "scrap": 5
+   },
+   "S": {
+    "ichor": 5,
+    "scrap": 8
+   }
+  },
+  "capture_ichor_mult": 2
  }
 }

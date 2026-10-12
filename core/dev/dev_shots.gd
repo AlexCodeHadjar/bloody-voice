@@ -7,6 +7,7 @@ const CITY_MAP := "res://scenes/city_map/city_map_screen.tscn"
 const COMBAT := "res://scenes/combat/combat_screen.tscn"
 const EQUIPMENT := "res://scenes/equipment/equipment_screen.tscn"
 const DISTRICT := "res://scenes/district_map/district_map_screen.tscn"
+const WORKSHOP := "res://scenes/workshop/workshop_screen.tscn"
 
 var _dir := ""
 
@@ -42,6 +43,7 @@ func _run() -> void:
 		_hover(view, &"SCARLET")
 		await _wait(0.5)
 		await _shot("04_hover_locked")
+	await _workshop_shots()
 	await _equipment_shots()
 	await _combat_shots()
 	get_tree().quit()
@@ -124,6 +126,17 @@ func _rumor_shots() -> void:
 	for n: Node in screen.get_children():
 		if n is RumorTablet:
 			(n as RumorTablet).close_tablet()
+
+
+## Workshop (GDD 23.1): the start, then a blueprint picked on the workbench after a craft.
+func _workshop_shots() -> void:
+	get_tree().change_scene_to_file(WORKSHOP)
+	await _wait(1.0)
+	await _shot("22_workshop")
+	GameState.craft_item(&"bayonet_mount")
+	get_tree().current_scene.call("_pick", &"bayonet_mount")
+	await _wait(0.5)
+	await _shot("23_workshop_crafted")
 
 
 func _equipment_shots() -> void:

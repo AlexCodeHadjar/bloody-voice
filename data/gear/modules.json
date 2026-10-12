@@ -10,7 +10,23 @@
   ],
   "mods": {},
   "effect": "Adds card: Harpoon Shot.",
-  "look": "a short brass harpoon-gun barrel with a barbed steel harpoon loaded in it and a coiled chain wrapped along the side"
+  "look": "a short brass harpoon-gun barrel with a barbed steel harpoon loaded in it and a coiled chain wrapped along the side",
+  "tiers": [
+   {
+    "cards": [
+     "harpoon_shot_2"
+    ],
+    "mods": {},
+    "effect": "Adds card: Harpoon Shot II (15 damage)."
+   },
+   {
+    "cards": [
+     "harpoon_shot_3"
+    ],
+    "mods": {},
+    "effect": "Adds card: Harpoon Shot III (18 damage, Exposed)."
+   }
+  ]
  },
  {
   "id": "rifled_barrel",
@@ -23,7 +39,23 @@
    "shot_damage": 2
   },
   "effect": "Shots deal +2 damage.",
-  "look": "a long blued-steel barrel with brass bands and small cut-away windows showing spiral rifling inside"
+  "look": "a long blued-steel barrel with brass bands and small cut-away windows showing spiral rifling inside",
+  "tiers": [
+   {
+    "cards": [],
+    "mods": {
+     "shot_damage": 3
+    },
+    "effect": "Shots deal +3 damage."
+   },
+   {
+    "cards": [],
+    "mods": {
+     "shot_damage": 4
+    },
+    "effect": "Shots deal +4 damage."
+   }
+  ]
  },
  {
   "id": "coil_accelerator",
@@ -37,12 +69,30 @@
    {
     "with": "harpoon_launcher",
     "replace": {
-     "harpoon_shot": "shock_harpoon"
+     "harpoon_shot": "shock_harpoon",
+     "harpoon_shot_2": "shock_harpoon_2",
+     "harpoon_shot_3": "shock_harpoon_3"
     }
    }
   ],
   "effect": "Next to a Harpoon Launcher: Harpoon Shot becomes Shock Harpoon.",
-  "look": "a short tube wrapped in stacked copper coil rings, thin blue electric arcs jumping between the rings"
+  "look": "a short tube wrapped in stacked copper coil rings, thin blue electric arcs jumping between the rings",
+  "tiers": [
+   {
+    "cards": [],
+    "mods": {
+     "shot_damage": 1
+    },
+    "effect": "Shots deal +1 damage; with the Harpoon Launcher its harpoon becomes a Shock Harpoon."
+   },
+   {
+    "cards": [],
+    "mods": {
+     "shot_damage": 2
+    },
+    "effect": "Shots deal +2 damage; with the Harpoon Launcher its harpoon becomes a Shock Harpoon."
+   }
+  ]
  },
  {
   "id": "flame_nozzle",
@@ -55,7 +105,23 @@
   ],
   "mods": {},
   "effect": "Adds card: Gout of Flame.",
-  "look": "an angled heat-blued nozzle with a tiny pilot flame, a small round fuel tank and a spark igniter with a blue glow"
+  "look": "an angled heat-blued nozzle with a tiny pilot flame, a small round fuel tank and a spark igniter with a blue glow",
+  "tiers": [
+   {
+    "cards": [
+     "gout_of_flame_2"
+    ],
+    "mods": {},
+    "effect": "Adds card: Gout of Flame II (9 damage)."
+   },
+   {
+    "cards": [
+     "gout_of_flame_3"
+    ],
+    "mods": {},
+    "effect": "Adds card: Gout of Flame III (12 damage, 3 Exposed)."
+   }
+  ]
  },
  {
   "id": "net_caster",
@@ -69,7 +135,25 @@
   ],
   "mods": {},
   "effect": "On capture contracts adds card: Iron Net.",
-  "look": "a wide-mouthed launcher tube with a folded iron-wire net and small lead weights sticking out of its mouth"
+  "look": "a wide-mouthed launcher tube with a folded iron-wire net and small lead weights sticking out of its mouth",
+  "tiers": [
+   {
+    "cards": [],
+    "capture_cards": [
+     "iron_net_2"
+    ],
+    "mods": {},
+    "effect": "On capture contracts adds Iron Net II (better chance)."
+   },
+   {
+    "cards": [],
+    "capture_cards": [
+     "iron_net_3"
+    ],
+    "mods": {},
+    "effect": "On capture contracts adds Iron Net III (best chance)."
+   }
+  ]
  },
  {
   "id": "brass_scope",
@@ -82,7 +166,23 @@
    "part_damage": 3
   },
   "effect": "Shots at body parts deal +3 damage.",
-  "look": "a long brass telescopic sight with adjustment knobs and a lens that faintly shows a crosshair"
+  "look": "a long brass telescopic sight with adjustment knobs and a lens that faintly shows a crosshair",
+  "tiers": [
+   {
+    "cards": [],
+    "mods": {
+     "part_damage": 4
+    },
+    "effect": "Hits on body parts deal +4 damage."
+   },
+   {
+    "cards": [],
+    "mods": {
+     "part_damage": 6
+    },
+    "effect": "Hits on body parts deal +6 damage."
+   }
+  ]
  },
  {
   "id": "lantern_lens",
@@ -95,7 +195,23 @@
   ],
   "mods": {},
   "effect": "Adds card: Flash.",
-  "look": "a small round lens in a brass ring with a tiny caged electric bulb glowing behind it"
+  "look": "a small round lens in a brass ring with a tiny caged electric bulb glowing behind it",
+  "tiers": [
+   {
+    "cards": [
+     "flash_2"
+    ],
+    "mods": {},
+    "effect": "Adds card: Flash II (3 Weak)."
+   },
+   {
+    "cards": [
+     "flash_3"
+    ],
+    "mods": {},
+    "effect": "Adds card: Flash III (3 Weak, draw 1)."
+   }
+  ]
  },
  {
   "id": "hound_eye",
@@ -108,7 +224,23 @@
    "foresight_start": 1
   },
   "effect": "Start of the fight: see the creature's next moves.",
-  "look": "a preserved yellow beast eye floating in a glass sphere with a brass rim, thin red veins in the liquid"
+  "look": "a preserved yellow beast eye floating in a glass sphere with a brass rim, thin red veins in the liquid",
+  "tiers": [
+   {
+    "cards": [],
+    "mods": {
+     "foresight_start": 2
+    },
+    "effect": "See the creature's next 2 moves from the start."
+   },
+   {
+    "cards": [],
+    "mods": {
+     "foresight_start": 3
+    },
+    "effect": "See the creature's next 3 moves from the start."
+   }
+  ]
  },
  {
   "id": "drum_magazine",
@@ -121,7 +253,23 @@
    "max_ammo": 2
   },
   "effect": "+2 max ammo.",
-  "look": "a round riveted drum magazine with a small window showing rows of brass cartridges"
+  "look": "a round riveted drum magazine with a small window showing rows of brass cartridges",
+  "tiers": [
+   {
+    "cards": [],
+    "mods": {
+     "max_ammo": 3
+    },
+    "effect": "+3 bullets."
+   },
+   {
+    "cards": [],
+    "mods": {
+     "max_ammo": 4
+    },
+    "effect": "+4 bullets."
+   }
+  ]
  },
  {
   "id": "quick_loader",
@@ -134,7 +282,24 @@
    "reload_draw": 1
   },
   "effect": "Reload also draws 1 more card.",
-  "look": "a spring-loaded speed-loader clip holding a neat row of brass cartridges"
+  "look": "a spring-loaded speed-loader clip holding a neat row of brass cartridges",
+  "tiers": [
+   {
+    "cards": [],
+    "mods": {
+     "reload_draw": 1,
+     "first_turn_draw": 1
+    },
+    "effect": "Reloading draws 1 card; draw 1 more card on the first turn."
+   },
+   {
+    "cards": [],
+    "mods": {
+     "reload_draw": 2
+    },
+    "effect": "Reloading draws 2 cards."
+   }
+  ]
  },
  {
   "id": "ichor_cartridges",
@@ -147,7 +312,23 @@
    "shot_bleed": 1
   },
   "effect": "Shots apply 1 Bleed.",
-  "look": "glass-bodied cartridges filled with dark red ichor, held in a stained leather bandolier strip"
+  "look": "glass-bodied cartridges filled with dark red ichor, held in a stained leather bandolier strip",
+  "tiers": [
+   {
+    "cards": [],
+    "mods": {
+     "shot_bleed": 2
+    },
+    "effect": "Shots apply 2 Bleed."
+   },
+   {
+    "cards": [],
+    "mods": {
+     "shot_bleed": 3
+    },
+    "effect": "Shots apply 3 Bleed."
+   }
+  ]
  },
  {
   "id": "capacitor_bank",
@@ -160,7 +341,23 @@
   ],
   "mods": {},
   "effect": "Adds card: Overcharge.",
-  "look": "three glass capacitor jars with copper caps linked by braided cables, a cold blue glow inside"
+  "look": "three glass capacitor jars with copper caps linked by braided cables, a cold blue glow inside",
+  "tiers": [
+   {
+    "cards": [
+     "overcharge_2"
+    ],
+    "mods": {},
+    "effect": "Adds card: Overcharge II (+1 AP, draw 2)."
+   },
+   {
+    "cards": [
+     "overcharge_3"
+    ],
+    "mods": {},
+    "effect": "Adds card: Overcharge III (+1 AP, draw 2, 4 Block)."
+   }
+  ]
  },
  {
   "id": "recoil_spring",
@@ -173,7 +370,23 @@
    "shot_block": 2
   },
   "effect": "Shots also give 2 block.",
-  "look": "a heavy coiled spring assembly with two pistons, brass end caps and oily steel guides"
+  "look": "a heavy coiled spring assembly with two pistons, brass end caps and oily steel guides",
+  "tiers": [
+   {
+    "cards": [],
+    "mods": {
+     "shot_block": 3
+    },
+    "effect": "Shots give 3 Block."
+   },
+   {
+    "cards": [],
+    "mods": {
+     "shot_block": 4
+    },
+    "effect": "Shots give 4 Block."
+   }
+  ]
  },
  {
   "id": "bayonet_mount",
@@ -186,7 +399,23 @@
   ],
   "mods": {},
   "effect": "Adds card: Bayonet Thrust.",
-  "look": "a folding steel bayonet blade on a hinged mount with a locking lever"
+  "look": "a folding steel bayonet blade on a hinged mount with a locking lever",
+  "tiers": [
+   {
+    "cards": [
+     "bayonet_thrust_2"
+    ],
+    "mods": {},
+    "effect": "Adds card: Bayonet Thrust II (10 damage)."
+   },
+   {
+    "cards": [
+     "bayonet_thrust_3"
+    ],
+    "mods": {},
+    "effect": "Adds card: Bayonet Thrust III (13 damage)."
+   }
+  ]
  },
  {
   "id": "bone_brace",
@@ -199,7 +428,23 @@
    "rage_hp_discount": 1
   },
   "effect": "Rage cards cost 1 less HP.",
-  "look": "carved bone struts lashed together with sinew and iron wire, old dark blood stains in the cracks"
+  "look": "carved bone struts lashed together with sinew and iron wire, old dark blood stains in the cracks",
+  "tiers": [
+   {
+    "cards": [],
+    "mods": {
+     "rage_hp_discount": 2
+    },
+    "effect": "Rage cards cost 2 less HP."
+   },
+   {
+    "cards": [],
+    "mods": {
+     "rage_hp_discount": 3
+    },
+    "effect": "Rage cards cost 3 less HP."
+   }
+  ]
  },
  {
   "id": "gyro_stabilizer",
@@ -212,7 +457,23 @@
    "first_turn_draw": 1
   },
   "effect": "First turn: draw 1 more card.",
-  "look": "nested gyroscope rings spinning inside a brass cage on a steel base"
+  "look": "nested gyroscope rings spinning inside a brass cage on a steel base",
+  "tiers": [
+   {
+    "cards": [],
+    "mods": {
+     "first_turn_draw": 2
+    },
+    "effect": "Draw 2 more cards on the first turn."
+   },
+   {
+    "cards": [],
+    "mods": {
+     "first_turn_draw": 3
+    },
+    "effect": "Draw 3 more cards on the first turn."
+   }
+  ]
  },
  {
   "id": "galvanic_core",
@@ -225,7 +486,24 @@
    "first_turn_ap": 1
   },
   "effect": "First turn: +1 AP.",
-  "look": "a cylindrical battery core in an iron cage with captured lightning crawling inside thick glass"
+  "look": "a cylindrical battery core in an iron cage with captured lightning crawling inside thick glass",
+  "tiers": [
+   {
+    "cards": [],
+    "mods": {
+     "first_turn_ap": 1,
+     "first_turn_draw": 1
+    },
+    "effect": "+1 AP and +1 card on the first turn."
+   },
+   {
+    "cards": [],
+    "mods": {
+     "first_turn_ap": 2
+    },
+    "effect": "+2 AP on the first turn."
+   }
+  ]
  },
  {
   "id": "vein_lattice",
@@ -238,7 +516,23 @@
    "bleed_bonus": 1
   },
   "effect": "Bleed you apply is 1 stack stronger.",
-  "look": "a lattice of glass tubes with dark red fluid pumping through them, small brass valves, like a mechanical vein"
+  "look": "a lattice of glass tubes with dark red fluid pumping through them, small brass valves, like a mechanical vein",
+  "tiers": [
+   {
+    "cards": [],
+    "mods": {
+     "bleed_bonus": 2
+    },
+    "effect": "Bleed deals +2 damage."
+   },
+   {
+    "cards": [],
+    "mods": {
+     "bleed_bonus": 3
+    },
+    "effect": "Bleed deals +3 damage."
+   }
+  ]
  },
  {
   "id": "serrated_rail",
@@ -251,7 +545,23 @@
   ],
   "mods": {},
   "effect": "Adds card: Serrated Edge.",
-  "look": "a steel rail with a saw-tooth blade along its length and small rivets"
+  "look": "a steel rail with a saw-tooth blade along its length and small rivets",
+  "tiers": [
+   {
+    "cards": [
+     "serrated_edge_2"
+    ],
+    "mods": {},
+    "effect": "Adds card: Serrated Edge II (6 damage, 4 Bleed)."
+   },
+   {
+    "cards": [
+     "serrated_edge_3"
+    ],
+    "mods": {},
+    "effect": "Adds card: Serrated Edge III (8 damage, 5 Bleed)."
+   }
+  ]
  },
  {
   "id": "smoke_vent",
@@ -264,6 +574,22 @@
   ],
   "mods": {},
   "effect": "Adds card: Smoke Screen.",
-  "look": "small leather bellows connected to sooty vent pipes, a thin puff of grey smoke"
+  "look": "small leather bellows connected to sooty vent pipes, a thin puff of grey smoke",
+  "tiers": [
+   {
+    "cards": [
+     "smoke_screen_2"
+    ],
+    "mods": {},
+    "effect": "Adds card: Smoke Screen II (13 Block)."
+   },
+   {
+    "cards": [
+     "smoke_screen_3"
+    ],
+    "mods": {},
+    "effect": "Adds card: Smoke Screen III (16 Block)."
+   }
+  ]
  }
 ]

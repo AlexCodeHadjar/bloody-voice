@@ -33,6 +33,7 @@ var hp: int
 var intents_per_turn: int = 1
 var districts: Array[StringName] = []
 var tags: Array[StringName] = []
+var loot: Dictionary[StringName, int] = {}  ## resources on a win besides the rank's (balance.json/workshop)
 var parts: Array[PartDef] = []
 var moves: Dictionary[StringName, MoveDef] = {}
 var deck: Array[StringName] = []
@@ -54,6 +55,9 @@ static func from_dict(d: Dictionary, errs: ErrorLog, file: String) -> MonsterDef
 	m.intents_per_turn = DefReader.integer(d, "intents_per_turn", errs, w, 1, false)
 	m.districts = DefReader.ids(d, "districts", errs, w)
 	m.tags = DefReader.ids(d, "tags", errs, w)
+	var loot := DefReader.dict(d, "loot", errs, w, false)
+	for k: Variant in loot:
+		m.loot[StringName(str(k))] = int(loot[k])
 	m.deck = DefReader.ids(d, "deck", errs, w)
 	for p: Variant in DefReader.array(d, "parts", errs, w, false):
 		m.parts.append(_part(p as Dictionary, errs, w))

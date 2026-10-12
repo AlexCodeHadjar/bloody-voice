@@ -15,6 +15,7 @@ const MODULES := "gear/modules.json"
 const SHAPES := "gear/shapes.json"
 const ARMOR := "gear/armor.json"
 const MECHANISMS := "gear/mechanisms.json"
+const BLUEPRINTS := "gear/blueprints.json"
 const AUDIO := "audio/sounds.json"
 const TUTORIAL := "tutorial/sequences.json"
 const TAGS := "contracts/tags.json"
@@ -130,6 +131,12 @@ static func _load_gear(root: String, data: ContentData, errs: ErrorLog) -> void:
 	for d: Variant in read_array(root.path_join(MECHANISMS), errs):
 		var mech := GearDefs.mechanism(d as Dictionary, errs)
 		data.mechanisms[mech.id] = mech
+	for d: Variant in DefReader.array(read_object(root.path_join(BLUEPRINTS), errs), "blueprints", errs, BLUEPRINTS):
+		var bp := WorkshopDefs.blueprint(d as Dictionary, errs)
+		if data.blueprints.has(bp.item):
+			errs.add(BLUEPRINTS, "duplicate blueprint '%s'" % bp.item)
+		data.blueprints[bp.item] = bp
+		data.blueprint_order.append(bp.item)
 
 
 ## Every *.json in a folder holds an array of objects. Returns [[file_name, object], ...] in file order.

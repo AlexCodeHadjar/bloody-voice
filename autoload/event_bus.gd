@@ -13,6 +13,7 @@ signal district_state_changed(target: StringName, old_state: StringName, new_sta
 signal loadout_changed
 signal contracts_changed
 signal rumors_changed
+signal stock_changed  ## resources, trophies, blueprints or module tiers (GDD 6)
 signal combat_started
 signal combat_updated
 signal combat_finished(outcome: StringName)

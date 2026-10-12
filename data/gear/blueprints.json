@@ -1,0 +1,460 @@
+{
+ "_comment": "Workshop blueprints (GDD 6.2, 23.1; owner 2026-10-12): start = known from the beginning; unlock = the trophy whose first find teaches the blueprint (its cost then includes one such trophy). cost / upgrade: resource or trophy id -> amount; upgrade = the costs of tiers II and III (modules only; the tiers' cards and bonuses are in modules.json). Salvage returns half of what was paid.",
+ "blueprints": [
+  {
+   "item": "harpoon_launcher",
+   "kind": "module",
+   "start": true,
+   "unlock": "",
+   "cost": {
+    "scrap": 5,
+    "gears": 2
+   },
+   "upgrade": [
+    {
+     "scrap": 5,
+     "gears": 2
+    },
+    {
+     "scrap": 10,
+     "gears": 4
+    }
+   ]
+  },
+  {
+   "item": "rifled_barrel",
+   "kind": "module",
+   "start": true,
+   "unlock": "",
+   "cost": {
+    "scrap": 6,
+    "gears": 3
+   },
+   "upgrade": [
+    {
+     "scrap": 6,
+     "gears": 3
+    },
+    {
+     "scrap": 12,
+     "gears": 6
+    }
+   ]
+  },
+  {
+   "item": "coil_accelerator",
+   "kind": "module",
+   "start": false,
+   "unlock": "tail_spike",
+   "cost": {
+    "electronics": 2,
+    "gears": 2,
+    "tail_spike": 1
+   },
+   "upgrade": [
+    {
+     "electronics": 2,
+     "gears": 2
+    },
+    {
+     "electronics": 4,
+     "gears": 4
+    }
+   ]
+  },
+  {
+   "item": "flame_nozzle",
+   "kind": "module",
+   "start": false,
+   "unlock": "wyrm_tooth",
+   "cost": {
+    "electronics": 2,
+    "gears": 2,
+    "wyrm_tooth": 1
+   },
+   "upgrade": [
+    {
+     "electronics": 2,
+     "gears": 2
+    },
+    {
+     "electronics": 4,
+     "gears": 4
+    }
+   ]
+  },
+  {
+   "item": "net_caster",
+   "kind": "module",
+   "start": true,
+   "unlock": "",
+   "cost": {
+    "scrap": 5,
+    "gears": 2
+   },
+   "upgrade": [
+    {
+     "scrap": 5,
+     "gears": 2
+    },
+    {
+     "scrap": 10,
+     "gears": 4
+    }
+   ]
+  },
+  {
+   "item": "brass_scope",
+   "kind": "module",
+   "start": true,
+   "unlock": "",
+   "cost": {
+    "scrap": 4,
+    "gears": 2
+   },
+   "upgrade": [
+    {
+     "scrap": 4,
+     "gears": 2
+    },
+    {
+     "scrap": 8,
+     "gears": 4
+    }
+   ]
+  },
+  {
+   "item": "lantern_lens",
+   "kind": "module",
+   "start": false,
+   "unlock": "lantern_glass",
+   "cost": {
+    "electronics": 1,
+    "gears": 1,
+    "lantern_glass": 1
+   },
+   "upgrade": [
+    {
+     "electronics": 1,
+     "gears": 1
+    },
+    {
+     "electronics": 2,
+     "gears": 2
+    }
+   ]
+  },
+  {
+   "item": "hound_eye",
+   "kind": "module",
+   "start": false,
+   "unlock": "fang",
+   "cost": {
+    "ichor": 1,
+    "scrap": 2,
+    "fang": 1
+   },
+   "upgrade": [
+    {
+     "ichor": 1,
+     "scrap": 2
+    },
+    {
+     "ichor": 2,
+     "scrap": 4
+    }
+   ]
+  },
+  {
+   "item": "drum_magazine",
+   "kind": "module",
+   "start": true,
+   "unlock": "",
+   "cost": {
+    "scrap": 6,
+    "gears": 3
+   },
+   "upgrade": [
+    {
+     "scrap": 6,
+     "gears": 3
+    },
+    {
+     "scrap": 12,
+     "gears": 6
+    }
+   ]
+  },
+  {
+   "item": "quick_loader",
+   "kind": "module",
+   "start": true,
+   "unlock": "",
+   "cost": {
+    "scrap": 4,
+    "gears": 2
+   },
+   "upgrade": [
+    {
+     "scrap": 4,
+     "gears": 2
+    },
+    {
+     "scrap": 8,
+     "gears": 4
+    }
+   ]
+  },
+  {
+   "item": "ichor_cartridges",
+   "kind": "module",
+   "start": false,
+   "unlock": "throat",
+   "cost": {
+    "ichor": 2,
+    "scrap": 2,
+    "throat": 1
+   },
+   "upgrade": [
+    {
+     "ichor": 2,
+     "scrap": 2
+    },
+    {
+     "ichor": 4,
+     "scrap": 4
+    }
+   ]
+  },
+  {
+   "item": "capacitor_bank",
+   "kind": "module",
+   "start": false,
+   "unlock": "wyrm_tooth",
+   "cost": {
+    "electronics": 3,
+    "gears": 3,
+    "wyrm_tooth": 1
+   },
+   "upgrade": [
+    {
+     "electronics": 3,
+     "gears": 3
+    },
+    {
+     "electronics": 6,
+     "gears": 6
+    }
+   ]
+  },
+  {
+   "item": "recoil_spring",
+   "kind": "module",
+   "start": true,
+   "unlock": "",
+   "cost": {
+    "scrap": 6,
+    "gears": 3
+   },
+   "upgrade": [
+    {
+     "scrap": 6,
+     "gears": 3
+    },
+    {
+     "scrap": 12,
+     "gears": 6
+    }
+   ]
+  },
+  {
+   "item": "bayonet_mount",
+   "kind": "module",
+   "start": true,
+   "unlock": "",
+   "cost": {
+    "scrap": 6,
+    "gears": 3
+   },
+   "upgrade": [
+    {
+     "scrap": 6,
+     "gears": 3
+    },
+    {
+     "scrap": 12,
+     "gears": 6
+    }
+   ]
+  },
+  {
+   "item": "bone_brace",
+   "kind": "module",
+   "start": false,
+   "unlock": "sinew",
+   "cost": {
+    "ichor": 3,
+    "scrap": 2,
+    "sinew": 1
+   },
+   "upgrade": [
+    {
+     "ichor": 3,
+     "scrap": 2
+    },
+    {
+     "ichor": 6,
+     "scrap": 4
+    }
+   ]
+  },
+  {
+   "item": "gyro_stabilizer",
+   "kind": "module",
+   "start": false,
+   "unlock": "finger_bone",
+   "cost": {
+    "scrap": 6,
+    "gears": 3,
+    "finger_bone": 1
+   },
+   "upgrade": [
+    {
+     "scrap": 6,
+     "gears": 3
+    },
+    {
+     "scrap": 12,
+     "gears": 6
+    }
+   ]
+  },
+  {
+   "item": "galvanic_core",
+   "kind": "module",
+   "start": false,
+   "unlock": "tail_spike",
+   "cost": {
+    "electronics": 3,
+    "gears": 3,
+    "tail_spike": 1
+   },
+   "upgrade": [
+    {
+     "electronics": 3,
+     "gears": 3
+    },
+    {
+     "electronics": 6,
+     "gears": 6
+    }
+   ]
+  },
+  {
+   "item": "vein_lattice",
+   "kind": "module",
+   "start": false,
+   "unlock": "throat",
+   "cost": {
+    "ichor": 3,
+    "scrap": 2,
+    "throat": 1
+   },
+   "upgrade": [
+    {
+     "ichor": 3,
+     "scrap": 2
+    },
+    {
+     "ichor": 6,
+     "scrap": 4
+    }
+   ]
+  },
+  {
+   "item": "serrated_rail",
+   "kind": "module",
+   "start": false,
+   "unlock": "fang",
+   "cost": {
+    "scrap": 6,
+    "gears": 3,
+    "fang": 1
+   },
+   "upgrade": [
+    {
+     "scrap": 6,
+     "gears": 3
+    },
+    {
+     "scrap": 12,
+     "gears": 6
+    }
+   ]
+  },
+  {
+   "item": "smoke_vent",
+   "kind": "module",
+   "start": false,
+   "unlock": "sinew",
+   "cost": {
+    "scrap": 6,
+    "gears": 3,
+    "sinew": 1
+   },
+   "upgrade": [
+    {
+     "scrap": 6,
+     "gears": 3
+    },
+    {
+     "scrap": 12,
+     "gears": 6
+    }
+   ]
+  },
+  {
+   "item": "lantern_of_revealing",
+   "kind": "mechanism",
+   "start": false,
+   "unlock": "lantern_glass",
+   "cost": {
+    "electronics": 2,
+    "gears": 1,
+    "lantern_glass": 1
+   }
+  },
+  {
+   "item": "smoke_bellows",
+   "kind": "mechanism",
+   "start": false,
+   "unlock": "chitin",
+   "cost": {
+    "scrap": 3,
+    "gears": 2,
+    "chitin": 1
+   }
+  },
+  {
+   "item": "riveted_plates",
+   "kind": "mechanism",
+   "start": false,
+   "unlock": "chitin",
+   "cost": {
+    "scrap": 5,
+    "chitin": 1
+   }
+  },
+  {
+   "item": "quick_holster",
+   "kind": "mechanism",
+   "start": false,
+   "unlock": "finger_bone",
+   "cost": {
+    "scrap": 3,
+    "gears": 2,
+    "finger_bone": 1
+   }
+  }
+ ]
+}

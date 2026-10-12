@@ -52,6 +52,8 @@ def content_rows() -> dict[str, str]:
         for x in _json(rel):
             rows[f"{kind}.{x['id']}.name"] = x["name"]
             rows[f"{kind}.{x['id']}.effect"] = x["effect"]
+            for i, t in enumerate(x.get("tiers", [])):
+                rows[f"{kind}.{x['id']}.tier.{i + 2}.effect"] = t["effect"]
     for a in _json("gear/armor.json"):
         rows[f"armor.{a['id']}.name"] = a["name"]
     for sid, s in _json("gear/shapes.json").items():

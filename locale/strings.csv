@@ -27,12 +27,12 @@ ui.district.to_hero,К охотнику,To the hunter
 ui.district.to_home,Домой,Home
 ui.district.city_map,Карта города,City map
 ui.district.action.rest,Отдохнуть до утра,Rest until morning
-ui.district.action.equipment,Снаряжение,Equipment
+ui.district.action.workshop,Мастерская,Workshop
 ui.district.action.rumors,Столб со слухами,Rumor post
 ui.district.action.locked,Закрыто,Closed
 ui.district.action.soon,Откроется позже,Opens later
 ui.district.hint.rest,Дом: отдых до утра,Home: rest until morning
-ui.district.hint.equipment,Мастерская: снаряжение,Workshop: equipment
+ui.district.hint.workshop,Мастерская: изготовление и улучшение,Workshop: crafting and upgrades
 ui.district.hint.rumors,Площадь: столб со слухами,Square: the rumor post
 ui.district.hint.locked,Закрыто,Closed
 ui.district.hint.soon,Откроется позже,Opens later
@@ -75,6 +75,38 @@ ui.rumor.next,Дальше,Next
 ui.rumor.post_title,Столб со слухами,Rumor post
 ui.rumor.post_empty,"Слухов нет. Новые появляются по утрам, а по каждому заказу — свой.","No rumors. New ones come in the morning, and every contract brings its own."
 ui.rumor.go,Идти,Go
+resource.scrap,Лом,Scrap
+resource.gears,Шестерни,Gears
+resource.electronics,Электроника,Electronics
+resource.ichor,Ихор,Ichor
+ui.workshop.title,Мастерская «Ржавая Шестерня»,The Rusty Cog workshop
+ui.workshop.tab.module,Модули,Modules
+ui.workshop.tab.mechanism,Механизмы,Mechanisms
+ui.workshop.only_ready,только доступные,only ready
+ui.workshop.locked,Чертёж откроет трофей: {trophy},Unlocked by the trophy: {trophy}
+ui.workshop.pick,Выберите чертёж слева или вещь из запаса справа.,Pick a blueprint on the left or an item of the stash on the right.
+ui.workshop.mechanism_info,Механизм для гнезда брони,A mechanism for an armor socket
+ui.workshop.module_info,{section} · {cell} · уровень {tier},{section} · {cell} · tier {tier}
+ui.workshop.owned,У вас: {n} (установлено: {used}),Owned: {n} (installed: {used})
+ui.workshop.cards,Карты в колоду:,Cards for the deck:
+ui.workshop.craft_cost,Изготовление:,Crafting:
+ui.workshop.craft,Изготовить,Craft
+ui.workshop.max_tier,Высший уровень.,Highest tier.
+ui.workshop.next_tier,Уровень {tier}:,Tier {tier}:
+ui.workshop.upgrade,Улучшить (все такие модули),Upgrade (every such module)
+ui.workshop.salvage_gives,Разбор вернёт: {list},Salvage returns: {list}
+ui.workshop.salvage,Разобрать,Salvage
+ui.workshop.to_equipment,К снаряжению,To equipment
+ui.workshop.back,В район,To the district
+ui.workshop.crafts_today,Изготовлений сегодня: {n} / {of},Crafts today: {n} / {of}
+ui.workshop.day_on, · выход из мастерской завершит день, · leaving the workshop ends the day
+ui.workshop.stash,Запас,Stash
+ui.workshop.trophies,Трофеи,Trophies
+ui.workshop.stash_row,{name} — {n} шт. (установлено {used}),{name} — {n} (installed {used})
+ui.workshop.done.craft,Готово: {name}.,Done: {name}.
+ui.workshop.done.upgrade,{name}: уровень повышен.,{name}: tier raised.
+ui.workshop.done.salvage,{name}: разобрано.,{name}: salvaged.
+ui.workshop.day_full,На сегодня изделий больше нет — выход из мастерской завершит день.,No more crafts today; leaving the workshop ends the day.
 ui.rumor.outcome.target,Цель,The target
 ui.rumor.outcome.wrong_monster,Не та тварь,Wrong creature
 ui.rumor.outcome.discovery,Находка,Discovery
@@ -265,6 +297,12 @@ rule.no_fight,Боя нет.,No fight.
 rule.contract.unknown,Такого заказа нет.,No such contract.
 rule.contract.taken,Этот заказ уже принят.,This contract is already taken.
 rule.contract.too_many,Больше {n} {n:заказа|заказов|заказов} сразу не взять.,You can't hold more than {n} contracts.
+rule.workshop.unknown,Этот чертёж ещё не известен.,This blueprint is not known yet.
+rule.workshop.no_crafts,Сегодня в мастерской уже сделано {n} {n:изделие|изделия|изделий}.,Today's {n} crafts are done.
+rule.workshop.no_resources,Не хватает материалов.,Not enough materials.
+rule.workshop.not_owned,Сначала изготовьте такой модуль.,Craft such a module first.
+rule.workshop.max_tier,Модуль уже высшего уровня.,The module is at its highest tier.
+rule.workshop.installed,Разобрать можно только запасную вещь — снимите её со снаряжения.,Only a spare item can be salvaged: take it off your gear.
 intent.attack,Атака,Attack
 intent.defend,Защита,Defend
 intent.fear,Страх,Fear
@@ -326,7 +364,7 @@ tutorial.district_intro.2.text,«К охотнику» и «Домой» вер�
 tutorial.district_intro.3.title,Прогулка,A walk
 tutorial.district_intro.3.text,Нажмите на улицу или здание — охотник пойдёт туда по улицам. Ходьба по району не тратит время.,Click a street or a building and the hunter walks there along the streets. Walking in the district costs no time.
 tutorial.district_intro.4.title,Места,Places
-tutorial.district_intro.4.text,"Дойдите до места, чтобы открыть его карточку. Пепельный чердак — отдых до утра, «Ржавая Шестерня» — снаряжение, «Фонарь и Крюк» — заказы, Костровая площадь — слухи.",Walk to a place to open its card. Ash Garret: rest until morning; the Rusty Cog: equipment; the Lantern & Hook: contracts; Bonfire Square: rumors.
+tutorial.district_intro.4.text,"Дойдите до места, чтобы открыть его карточку. Пепельный чердак — отдых до утра, «Ржавая Шестерня» — мастерская, «Фонарь и Крюк» — заказы, Костровая площадь — слухи.",Walk to a place to open its card. Ash Garret: rest until morning; the Rusty Cog: the workshop; the Lantern & Hook: contracts; Bonfire Square: rumors.
 tutorial.first_part_broken.1.title,Часть сломана,A part is broken
 tutorial.first_part_broken.1.text,Сломанная часть больше не действует: тварь потеряла связанные с ней ходы.,A broken part no longer works: the creature lost the moves tied to it.
 tutorial.first_panic.1.title,Паника,Panic
@@ -345,6 +383,14 @@ tutorial.first_rumor.2.title,Совпадение,The match
 tutorial.first_rumor.2.text,Сколько примет совпадает с вашим заказом. Это не гарантия: слух может вывести на другую тварь или в пустоту.,How many signs match your contract. Never a guarantee: the rumor may lead to another creature or to nothing.
 tutorial.first_rumor.3.title,Решение,The choice
 tutorial.first_rumor.3.text,«Расследовать» займёт весь день. Можно пропустить и подождать другой слух — через 3 дня этот остынет.,«Investigate» takes the whole day. You can skip it and wait for another rumor: this one cools in 3 days.
+tutorial.workshop_intro.1.title,Чертежи,Blueprints
+tutorial.workshop_intro.1.text,"Слева — чертежи. Простые известны сразу, особые открывает первый трофей нужной твари.",Blueprints are on the left. Simple ones are known at once; special ones are taught by the first trophy of the right creature.
+tutorial.workshop_intro.2.title,Верстак,The workbench
+tutorial.workshop_intro.2.text,"Здесь видно, что вещь даёт колоде, сколько она стоит и что даст улучшение до уровня II и III.","Here you see what the item gives the deck, what it costs and what tiers II and III would give."
+tutorial.workshop_intro.3.title,День в мастерской,A workshop day
+tutorial.workshop_intro.3.text,"Первое изделие начинает день в мастерской: можно сделать 2 вещи, а выход завершит день. Разбор — бесплатно.","The first item starts a workshop day: two items, and leaving ends the day. Salvage is free."
+tutorial.workshop_intro.4.title,Запас,The stash
+tutorial.workshop_intro.4.text,"Ваши модули, механизмы и трофеи. Запасную вещь можно разобрать за половину материалов, а поставить — на экране снаряжения.","Your modules, mechanisms and trophies. A spare item can be salvaged for half its materials or fitted on the equipment screen."
 ui.combat.log,Журнал,Log
 ui.combat.turn,Ход {n},Turn {n}
 ui.combat.top.hunt,Охота: {enemy},Hunt: {enemy}
@@ -353,6 +399,8 @@ ui.combat.top.contract_slay,Заказ: убить {enemy},Contract: slay {enemy
 ui.combat.top.stronger, · тварь усилилась, · the creature grew stronger
 ui.combat.contract_done,Заказ выполнен: +{n},Contract done: +{n}
 ui.combat.contract_open,Заказ не выполнен — он остаётся в трекере.,The contract is not done; it stays in the tracker.
+ui.combat.loot,Добыча: {list},Loot: {list}
+ui.combat.new_blueprint,Новый чертёж: {name},New blueprint: {name}
 ui.combat.capture_chance,Шанс поимки: {n}%,Capture chance: {n}%
 ui.combat.pile_title,{pile}: {n},{pile}: {n}
 ui.combat.pile_empty,Здесь пусто.,Nothing here.
@@ -398,6 +446,42 @@ card.panic.name,Паника,Panic
 card.panic.text,Нельзя разыграть. Руки дрожат.,Unplayable. Your hands are shaking.
 card.dread.name,Ужас,Dread
 card.dread.text,Потеряйте 2 рассудка. Изгнание.,Lose 2 Sanity. Exhaust.
+card.harpoon_shot_2.name,Гарпун II,Harpoon Shot II
+card.harpoon_shot_2.text,Нанесите 15 урона.,Deal 15 damage.
+card.harpoon_shot_3.name,Гарпун III,Harpoon Shot III
+card.harpoon_shot_3.text,Нанесите 18 урона. Уязвимость 1.,Deal 18 damage. Apply 1 Exposed.
+card.shock_harpoon_2.name,Шоковый гарпун II,Shock Harpoon II
+card.shock_harpoon_2.text,Нанесите 15 урона. Уязвимость 2.,Deal 15 damage. Apply 2 Exposed.
+card.shock_harpoon_3.name,Шоковый гарпун III,Shock Harpoon III
+card.shock_harpoon_3.text,Нанесите 18 урона. Уязвимость 3.,Deal 18 damage. Apply 3 Exposed.
+card.gout_of_flame_2.name,Струя пламени II,Gout of Flame II
+card.gout_of_flame_2.text,Нанесите 9 урона. Уязвимость 2.,Deal 9 damage. Apply 2 Exposed.
+card.gout_of_flame_3.name,Струя пламени III,Gout of Flame III
+card.gout_of_flame_3.text,Нанесите 12 урона. Уязвимость 3.,Deal 12 damage. Apply 3 Exposed.
+card.flash_2.name,Вспышка II,Flash II
+card.flash_2.text,Слабость 3.,Apply 3 Weak.
+card.flash_3.name,Вспышка III,Flash III
+card.flash_3.text,Слабость 3. Возьмите 1 карту.,Apply 3 Weak. Draw 1 card.
+card.overcharge_2.name,Перегрузка II,Overcharge II
+card.overcharge_2.text,Получите 1 ОД. Возьмите 2 карты. Изгнание.,Gain 1 AP. Draw 2 cards.
+card.overcharge_3.name,Перегрузка III,Overcharge III
+card.overcharge_3.text,Получите 1 ОД. Возьмите 2 карты. Получите 4 защиты. Изгнание.,Gain 1 AP. Draw 2 cards. Gain 4 Block.
+card.bayonet_thrust_2.name,Удар штыком II,Bayonet Thrust II
+card.bayonet_thrust_2.text,Нанесите 10 урона.,Deal 10 damage.
+card.bayonet_thrust_3.name,Удар штыком III,Bayonet Thrust III
+card.bayonet_thrust_3.text,Нанесите 13 урона.,Deal 13 damage.
+card.serrated_edge_2.name,Зазубренный край II,Serrated Edge II
+card.serrated_edge_2.text,Нанесите 6 урона. Кровотечение 4.,Deal 6 damage. Apply 4 Bleed.
+card.serrated_edge_3.name,Зазубренный край III,Serrated Edge III
+card.serrated_edge_3.text,Нанесите 8 урона. Кровотечение 5.,Deal 8 damage. Apply 5 Bleed.
+card.smoke_screen_2.name,Дымовая завеса II,Smoke Screen II
+card.smoke_screen_2.text,Получите 13 защиты.,Gain 13 Block.
+card.smoke_screen_3.name,Дымовая завеса III,Smoke Screen III
+card.smoke_screen_3.text,Получите 16 защиты.,Gain 16 Block.
+card.iron_net_2.name,Железная сеть II,Iron Net II
+card.iron_net_2.text,"Попытка поймать тварь, шанс выше. Чем сильнее она ранена, тем выше шанс.",Try to capture the creature (better chance). Works better the more it is hurt.
+card.iron_net_3.name,Железная сеть III,Iron Net III
+card.iron_net_3.text,"Попытка поймать тварь, шанс ещё выше. Чем сильнее она ранена, тем выше шанс.",Try to capture the creature (best chance). Works better the more it is hurt.
 monster.gutter_choir.name,Сточный Хор,Gutter Choir
 monster.gutter_choir.part.left_throat,Левое горло,Left Throat
 monster.gutter_choir.part.right_throat,Правое горло,Right Throat
@@ -479,44 +563,84 @@ weapon.hunting_rifle.section.frame,Рама,Frame
 weapon.hunting_rifle.section.barrel,Ствол,Barrel
 module.harpoon_launcher.name,Гарпунная пушка,Harpoon Launcher
 module.harpoon_launcher.effect,Добавляет карту: Гарпун.,Adds card: Harpoon Shot.
+module.harpoon_launcher.tier.2.effect,Добавляет карту: Гарпун II (15 урона).,Adds card: Harpoon Shot II (15 damage).
+module.harpoon_launcher.tier.3.effect,"Добавляет карту: Гарпун III (18 урона, уязвимость).","Adds card: Harpoon Shot III (18 damage, Exposed)."
 module.rifled_barrel.name,Нарезной ствол,Rifled Barrel
 module.rifled_barrel.effect,Выстрелы наносят +2 урона.,Shots deal +2 damage.
+module.rifled_barrel.tier.2.effect,Выстрелы наносят +3 урона.,Shots deal +3 damage.
+module.rifled_barrel.tier.3.effect,Выстрелы наносят +4 урона.,Shots deal +4 damage.
 module.coil_accelerator.name,Катушечный ускоритель,Coil Accelerator
 module.coil_accelerator.effect,Рядом с гарпунной пушкой: Гарпун становится Шоковым гарпуном.,Next to a Harpoon Launcher: Harpoon Shot becomes Shock Harpoon.
+module.coil_accelerator.tier.2.effect,Выстрелы наносят +1 урона; рядом с гарпунной пушкой Гарпун становится Шоковым гарпуном.,Shots deal +1 damage; with the Harpoon Launcher its harpoon becomes a Shock Harpoon.
+module.coil_accelerator.tier.3.effect,Выстрелы наносят +2 урона; рядом с гарпунной пушкой Гарпун становится Шоковым гарпуном.,Shots deal +2 damage; with the Harpoon Launcher its harpoon becomes a Shock Harpoon.
 module.flame_nozzle.name,Огнемётное сопло,Flame Nozzle
 module.flame_nozzle.effect,Добавляет карту: Струя пламени.,Adds card: Gout of Flame.
+module.flame_nozzle.tier.2.effect,Добавляет карту: Струя пламени II (9 урона).,Adds card: Gout of Flame II (9 damage).
+module.flame_nozzle.tier.3.effect,"Добавляет карту: Струя пламени III (12 урона, уязвимость 3).","Adds card: Gout of Flame III (12 damage, 3 Exposed)."
 module.net_caster.name,Сетемёт,Net Caster
 module.net_caster.effect,В заказах на поимку добавляет карту: Железная сеть.,On capture contracts adds card: Iron Net.
+module.net_caster.tier.2.effect,В заказах на поимку добавляет Железную сеть II (шанс выше).,On capture contracts adds Iron Net II (better chance).
+module.net_caster.tier.3.effect,В заказах на поимку добавляет Железную сеть III (шанс ещё выше).,On capture contracts adds Iron Net III (best chance).
 module.brass_scope.name,Латунный прицел,Brass Scope
 module.brass_scope.effect,Выстрелы по частям тела наносят +3 урона.,Shots at body parts deal +3 damage.
+module.brass_scope.tier.2.effect,Выстрелы по частям тела наносят +4 урона.,Hits on body parts deal +4 damage.
+module.brass_scope.tier.3.effect,Выстрелы по частям тела наносят +6 урона.,Hits on body parts deal +6 damage.
 module.lantern_lens.name,Линза фонаря,Lantern Lens
 module.lantern_lens.effect,Добавляет карту: Вспышка.,Adds card: Flash.
+module.lantern_lens.tier.2.effect,Добавляет карту: Вспышка II (слабость 3).,Adds card: Flash II (3 Weak).
+module.lantern_lens.tier.3.effect,"Добавляет карту: Вспышка III (слабость 3, взять карту).","Adds card: Flash III (3 Weak, draw 1)."
 module.hound_eye.name,Глаз гончей,Eye of the Hound
 module.hound_eye.effect,Начало боя: видны следующие ходы твари.,Start of the fight: see the creature's next moves.
+module.hound_eye.tier.2.effect,Начало боя: видны 2 следующих хода твари.,See the creature's next 2 moves from the start.
+module.hound_eye.tier.3.effect,Начало боя: видны 3 следующих хода твари.,See the creature's next 3 moves from the start.
 module.drum_magazine.name,Барабанный магазин,Drum Magazine
 module.drum_magazine.effect,+2 к наибольшему числу патронов.,+2 max ammo.
+module.drum_magazine.tier.2.effect,+3 к наибольшему числу патронов.,+3 bullets.
+module.drum_magazine.tier.3.effect,+4 к наибольшему числу патронов.,+4 bullets.
 module.quick_loader.name,Быстрый заряжатель,Quick Loader
 module.quick_loader.effect,Перезарядка также даёт взять 1 карту.,Reload also draws 1 more card.
+module.quick_loader.tier.2.effect,Перезарядка даёт взять 1 карту; первый ход: взять на 1 карту больше.,Reloading draws 1 card; draw 1 more card on the first turn.
+module.quick_loader.tier.3.effect,Перезарядка даёт взять 2 карты.,Reloading draws 2 cards.
 module.ichor_cartridges.name,Патроны с ихором,Ichor Cartridges
 module.ichor_cartridges.effect,Выстрелы накладывают кровотечение 1.,Shots apply 1 Bleed.
+module.ichor_cartridges.tier.2.effect,Выстрелы накладывают кровотечение 2.,Shots apply 2 Bleed.
+module.ichor_cartridges.tier.3.effect,Выстрелы накладывают кровотечение 3.,Shots apply 3 Bleed.
 module.capacitor_bank.name,Батарея конденсаторов,Capacitor Bank
 module.capacitor_bank.effect,Добавляет карту: Перегрузка.,Adds card: Overcharge.
+module.capacitor_bank.tier.2.effect,"Добавляет карту: Перегрузка II (+1 ОД, взять 2).","Adds card: Overcharge II (+1 AP, draw 2)."
+module.capacitor_bank.tier.3.effect,"Добавляет карту: Перегрузка III (+1 ОД, взять 2, 4 защиты).","Adds card: Overcharge III (+1 AP, draw 2, 4 Block)."
 module.recoil_spring.name,Возвратная пружина,Recoil Spring
 module.recoil_spring.effect,Выстрелы также дают 2 защиты.,Shots also give 2 block.
+module.recoil_spring.tier.2.effect,Выстрелы также дают 3 защиты.,Shots give 3 Block.
+module.recoil_spring.tier.3.effect,Выстрелы также дают 4 защиты.,Shots give 4 Block.
 module.bayonet_mount.name,Крепление штыка,Bayonet Mount
 module.bayonet_mount.effect,Добавляет карту: Удар штыком.,Adds card: Bayonet Thrust.
+module.bayonet_mount.tier.2.effect,Добавляет карту: Удар штыком II (10 урона).,Adds card: Bayonet Thrust II (10 damage).
+module.bayonet_mount.tier.3.effect,Добавляет карту: Удар штыком III (13 урона).,Adds card: Bayonet Thrust III (13 damage).
 module.bone_brace.name,Костяной упор,Bone Brace
 module.bone_brace.effect,Карты ярости стоят на 1 здоровья меньше.,Rage cards cost 1 less HP.
+module.bone_brace.tier.2.effect,Карты ярости стоят на 2 здоровья меньше.,Rage cards cost 2 less HP.
+module.bone_brace.tier.3.effect,Карты ярости стоят на 3 здоровья меньше.,Rage cards cost 3 less HP.
 module.gyro_stabilizer.name,Гиростабилизатор,Gyro Stabilizer
 module.gyro_stabilizer.effect,Первый ход: взять на 1 карту больше.,First turn: draw 1 more card.
+module.gyro_stabilizer.tier.2.effect,Первый ход: взять на 2 карты больше.,Draw 2 more cards on the first turn.
+module.gyro_stabilizer.tier.3.effect,Первый ход: взять на 3 карты больше.,Draw 3 more cards on the first turn.
 module.galvanic_core.name,Гальваническое ядро,Galvanic Core
 module.galvanic_core.effect,Первый ход: +1 ОД.,First turn: +1 AP.
+module.galvanic_core.tier.2.effect,Первый ход: +1 ОД и +1 карта.,+1 AP and +1 card on the first turn.
+module.galvanic_core.tier.3.effect,Первый ход: +2 ОД.,+2 AP on the first turn.
 module.vein_lattice.name,Венозная решётка,Vein Lattice
 module.vein_lattice.effect,Ваше кровотечение сильнее на 1.,Bleed you apply is 1 stack stronger.
+module.vein_lattice.tier.2.effect,Ваше кровотечение сильнее на 2.,Bleed deals +2 damage.
+module.vein_lattice.tier.3.effect,Ваше кровотечение сильнее на 3.,Bleed deals +3 damage.
 module.serrated_rail.name,Зазубренная планка,Serrated Rail
 module.serrated_rail.effect,Добавляет карту: Зазубренный край.,Adds card: Serrated Edge.
+module.serrated_rail.tier.2.effect,"Добавляет карту: Зазубренный край II (6 урона, кровотечение 4).","Adds card: Serrated Edge II (6 damage, 4 Bleed)."
+module.serrated_rail.tier.3.effect,"Добавляет карту: Зазубренный край III (8 урона, кровотечение 5).","Adds card: Serrated Edge III (8 damage, 5 Bleed)."
 module.smoke_vent.name,Дымовой клапан,Smoke Vent
 module.smoke_vent.effect,Добавляет карту: Дымовая завеса.,Adds card: Smoke Screen.
+module.smoke_vent.tier.2.effect,Добавляет карту: Дымовая завеса II (13 защиты).,Adds card: Smoke Screen II (13 Block).
+module.smoke_vent.tier.3.effect,Добавляет карту: Дымовая завеса III (16 защиты).,Adds card: Smoke Screen III (16 Block).
 mechanism.lantern_of_revealing.name,Фонарь откровения,Lantern of Revealing
 mechanism.lantern_of_revealing.effect,Добавляет карту: Вспышка.,Adds card: Flash.
 mechanism.smoke_bellows.name,Дымовые мехи,Smoke Bellows

@@ -1,0 +1,342 @@
+[
+ {
+  "id": "harpoon_shot_2",
+  "name": "Harpoon Shot II",
+  "art": "harpoon_shot",
+  "type": "attack",
+  "cost": 1,
+  "ammo": 1,
+  "target": "enemy_or_part",
+  "text": "Deal 15 damage.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 15
+   }
+  ]
+ },
+ {
+  "id": "harpoon_shot_3",
+  "name": "Harpoon Shot III",
+  "art": "harpoon_shot",
+  "type": "attack",
+  "cost": 1,
+  "ammo": 1,
+  "target": "enemy_or_part",
+  "text": "Deal 18 damage. Apply 1 Exposed.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 18
+   },
+   {
+    "op": "apply_status",
+    "status": "exposed",
+    "stacks": 1,
+    "to": "target"
+   }
+  ]
+ },
+ {
+  "id": "shock_harpoon_2",
+  "name": "Shock Harpoon II",
+  "art": "shock_harpoon",
+  "type": "attack",
+  "cost": 1,
+  "ammo": 1,
+  "target": "enemy_or_part",
+  "text": "Deal 15 damage. Apply 2 Exposed.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 15
+   },
+   {
+    "op": "apply_status",
+    "status": "exposed",
+    "stacks": 2,
+    "to": "target"
+   }
+  ]
+ },
+ {
+  "id": "shock_harpoon_3",
+  "name": "Shock Harpoon III",
+  "art": "shock_harpoon",
+  "type": "attack",
+  "cost": 1,
+  "ammo": 1,
+  "target": "enemy_or_part",
+  "text": "Deal 18 damage. Apply 3 Exposed.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 18
+   },
+   {
+    "op": "apply_status",
+    "status": "exposed",
+    "stacks": 3,
+    "to": "target"
+   }
+  ]
+ },
+ {
+  "id": "gout_of_flame_2",
+  "name": "Gout of Flame II",
+  "art": "gout_of_flame",
+  "type": "attack",
+  "cost": 1,
+  "target": "enemy",
+  "text": "Deal 9 damage. Apply 2 Exposed.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 9
+   },
+   {
+    "op": "apply_status",
+    "status": "exposed",
+    "stacks": 2,
+    "to": "target"
+   }
+  ]
+ },
+ {
+  "id": "gout_of_flame_3",
+  "name": "Gout of Flame III",
+  "art": "gout_of_flame",
+  "type": "attack",
+  "cost": 1,
+  "target": "enemy",
+  "text": "Deal 12 damage. Apply 3 Exposed.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 12
+   },
+   {
+    "op": "apply_status",
+    "status": "exposed",
+    "stacks": 3,
+    "to": "target"
+   }
+  ]
+ },
+ {
+  "id": "flash_2",
+  "name": "Flash II",
+  "art": "flash",
+  "type": "support",
+  "cost": 1,
+  "target": "enemy",
+  "text": "Apply 3 Weak.",
+  "effects": [
+   {
+    "op": "apply_status",
+    "status": "weak",
+    "stacks": 3,
+    "to": "target"
+   }
+  ]
+ },
+ {
+  "id": "flash_3",
+  "name": "Flash III",
+  "art": "flash",
+  "type": "support",
+  "cost": 1,
+  "target": "enemy",
+  "text": "Apply 3 Weak. Draw 1 card.",
+  "effects": [
+   {
+    "op": "apply_status",
+    "status": "weak",
+    "stacks": 3,
+    "to": "target"
+   },
+   {
+    "op": "draw",
+    "amount": 1
+   }
+  ]
+ },
+ {
+  "id": "overcharge_2",
+  "name": "Overcharge II",
+  "art": "overcharge",
+  "type": "support",
+  "cost": 0,
+  "target": "self",
+  "exhaust": true,
+  "text": "Gain 1 AP. Draw 2 cards.",
+  "effects": [
+   {
+    "op": "gain_ap",
+    "amount": 1
+   },
+   {
+    "op": "draw",
+    "amount": 2
+   }
+  ]
+ },
+ {
+  "id": "overcharge_3",
+  "name": "Overcharge III",
+  "art": "overcharge",
+  "type": "support",
+  "cost": 0,
+  "target": "self",
+  "exhaust": true,
+  "text": "Gain 1 AP. Draw 2 cards. Gain 4 Block.",
+  "effects": [
+   {
+    "op": "gain_ap",
+    "amount": 1
+   },
+   {
+    "op": "draw",
+    "amount": 2
+   },
+   {
+    "op": "block",
+    "amount": 4
+   }
+  ]
+ },
+ {
+  "id": "bayonet_thrust_2",
+  "name": "Bayonet Thrust II",
+  "art": "bayonet_thrust",
+  "type": "attack",
+  "cost": 1,
+  "target": "enemy_or_part",
+  "text": "Deal 10 damage.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 10
+   }
+  ]
+ },
+ {
+  "id": "bayonet_thrust_3",
+  "name": "Bayonet Thrust III",
+  "art": "bayonet_thrust",
+  "type": "attack",
+  "cost": 1,
+  "target": "enemy_or_part",
+  "text": "Deal 13 damage.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 13
+   }
+  ]
+ },
+ {
+  "id": "serrated_edge_2",
+  "name": "Serrated Edge II",
+  "art": "serrated_edge",
+  "type": "attack",
+  "cost": 1,
+  "target": "enemy_or_part",
+  "text": "Deal 6 damage. Apply 4 Bleed.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 6
+   },
+   {
+    "op": "apply_status",
+    "status": "bleed",
+    "stacks": 4,
+    "to": "target"
+   }
+  ]
+ },
+ {
+  "id": "serrated_edge_3",
+  "name": "Serrated Edge III",
+  "art": "serrated_edge",
+  "type": "attack",
+  "cost": 1,
+  "target": "enemy_or_part",
+  "text": "Deal 8 damage. Apply 5 Bleed.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 8
+   },
+   {
+    "op": "apply_status",
+    "status": "bleed",
+    "stacks": 5,
+    "to": "target"
+   }
+  ]
+ },
+ {
+  "id": "smoke_screen_2",
+  "name": "Smoke Screen II",
+  "art": "smoke_screen",
+  "type": "support",
+  "cost": 1,
+  "target": "self",
+  "text": "Gain 13 Block.",
+  "effects": [
+   {
+    "op": "block",
+    "amount": 13
+   }
+  ]
+ },
+ {
+  "id": "smoke_screen_3",
+  "name": "Smoke Screen III",
+  "art": "smoke_screen",
+  "type": "support",
+  "cost": 1,
+  "target": "self",
+  "text": "Gain 16 Block.",
+  "effects": [
+   {
+    "op": "block",
+    "amount": 16
+   }
+  ]
+ },
+ {
+  "id": "iron_net_2",
+  "name": "Iron Net II",
+  "art": "iron_net",
+  "type": "capture",
+  "cost": 1,
+  "target": "enemy",
+  "exhaust": true,
+  "text": "Try to capture the creature (better chance). Works better the more it is hurt.",
+  "effects": [
+   {
+    "op": "capture",
+    "chance": 0.7
+   }
+  ]
+ },
+ {
+  "id": "iron_net_3",
+  "name": "Iron Net III",
+  "art": "iron_net",
+  "type": "capture",
+  "cost": 1,
+  "target": "enemy",
+  "exhaust": true,
+  "text": "Try to capture the creature (best chance). Works better the more it is hurt.",
+  "effects": [
+   {
+    "op": "capture",
+    "chance": 0.8
+   }
+  ]
+ }
+]

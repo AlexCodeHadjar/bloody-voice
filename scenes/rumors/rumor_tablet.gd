@@ -132,6 +132,8 @@ func _show_outcome(o: RumorRules.Outcome) -> void:
 	_right.add_child(UiKit.paragraph(Loc.t("ui.rumor.outcome.%s.text" % o.kind), 19, Palette.PARCHMENT))
 	if o.money > 0:
 		_right.add_child(Icons.with_text("RESOURCE", &"money", Loc.t("ui.rumor.money", {"n": o.money}), 30, 20, Palette.BRASS_LIGHT))
+	for k: StringName in o.resources:
+		_right.add_child(Icons.with_text("RESOURCE", k, "%s +%d" % [WorkshopKit.stock_name(k), o.resources[k]], 30, 20))
 	if o.crossed != &"":
 		var c := GameState.run.contracts.find(o.crossed_contract)
 		var who := ContractKit.monster_name(c) if c != null else ""

@@ -45,9 +45,13 @@ received 2026-10-12: `art/ui/WORKSHOP__*` (background, blueprint sheet, tab, cra
 icons, tier pip) and `art/ui/SKILLS__*` (web textures, tabs, start medallions, node frames of both webs, card nodes,
 attribute plus, monster button, gauge tube, Voice warning). States, grids, web lines and gauge fills are drawn by code.
 
+Built (Phase 4 step 1): tabs Модули · Механизмы (weapons, armor and consumables later), «только доступные», the list,
+the workbench with the item's cards, cost need/have, «Изготовить», the next tier and «Улучшить», «Разобрать» with the
+refund, the stash with trophies, «К снаряжению» / «В район». Section and cell filters are not built yet.
+
 ## 23.4 Open questions for the owner
 
-- Workshop time: does entering the workshop spend the whole day for 2 crafts (GDD §6.2), or does each craft take half a day?
+- ~~Workshop time~~ — answered 2026-10-12: a workshop day = 2 items (GDD 6.3).
 - Can skill points be reset (for money / at a story moment), or are choices final?
 - Do the two webs share one pool of skill points (as GDD §4.3 reads now), or does each web have its own points?
   With one pool, investing in the Voice costs Mechanic progress — should the tabs warn about that?

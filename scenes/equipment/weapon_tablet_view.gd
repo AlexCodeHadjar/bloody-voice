@@ -231,7 +231,7 @@ func _get_tooltip(at_position: Vector2) -> String:
 		var i := WeaponGridRules.placement_at(_loadout, _data, s, c)
 		if i >= 0:
 			var m := _data.module(_loadout.placements[i].module)
-			return "%s\n%s" % [m.name, m.effect]
+			return "%s\n%s" % [m.name, m.effect_at(_loadout.tier(m.id))]
 	return ""
 
 

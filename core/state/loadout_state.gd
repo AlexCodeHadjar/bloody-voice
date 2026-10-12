@@ -25,6 +25,11 @@ var placements: Array[Placement] = []
 var owned_modules: Array[StringName] = []  ## every module the hunter has, placed or not (duplicates allowed)
 var owned_mechanisms: Array[StringName] = []
 var sockets: Dictionary[StringName, Array] = {}  ## armor piece -> mechanism id per socket ("" = empty)
+var module_tiers: Dictionary[StringName, int] = {}  ## module id -> tier 2..3 (GDD 6.2; all copies, missing = I)
+
+
+func tier(module: StringName) -> int:
+	return int(module_tiers.get(module, 1))
 
 
 ## Modules owned but not placed (one entry per spare copy).
@@ -55,6 +60,7 @@ func to_dict() -> Dictionary:
 		"owned_modules": owned_modules.duplicate(),
 		"owned_mechanisms": owned_mechanisms.duplicate(),
 		"sockets": socket_out,
+		"module_tiers": module_tiers.duplicate(),
 	}
 
 
@@ -71,4 +77,7 @@ static func from_dict(d: Dictionary) -> LoadoutState:
 	var socket_in: Dictionary = d.get("sockets", {})
 	for piece: Variant in socket_in:
 		l.sockets[StringName(str(piece))] = (socket_in[piece] as Array).duplicate()
+	var tiers: Dictionary = d.get("module_tiers", {})
+	for m: Variant in tiers:
+		l.module_tiers[StringName(str(m))] = int(tiers[m])
 	return l

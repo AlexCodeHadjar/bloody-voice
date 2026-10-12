@@ -22,6 +22,8 @@ var tutorial: Dictionary[StringName, TutorialDef] = {}
 var tags: Dictionary[StringName, ContractDefs.TagDef] = {}  ## creature sign tags (GDD 8.2)
 var petitions: Array[ContractDefs.PetitionDef] = []
 var rumor_data: RumorDefs.Data = RumorDefs.Data.new()  ## witnesses and zone pictures/tags of rumors (GDD 8)
+var blueprints: Dictionary[StringName, WorkshopDefs.BlueprintDef] = {}  ## item id -> blueprint (GDD 6.2)
+var blueprint_order: Array[StringName] = []
 
 
 func district(id: StringName) -> DistrictDef:
@@ -54,6 +56,20 @@ func module(id: StringName) -> ModuleDef:
 
 func mechanism(id: StringName) -> GearDefs.MechanismDef:
 	return mechanisms.get(id) as GearDefs.MechanismDef
+
+
+func blueprint(item: StringName) -> WorkshopDefs.BlueprintDef:
+	return blueprints.get(item) as WorkshopDefs.BlueprintDef
+
+
+## Every trophy id a creature part can give.
+func trophy_ids() -> Array[StringName]:
+	var out: Array[StringName] = []
+	for m: MonsterDef in monsters.values():
+		for p: MonsterDef.PartDef in m.parts:
+			if p.trophy != &"" and not out.has(p.trophy):
+				out.append(p.trophy)
+	return out
 
 
 func tag(id: StringName) -> ContractDefs.TagDef:

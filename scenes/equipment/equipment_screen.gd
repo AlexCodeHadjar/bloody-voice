@@ -133,12 +133,12 @@ func _refresh_spares() -> void:
 		var row := HBoxContainer.new()
 		row.add_child(_module_picture(m))
 		var b := UiKit.button(Loc.t("ui.equip.module_button", {"name": m.name, "section": Loc.t("section.%s" % m.section),
-			"cell": Loc.t("cell.%s" % m.cell), "effect": m.effect}), 15)
+			"cell": Loc.t("cell.%s" % m.cell), "effect": m.effect_at(GameState.run.loadout.tier(id))}), 15)
 		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		b.custom_minimum_size = Vector2(360, 64)
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		b.tooltip_text = m.effect
+		b.tooltip_text = m.effect_at(GameState.run.loadout.tier(id))
 		b.add_theme_color_override("font_color", Palette.BRASS_LIGHT if id == _held else Palette.PARCHMENT)
 		b.pressed.connect(_hold.bind(id))
 		row.add_child(b)
@@ -218,12 +218,14 @@ func _hold(id: StringName) -> void:
 ## What installing the held module would change, so the player sees the deck effect before placing it.
 func _holding_text() -> String:
 	var m := ContentDB.data.module(_held)
+	var t := GameState.run.loadout.tier(_held)
 	var gains: PackedStringArray = []
-	for c: StringName in m.cards:
+	for c: StringName in m.cards_at(t):
 		gains.append("+%s" % ContentDB.data.card(c).name)
-	for k: StringName in m.mods:
-		gains.append("%s +%d" % [Loc.t("mod.%s" % k), m.mods[k]])
-	var change := ", ".join(gains) if not gains.is_empty() else m.effect
+	var mods := m.mods_at(t)
+	for k: StringName in mods:
+		gains.append("%s +%d" % [Loc.t("mod.%s" % k), mods[k]])
+	var change := ", ".join(gains) if not gains.is_empty() else m.effect_at(t)
 	return Loc.t("ui.equip.holding", {"module": m.name, "change": change})
 
 

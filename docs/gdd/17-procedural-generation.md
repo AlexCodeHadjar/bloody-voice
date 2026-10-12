@@ -22,7 +22,7 @@ stream(name) = RandomNumberGenerator with seed = hash(master_seed, name, day)
 | ShopGenerator | week, Exchange reputation, district state | Cards on the shop table | Fixed slots: 2 weapons, 4 modules, 4 consumables, 3 resource lots; rarity by chapter |
 | EventScheduler | chapter, day, flags | Random world events | Weighted table with cooldowns; at most 1 random event active; story events always win |
 | MonsterVariant | base monster, chapter | Affixes (e.g. 'Fog-touched', 'Starving') | 0–2 affixes; each adds 1 card to the monster deck and 1 tag |
-| LootGenerator | monster, broken parts, outcome | Resources, trophies, blood sample | Trophy only from broken parts; sample quality by kill/capture |
+| LootGenerator | monster, broken parts, outcome | Resources, trophies, blood sample | Trophy only from broken parts; sample quality by kill/capture. **v1 (built):** fixed resources by rank + per-creature extra, ichor ×2 on capture, no blood samples yet (GDD 6.3) |
 
 ## 17.3 Rumor generation example
 

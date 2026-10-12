@@ -39,5 +39,6 @@
  "first_rent": {"trigger": "rent_tomorrow", "steps": [{"anchor": "day_bar"}]},
  "contract_board": {"trigger": "contract_board_open", "steps": [{"anchor": "contract_board"}]},
  "contract_taken": {"trigger": "contract_taken", "steps": [{"anchor": "contract_tracker"}]},
- "first_rumor": {"trigger": "first_rumor", "steps": [{"anchor": "rumor_tags"}, {"anchor": "rumor_match"}, {"anchor": "rumor_buttons"}]}
+ "first_rumor": {"trigger": "first_rumor", "steps": [{"anchor": "rumor_tags"}, {"anchor": "rumor_match"}, {"anchor": "rumor_buttons"}]},
+ "workshop_intro": {"trigger": "workshop_open", "steps": [{"anchor": "workshop_list"}, {"anchor": "workshop_bench"}, {"anchor": "workshop_crafts"}, {"anchor": "workshop_stash"}]}
 }

@@ -18,12 +18,13 @@ class Rumor:
 	var day: int  ## the morning it appeared
 	var expires_day: int  ## gone on this morning
 	var money: int  ## paid by a discovery / false lead / empty night
+	var resources: Dictionary[StringName, int] = {}  ## found on a discovery / empty night
 	var investigated: bool = false
 
 	func to_dict() -> Dictionary:
 		return {"uid": uid, "kind": kind, "monster": monster, "contract_uid": contract_uid, "witness": witness,
 			"tags": tags, "lies": lies, "zone": zone, "node": node, "art": art, "day": day, "expires_day": expires_day,
-			"money": money, "investigated": investigated}
+			"money": money, "resources": resources, "investigated": investigated}
 
 	static func from_dict(d: Dictionary) -> Rumor:
 		var r := Rumor.new()
@@ -40,6 +41,7 @@ class Rumor:
 		r.day = int(d.get("day", 0))
 		r.expires_day = int(d.get("expires_day", 0))
 		r.money = int(d.get("money", 0))
+		r.resources = WorkshopDefs.amounts(d.get("resources", {}) as Dictionary)
 		r.investigated = bool(d.get("investigated", false))
 		return r
 

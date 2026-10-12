@@ -22,10 +22,11 @@ static func build(l: LoadoutState, data: ContentData, capture_allowed: bool = fa
 		var m := data.module(p.module)
 		if m == null:
 			continue
-		_add(b, m.cards, m.name)
+		var t := l.tier(p.module)
+		_add(b, m.cards_at(t), m.name)
 		if capture_allowed:
-			_add(b, m.capture_cards, m.name)
-		GearMods.sum(b.mods, m.mods)
+			_add(b, m.capture_cards_at(t), m.name)
+		GearMods.sum(b.mods, m.mods_at(t))
 	for mech_id: StringName in ArmorRules.installed(l):
 		var mech := data.mechanism(mech_id)
 		if mech != null:

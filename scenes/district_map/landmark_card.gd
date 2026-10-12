@@ -1,7 +1,7 @@
 class_name LandmarkCard
 extends PanelContainer
 ## The card of a place the hero has walked to (owner, 2026-10-12): name, zone, a line about it and what can be done
-## there now — rest at home, gear in the workshop, the contract board in the tavern, the rumor post on Bonfire Square;
+## there now — rest at home, crafting in the workshop, the contract board in the tavern, the rumor post on Bonfire Square;
 ## gates say why they are shut; the other places say they open later.
 
 signal action_chosen(action: StringName)
@@ -10,7 +10,7 @@ const WIDTH := 430.0
 ## action -> [button text key, icon set, icon id]
 const BUTTONS: Dictionary[StringName, Array] = {
 	&"rest": ["ui.district.action.rest", "ACTION", &"rest"],
-	&"equipment": ["ui.district.action.equipment", "DIRECTION", &"equipment"],
+	&"workshop": ["ui.district.action.workshop", "ACTION", &"workshop"],
 	&"rumors": ["ui.district.action.rumors", "PLACE", &"leaflets"],
 	&"tavern": ["ui.district.action.tavern", "ACTION", &"tavern"],
 }

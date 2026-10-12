@@ -2,6 +2,17 @@ class_name ModuleDef
 extends RefCounted
 ## A weapon module (data/gear/modules.json): shape, cell type, cards, passive mods, links with neighbours.
 
+const MAX_TIER := 3
+
+
+## Tier II or III of the module (GDD 6.2): its own cards and bonuses replace the base ones.
+class TierDef:
+	var cards: Array[StringName] = []
+	var capture_cards: Array[StringName] = []
+	var mods: Dictionary[StringName, int] = {}
+	var effect: String
+
+
 class LinkDef:
 	var with_module: StringName  ## when this module touches that one...
 	var replace: Dictionary[StringName, StringName] = {}  ## ...these cards of the deck are swapped
@@ -16,8 +27,25 @@ var cards: Array[StringName] = []
 var capture_cards: Array[StringName] = []  ## added only on capture contracts
 var mods: Dictionary[StringName, int] = {}
 var links: Array[LinkDef] = []
+var tiers: Array[TierDef] = []  ## tiers II and III, in order
 var effect: String
 var look: String
+
+
+func cards_at(tier: int) -> Array[StringName]:
+	return cards if tier <= 1 or tiers.size() < tier - 1 else tiers[tier - 2].cards
+
+
+func capture_cards_at(tier: int) -> Array[StringName]:
+	return capture_cards if tier <= 1 or tiers.size() < tier - 1 else tiers[tier - 2].capture_cards
+
+
+func mods_at(tier: int) -> Dictionary[StringName, int]:
+	return mods if tier <= 1 or tiers.size() < tier - 1 else tiers[tier - 2].mods
+
+
+func effect_at(tier: int) -> String:
+	return effect if tier <= 1 or tiers.size() < tier - 1 else tiers[tier - 2].effect
 
 
 ## Art fitted to the module's cell shape (tools/import_art.py), drawn unrotated.
@@ -46,4 +74,12 @@ static func from_dict(d: Dictionary, errs: ErrorLog) -> ModuleDef:
 		for k: Variant in rep:
 			link.replace[StringName(str(k))] = StringName(str(rep[k]))
 		m.links.append(link)
+	for tv: Variant in DefReader.array(d, "tiers", errs, w, false):
+		var td: Dictionary = tv
+		var t := TierDef.new()
+		t.cards = DefReader.ids(td, "cards", errs, w + "/tiers")
+		t.capture_cards = DefReader.ids(td, "capture_cards", errs, w + "/tiers")
+		t.mods = GearMods.read(td, errs, w + "/tiers")
+		t.effect = DefReader.string(td, "effect", errs, w + "/tiers")
+		m.tiers.append(t)
 	return m

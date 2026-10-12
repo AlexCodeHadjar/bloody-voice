@@ -2,8 +2,9 @@ class_name RumorRules
 extends RefCounted
 ## Rumors (GDD 8, owner 2026-10-12): each morning 1–2 new diamonds on the district map (at most 5), each lives 3
 ## days; every taken contract seeds a true rumor every 2–3 days, the first one at once. «Расследовать» costs the
-## day: the target or another creature means a fight; a discovery, false lead or empty night pays a little money,
-## and a false lead or empty night crosses out a sign that is not the creature's.
+## day: the target or another creature means a fight; a discovery, false lead or empty night pays a little money
+## (a discovery and an empty night also resources), and a false lead or empty night crosses out a sign that is not
+## the creature's.
 
 
 class Outcome:
@@ -12,6 +13,7 @@ class Outcome:
 	var contract_uid: int  ## the contract the target rumor belongs to (0 = none)
 	var zone: StringName
 	var money: int = 0
+	var resources: Dictionary[StringName, int] = {}
 	var crossed: StringName = &""  ## the sign crossed out on `crossed_contract`
 	var crossed_contract: int = 0
 
@@ -93,6 +95,8 @@ static func investigate(run: RunState, data: ContentData, uid: int) -> Outcome:
 		return o
 	o.money = r.money
 	run.money += r.money
+	o.resources = r.resources
+	LootRules.add_resources(run.workshop, r.resources)
 	if r.kind == &"false_lead" or r.kind == &"empty_night":
 		_cross_out(run, data, r, o)
 	return o

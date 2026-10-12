@@ -17,6 +17,8 @@ static func migrate(d: Dictionary, start_loadout: Dictionary = {}) -> Dictionary
 				_from_3(d)
 			4:
 				_from_4(d)
+			5:
+				_from_5(d)
 			_:
 				push_warning("[save] no migration from version %d" % version)
 		version += 1
@@ -46,3 +48,9 @@ static func _from_3(d: Dictionary) -> void:
 ## v4 -> v5: rumors (GDD 8). None yet; GameState adds the morning's rumors on load.
 static func _from_4(d: Dictionary) -> void:
 	d["rumors"] = RumorsState.new().to_dict()
+
+
+## v5 -> v6: workshop stock (GDD 6). Empty here; GameState gives the start stock and blueprints on load
+## (WorkshopRules.ensure_start: no known blueprint = never started).
+static func _from_5(d: Dictionary) -> void:
+	d["workshop"] = WorkshopState.new().to_dict()

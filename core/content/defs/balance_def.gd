@@ -35,6 +35,7 @@ var capture_max_chance: float = 0.0
 
 var contracts: ContractDefs.Balance = ContractDefs.Balance.new()  ## tavern contracts (GDD 7)
 var rumors: RumorDefs.Balance = RumorDefs.Balance.new()  ## rumor diamonds (GDD 8)
+var workshop: WorkshopDefs.Balance = WorkshopDefs.Balance.new()  ## crafting and loot (GDD 6)
 
 
 static func from_dict(d: Dictionary, errs: ErrorLog) -> BalanceDef:
@@ -72,4 +73,5 @@ static func from_dict(d: Dictionary, errs: ErrorLog) -> BalanceDef:
 	b.capture_max_chance = DefReader.number(cap, "max_chance", errs, w + "/capture")
 	b.contracts = ContractDefs.balance(DefReader.dict(d, "contracts", errs, w), errs)
 	b.rumors = RumorDefs.balance(DefReader.dict(d, "rumors", errs, w), errs)
+	b.workshop = WorkshopDefs.balance(DefReader.dict(d, "workshop", errs, w), errs)
 	return b

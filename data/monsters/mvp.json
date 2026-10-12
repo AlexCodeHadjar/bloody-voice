@@ -240,6 +240,7 @@
   "id": "lamplighter",
   "name": "The Lamplighter",
   "rank": "P",
+  "loot": {"gears": 2, "electronics": 1},
   "hp": 70,
   "intents_per_turn": 2,
   "districts": [
@@ -370,6 +371,7 @@
   "id": "rust_mantis",
   "name": "Rust Mantis",
   "rank": "P",
+  "loot": {"gears": 3},
   "hp": 64,
   "intents_per_turn": 2,
   "districts": [
@@ -751,6 +753,7 @@
   "id": "clay_saint",
   "name": "Clay Saint",
   "rank": "P",
+  "loot": {"electronics": 2},
   "hp": 74,
   "intents_per_turn": 2,
   "districts": [

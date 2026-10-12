@@ -8,6 +8,7 @@ const TARGETS: Array[StringName] = [&"enemy", &"enemy_or_part", &"self", &"none"
 
 var id: StringName
 var name: String
+var art: StringName  ## card art id (CARD__art__<art>); tier versions reuse the base card's art
 var type: StringName
 var cost: int = 0
 var ammo: int = 0
@@ -24,6 +25,9 @@ static func from_dict(d: Dictionary, errs: ErrorLog, file: String) -> CardDef:
 	c.id = DefReader.id(d, "id", errs, file)
 	var w := "%s/%s" % [file, c.id]
 	c.name = DefReader.string(d, "name", errs, w)
+	c.art = DefReader.id(d, "art", errs, w, false)
+	if c.art == &"":
+		c.art = c.id
 	c.type = DefReader.id(d, "type", errs, w)
 	c.cost = DefReader.integer(d, "cost", errs, w)
 	c.ammo = DefReader.integer(d, "ammo", errs, w, 0, false)
