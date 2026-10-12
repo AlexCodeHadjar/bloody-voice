@@ -40,12 +40,12 @@ func test_blood_nodes_open_cells_and_blood_modules_fit() -> void:
 func test_modules_on_turned_cells_go_back_to_spare() -> void:
 	var data := load_content(false)
 	var run := _run(data)
-	run.loadout.add_module(&"bayonet_mount")
-	var placed := WeaponGridRules.place(run.loadout, data, &"bayonet_mount", &"barrel", Vector2i(0, 0), 0) == ""
+	run.loadout.add_module(&"rifled_barrel")
+	eq(WeaponGridRules.place(run.loadout, data, &"rifled_barrel", &"barrel", Vector2i(0, 0), 0), "", "a gear module in the barrel")
 	_buy(run, data, &"b_nw")
-	if placed:
-		check(not run.loadout.placements.any(func(p: LoadoutState.Placement) -> bool: return p.module == &"bayonet_mount"),
-			"a gear module on a cell that turned to blood goes back to spare")
+	check(not run.loadout.placements.any(func(p: LoadoutState.Placement) -> bool: return p.module == &"rifled_barrel"),
+		"a gear module on cells that turned to blood leaves its place")
+	check(run.loadout.spare_tiers(&"rifled_barrel").size() == 1, "and is spare again")
 	run.loadout.add_module(&"vein_lattice")
 	eq(WeaponGridRules.place(run.loadout, data, &"vein_lattice", &"barrel", Vector2i(0, 0), 0), "", "the Vein Lattice fits the barrel")
 	var parsed: Variant = JSON.parse_string(JSON.stringify(run.to_dict()))
@@ -56,7 +56,9 @@ func test_modules_on_turned_cells_go_back_to_spare() -> void:
 func test_beast_nights_have_consequences_and_a_note() -> void:
 	var data := load_content(false)
 	var v := data.balance.voice
-	for what: StringName in v.beast_outcomes:
+	var kinds: Array[StringName] = []
+	kinds.assign(v.beast_outcomes.keys())
+	for what: StringName in kinds:
 		var run := _run(data)
 		run.money = 100
 		run.voice = 20

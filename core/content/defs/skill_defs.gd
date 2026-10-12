@@ -73,9 +73,13 @@ static func _node(d: Dictionary, errs: ErrorLog, w: String) -> NodeDef:
 	var blood := DefReader.dict(e, "blood_cells", errs, nw, false)
 	for s: Variant in blood:
 		var cells: Array[Vector2i] = []
-		for c: Variant in blood[s] as Array:
-			var xy := c as Array
-			cells.append(Vector2i(int(xy[0]), int(xy[1])) if xy.size() == 2 else Vector2i(-1, -1))
+		var list: Array = blood[s] if blood[s] is Array else []
+		for c: Variant in list:
+			var xy: Array = c if c is Array else []
+			if xy.size() != 2:
+				errs.add(nw, "blood_cells.%s: each cell is [x, y]" % s)
+				continue
+			cells.append(Vector2i(int(xy[0]), int(xy[1])))
 		nd.blood_cells[StringName(str(s))] = cells
 	nd.sample = DefReader.id(d, "sample", errs, nw, false)
 	nd.pure = DefReader.flag(d, "pure")

@@ -24,6 +24,8 @@ static func validate(data: ContentData, errs: ErrorLog) -> void:
 		errs.add("balance.json/voice", "needs 3 stages and existing rage_card and beast_card")
 	if v.hunger_chance < 0.0 or v.hunger_chance > 1.0 or v.lose_control_chance < 0.0 or v.lose_control_chance > 1.0:
 		errs.add("balance.json/voice", "chances must be in 0..1")
+	if v.beast_money_share < 0.0 or v.beast_money_share > 1.0 or v.beast_hp_share < 0.0 or v.beast_hp_share > 1.0:
+		errs.add("balance.json/voice", "beast_money_share and beast_hp_share must be in 0..1")
 	for k: StringName in v.beast_outcomes:
 		if not (k in VoiceRules.BEAST_OUTCOMES) or v.beast_outcomes[k] <= 0.0:
 			errs.add("balance.json/voice", "unknown beast outcome '%s' or weight <= 0" % k)
@@ -58,10 +60,10 @@ static func _node(data: ContentData, web: SkillDefs.WebDef, nd: SkillDefs.NodeDe
 static func _blood_cells(data: ContentData, nd: SkillDefs.NodeDef, nw: String, errs: ErrorLog) -> void:
 	var weapon := data.weapon(StringName(str(data.balance.start_loadout.get("start_weapon", ""))))
 	for s: StringName in nd.blood_cells:
-		var section := weapon.section(s) if weapon != null else null
+		var section: WeaponDef.SectionDef = weapon.section(s) if weapon != null else null
 		for c: Variant in nd.blood_cells[s]:
-			if section == null or not section.cells.has(c as Vector2i):
-				errs.add(nw, "blood cell %s is not a cell of %s" % [c, s])
+			if section == null or section.cells.get(c as Vector2i, &"") != &"gear":
+				errs.add(nw, "blood cell %s must be a gear cell of %s" % [c, s])
 
 
 ## Walks links back toward the start (links point to parents).

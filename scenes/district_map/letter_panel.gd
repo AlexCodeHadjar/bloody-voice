@@ -4,7 +4,7 @@ extends PlacePanel
 ## the note once it is done, the end of the chapter. The last note asks for a choice (GameState.story_choice);
 ## otherwise «Дальше» and DistrictPanels marks it read.
 
-var letter := ""  ## "step:<id>" / "after:<id>" / "end"
+var letter := ""  ## "step:<id>" / "after:<id>" / "end" / "beast:<what>"
 
 
 func _step() -> StoryDefs.StepDef:

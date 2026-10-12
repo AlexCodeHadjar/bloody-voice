@@ -114,6 +114,7 @@ static func problems(l: LoadoutState, data: ContentData) -> PackedStringArray:
 	copy.owned_modules = l.owned_modules.duplicate()
 	copy.owned_tiers = l.owned_tiers.duplicate()
 	copy.placements = l.placements.duplicate()
+	copy.blood_cells = l.blood_cells
 	return drop_invalid(copy, data)
 
 

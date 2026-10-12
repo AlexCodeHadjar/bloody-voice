@@ -67,7 +67,7 @@ static func beast_night(run: RunState, data: ContentData, rng: RandomNumberGener
 			run.hero_hp = maxi(1, HealthRules.hp(run, data) - ceili(HealthRules.max_hp(run, data) * v.beast_hp_share))
 		&"fed":
 			lower(run, v.beast_fed_voice)
-	run.story.letters.append("beast:%s" % what)
+	run.story.letters.insert(0, "beast:%s" % what)  # first: not stuck behind a note waiting for a choice
 	return what
 
 
