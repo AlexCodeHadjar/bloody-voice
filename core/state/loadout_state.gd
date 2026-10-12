@@ -31,6 +31,7 @@ var owned_modules: Array[StringName] = []  ## every module the hunter has, place
 var owned_mechanisms: Array[StringName] = []
 var sockets: Dictionary[StringName, Array] = {}  ## armor piece -> mechanism id per socket ("" = empty)
 var extra_sockets: Dictionary[StringName, int] = {}  ## armor piece -> sockets added by the skill web (SkillRules)
+var blood_cells: Dictionary[StringName, Array] = {}  ## section -> Array of Vector2i turned into blood cells by the Monster web (SkillRules)
 var owned_tiers: Array[int] = []  ## the tier of each owned_modules copy, same index (missing = I)
 
 
@@ -113,6 +114,7 @@ func to_dict() -> Dictionary:
 		"sockets": socket_out,
 		"owned_tiers": owned_tiers.duplicate(),
 		"extra_sockets": extra_sockets.duplicate(),
+		"blood_cells": _cells_out(),
 	}
 
 
@@ -132,4 +134,23 @@ static func from_dict(d: Dictionary) -> LoadoutState:
 	for t: Variant in d.get("owned_tiers", []) as Array:
 		l.owned_tiers.append(int(t))
 	l.extra_sockets = WorkshopDefs.amounts(d.get("extra_sockets", {}) as Dictionary)
+	var blood: Dictionary = d.get("blood_cells", {})
+	for s: Variant in blood:
+		var cells: Array[Vector2i] = []
+		for c: Variant in blood[s] as Array:
+			cells.append(Vector2i(int((c as Array)[0]), int((c as Array)[1])))
+		l.blood_cells[StringName(str(s))] = cells
 	return l
+
+
+## The type of a cell of the weapon: blood where the Monster web turned it (GDD 4.8), else the weapon's own.
+func cell_type(section: WeaponDef.SectionDef, c: Vector2i) -> StringName:
+	var own: StringName = section.cells.get(c, &"")
+	return &"blood" if (blood_cells.get(section.id, []) as Array).has(c) else own
+
+
+func _cells_out() -> Dictionary:
+	var out := {}
+	for s: StringName in blood_cells:
+		out[s] = (blood_cells[s] as Array).map(func(c: Vector2i) -> Array: return [c.x, c.y])
+	return out

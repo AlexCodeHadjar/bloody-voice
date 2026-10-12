@@ -1,5 +1,5 @@
 {
- "_comment": "Skill web of the Monster — the Voice (GDD 4.4; owner 2026-10-12): a branch per Grey Chapels creature — formula I, formula II, a keystone that needs a PURE sample (from a capture) — and four shared blood nodes between the branches. sample: the creature whose blood sample the node uses up (formula nodes take a normal or pure one, keystones a pure one); voice: how much the Voice grows. Same node format as mechanic.json, plus effect.cards (cards added to every fight's deck). This web is not reset.",
+ "_comment": "Skill web of the Monster — the Voice (GDD 4.4; owner 2026-10-12): a branch per Grey Chapels creature — formula I, formula II, a keystone that needs a PURE sample (from a capture) — and four shared blood nodes between the branches. sample: the creature whose blood sample the node uses up (formula nodes take a normal or pure one, keystones a pure one); voice: how much the Voice grows. Same node format as mechanic.json, plus effect.cards (cards added to every fight's deck). This web is not reset. effect.blood_cells: section -> cells of the weapon that become blood cells while the node is owned (GDD 4.8); modules on them go back to spare.",
  "web": "monster",
  "nodes": [
   {
@@ -290,10 +290,26 @@
     "l1"
    ],
    "name": "Quickened Blood",
-   "text": "Reloading draws a card.",
+   "text": "Reloading draws a card. Opens blood cells in the magazine.",
    "effect": {
     "mods": {
      "reload_draw": 1
+    },
+    "blood_cells": {
+     "magazine": [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       1
+      ]
+     ]
     }
    },
    "voice": 1
@@ -311,10 +327,18 @@
     "h1"
    ],
    "name": "Thick Blood",
-   "text": "+4 max HP.",
+   "text": "+4 max HP. Opens a blood cell in the frame.",
    "effect": {
     "mods": {
      "max_hp": 4
+    },
+    "blood_cells": {
+     "frame": [
+      [
+       2,
+       1
+      ]
+     ]
     }
    },
    "voice": 1
@@ -332,10 +356,30 @@
     "w1"
    ],
    "name": "Restless Blood",
-   "text": "Draw 1 more card on the first turn.",
+   "text": "Draw 1 more card on the first turn. Opens blood cells in the stock.",
    "effect": {
     "mods": {
      "first_turn_draw": 1
+    },
+    "blood_cells": {
+     "stock": [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       0
+      ],
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       1
+      ]
+     ]
     }
    },
    "voice": 1
@@ -353,10 +397,30 @@
     "ch1"
    ],
    "name": "Bitter Blood",
-   "text": "Bleed you apply is 1 stack stronger.",
+   "text": "Bleed you apply is 1 stack stronger. Opens blood cells in the barrel.",
    "effect": {
     "mods": {
      "bleed_bonus": 1
+    },
+    "blood_cells": {
+     "barrel": [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       0
+      ],
+      [
+       2,
+       0
+      ],
+      [
+       3,
+       0
+      ]
+     ]
     }
    },
    "voice": 1

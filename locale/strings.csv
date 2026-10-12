@@ -128,6 +128,7 @@ ui.skills.reset_note,Сбросить ветку можно в Скриптор�
 ui.skills.monster_note,"Выпитое не забыть: ветку Твари нельзя сбросить. Образцы крови — с убитых тварей, чистые — с пойманных.","What the blood taught stays: the Monster web cannot be reset. Samples come from slain creatures, pure ones from captures."
 ui.skills.sample,"Нужен: {name} (есть обычных {n}, чистых {p})","Needs: {name} (you have {n} normal, {p} pure)"
 ui.skills.voice_cost,Голос вырастет на {n},The Voice grows by {n}
+ui.skills.blood_cells,Открывает клетки крови в оружии; модули на этих клетках вернутся в запас.,Opens blood cells in the weapon; modules on those cells go back to spare.
 ui.skills.voice_warning,Голос перейдёт в стадию «{stage}»: {what},The Voice reaches the stage «{stage}»: {what}
 ui.voice.now,Голос {n} — {stage},Voice {n} — {stage}
 ui.voice.stage.0,тишина,silent
@@ -141,6 +142,11 @@ ui.voice.effect.3,в колоде «Облик Зверя»; после побе
 ui.voice.sample,Образец крови: {name},Blood sample: {name}
 ui.voice.pure_sample,Чистый образец: {name},Pure sample: {name}
 ui.voice.lost_control,Зверь взял верх. Вы очнётесь в сточной канаве только через день.,The Beast took over. You will come to in a gutter a day later.
+ui.voice.beast_from,Твои обрывки памяти,What you remember
+ui.voice.beast.money,"Ты очнулся в канаве с пустыми карманами. Часть денег пропала — проиграна, выброшена или отдана тому, кого ты не помнишь.","You came to in a gutter with empty pockets. Some of the money is gone: lost, thrown away or given to someone you do not remember."
+ui.voice.beast.seen,"Ночной дозор Бдения видел, как ты бежал по крышам на четвереньках. Теперь они смотрят на тебя иначе.",The Vigil's night watch saw you running over the roofs on all fours. Now they look at you differently.
+ui.voice.beast.wounded,На тебе чужие и свои раны. Ты дрался с чем-то в темноте — и не только ты кусал.,"You wear wounds, yours and someone else's. You fought something in the dark, and you were not the only one biting."
+ui.voice.beast.fed,"Во рту вкус сырого мяса, у Пепельного рынка — обглоданная туша. Зверь сыт, и Голос надолго затих.","The taste of raw meat in your mouth; by the Ash Market, a gnawed carcass. The Beast has fed, and the Voice has gone quiet for a while."
 ui.combat.sample,Добыто: {name},Taken: {name}
 ui.district.hint.rumors,Площадь: столб со слухами,Square: the rumor post
 ui.district.hint.locked,Закрыто,Closed
@@ -192,6 +198,7 @@ ui.rumor.next,Дальше,Next
 ui.story.title.step,Письмо,A letter
 ui.story.title.after,Записка,A note
 ui.story.title.end,Конец главы,End of the chapter
+ui.story.title.beast,Что было ночью,What happened in the night
 ui.story.contract,Сюжетный заказ в трекере: {name} — {type}.,Story contract in the tracker: {name} — {type}.
 ui.event.title,Новости: {name},News: {name}
 ui.event.badge,{state} · ещё {n} дн.,{state} · {n} more days
@@ -1174,13 +1181,13 @@ skill.monster.w2.text,+8 к наибольшему здоровью.,+8 max HP.
 skill.monster.w_key.name,Терпение змея,Wyrm's Patience
 skill.monster.w_key.text,Выстрелы дают ещё 2 защиты; +1 патрон.,Shots give 2 more Block; +1 bullet.
 skill.monster.b_ne.name,Быстрая кровь,Quickened Blood
-skill.monster.b_ne.text,Перезарядка добирает карту.,Reloading draws a card.
+skill.monster.b_ne.text,Перезарядка добирает карту. Открывает клетки крови в магазине.,Reloading draws a card. Opens blood cells in the magazine.
 skill.monster.b_se.name,Густая кровь,Thick Blood
-skill.monster.b_se.text,+4 к наибольшему здоровью.,+4 max HP.
+skill.monster.b_se.text,+4 к наибольшему здоровью. Открывает клетку крови в раме.,+4 max HP. Opens a blood cell in the frame.
 skill.monster.b_sw.name,Беспокойная кровь,Restless Blood
-skill.monster.b_sw.text,В первый ход берите на 1 карту больше.,Draw 1 more card on the first turn.
+skill.monster.b_sw.text,В первый ход берите на 1 карту больше. Открывает клетки крови в прикладе.,Draw 1 more card on the first turn. Opens blood cells in the stock.
 skill.monster.b_nw.name,Горькая кровь,Bitter Blood
-skill.monster.b_nw.text,Ваше Кровотечение на 1 сильнее.,Bleed you apply is 1 stack stronger.
+skill.monster.b_nw.text,Ваше Кровотечение на 1 сильнее. Открывает клетки крови в стволе.,Bleed you apply is 1 stack stronger. Opens blood cells in the barrel.
 story.end.end_from,«Фонарь и Крюк»,The Lantern & Hook
 story.end.end_text,"Квартал теперь говорит о тебе — кто с тостом, кто прикрыв рот ладонью. То, что отвечало снизу, затихло. Пока. (Конец главы Серых Часовен; город за стеной ждёт.)","The quarter talks about you now — some with a toast, some behind their hands. Whatever answers from below has gone quiet. For now. (End of the Grey Chapels chapter; the city beyond waits.)"
 story.first_blood.after_from,Твои записи,Your own notes

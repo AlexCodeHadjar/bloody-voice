@@ -8,10 +8,14 @@ var letter := ""  ## "step:<id>" / "after:<id>" / "end"
 
 
 func _step() -> StoryDefs.StepDef:
-	return ContentDB.data.story.step(StringName(letter.get_slice(":", 1))) if letter.contains(":") else null
+	if letter.begins_with("beast:") or not letter.contains(":"):
+		return null
+	return ContentDB.data.story.step(StringName(letter.get_slice(":", 1)))
 
 
 func _portrait() -> String:
+	if letter.begins_with("beast:"):
+		return "res://art/ui/COMBAT__hunter_portrait__voice3.webp"
 	var s := _step()
 	return "res://art/ui/NPC__portrait__%s.webp" % (s.portrait if s != null else &"tavern_keeper")
 
@@ -25,7 +29,10 @@ func _fill() -> void:
 	var s := _step()
 	var from := st.end_from
 	var text := st.end_text
-	if letter.begins_with("step:") and s != null:
+	if letter.begins_with("beast:"):  # a night the Beast took over (VoiceRules.beast_night)
+		from = Loc.t("ui.voice.beast_from")
+		text = Loc.t("ui.voice.beast.%s" % letter.get_slice(":", 1))
+	elif letter.begins_with("step:") and s != null:
 		var p := ContentDB.data.petition(s.petition)
 		from = p.sender if p != null else ""
 		text = p.text if p != null else ""

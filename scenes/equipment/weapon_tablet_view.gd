@@ -130,7 +130,7 @@ func _draw() -> void:
 		draw_string(_font, o + Vector2(32 if icon != null else 0, -10), s.name, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Palette.PARCHMENT)
 		for c: Vector2i in s.cells:
 			var r := Rect2(o + Vector2(c) * CELL, Vector2(CELL, CELL)).grow(-2)
-			draw_rect(r, CELL_COLORS.get(s.cells[c], Palette.INK_MUTED))
+			draw_rect(r, CELL_COLORS.get(_loadout.cell_type(s, c), Palette.INK_MUTED))
 			draw_rect(r, Palette.SOOT, false, 2.0)
 	for i: int in _loadout.placements.size():
 		var p: LoadoutState.Placement = _loadout.placements[i]

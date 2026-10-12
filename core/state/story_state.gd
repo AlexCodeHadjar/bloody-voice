@@ -1,7 +1,8 @@
 class_name StoryState
 extends RefCounted
 ## The district story (GDD 2.4): started, the steps done, the final choice and the letters the hunter has not read
-## yet ("step:<id>" a new story contract's letter, "after:<id>" its note, "end"). Saved. StoryRules changes it.
+## yet ("step:<id>" a new story contract's letter, "after:<id>" its note, "end"; also "beast:<what>", the note of a
+## night the Beast took over, VoiceRules). Saved. StoryRules and VoiceRules change it.
 
 var started: bool = false
 var done: Array[StringName] = []

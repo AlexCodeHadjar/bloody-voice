@@ -106,4 +106,6 @@ screen `scenes/hero/hero_panel.gd`.
 | Lowering | Rest at the garret −1; the Ash Sisters' «Успокоить кровь» −5 for 20 money and a day (no credit). |
 | Reset | The Monster web is never reset. |
 | Shown | The Voice and its stage on the district bar (hidden while silent) and on the skill screen; the combat portrait darkens by stage; the fight result lists the sample and warns when the Beast took over. |
-| Deferred | Future work (owner 2026-10-12): blood sockets in weapon and armor; story consequences of losing control. Later: Collegium sedatives and Morrell treatments (other districts — owner 2026-10-12: one district until he says so). |
+| Blood cells (Phase 8 step 3, owner 2026-10-12) | The four blood nodes turn weapon cells into **blood cells** while owned (`effect.blood_cells`): Thick Blood — frame (2,1) for the Hound's Eye; Quickened Blood — the magazine's L for the Ichor Cartridges; Restless Blood — the stock's Z for the Bone Brace; Bitter Blood — the barrel's first four cells for the Vein Lattice (moved to the barrel). Modules on cells that turn go back to spare; the node card warns. Armor blood sockets — later, with blood mechanisms. |
+| The Beast's night (Phase 8 step 3) | When the Beast takes over, one weighted consequence (`balance.json/voice.beast_outcomes`) and a morning note: a quarter of the money gone; the Vigil saw it (Vigil −10); wounds (−30 % of max HP); it fed (Voice −3). A resident's death — later. |
+| Later | Collegium sedatives and Morrell treatments (other districts — owner 2026-10-12: one district until he says so). |

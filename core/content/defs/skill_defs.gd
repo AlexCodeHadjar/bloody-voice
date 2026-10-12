@@ -20,6 +20,7 @@ class NodeDef:
 	var sockets_all: int = 0
 	var crafts: int = 0
 	var cards: Array[StringName] = []  ## added to every fight's deck while owned (Monster web)
+	var blood_cells: Dictionary[StringName, Array] = {}  ## section -> Array of Vector2i turned into blood cells
 	var sample: StringName = &""  ## creature whose blood sample the node uses up ("" = none)
 	var pure: bool = false  ## needs a pure sample (from a capture)
 	var voice: int = 0  ## how much the Voice grows
@@ -69,6 +70,13 @@ static func _node(d: Dictionary, errs: ErrorLog, w: String) -> NodeDef:
 	nd.sockets_all = DefReader.integer(e, "sockets_all", errs, nw, 0, false)
 	nd.crafts = DefReader.integer(e, "crafts", errs, nw, 0, false)
 	nd.cards = DefReader.ids(e, "cards", errs, nw)
+	var blood := DefReader.dict(e, "blood_cells", errs, nw, false)
+	for s: Variant in blood:
+		var cells: Array[Vector2i] = []
+		for c: Variant in blood[s] as Array:
+			var xy := c as Array
+			cells.append(Vector2i(int(xy[0]), int(xy[1])) if xy.size() == 2 else Vector2i(-1, -1))
+		nd.blood_cells[StringName(str(s))] = cells
 	nd.sample = DefReader.id(d, "sample", errs, nw, false)
 	nd.pure = DefReader.flag(d, "pure")
 	nd.voice = DefReader.integer(d, "voice", errs, nw, 0, false)

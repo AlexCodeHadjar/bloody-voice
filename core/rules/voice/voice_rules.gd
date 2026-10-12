@@ -47,6 +47,30 @@ static func loses_control(run: RunState, data: ContentData, rng: RandomNumberGen
 	return stage(run, data) >= 3 and rng.randf() < data.balance.voice.lose_control_chance
 
 
+const BEAST_OUTCOMES: Array[StringName] = [&"money", &"seen", &"wounded", &"fed"]
+
+
+## What the Beast did when it took over (owner 2026-10-12: a random consequence and a note): money gone, the Vigil saw
+## it, wounds, or it fed and the blood quiets. Applies it and leaves the morning note; returns the outcome.
+static func beast_night(run: RunState, data: ContentData, rng: RandomNumberGenerator) -> StringName:
+	var v := data.balance.voice
+	if v.beast_outcomes.is_empty():
+		return &""
+	var what := SeededRng.weighted(v.beast_outcomes, rng)
+	match what:
+		&"money":
+			run.money -= maxi(0, floori(run.money * v.beast_money_share))
+		&"seen":
+			var seen: Dictionary[StringName, int] = {&"vigil": v.beast_rep}
+			FactionRules.apply(run, seen)
+		&"wounded":
+			run.hero_hp = maxi(1, HealthRules.hp(run, data) - ceili(HealthRules.max_hp(run, data) * v.beast_hp_share))
+		&"fed":
+			lower(run, v.beast_fed_voice)
+	run.story.letters.append("beast:%s" % what)
+	return what
+
+
 static func lower(run: RunState, amount: int) -> void:
 	run.voice = maxi(0, run.voice - amount)
 

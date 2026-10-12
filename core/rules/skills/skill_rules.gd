@@ -101,7 +101,8 @@ static func crafts_bonus(run: RunState, data: ContentData) -> int:
 	return n
 
 
-## Rewrites the loadout's extra sockets from the owned nodes; mechanisms in sockets that vanished go back to spare.
+## Rewrites the loadout's extra sockets and blood cells from the owned nodes; mechanisms in sockets that vanished and
+## modules on cells that changed go back to spare.
 static func sync_sockets(run: RunState, data: ContentData) -> void:
 	var extra: Dictionary[StringName, int] = {}
 	for nd: SkillDefs.NodeDef in owned_nodes(run, data):
@@ -112,6 +113,21 @@ static func sync_sockets(run: RunState, data: ContentData) -> void:
 				extra[a.id] = extra.get(a.id, 0) + nd.sockets_all
 	run.loadout.extra_sockets = extra
 	ArmorRules.trim(run.loadout, data)
+	_sync_blood(run, data)
+
+
+## Blood cells of the owned Monster nodes (GDD 4.8); modules standing on cells that changed type go back to spare.
+static func _sync_blood(run: RunState, data: ContentData) -> void:
+	var blood: Dictionary[StringName, Array] = {}
+	for nd: SkillDefs.NodeDef in owned_nodes(run, data):
+		for s: StringName in nd.blood_cells:
+			var cells: Array = blood.get(s, [])
+			for c: Variant in nd.blood_cells[s]:
+				if not cells.has(c):
+					cells.append(c)
+			blood[s] = cells
+	run.loadout.blood_cells = blood
+	WeaponGridRules.drop_invalid(run.loadout, data)
 
 
 static func reset_cost(run: RunState, data: ContentData, web: SkillDefs.WebDef) -> int:

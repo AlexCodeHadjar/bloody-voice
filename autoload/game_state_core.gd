@@ -33,6 +33,7 @@ func continue_game() -> bool:
 	WorkshopRules.ensure_start(run, ContentDB.data)  # saves from before the workshop
 	ProgressRules.ensure_start(run, ContentDB.data)  # saves from before levels
 	StoryRules.ensure_start(run, ContentDB.data)  # saves from before the story
+	SkillRules.sync_sockets(run, ContentDB.data)  # sockets and blood cells from the owned nodes (old saves too)
 	Rng.set_seed(run.master_seed)
 	_refresh_board()  # an old save or a save from last week gets this week's board
 	_new_morning()
@@ -258,7 +259,9 @@ func finish_combat() -> void:
 	if paid > 0:
 		EventBus.money_changed.emit(run.money)
 		EventBus.contracts_changed.emit()
-	if beast:  # the Beast took over: the hunter comes to somewhere in the gutters a day later
+	if beast:  # the Beast took over: a consequence and a note, the hunter comes to a day later (GDD 4.8)
+		VoiceRules.beast_night(run, ContentDB.data, Rng.stream(&"beast", run.day))
+		EventBus.money_changed.emit(run.money)
 		end_day()
 	end_day()
 

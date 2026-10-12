@@ -152,6 +152,8 @@ func _blood_lines(nd: SkillDefs.NodeDef) -> void:
 			"n": ws.samples.get(nd.sample, 0), "p": ws.pure_samples.get(nd.sample, 0)}), 26, 16, Palette.PARCHMENT))
 	if nd.voice > 0:
 		_card.add_child(Icons.with_text("STAT", &"voice", Loc.t("ui.skills.voice_cost", {"n": nd.voice}), 26, 16, Palette.PARCHMENT))
+	if not nd.blood_cells.is_empty():  # GDD 4.8: modules on these cells go back to spare
+		_card.add_child(Icons.with_text("CELL", &"blood", Loc.t("ui.skills.blood_cells"), 26, 15, Palette.FOG))
 	var after := VoiceRules.stage(run, data, run.voice + nd.voice)
 	if not SkillRules.is_owned(run, _web, nd.id) and after > VoiceRules.stage(run, data):
 		_card.add_child(UiKit.picture(UiKit.texture("res://art/ui/SKILLS__voice_warning.webp"), Vector2(0, 60)))

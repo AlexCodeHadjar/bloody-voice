@@ -216,7 +216,7 @@
  {
   "id": "hound_eye",
   "name": "Eye of the Hound",
-  "section": "sight",
+  "section": "frame",
   "shape": "M1",
   "cell": "blood",
   "cards": [],
@@ -508,7 +508,7 @@
  {
   "id": "vein_lattice",
   "name": "Vein Lattice",
-  "section": "frame",
+  "section": "barrel",
   "shape": "I4",
   "cell": "blood",
   "cards": [],

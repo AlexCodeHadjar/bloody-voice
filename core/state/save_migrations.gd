@@ -8,42 +8,49 @@ extends RefCounted
 static func migrate(d: Dictionary, start_loadout: Dictionary = {}) -> Dictionary:
 	var version := int(d.get("version", 1))
 	while version < RunState.SAVE_VERSION:
-		match version:
-			1:
-				_from_1(d, start_loadout)
-			2:
-				_from_2(d)
-			3:
-				_from_3(d)
-			4:
-				_from_4(d)
-			5:
-				_from_5(d)
-			6:
-				_from_6(d)
-			7:
-				_from_7(d)
-			8:
-				_from_8(d)
-			9:
-				_from_9(d)
-			10:
-				_from_10(d)
-			11:
-				_from_11(d)
-			12:
-				_from_12(d)
-			13:
-				_from_13(d)
-			14:
-				_from_14(d)
-			15:
-				_from_15(d)
-			_:
-				push_warning("[save] no migration from version %d" % version)
+		_step(d, version, start_loadout)
 		version += 1
 	d["version"] = RunState.SAVE_VERSION
 	return d
+
+
+## One version step up from `version`.
+static func _step(d: Dictionary, version: int, start_loadout: Dictionary) -> void:
+	match version:
+		1:
+			_from_1(d, start_loadout)
+		2:
+			_from_2(d)
+		3:
+			_from_3(d)
+		4:
+			_from_4(d)
+		5:
+			_from_5(d)
+		6:
+			_from_6(d)
+		7:
+			_from_7(d)
+		8:
+			_from_8(d)
+		9:
+			_from_9(d)
+		10:
+			_from_10(d)
+		11:
+			_from_11(d)
+		12:
+			_from_12(d)
+		13:
+			_from_13(d)
+		14:
+			_from_14(d)
+		15:
+			_from_15(d)
+		16:
+			_from_16(d)
+		_:
+			push_warning("[save] no migration from version %d" % version)
 
 
 ## v1 -> v2: saves had no gear; give the starting loadout.
@@ -143,3 +150,9 @@ static func _from_14(d: Dictionary) -> void:
 ## v15 -> v16: the district story (GDD 2.4). Not started yet: the prologue's letter comes on load.
 static func _from_15(d: Dictionary) -> void:
 	d["story"] = {"started": false, "done": [], "choice": "", "finished": false, "letters": []}
+
+
+## v16 -> v17: blood cells in the loadout (GDD 4.8). Empty here; GameState re-syncs them from the owned nodes on load.
+static func _from_16(d: Dictionary) -> void:
+	var l: Dictionary = d.get("loadout", {})
+	l["blood_cells"] = {}

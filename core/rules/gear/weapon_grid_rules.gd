@@ -54,7 +54,7 @@ static func can_place(l: LoadoutState, data: ContentData, module_id: StringName,
 	for c: Vector2i in covered(p, data):
 		if not section.cells.has(c):
 			return Loc.t("rule.no_fit")
-		if section.cells[c] != module.cell:
+		if l.cell_type(section, c) != module.cell:
 			return Loc.t("rule.needs_cells", {"cell": Loc.t("cell.%s" % module.cell)})
 		if taken.has(c):
 			return Loc.t("rule.in_the_way")
@@ -125,6 +125,7 @@ static func drop_invalid(l: LoadoutState, data: ContentData) -> PackedStringArra
 	check.weapon = l.weapon
 	check.owned_modules = l.owned_modules.duplicate()
 	check.owned_tiers = l.owned_tiers.duplicate()
+	check.blood_cells = l.blood_cells
 	for p: LoadoutState.Placement in l.placements:
 		var problem := place(check, data, p.module, p.section, p.pos, p.rot, p.tier)
 		if problem == "":
