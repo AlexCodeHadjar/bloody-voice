@@ -106,4 +106,4 @@ screen `scenes/hero/hero_panel.gd`.
 | Lowering | Rest at the garret −1; the Ash Sisters' «Успокоить кровь» −5 for 20 money and a day (no credit). |
 | Reset | The Monster web is never reset. |
 | Shown | The Voice and its stage on the district bar (hidden while silent) and on the skill screen; the combat portrait darkens by stage; the fight result lists the sample and warns when the Beast took over. |
-| Deferred | Blood sockets in weapon and armor; story consequences of losing control; Collegium sedatives and Morrell treatments (other districts — owner 2026-10-12: one district until he says so). |
+| Deferred | Future work (owner 2026-10-12): blood sockets in weapon and armor; story consequences of losing control. Later: Collegium sedatives and Morrell treatments (other districts — owner 2026-10-12: one district until he says so). |
