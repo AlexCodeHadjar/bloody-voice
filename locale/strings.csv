@@ -99,14 +99,14 @@ ui.workshop.salvage,Разобрать,Salvage
 ui.workshop.to_equipment,К снаряжению,To equipment
 ui.workshop.back,В район,To the district
 ui.workshop.crafts_today,Изготовлений сегодня: {n} / {of},Crafts today: {n} / {of}
-ui.workshop.day_on, · выход из мастерской завершит день, · leaving the workshop ends the day
+ui.workshop.day_on," · день кончится, когда вы вернётесь в район", · the day ends when you return to the district
 ui.workshop.stash,Запас,Stash
 ui.workshop.trophies,Трофеи,Trophies
 ui.workshop.stash_row,{name} — {n} шт. (установлено {used}),{name} — {n} (installed {used})
 ui.workshop.done.craft,Готово: {name}.,Done: {name}.
 ui.workshop.done.upgrade,{name}: уровень повышен.,{name}: tier raised.
 ui.workshop.done.salvage,{name}: разобрано.,{name}: salvaged.
-ui.workshop.day_full,На сегодня изделий больше нет — выход из мастерской завершит день.,No more crafts today; leaving the workshop ends the day.
+ui.workshop.day_full,"На сегодня изделий больше нет — день кончится, когда вы вернётесь в район.",No more crafts today; the day ends when you return to the district.
 ui.rumor.outcome.target,Цель,The target
 ui.rumor.outcome.wrong_monster,Не та тварь,Wrong creature
 ui.rumor.outcome.discovery,Находка,Discovery
@@ -388,7 +388,7 @@ tutorial.workshop_intro.1.text,"Слева — чертежи. Простые и
 tutorial.workshop_intro.2.title,Верстак,The workbench
 tutorial.workshop_intro.2.text,"Здесь видно, что вещь даёт колоде, сколько она стоит и что даст улучшение до уровня II и III.","Here you see what the item gives the deck, what it costs and what tiers II and III would give."
 tutorial.workshop_intro.3.title,День в мастерской,A workshop day
-tutorial.workshop_intro.3.text,"Первое изделие начинает день в мастерской: можно сделать 2 вещи, а выход завершит день. Разбор — бесплатно.","The first item starts a workshop day: two items, and leaving ends the day. Salvage is free."
+tutorial.workshop_intro.3.text,"Первое изделие начинает день в мастерской: можно сделать 2 вещи, а возвращение в район завершит день (заход в снаряжение — часть визита). Разбор — бесплатно.","The first item starts a workshop day: two items, and returning to the district ends the day (the equipment screen is part of the visit). Salvage is free."
 tutorial.workshop_intro.4.title,Запас,The stash
 tutorial.workshop_intro.4.text,"Ваши модули, механизмы и трофеи. Запасную вещь можно разобрать за половину материалов, а поставить — на экране снаряжения.","Your modules, mechanisms and trophies. A spare item can be salvaged for half its materials or fitted on the equipment screen."
 ui.combat.log,Журнал,Log

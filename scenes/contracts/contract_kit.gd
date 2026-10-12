@@ -59,12 +59,3 @@ static func tag_category(tag: StringName) -> StringName:
 	var t := ContentDB.data.tag(tag)
 	return t.category if t != null else &""
 
-
-static func picture(tex: Texture2D, size: Vector2) -> TextureRect:
-	var r := TextureRect.new()
-	r.texture = tex
-	r.custom_minimum_size = size
-	r.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	r.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	r.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	return r

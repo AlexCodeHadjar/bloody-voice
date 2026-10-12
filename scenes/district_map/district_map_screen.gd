@@ -42,8 +42,9 @@ func _ready() -> void:
 	_build()
 	EventBus.day_changed.connect(_on_day_changed)
 	EventBus.money_changed.connect(func(_m: int) -> void: _refresh_bar())
-	EventBus.stock_changed.connect(_refresh_bar)
+	EventBus.stock_changed.connect(_refresh_stock)
 	_refresh_bar()
+	_refresh_stock()
 	_place_hero()
 	_view.center_on.call_deferred(_hero.position)
 	Tutorial.trigger.call_deferred(&"district_open")
@@ -161,9 +162,14 @@ func _refresh_bar() -> void:
 		"week": CalendarRules.week(run.day, b),
 		"rent": Loc.t("ui.city.rent_today") if rent_in == 0 else Loc.t("ui.city.rent_in", {"n": rent_in})})
 	_money_label.text = str(run.money)
+
+
+## Resources on the bar, rebuilt only when the stock changes.
+func _refresh_stock() -> void:
+	var run := GameState.run
 	for child: Node in _stock_row.get_children():
 		child.queue_free()
-	for id: StringName in b.workshop.resources:
+	for id: StringName in ContentDB.data.balance.workshop.resources:
 		var cell := Icons.with_text("RESOURCE", id, str(run.workshop.amount(id)), 28, 18)
 		cell.tooltip_text = WorkshopKit.stock_name(id)
 		cell.mouse_filter = Control.MOUSE_FILTER_PASS

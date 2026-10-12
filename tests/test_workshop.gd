@@ -124,5 +124,5 @@ func test_workshop_survives_save_and_old_saves_get_the_start() -> void:
 	eq(back.workshop.to_dict(), run.workshop.to_dict(), "round trip")
 	eq(back.loadout.tier(&"brass_scope"), 2, "tier kept")
 	var old := RunState.from_dict(SaveMigrations.migrate({"version": 5, "master_seed": 9}))
-	check(old.workshop.blueprints.is_empty(), "v5 save: no stock yet")
+	check(not old.workshop.started and old.workshop.blueprints.is_empty(), "v5 save: no stock yet")
 	check(WorkshopRules.ensure_start(old, data), "start stock given on load")

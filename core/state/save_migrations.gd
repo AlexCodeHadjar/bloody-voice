@@ -51,6 +51,6 @@ static func _from_4(d: Dictionary) -> void:
 
 
 ## v5 -> v6: workshop stock (GDD 6). Empty here; GameState gives the start stock and blueprints on load
-## (WorkshopRules.ensure_start: no known blueprint = never started).
+## (WorkshopRules.ensure_start, `started` is false).
 static func _from_5(d: Dictionary) -> void:
 	d["workshop"] = WorkshopState.new().to_dict()

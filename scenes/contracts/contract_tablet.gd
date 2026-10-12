@@ -68,7 +68,7 @@ func _build_tablet() -> Control:
 	_problem.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(_problem)
 	v.add_child(_build_buttons())
-	_seal = ContractKit.picture(UiKit.texture(SEAL), Vector2(150, 150))
+	_seal = UiKit.picture(UiKit.texture(SEAL), Vector2(150, 150))
 	_seal.size = Vector2(150, 150)
 	_seal.position = Vector2(TABLET.x - 230, TABLET.y - 300)
 	_seal.pivot_offset = Vector2(75, 75)
@@ -126,7 +126,7 @@ func _fill(c: ContractsState.Contract) -> void:
 	_body.add_child(head)
 	var who := HBoxContainer.new()
 	who.add_theme_constant_override("separation", 14)
-	who.add_child(ContractKit.picture(ContractKit.silhouette(c), Vector2(150, 150)))
+	who.add_child(UiKit.picture(ContractKit.silhouette(c), Vector2(150, 150)))
 	var letter := VBoxContainer.new()
 	letter.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	letter.add_child(UiKit.label(ContractKit.monster_name(c), 30, Palette.BRASS_LIGHT))

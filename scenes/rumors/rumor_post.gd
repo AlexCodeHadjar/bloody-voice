@@ -55,7 +55,7 @@ func _row(r: RumorsState.Rumor) -> PanelContainer:
 	var h := HBoxContainer.new()
 	h.add_theme_constant_override("separation", 14)
 	panel.add_child(h)
-	h.add_child(ContractKit.picture(UiKit.texture(RumorDefs.ART_DIR % r.art), Vector2(96, 96)))
+	h.add_child(UiKit.picture(UiKit.texture(RumorDefs.ART_DIR % r.art), Vector2(96, 96)))
 	var info := VBoxContainer.new()
 	info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	h.add_child(info)

@@ -76,7 +76,7 @@ func _row(bp: WorkshopDefs.BlueprintDef) -> Button:
 	h.add_theme_constant_override("separation", 10)
 	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	b.add_child(h)
-	h.add_child(ContractKit.picture(WorkshopKit.item_art(bp.item), Vector2(72, 72)))
+	h.add_child(UiKit.picture(WorkshopKit.item_art(bp.item), Vector2(72, 72)))
 	var v := VBoxContainer.new()
 	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL

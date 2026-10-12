@@ -59,7 +59,7 @@ func show_item(item: StringName) -> void:
 func _head(item: StringName, m: ModuleDef, tier: int) -> void:
 	var h := HBoxContainer.new()
 	h.add_theme_constant_override("separation", 18)
-	h.add_child(ContractKit.picture(WorkshopKit.item_art(item), Vector2(200, 200)))
+	h.add_child(UiKit.picture(WorkshopKit.item_art(item), Vector2(200, 200)))
 	var v := VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	h.add_child(v)

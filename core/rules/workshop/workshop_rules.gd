@@ -7,7 +7,7 @@ extends RefCounted
 
 ## A run that never had a stock (a new game, an old save) gets the start resources and blueprints.
 static func ensure_start(run: RunState, data: ContentData) -> bool:
-	if not run.workshop.blueprints.is_empty():
+	if run.workshop.started:
 		return false
 	var old := run.workshop
 	run.workshop = WorkshopState.create(data)

@@ -45,7 +45,7 @@ func _row(list: Array[ContractsState.Contract], index: int) -> PanelContainer:
 	var h := HBoxContainer.new()
 	h.add_theme_constant_override("separation", 8)
 	panel.add_child(h)
-	h.add_child(ContractKit.picture(ContractKit.silhouette(c), Vector2(48, 48)))
+	h.add_child(UiKit.picture(ContractKit.silhouette(c), Vector2(48, 48)))
 	var v := VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.add_theme_constant_override("separation", 0)

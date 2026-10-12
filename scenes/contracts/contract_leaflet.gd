@@ -28,7 +28,7 @@ func setup(c: ContractsState.Contract) -> void:
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(box)
 	box.add_child(_head())
-	box.add_child(ContractKit.picture(ContractKit.silhouette(c), Vector2(0, 130)))
+	box.add_child(UiKit.picture(ContractKit.silhouette(c), Vector2(0, 130)))
 	box.add_child(_line(ContractKit.monster_name(c), 19, INK))
 	box.add_child(Icons.with_text("RESOURCE", &"money", str(c.reward), 26, 20, INK))
 	box.add_child(_line(ContractKit.deadline_text(c), 15, ContractKit.deadline_color(c, INK)))
@@ -58,7 +58,7 @@ func _line(text: String, size: int, color: Color) -> Label:
 
 ## The hunter's wax seal over the lower half (taken) — dimmed when the contract is already done.
 func _seal() -> TextureRect:
-	var s := ContractKit.picture(UiKit.texture(SEAL), Vector2(120, 120))
+	var s := UiKit.picture(UiKit.texture(SEAL), Vector2(120, 120))
 	s.position = Vector2(SIZE.x - 140, SIZE.y - 150)
 	s.size = Vector2(120, 120)
 	s.rotation = -0.25

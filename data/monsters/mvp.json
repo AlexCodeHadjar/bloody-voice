@@ -623,6 +623,7 @@
   "id": "vigil_hound",
   "name": "Vigil Hound",
   "rank": "P",
+  "loot": {"electronics": 1},
   "hp": 92,
   "intents_per_turn": 2,
   "districts": [

@@ -8,6 +8,7 @@ var trophies: Dictionary[StringName, int] = {}  ## trophy id -> amount
 var blueprints: Array[StringName] = []  ## known blueprint (item) ids
 var day: int = 0  ## the day a workshop day was started (0 = none)
 var crafts_used: int = 0  ## crafts and upgrades done on that day
+var started: bool = false  ## the start stock and blueprints were given (WorkshopRules.ensure_start)
 
 
 ## A resource or trophy id -> how many the hunter has.
@@ -17,7 +18,7 @@ func amount(id: StringName) -> int:
 
 func to_dict() -> Dictionary:
 	return {"resources": resources.duplicate(), "trophies": trophies.duplicate(), "blueprints": blueprints.duplicate(),
-		"day": day, "crafts_used": crafts_used}
+		"day": day, "crafts_used": crafts_used, "started": started}
 
 
 static func from_dict(d: Dictionary) -> WorkshopState:
@@ -27,12 +28,14 @@ static func from_dict(d: Dictionary) -> WorkshopState:
 	s.blueprints = ContractsState.names(d.get("blueprints", []) as Array)
 	s.day = int(d.get("day", 0))
 	s.crafts_used = int(d.get("crafts_used", 0))
+	s.started = bool(d.get("started", not s.blueprints.is_empty()))
 	return s
 
 
 ## A new run: the start stock and the start blueprints.
 static func create(data: ContentData) -> WorkshopState:
 	var s := WorkshopState.new()
+	s.started = true
 	s.resources = data.balance.workshop.start_resources.duplicate()
 	for id: StringName in data.blueprint_order:
 		if data.blueprint(id).start:

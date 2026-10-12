@@ -95,6 +95,18 @@ static func panel_box(fill: Color = Palette.PANEL, border: Color = Palette.BRASS
 	return s
 
 
+## A picture of `size` that keeps its aspect and lets the mouse through.
+
+static func picture(tex: Texture2D, size: Vector2) -> TextureRect:
+	var r := TextureRect.new()
+	r.texture = tex
+	r.custom_minimum_size = size
+	r.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	r.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	r.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return r
+
+
 static func texture(path: String) -> Texture2D:
 	return load(path) as Texture2D if ResourceLoader.exists(path) else null
 

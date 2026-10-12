@@ -125,7 +125,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `scenes/combat/stat_bar.gd` | StatBar | A drawn bar: dark trough, coloured fill that eases to new values, phase notches and a centred caption (creature HP). | setup, show_value |
 | `scenes/combat/vial_view.gd` | VialView | A glass vial that fills by value and eases to new values (hunter HP: blood, Sanity: violet; GDD 21.2 zone 7). | show_value |
 | `scenes/contracts/contract_board.gd` | ContractBoard | The contract board of the Lantern & Hook (GDD 7.1): the wooden wall with this week's leaflets. A click on a | open_tablet, close_board |
-| `scenes/contracts/contract_kit.gd` | ContractKit | Shared bits of the contract screens (GDD 7): texts and small widgets for the board, the tablet and the tracker. | monster_name, rank, type_name, silhouette, deadline_text, deadline_color, last_seen, zone_name, tag_name, tag_category, picture |
+| `scenes/contracts/contract_kit.gd` | ContractKit | Shared bits of the contract screens (GDD 7): texts and small widgets for the board, the tablet and the tracker. | monster_name, rank, type_name, silhouette, deadline_text, deadline_color, last_seen, zone_name, tag_name, tag_category |
 | `scenes/contracts/contract_leaflet.gd` | ContractLeaflet | One leaflet pinned on the tavern board (GDD 7.1): type, danger rank, the creature's black silhouette, reward | setup |
 | `scenes/contracts/contract_tablet.gd` | ContractTablet | The contract tablet (GDD 7.2) in front of the hero: petition, type, silhouette, known signs, where the creature | open_list, close_tablet |
 | `scenes/contracts/contract_tracker.gd` | ContractTracker | The tracker in the top-right corner (GDD 7.1): one row per taken contract — silhouette, name, days left and | refresh |
@@ -159,7 +159,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 |---|---|---|---|
 | `ui/theme/icons.gd` | Icons | Game icons (data/ui/icons.json, imported to art/ui/icons/<SET>__<id>.webp) and small icon widgets. | path, texture, rect, with_text, fill_statuses, button |
 | `ui/theme/palette.gd` | Palette | Colours of the style bible (GDD 16.2). UI code uses these names, never raw hex values. |  |
-| `ui/theme/ui_kit.gd` | UiKit | Small factory for themed UI pieces so screens stay short and consistent. | theme, serif, heading_font, label, paragraph, button, sound, screen_sound, zone_sound, monster_sound, panel_box, texture |
+| `ui/theme/ui_kit.gd` | UiKit | Small factory for themed UI pieces so screens stay short and consistent. | theme, serif, heading_font, label, paragraph, button, sound, screen_sound, zone_sound, monster_sound, panel_box, picture, texture |
 | `ui/tutorial/tutorial_anchors.gd` | TutorialAnchors | Elements a tutorial hint can light up (GDD 22.4). Screens register their nodes by id; the overlay asks for the | register, alive, rect |
 | `ui/tutorial/tutorial_flow.gd` | TutorialFlow | Which hint is on screen (GDD 22.2): starts a sequence on its trigger (once, if hints are on), waits for «Далее» | current, trigger, next, action, abort, skip_all |
 | `ui/tutorial/tutorial_overlay.gd` | TutorialOverlay | The hint on screen (GDD 22.1): 70 % veil with a lit cut-out around the explained element, a pulsing brass frame, | show_step, hide_hint |

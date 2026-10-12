@@ -35,7 +35,7 @@ func _ready() -> void:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 24)
 	panel.add_child(row)
-	_art = ContractKit.picture(null, Vector2(560, 560))
+	_art = UiKit.picture(null, Vector2(560, 560))
 	row.add_child(_art)
 	_right = VBoxContainer.new()
 	_right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
