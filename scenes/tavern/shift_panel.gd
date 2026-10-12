@@ -9,7 +9,7 @@ const KEEPER := "res://art/ui/NPC__portrait__tavern_keeper.webp"
 
 
 func show_report(r: ShiftRules.Report) -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)  # fill the screen, not keep the 0×0 size
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var dim := ColorRect.new()
 	dim.color = Palette.SHADE

@@ -7,7 +7,8 @@ extends RefCounted
 static func pool(data: ContentData, district: StringName) -> Array[StringName]:
 	var out: Array[StringName] = []
 	for id: StringName in data.monster_order:
-		if data.monster(id).districts.has(district):
+		var m := data.monster(id)
+		if m != null and m.districts.has(district):  # unknown ids are reported by the monster check
 			out.append(id)
 	return out
 

@@ -220,3 +220,15 @@ func _wait(seconds: float) -> void:
 func _shot(shot_name: String) -> void:
 	await RenderingServer.frame_post_draw
 	get_viewport().get_texture().get_image().save_png(_dir.path_join(shot_name + ".png"))
+	_check_panels(get_tree().current_scene)
+
+
+## Panels over the district fill the screen; a 0×0 one draws in the corner without its shade (check_all greps "error").
+func _check_panels(root: Node) -> void:
+	if root == null:
+		return
+	var screen := get_viewport().get_visible_rect().size
+	for n: Node in root.find_children("*", "Control", true, false):
+		if (n is ContractBoard or n is ContractTablet or n is RumorPost or n is RumorTablet or n is ShopTable
+				or n is ShiftPanel or n is PlacePanel) and not (n as Control).size.is_equal_approx(screen):
+			push_error("panel %s is %s, not the screen %s" % [(n.get_script() as Script).get_global_name(), (n as Control).size, screen])

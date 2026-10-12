@@ -43,18 +43,18 @@ func show_item(item: StringName, tier: int = 1) -> void:
 		return
 	var data := ContentDB.data
 	var m := data.module(item)
-	var tier := _tier if m != null else 1
-	_head(item, m, tier)
+	var shown := _tier if m != null else 1
+	_head(item, m, shown)
 	var cards: Array[StringName] = []
 	if m != null:
-		cards.append_array(m.cards_at(tier))
-		cards.append_array(m.capture_cards_at(tier))
+		cards.append_array(m.cards_at(shown))
+		cards.append_array(m.capture_cards_at(shown))
 	else:
 		cards.append_array(data.mechanism(item).cards)
 	_box.add_child(_cards(cards))
 	_craft_part(item)
 	if m != null:
-		_upgrade_part(m, tier)
+		_upgrade_part(m, shown)
 	_salvage_part(item)
 
 
