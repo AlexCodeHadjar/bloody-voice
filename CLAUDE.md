@@ -59,10 +59,11 @@
 | Снаряжение (GDD §5) | состояние `core/state/loadout_state.gd`; правила `core/rules/gear/` (`weapon_grid_rules` ячейки/поворот/связки, `armor_rules` гнёзда, `deck_builder` колода и бонусы → `CombatSetup`); defs `weapon_def`, `module_def`, `gear_misc_defs`, `gear_mods.gd`, `gear_validator.gd`; данные `data/gear/`, старт — `balance.json/gear`; экран `scenes/equipment/` |
 | Генерация | `core/generation/` (`seeded_rng`, `encounter_rules` — заглушка до слухов) |
 | Разработка | `core/dev/combat_bot.gd`, `dev_shots.gd` (`--shots`); `tests/` (`run_tests.gd`, `bot/autoplay.gd`) |
-| Автозагрузки | `EventBus`, `ContentDB`, `Rng`, `SaveService`, `GameState` (фасад-команды), `Sound` (звук, GDD §24), `DevShots` |
+| Автозагрузки | `EventBus`, `ContentDB`, `Rng`, `SaveService`, `GameState` (фасад-команды), `Sound` (звук, GDD §24), `Profile` (настройки игрока, `user://profile.cfg`), `Tutorial` (подсказки), `DevShots` |
+| Обучение (GDD §22) | данные `data/tutorial/sequences.json`; `ui/tutorial/` (`tutorial_flow` логика, `tutorial_anchors` — экраны регистрируют подсвечиваемое, `tutorial_overlay`); `Tutorial.trigger()/action()` из экранов; настройки `scenes/settings/settings_panel.gd` |
 | Звук | `audio/` (из набора владельца: `tools/import_audio.py`), что где звучит — `data/audio/sounds.json` (`AudioDef`, `AudioValidator`); экраны — `UiKit.sound()/screen_sound()/monster_sound()`, бой — `scenes/combat/combat_sounds.gd`; титры `docs/credits.md` |
 | Экраны | `scenes/boot`, `menu`, `city_map` (карта, карточка района), `equipment` (оружие, броня), `combat` (бой) |
-| UI | `ui/theme/palette.gd`, `ui_kit.gd`, `icons.gd` (иконки по набору и id) |
+| UI | `ui/theme/palette.gd`, `ui_kit.gd` (тема, шрифты `ui/fonts/` — PT Serif, заголовки Old Standard TT), `icons.gd` (иконки по набору и id) |
 | Арт | `assets/` и `assets/png/` исходники (не в git) → `tools/import_art.py` → `art/` (твари, модули, иконки; `TEX__*` — бесшовные текстуры; листы жителей `LIFE__*__sheet` → `art/ui/life/` через `tools/life_sprites.py`); контуры районов `data/city/map_regions.json` |
 | Иконки | каталог `data/ui/icons.json` |
 | Документы | `docs/gdd/` (GDD по разделам; §20 район, §21 бой v2, §22 обучение и русский, §23 мастерская и ветки, §24 звук), `docs/art-prompts/` (генерируется `tools/gen_art_prompts.py`, кроме `combat-ui.md`, `remaining-ui-transparent.md`, `next-art-pack.md` — следующий набор арта, `art-backlog.md` — весь остальной нужный арт, `map-life.md` + `map-life-people.md` — жизнь на карте района и жители, и папки `grey-chapels-map/` — всё для карты трущоб), `docs/assets/` (эскизы: `map/`, `ui/`) |

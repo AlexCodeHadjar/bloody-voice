@@ -19,7 +19,7 @@ func _ready() -> void:
 		GameState.new_game()
 	_build()
 	EventBus.hero_moved.connect(_on_hero_moved)
-	EventBus.day_changed.connect(func(_d: int) -> void: _refresh_bar())
+	EventBus.day_changed.connect(_on_day_changed)
 	EventBus.money_changed.connect(func(_m: int) -> void: _refresh_bar())
 	_refresh_bar()
 	_map_view.set_hero_district(GameState.run.hero_district)
@@ -59,6 +59,7 @@ func _build_bar() -> Control:
 	bar.add_child(row)
 	row.add_child(Icons.rect("ACTION", &"day", 34))
 	_day_label = UiKit.label("", 22)
+	TutorialAnchors.register(&"day_bar", _day_label)
 	row.add_child(_day_label)
 	row.add_child(Icons.rect("RESOURCE", &"money", 34))
 	_money_label = UiKit.label("", 22, Palette.BRASS_LIGHT)
@@ -113,12 +114,19 @@ func _on_hero_moved(district: StringName) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		_to_menu()
+		GameState.save_game()
+		SettingsPanel.open(self, true)
 
 
 func _hunt() -> void:
 	GameState.start_hunt()
 	get_tree().change_scene_to_file(COMBAT)
+
+
+func _on_day_changed(_day: int) -> void:
+	_refresh_bar()
+	if CalendarRules.days_until_rent(GameState.run.day, ContentDB.data.balance) == 1:
+		Tutorial.trigger(&"rent_tomorrow")
 
 
 func _to_menu() -> void:

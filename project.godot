@@ -23,6 +23,8 @@ Rng="*res://autoload/rng_service.gd"
 SaveService="*res://autoload/save_service.gd"
 GameState="*res://autoload/game_state.gd"
 Sound="*res://autoload/sound_service.gd"
+Profile="*res://autoload/profile_service.gd"
+Tutorial="*res://autoload/tutorial_service.gd"
 DevShots="*res://core/dev/dev_shots.gd"
 
 [debug]

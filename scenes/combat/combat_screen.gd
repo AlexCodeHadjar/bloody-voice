@@ -23,6 +23,7 @@ func _ready() -> void:
 		GameState.start_hunt()
 	_build()
 	add_child(CombatSounds.new())
+	Tutorial.trigger.call_deferred(&"combat_start")
 	EventBus.combat_updated.connect(_refresh)
 	_refresh()
 
@@ -37,6 +38,7 @@ func _build() -> void:
 	var root := VBoxContainer.new()
 	root.add_theme_constant_override("separation", 14)
 	margin.add_child(root)
+	TutorialAnchors.register(&"battle", root)
 	var enemy_area := MarginContainer.new()  # keeps the creature and its intents clear of the log
 	enemy_area.add_theme_constant_override("margin_right", LOG_WIDTH)
 	enemy_area.add_child(_build_enemy_row())
@@ -76,6 +78,7 @@ func _build_enemy_row() -> Control:
 	row.add_child(_enemy_view)
 	_intents_right = VBoxContainer.new()
 	row.add_child(_intents_right)
+	TutorialAnchors.register(&"intents", row)
 	return row
 
 
@@ -87,6 +90,7 @@ func _build_hero_row() -> Control:
 	row.add_child(_hero_view)
 	var end_turn := Icons.button("UI", &"end_turn", Loc.t("ui.combat.end_turn"), 24)
 	end_turn.pressed.connect(_end_turn)
+	TutorialAnchors.register(&"end_turn", end_turn)
 	row.add_child(end_turn)
 	return row
 
@@ -97,6 +101,7 @@ func _build_hand_row() -> Control:
 	row.add_theme_constant_override("separation", 10)
 	_hand = HBoxContainer.new()
 	_hand.add_theme_constant_override("separation", 10)
+	TutorialAnchors.register(&"hand", _hand)
 	row.add_child(_hand)
 	_piles = VBoxContainer.new()
 	row.add_child(_piles)
@@ -225,6 +230,7 @@ func _end_turn() -> void:
 	_message.text = ""
 	UiKit.sound(&"turn.end")
 	GameState.combat_end_turn()
+	Tutorial.action(&"end_turn")
 
 
 func _unhandled_input(event: InputEvent) -> void:

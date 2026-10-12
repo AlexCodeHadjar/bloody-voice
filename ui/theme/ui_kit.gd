@@ -2,7 +2,10 @@ class_name UiKit
 extends RefCounted
 ## Small factory for themed UI pieces so screens stay short and consistent.
 
-const SERIF_FONTS: PackedStringArray = ["Georgia", "Palatino Linotype", "Book Antiqua", "Times New Roman", "serif"]
+## Bundled OFL fonts (owner, 2026-10-12; licences next to them): text PT Serif, headings Old Standard TT.
+const TEXT_FONT := "res://ui/fonts/PT_Serif-Web-Regular.ttf"
+const HEADING_FONT := "res://ui/fonts/OldStandard-Regular.ttf"
+const HEADING_SIZE := 28  ## labels this big or bigger use the heading font
 
 static var _theme: Theme = null
 
@@ -13,10 +16,12 @@ static func theme() -> Theme:
 	return _theme
 
 
-static func serif() -> SystemFont:
-	var f := SystemFont.new()
-	f.font_names = SERIF_FONTS
-	return f
+static func serif() -> Font:
+	return load(TEXT_FONT) as Font
+
+
+static func heading_font() -> Font:
+	return load(HEADING_FONT) as Font
 
 
 static func label(text: String, size: int = 20, color: Color = Palette.PARCHMENT) -> Label:
@@ -24,6 +29,8 @@ static func label(text: String, size: int = 20, color: Color = Palette.PARCHMENT
 	l.text = text
 	l.add_theme_font_size_override("font_size", size)
 	l.add_theme_color_override("font_color", color)
+	if size >= HEADING_SIZE:
+		l.add_theme_font_override("font", heading_font())
 	return l
 
 

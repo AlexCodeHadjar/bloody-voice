@@ -1,0 +1,31 @@
+{
+ "_comment": "Tutorial hint sequences (GDD 22). Each fires once (profile), when its trigger happens. Texts: locale keys tutorial.<sequence>.<n>.title / .text. anchor = the highlighted element (screens register them, ui/tutorial/tutorial_anchors.gd); do = the step waits for this player action instead of «Далее».",
+ "combat_intro": {
+  "trigger": "combat_start",
+  "steps": [
+   {"anchor": "enemy"},
+   {"anchor": "intents"},
+   {"anchor": "hand"},
+   {"anchor": "ap"},
+   {"anchor": "battle", "do": "attack_played"},
+   {"anchor": "parts"},
+   {"anchor": "weapon"},
+   {"anchor": "vials"},
+   {"anchor": "end_turn", "do": "end_turn"}
+  ]
+ },
+ "equipment_intro": {
+  "trigger": "equipment_open",
+  "steps": [
+   {"anchor": "weapon_grid"},
+   {"anchor": "weapon_grid"},
+   {"anchor": "spares", "do": "module_installed"},
+   {"anchor": "deck"},
+   {"anchor": "armor"}
+  ]
+ },
+ "first_part_broken": {"trigger": "part_broken", "steps": [{"anchor": "parts"}]},
+ "first_panic": {"trigger": "panic", "steps": [{"anchor": "vials"}]},
+ "first_no_ammo": {"trigger": "no_ammo", "steps": [{"anchor": "weapon"}]},
+ "first_rent": {"trigger": "rent_tomorrow", "steps": [{"anchor": "day_bar"}]}
+}

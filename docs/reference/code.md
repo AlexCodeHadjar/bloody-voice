@@ -2,7 +2,7 @@
 
 # Code map
 
-Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.gd), `Rng` (autoload/rng_service.gd), `SaveService` (autoload/save_service.gd), `GameState` (autoload/game_state.gd), `Sound` (autoload/sound_service.gd), `DevShots` (core/dev/dev_shots.gd)
+Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.gd), `Rng` (autoload/rng_service.gd), `SaveService` (autoload/save_service.gd), `GameState` (autoload/game_state.gd), `Sound` (autoload/sound_service.gd), `Profile` (autoload/profile_service.gd), `Tutorial` (autoload/tutorial_service.gd), `DevShots` (core/dev/dev_shots.gd)
 
 ## autoload/
 
@@ -11,9 +11,11 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `autoload/content_db.gd` |  | Loads and validates all content once at start-up. If `errors` is not empty the game must not start. | reload, is_ok |
 | `autoload/event_bus.gd` |  | Global signals. Systems talk through these instead of holding references to each other. |  |
 | `autoload/game_state.gd` |  | Facade between the screens and the game rules (GDD 19.3). | has_run, new_game, continue_game, save_game, move_hero, end_day, equip_module, unequip_module, set_socket, dev_grant_all_gear, start_hunt, combat_play, combat_end_turn, finish_combat |
+| `autoload/profile_service.gd` |  | The player profile (ProfileState in user://profile.cfg): settings screen and tutorial read and change it here. | save, apply, apply_volumes, set_volume, set_fullscreen, set_hints, reset_tutorial |
 | `autoload/rng_service.gd` |  | Seeded randomness (GDD 17.1). One master seed per playthrough; every system draws from its own | set_seed, stream |
 | `autoload/save_service.gd` |  | Save / load of RunState as JSON, with versioned migrations (GDD 19.1). | has_save, save_run, load_run |
 | `autoload/sound_service.gd` |  | Plays the game's sounds (GDD 24): short sounds by id, creature voices, music and ambience per screen. | play, play_monster, screen |
+| `autoload/tutorial_service.gd` |  | Tutorial hints (GDD 22): screens call Tutorial.trigger(&"combat_start") and Tutorial.action(&"end_turn"); fight | trigger, action |
 
 ## core/
 
@@ -34,6 +36,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/content/defs/map_regions_def.gd` | MapRegionsDef | Clickable district regions traced over the city map art (data/city/map_regions.json). | from_dict |
 | `core/content/defs/module_def.gd` | ModuleDef | A weapon module (data/gear/modules.json): shape, cell type, cards, passive mods, links with neighbours. | art_path, from_dict |
 | `core/content/defs/monster_def.gd` | MonsterDef | A creature: stats, body parts, its own deck of moves and phases (data/monsters/*.json, GDD 9.4). | art_path, from_dict, part |
+| `core/content/defs/tutorial_def.gd` | TutorialDef | One tutorial hint sequence (data/tutorial/sequences.json, GDD 22). | from_dict |
 | `core/content/defs/weapon_def.gd` | WeaponDef | A weapon: base cards, magazine and its sections with typed cells (data/gear/weapons.json, GDD 5.2). | from_dict, section |
 | `core/content/effect_schema.gd` | EffectSchema | The effect language of cards and monster moves: op name -> required parameters. | check |
 | `core/content/effect_text.gd` | EffectText | Human-readable text built from effect ops, so a move's text can never disagree with its numbers. | describe, status_name |
@@ -73,6 +76,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/state/combat/part_state.gd` | PartState | A body part of the creature during a fight. | create |
 | `core/state/loadout_state.gd` | LoadoutState | The hunter's gear (GDD 5): weapon, modules placed in its cells, owned parts, armor sockets. Saved. | spare_modules, spare_mechanisms, to_dict, from_dict |
 | `core/state/place_state.gd` | PlaceState | Current state of a district / area / landmark (GDD 14). Pure data, serialisable. | to_dict, from_dict |
+| `core/state/profile_state.gd` | ProfileState | Player settings that outlive a run (GDD 22.2): tutorial progress, hints on/off, volumes, full screen. | mark_seen, has_seen, reset_tutorial, to_config, from_config, load_from, save_to |
 | `core/state/run_state.gd` | RunState | Everything that is saved for one playthrough. Pure data: no nodes, no signals. | create, to_dict, from_dict |
 | `core/state/save_migrations.gd` | SaveMigrations | Brings old save dictionaries up to RunState.SAVE_VERSION, one version step at a time. | migrate |
 
@@ -95,6 +99,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `scenes/equipment/shape_icon.gd` | ShapeIcon | Small picture of a module's cell shape (for the spare-module list). | setup |
 | `scenes/equipment/weapon_tablet_view.gd` | WeaponTabletView | Draws the weapon's sections as cell grids, the placed modules (their art, rotated) and a ghost of the | setup, set_ghost, refresh |
 | `scenes/menu/main_menu.gd` |  | Title screen: New game / Continue / Quit over the city map. |  |
+| `scenes/settings/settings_panel.gd` | SettingsPanel | Settings over any screen (owner, 2026-10-12): volumes, tutorial hints, reset tutorial, full screen. | open |
 
 ## ui/
 
@@ -102,7 +107,10 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 |---|---|---|---|
 | `ui/theme/icons.gd` | Icons | Game icons (data/ui/icons.json, imported to art/ui/icons/<SET>__<id>.webp) and small icon widgets. | path, texture, rect, with_text, fill_statuses, button |
 | `ui/theme/palette.gd` | Palette | Colours of the style bible (GDD 16.2). UI code uses these names, never raw hex values. |  |
-| `ui/theme/ui_kit.gd` | UiKit | Small factory for themed UI pieces so screens stay short and consistent. | theme, serif, label, paragraph, button, sound, screen_sound, monster_sound, panel_box, texture |
+| `ui/theme/ui_kit.gd` | UiKit | Small factory for themed UI pieces so screens stay short and consistent. | theme, serif, heading_font, label, paragraph, button, sound, screen_sound, monster_sound, panel_box, texture |
+| `ui/tutorial/tutorial_anchors.gd` | TutorialAnchors | Elements a tutorial hint can light up (GDD 22.4). Screens register their nodes by id; the overlay asks for the | register, alive, rect |
+| `ui/tutorial/tutorial_flow.gd` | TutorialFlow | Which hint is on screen (GDD 22.2): starts a sequence on its trigger (once, if hints are on), waits for «Далее» | current, trigger, next, action, abort, skip_all |
+| `ui/tutorial/tutorial_overlay.gd` | TutorialOverlay | The hint on screen (GDD 22.1): 70 % veil with a lit cut-out around the explained element, a pulsing brass frame, | show_step, hide_hint |
 
 ## tests/
 
@@ -122,6 +130,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `tests/test_save.gd` |  | Save / load round trip and save migrations (GDD 19.1). | test_round_trip_through_json, test_save_service_file |
 | `tests/test_scripts.gd` |  | Every script in the project must compile. | test_all_scripts_compile |
 | `tests/test_suite.gd` | TestSuite | Base class for test suites. Every method named test_* is a test. | check, eq, near, load_content |
+| `tests/test_tutorial.gd` |  | Tutorial hints (GDD 22): sequences are valid data, play once, wait for «do» actions, queue, can be skipped; | test_sequences_are_loaded, test_sequence_plays_once_and_waits_for_actions, test_hints_off_and_skip_all, test_one_off_hint_waits_in_queue, test_profile_round_trip, test_abort_keeps_the_hint_for_later, test_bad_tutorial_data_is_reported |
 
 ## tools/
 

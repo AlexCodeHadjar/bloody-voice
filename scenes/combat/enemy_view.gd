@@ -44,6 +44,8 @@ func _ready() -> void:
 	_parts = HBoxContainer.new()
 	_parts.add_theme_constant_override("separation", 8)
 	v.add_child(_parts)
+	TutorialAnchors.register(&"parts", _parts)
+	TutorialAnchors.register(&"enemy", self)
 
 
 func refresh(e: EnemyCombatant, targeting: bool, parts_allowed: bool) -> void:

@@ -489,3 +489,57 @@ intent.buff,Усиление,Buff
 intent.heal,Лечение,Heal
 intent.unknown,Неизвестно,Unknown
 ui.boot.content_errors,Ошибки в данных — исправьте data/ и перезапустите,Content errors — fix data/ and restart
+ui.tutorial.next,Далее,Next
+ui.tutorial.skip_step,Пропустить шаг,Skip step
+ui.tutorial.skip_all,Пропустить обучение,Skip tutorial
+ui.tutorial.ask_title,Пройти обучение?,Play the tutorial?
+ui.tutorial.ask_text,"Подсказки покажут бой, снаряжение и город по шагам. Их можно отключить в любой момент.","Hints will walk you through combat, equipment and the city. You can turn them off at any time."
+ui.tutorial.ask_yes,"Да, с подсказками","Yes, with hints"
+ui.tutorial.ask_no,"Нет, я уже умею","No, I know how to play"
+ui.menu.settings,Настройки,Settings
+ui.settings.title,Настройки,Settings
+ui.settings.master,Общая громкость,Master volume
+ui.settings.music,Музыка и фон,Music and ambience
+ui.settings.sounds,Звуки,Sounds
+ui.settings.hints,Подсказки обучения,Tutorial hints
+ui.settings.reset_tutorial,Сбросить обучение,Reset tutorial
+ui.settings.reset_done,Обучение начнётся заново.,The tutorial will start again.
+ui.settings.fullscreen,Полный экран,Full screen
+ui.settings.close,Продолжить,Resume
+ui.settings.to_menu,В главное меню,Main menu
+tutorial.combat_intro.1.title,Тварь,The creature
+tutorial.combat_intro.1.text,"Ваш противник. Её сила, здоровье и части тела — здесь.","Your enemy: its strength, health and body parts."
+tutorial.combat_intro.2.title,Намерения,Intents
+tutorial.combat_intro.2.text,Что тварь сделает в свой ход. Число — сила удара или урон рассудку. Готовьтесь заранее.,What the creature does on its turn. The number is the hit or the Sanity damage. Prepare in advance.
+tutorial.combat_intro.3.title,Рука,Hand
+tutorial.combat_intro.3.text,Ваши карты на этот ход. Красная цифра в углу — сколько очков действия стоит карта.,Your cards for this turn. The red number is the card's cost in action points.
+tutorial.combat_intro.4.title,Очки действия,Action points
+tutorial.combat_intro.4.text,Три очка за ход. Каждая сыгранная карта тратит свою цену.,Three points a turn. Every card you play spends its cost.
+tutorial.combat_intro.5.title,Атака,Attack
+tutorial.combat_intro.5.text,"Нажмите карту атаки, например «Удар», затем тварь.","Click an attack card, for example Strike, then the creature."
+tutorial.combat_intro.6.title,Части тела,Body parts
+tutorial.combat_intro.6.text,Атаку можно направить в часть тела. Сломанная часть отключает ходы твари.,You can aim an attack at a body part. A broken part takes the creature's moves away.
+tutorial.combat_intro.7.title,Патроны,Ammo
+tutorial.combat_intro.7.text,Выстрелы тратят патроны. Карта «Перезарядка» возвращает их.,Shots use ammo. The Reload card brings it back.
+tutorial.combat_intro.8.title,Здоровье и рассудок,Health and Sanity
+tutorial.combat_intro.8.text,"Красная полоса — здоровье, фиолетовая — рассудок. Без рассудка придёт паника.","The red bar is health, the violet one Sanity. Without Sanity panic comes."
+tutorial.combat_intro.9.title,Конец хода,End turn
+tutorial.combat_intro.9.text,"Когда сделали всё, что хотели, — нажмите «Конец хода».","When you have done all you wanted, press End Turn."
+tutorial.equipment_intro.1.title,Ружьё,The rifle
+tutorial.equipment_intro.1.text,"Модули ставятся в ячейки своих секций: приклад, рама, магазин, прицел, ствол.","Modules go into the cells of their sections: stock, frame, magazine, sight, barrel."
+tutorial.equipment_intro.2.title,Ячейки,Cells
+tutorial.equipment_intro.2.text,"Модуль встаёт только на ячейки своего типа: шестерня, искра или кровь.","A module fits only cells of its type: gear, spark or blood."
+tutorial.equipment_intro.3.title,Запасные модули,Spare modules
+tutorial.equipment_intro.3.text,"Выберите модуль справа, правой кнопкой поверните, нажмите ячейку.","Pick a module on the right, rotate it with the right mouse button, click a cell."
+tutorial.equipment_intro.4.title,Колода,Deck
+tutorial.equipment_intro.4.text,Снаряжение и есть колода: каждый модуль добавляет карты или усиливает их.,Your gear is your deck: every module adds cards or makes them stronger.
+tutorial.equipment_intro.5.title,Броня,Armor
+tutorial.equipment_intro.5.text,В гнёзда брони ставятся механизмы — ещё карты и бонусы.,Mechanisms go into the armor sockets: more cards and bonuses.
+tutorial.first_part_broken.1.title,Часть сломана,A part is broken
+tutorial.first_part_broken.1.text,Сломанная часть больше не действует: тварь потеряла связанные с ней ходы.,A broken part no longer works: the creature lost the moves tied to it.
+tutorial.first_panic.1.title,Паника,Panic
+tutorial.first_panic.1.text,Рассудок кончился. До конца боя в руку будут приходить бесполезные карты паники.,Sanity is gone. Until the end of the fight useless panic cards come to your hand.
+tutorial.first_no_ammo.1.title,Нет патронов,Out of ammo
+tutorial.first_no_ammo.1.text,"Магазин пуст. Сыграйте «Перезарядку», чтобы снова стрелять.",The magazine is empty. Play Reload to shoot again.
+tutorial.first_rent.1.title,Аренда,Rent
+tutorial.first_rent.1.text,Завтра день аренды. Держите деньги на оплату комнаты.,Rent is due tomorrow. Keep money for the room.

@@ -53,15 +53,49 @@ func _build() -> void:
 	cont_btn.disabled = not SaveService.has_save()
 	cont_btn.pressed.connect(_on_continue)
 	box.add_child(cont_btn)
+	var settings_btn := UiKit.button(Loc.t("ui.menu.settings"))
+	settings_btn.pressed.connect(func() -> void: SettingsPanel.open(self, false))
+	box.add_child(settings_btn)
 	var quit_btn := UiKit.button(Loc.t("ui.menu.quit"))
 	quit_btn.pressed.connect(get_tree().quit)
 	box.add_child(quit_btn)
-	for b: Button in [new_btn, cont_btn, quit_btn]:
+	for b: Button in [new_btn, cont_btn, settings_btn, quit_btn]:
 		b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	new_btn.grab_focus.call_deferred()
 
 
+## New hunt: first ask whether to play with tutorial hints (owner, 2026-10-12).
 func _on_new() -> void:
+	var dim := ColorRect.new()
+	dim.color = Color(0, 0, 0, 0.6)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(dim)
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	dim.add_child(center)
+	var panel := PanelContainer.new()
+	panel.add_theme_stylebox_override("panel", UiKit.panel_box(Palette.PANEL, Palette.BRASS))
+	center.add_child(panel)
+	var v := VBoxContainer.new()
+	v.custom_minimum_size = Vector2(560, 0)
+	v.add_theme_constant_override("separation", 16)
+	panel.add_child(v)
+	v.add_child(UiKit.label(Loc.t("ui.tutorial.ask_title"), 32, Palette.BRASS_LIGHT))
+	v.add_child(UiKit.paragraph(Loc.t("ui.tutorial.ask_text"), 19, Palette.PARCHMENT))
+	var yes := UiKit.button(Loc.t("ui.tutorial.ask_yes"))
+	yes.pressed.connect(_start_new.bind(true))
+	v.add_child(yes)
+	var no := UiKit.button(Loc.t("ui.tutorial.ask_no"))
+	no.pressed.connect(_start_new.bind(false))
+	v.add_child(no)
+	yes.grab_focus.call_deferred()
+
+
+func _start_new(with_hints: bool) -> void:
+	if with_hints:
+		Profile.reset_tutorial()
+	else:
+		Profile.set_hints(false)
 	GameState.new_game()
 	GameState.save_game()
 	get_tree().change_scene_to_file(CITY_MAP)

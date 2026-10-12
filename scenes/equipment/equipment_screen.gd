@@ -23,6 +23,7 @@ func _ready() -> void:
 	_build()
 	EventBus.loadout_changed.connect(_refresh)
 	_refresh()
+	Tutorial.trigger.call_deferred(&"equipment_open")
 
 
 func _build() -> void:
@@ -74,6 +75,7 @@ func _build_left() -> Control:
 	_tablet.cell_clicked.connect(_on_cell)
 	_tablet.rotate_requested.connect(_rotate)
 	left.add_child(_tablet)
+	TutorialAnchors.register(&"weapon_grid", _tablet)
 	_message = UiKit.paragraph(Loc.t("ui.equip.hint"), 18, Palette.FOG)
 	left.add_child(_message)
 	var lower := HBoxContainer.new()
@@ -84,12 +86,14 @@ func _build_left() -> Control:
 	_armor = VBoxContainer.new()
 	armor_box.add_child(_armor)
 	lower.add_child(armor_box)
+	TutorialAnchors.register(&"armor", armor_box)
 	var deck_box := VBoxContainer.new()
 	deck_box.add_child(UiKit.label(Loc.t("ui.equip.deck"), 24, Palette.BRASS_LIGHT))
 	_deck = UiKit.paragraph("", 16, Palette.PARCHMENT)
 	_deck.custom_minimum_size = Vector2(380, 0)
 	deck_box.add_child(_deck)
 	lower.add_child(deck_box)
+	TutorialAnchors.register(&"deck", deck_box)
 	return left
 
 
@@ -106,6 +110,7 @@ func _build_right() -> Control:
 	v.add_child(UiKit.label(Loc.t("ui.equip.spares"), 24, Palette.BRASS_LIGHT))
 	_spares = VBoxContainer.new()
 	v.add_child(_spares)
+	TutorialAnchors.register(&"spares", panel)
 	return panel
 
 
@@ -233,6 +238,8 @@ func _on_cell(section: StringName, cell: Vector2i) -> void:
 		_message.text = problem
 		UiKit.sound(&"gear.install" if problem == "" else &"ui.error")
 		if problem == "":
+			Tutorial.action(&"module_installed")
+		if problem == "":
 			_held = &""
 			_refresh()
 		return
@@ -248,6 +255,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	var key := event as InputEventKey
 	if key != null and key.pressed and key.keycode == KEY_R:
 		_rotate()
+	elif event.is_action_pressed("ui_cancel") and _held == &"":
+		SettingsPanel.open(self, true)
 	elif event.is_action_pressed("ui_cancel"):
 		_held = &""
 		_message.text = Loc.t("ui.equip.hint")

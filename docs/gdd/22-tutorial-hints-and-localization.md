@@ -73,14 +73,25 @@ save), so a new run does not repeat them. Settings: «Подсказки: вкл
 
 ## 22.4 Tutorial — implementation
 
+> **Done (2026-10-12):** `data/tutorial/sequences.json` (combat_intro, equipment_intro, 4 one-off hints) →
+> `TutorialDef`; `TutorialFlow` (pure state, tested), `TutorialAnchors`, `TutorialOverlay`, autoload `Tutorial`;
+> profile `ProfileState` + autoload `Profile` (`user://profile.cfg`). Owner: a new hunt asks «Пройти обучение?»;
+> settings screen (`scenes/settings/settings_panel.gd`, main menu and Esc): volumes, hints, reset tutorial, full
+> screen. A hint whose screen is left is dropped and shows again next time. Combat texts follow the current combat
+> screen (bars, «Конец хода»); step 5 lights the whole fight so the card and the creature can both be clicked.
+
 | Part | Where |
 |---|---|
-| Sequences as data: `{id, trigger, steps: [{anchor, title_key, text_key, do: event?}]}` | `data/tutorial/*.json` + validator (anchors known, keys exist) |
-| Anchors: screens register nodes by id (`hand`, `ap`, `intents`, `end_turn`, `landmark:ash_garret`…). The hole follows its anchor every frame, so anchors on the dragged district map stay correct; a map anchor first scrolls the camera to it | `ui/tutorial/tutorial_anchors.gd` |
-| Overlay: veil with a shader cut-out, pulsing frame, bubble placement, input blocking | `ui/tutorial/tutorial_overlay.gd` (CanvasLayer) |
-| Runner: listens to EventBus (`tutorial_trigger`, actions for `do` steps), saves progress | `autoload/Tutorial.gd` |
-| Profile (seen sequences, hints on/off) | `core/state/profile_state.gd` → `user://profile.cfg` |
-| Tests: each sequence plays to the end with fake anchors; skip marks it seen | `tests/test_tutorial.gd` |
+| Sequences as data: `{trigger, steps: [{anchor, do?}]}`, texts `tutorial.<sequence>.<n>.title/.text` | `data/tutorial/sequences.json` → `TutorialDef` (checks triggers, anchors, actions, Russian texts) |
+| Anchors: screens register nodes by id (`enemy`, `intents`, `hand`, `ap`, `parts`, `weapon`, `vials`, `end_turn`, `battle`, `weapon_grid`, `spares`, `deck`, `armor`, `day_bar`); the hole follows its anchor every frame | `ui/tutorial/tutorial_anchors.gd` |
+| Overlay: 70 % veil drawn as four rectangles around a rectangular hole, pulsing brass frame, parchment bubble (`TUTORIAL__bubble`), input blocking outside the hole | `ui/tutorial/tutorial_overlay.gd` (CanvasLayer 50; settings open above it, layer 60) |
+| Flow: once per sequence, «Далее», `do` actions, queue, abort when its screen is left (shows again later), «Пропустить обучение» | `ui/tutorial/tutorial_flow.gd` (pure, tested) |
+| Runner: screens call `Tutorial.trigger(&"combat_start")` / `Tutorial.action(&"end_turn")`; fight events (part broken, panic, attack played, empty magazine) are read from `EventBus.combat_updated` | `autoload/tutorial_service.gd` (autoload `Tutorial`) |
+| Profile (seen sequences, hints on/off, volumes, full screen) | `core/state/profile_state.gd` + autoload `Profile` → `user://profile.cfg` |
+| Tests: sequences load, play once, wait for actions, queue, abort, skip, bad data is reported, profile round trip | `tests/test_tutorial.gd` |
+
+Not yet (later): `district_intro` (with the district screen, GDD §20) and `first_rumor` (Phase 3); the bubble pointer
+(`TUTORIAL__pointer` art exists) and a rounded hole.
 
 ## 22.5 Localization
 
