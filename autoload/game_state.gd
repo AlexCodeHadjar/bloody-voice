@@ -77,11 +77,12 @@ func end_day() -> void:
 	save_game()
 
 
-## Every Monday the tavern board gets new leaflets (GDD 3.2, 7.1).
+## Every Monday the tavern board gets new leaflets and the shop a new table (GDD 3.2, 7.1, 11.1).
 func _refresh_board() -> void:
-	var rng := Rng.stream(&"contracts", CalendarRules.week(run.day, ContentDB.data.balance))
-	if ContractRules.refresh_board(run, ContentDB.data, rng):
+	var week := CalendarRules.week(run.day, ContentDB.data.balance)
+	if ContractRules.refresh_board(run, ContentDB.data, Rng.stream(&"contracts", week)):
 		EventBus.contracts_changed.emit()
+	ShopRules.refresh(run, ContentDB.data, Rng.stream(&"shop", week))
 
 
 ## The morning's rumor diamonds (GDD 8): once per day.
@@ -208,6 +209,45 @@ func investigate_rumor(uid: int) -> RumorRules.Outcome:
 	return o
 
 
+## Day action (GDD 3.3): a shift behind the bar. The day ends; the morning brings the overheard rumor. null if not now.
+func work_shift() -> ShiftRules.Report:
+	if run == null or combat != null:
+		return null
+	var report := ShiftRules.work(run, ContentDB.data, Rng.stream(&"shift", run.day))
+	EventBus.money_changed.emit(run.money)
+	end_day()
+	var r := RumorRules.overheard(run, ContentDB.data, Rng.stream(&"overheard", run.day))
+	if r != null:
+		report.rumor_uid = r.uid
+		EventBus.rumors_changed.emit()
+		save_game()
+	return report
+
+
+## Rag-and-Bone shop (GDD 11.1): buy an item of this week's table. "" or the reason it can't be bought.
+func buy_item(uid: int) -> String:
+	if run == null or combat != null:
+		return Loc.t("rule.not_now")
+	var problem := ShopRules.buy(run, ContentDB.data, uid)
+	if problem == "":
+		EventBus.money_changed.emit(run.money)
+		EventBus.stock_changed.emit()
+		_loadout_changed()
+	return problem
+
+
+## Sells one trophy or one unit of a resource; returns the money paid.
+func sell_stock(id: StringName) -> int:
+	if run == null or combat != null:
+		return 0
+	var paid := ShopRules.sell(run, ContentDB.data, id)
+	if paid > 0:
+		EventBus.money_changed.emit(run.money)
+		EventBus.stock_changed.emit()
+		save_game()
+	return paid
+
+
 ## Developer and test fights (dev shots, the combat screen started on its own): a creature of the hero's district.
 func start_hunt(monster_id: StringName = &"", capture_allowed: bool = false) -> void:
 	if run == null:
@@ -230,6 +270,7 @@ func _start_fight(id: StringName, contract: ContractsState.Contract, zone: Strin
 	var has_net := setup.deck.any(func(c: StringName) -> bool: return data.card(c).type == &"capture")
 	if capture_allowed and not has_net:  # the contract issues a net unless the gear already brings one
 		setup.deck.append(&"iron_net")
+	setup.deck.append_array(run.bag)  # consumables of the bag (GDD 11.1)
 	setup.backdrop = _backdrop(zone)
 	combat = CombatRules.start(setup, data)
 	EventBus.combat_started.emit()
@@ -270,6 +311,7 @@ func finish_combat() -> void:
 	var paid := ContractRules.resolve_fight(run, combat.contract_uid, outcome)
 	var loot := LootRules.fight_loot(ContentDB.data, combat)
 	LootRules.take(run, ContentDB.data, loot)
+	ShopRules.spend_bag(run, combat)
 	combat = null
 	EventBus.combat_finished.emit(outcome)
 	if not loot.is_empty():

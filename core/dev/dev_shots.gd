@@ -28,6 +28,7 @@ func _run() -> void:
 	await _district_shots()
 	await _contract_shots()
 	await _rumor_shots()
+	await _shop_shots()
 	get_tree().change_scene_to_file(CITY_MAP)
 	await _wait(1.5)
 	await _shot("02_city_map")
@@ -126,6 +127,24 @@ func _rumor_shots() -> void:
 	for n: Node in screen.get_children():
 		if n is RumorTablet:
 			(n as RumorTablet).close_tablet()
+
+
+## The shop and a tavern shift (GDD 11.1, 3.3).
+func _shop_shots() -> void:
+	var screen := get_tree().current_scene
+	screen.call("_on_action", &"shop")
+	await _wait(0.8)
+	await _shot("24_shop")
+	for n: Node in screen.get_children():
+		if n is ShopTable:
+			(n as ShopTable).close_shop()
+	await _wait(0.3)
+	screen.call("_on_action", &"shift")
+	await _wait(0.8)
+	await _shot("25_tavern_shift")
+	for n: Node in screen.get_children():
+		if n is ShiftPanel:
+			(n as ShiftPanel).close_panel()
 
 
 ## Workshop (GDD 23.1): the start, then a blueprint picked on the workbench after a craft.

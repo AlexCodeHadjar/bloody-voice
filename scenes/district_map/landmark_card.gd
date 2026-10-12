@@ -1,19 +1,23 @@
 class_name LandmarkCard
 extends PanelContainer
 ## The card of a place the hero has walked to (owner, 2026-10-12): name, zone, a line about it and what can be done
-## there now — rest at home, crafting in the workshop, the contract board in the tavern, the rumor post on Bonfire Square;
-## gates say why they are shut; the other places say they open later.
+## there now — rest at home, crafting in the workshop, the contract board and a shift in the tavern, the shop,
+## the rumor post on Bonfire Square; gates say why they are shut; the other places say they open later.
 
 signal action_chosen(action: StringName)
 
 const WIDTH := 430.0
-## action -> [button text key, icon set, icon id]
+## button -> [text key, icon set, icon id]
 const BUTTONS: Dictionary[StringName, Array] = {
 	&"rest": ["ui.district.action.rest", "ACTION", &"rest"],
 	&"workshop": ["ui.district.action.workshop", "ACTION", &"workshop"],
 	&"rumors": ["ui.district.action.rumors", "PLACE", &"leaflets"],
 	&"tavern": ["ui.district.action.tavern", "ACTION", &"tavern"],
+	&"shift": ["ui.district.action.shift", "RESOURCE", &"money"],
+	&"shop": ["ui.district.action.shop", "PLACE", &"shop"],
 }
+## a place's action -> its buttons (one button of the same name when not listed)
+const PLACE_BUTTONS: Dictionary[StringName, Array] = {&"tavern": [&"tavern", &"shift"]}
 
 var _title: Label
 var _zone: Label
@@ -53,7 +57,9 @@ func show_landmark(lm: DistrictMapDef.LandmarkDef, zone_name: String) -> void:
 	_text.text = lm.desc
 	for c: Node in _buttons.get_children():
 		c.queue_free()
-	_buttons.add_child(_button_for(lm.action))
+	var actions: Array = PLACE_BUTTONS.get(lm.action, [lm.action])
+	for a: Variant in actions:
+		_buttons.add_child(_button_for(a as StringName))
 	visible = true
 	UiKit.sound(&"ui.open")
 

@@ -62,6 +62,22 @@ static func seed_targets(run: RunState, data: ContentData, rng: RandomNumberGene
 	return changed
 
 
+## A rumor overheard during a tavern shift: with overheard_true_chance a true one about an open contract's creature
+## (it does not move the contract's schedule), otherwise a random one. null if it could not be placed.
+static func overheard(run: RunState, data: ContentData, rng: RandomNumberGenerator) -> RumorsState.Rumor:
+	var rs := run.rumors
+	var open := ContractRules.active(run.contracts)
+	var r: RumorsState.Rumor = null
+	if not open.is_empty() and rng.randf() < data.balance.tavern.overheard_true_chance:
+		var c := open[rng.randi_range(0, open.size() - 1)]
+		r = RumorGenerator.make_target(data, run.hero_district, c, run.day, rng, rs.next_uid, _used_nodes(rs))
+	else:
+		r = RumorGenerator.make_random(data, run.hero_district, run.day, rng, rs.next_uid, _used_nodes(rs),
+			ContractRules.targets(run.contracts))
+	_add(rs, r)
+	return r
+
+
 ## How many of the rumor's signs are among the contract's known signs («совпадает 2 из 3»).
 static func matches(r: RumorsState.Rumor, c: ContractsState.Contract) -> int:
 	var n := 0

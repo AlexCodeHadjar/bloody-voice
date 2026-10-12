@@ -1,0 +1,68 @@
+class_name DistrictPanels
+extends Node
+## Full-screen panels over the district map (one at a time): the contract board and tablets, the rumor post and
+## tablets, the shop, the tavern-shift result. Adds them to the district screen and tells it what happened.
+
+signal rumor_chosen(uid: int)  ## the rumor post's «Идти»
+signal fight_started  ## a rumor tablet started a fight
+
+var host: Control
+var current: Control = null
+
+
+func is_open() -> bool:
+	return current != null
+
+
+func open(panel: Control) -> void:
+	if current != null:
+		return
+	current = panel
+	host.add_child(panel)
+	panel.connect(&"closed", _on_closed)
+
+
+## Opens the panel of a place's action; false when the action is not a panel.
+func open_for(action: StringName) -> bool:
+	match action:
+		&"tavern":
+			open(ContractBoard.new())
+		&"shop":
+			open(ShopTable.new())
+		&"shift":
+			var report := GameState.work_shift()
+			if report != null:
+				var panel := ShiftPanel.new()
+				open(panel)
+				panel.show_report(report)
+		&"rumors":
+			var post := RumorPost.new()
+			open(post)
+			post.rumor_chosen.connect(func(uid: int) -> void: rumor_chosen.emit(uid))
+		_:
+			return false
+	return true
+
+
+func open_contract(list: Array[ContractsState.Contract], index: int) -> void:
+	if current != null:
+		return
+	var tablet := ContractTablet.new()
+	open(tablet)
+	tablet.open_list(list, index)
+
+
+func open_rumor(uid: int) -> void:
+	if current != null:
+		return
+	var tablet := RumorTablet.new()
+	open(tablet)
+	tablet.fight_started.connect(func() -> void: fight_started.emit())
+	tablet.open_rumor(uid)
+
+
+func _on_closed() -> void:
+	var was := current
+	current = null
+	if (was is ContractBoard or was is ContractTablet) and not ContractRules.active(GameState.run.contracts).is_empty():
+		Tutorial.trigger.call_deferred(&"contract_taken")

@@ -93,6 +93,8 @@ static func salvage_refund(data: ContentData, item: StringName) -> Dictionary[St
 
 ## Only a spare copy (not in a cell or socket) can be taken apart.
 static func can_salvage(run: RunState, data: ContentData, item: StringName) -> String:
+	if is_locked(run):
+		return Loc.t("rule.workshop.locked")
 	var bp := data.blueprint(item)
 	var spare := run.loadout.spare_modules() if bp != null and bp.kind == &"module" else run.loadout.spare_mechanisms()
 	return "" if bp != null and spare.has(item) else Loc.t("rule.workshop.installed")
@@ -118,7 +120,13 @@ static func leave(run: RunState) -> bool:
 	return started
 
 
+static func is_locked(run: RunState) -> bool:
+	return run.workshop_locked_day == run.day
+
+
 static func _can_spend(run: RunState, data: ContentData, cost: Dictionary) -> String:
+	if is_locked(run):
+		return Loc.t("rule.workshop.locked")
 	if crafts_left(run, data) <= 0:
 		return Loc.t("rule.workshop.no_crafts", {"n": data.balance.workshop.crafts_per_day})
 	if not missing(run.workshop, cost).is_empty():

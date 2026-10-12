@@ -19,6 +19,8 @@ static func migrate(d: Dictionary, start_loadout: Dictionary = {}) -> Dictionary
 				_from_4(d)
 			5:
 				_from_5(d)
+			6:
+				_from_6(d)
 			_:
 				push_warning("[save] no migration from version %d" % version)
 		version += 1
@@ -54,3 +56,11 @@ static func _from_4(d: Dictionary) -> void:
 ## (WorkshopRules.ensure_start, `started` is false).
 static func _from_5(d: Dictionary) -> void:
 	d["workshop"] = WorkshopState.new().to_dict()
+
+
+## v6 -> v7: the shop, the bag and rent debt (GDD 11.1, 3.2). An empty table is stocked on load.
+static func _from_6(d: Dictionary) -> void:
+	d["shop"] = ShopState.new().to_dict()
+	d["bag"] = []
+	d["debt_strikes"] = 0
+	d["workshop_locked_day"] = 0

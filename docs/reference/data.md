@@ -5,8 +5,9 @@
 | File | Entries | Ids (or top-level keys) |
 |---|---|---|
 | `data/audio/sounds.json` | 6 | sounds, music, ambience, screens, monster_events, combat_log |
-| `data/balance.json` | 9 | calendar, economy, hero, capture, combat, gear, contracts, rumors, workshop |
+| `data/balance.json` | 11 | calendar, economy, hero, capture, combat, gear, contracts, rumors, workshop, shop, tavern |
 | `data/cards/base.json` | 6 | strike, guard, shot, reload, read_the_beast, sidestep |
+| `data/cards/consumables.json` | 3 | bandage, fire_flask, signal_flare |
 | `data/cards/modules.json` | 8 | shock_harpoon, flash, smoke_screen, serrated_edge, harpoon_shot, gout_of_flame, overcharge, bayonet_thrust |
 | `data/cards/special.json` | 5 | iron_net, tonic_of_morrell, hounds_rage, panic, dread |
 | `data/cards/tiers.json` | 18 | harpoon_shot_2, harpoon_shot_3, shock_harpoon_2, shock_harpoon_3, gout_of_flame_2, gout_of_flame_3, flash_2, flash_3, overcharge_2, overcharge_3, bayonet_thrust_2, bayonet_thrust_3, serrated_edge_2, serrated_edge_3, smoke_screen_2, smoke_screen_3, iron_net_2, iron_net_3 |
@@ -24,10 +25,10 @@
 | `data/gear/shapes.json` | 11 | M1, I2, I3, L3, I4, O4, T4, L4, J4, S4, Z4 |
 | `data/gear/weapons.json` | 1 | hunting_rifle |
 | `data/monsters/mvp.json` | 8 | gutter_choir, moth_matron, lamplighter, rust_mantis, mourning_bride, vigil_hound, clay_saint, burrow_wyrm |
-| `data/rumors/rumors.json` | 2 | witnesses, zones |
+| `data/rumors/rumors.json` | 3 | witnesses, zones, gossip |
 | `data/tutorial/sequences.json` | 11 | combat_intro, equipment_intro, district_intro, first_part_broken, first_panic, first_no_ammo, first_rent, contract_board, contract_taken, first_rumor, workshop_intro |
 | `data/ui/icons.json` | 25 | RESOURCE 6, STAT 8, ATTRIBUTE 3, STATUS 6, INTENT 7, CARD_TYPE 6, CELL 3, SECTION 5, ARMOR 5, SKILL 6, DIRECTION 4, CONTRACT 6, OUTCOME 5, TAG 6, ACTION 8, FACTION 15, RANK 4, REPUTATION 5 … |
 
-## Locale `locale/strings.csv` — 880 keys
+## Locale `locale/strings.csv` — 926 keys
 
-`armor.*` 4 · `card.*` 74 · `card_type.*` 6 · `cell.*` 3 · `district.*` 103 · `district_map.*` 63 · `effect.*` 17 · `intent.*` 7 · `log.*` 28 · `mechanism.*` 8 · `mod.*` 12 · `module.*` 80 · `monster.*` 73 · `petition.*` 16 · `resource.*` 4 · `rule.*` 32 · `rumor_witness.*` 8 · `section.*` 5 · `shape.*` 11 · `state.*` 14 · `status.*` 5 · `tag.*` 33 · `trophy.*` 14 · `tutorial.*` 62 · `ui.*` 192 · `weapon.*` 6
+`armor.*` 4 · `card.*` 80 · `card_type.*` 6 · `cell.*` 3 · `district.*` 103 · `district_map.*` 63 · `effect.*` 17 · `intent.*` 7 · `log.*` 28 · `mechanism.*` 8 · `mod.*` 12 · `module.*` 80 · `monster.*` 73 · `petition.*` 16 · `resource.*` 4 · `rule.*` 37 · `rumor_gossip.*` 8 · `rumor_witness.*` 8 · `section.*` 5 · `shape.*` 11 · `state.*` 14 · `status.*` 5 · `tag.*` 33 · `trophy.*` 14 · `tutorial.*` 62 · `ui.*` 219 · `weapon.*` 6

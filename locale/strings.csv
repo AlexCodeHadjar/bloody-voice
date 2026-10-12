@@ -33,6 +33,10 @@ ui.district.action.locked,Закрыто,Closed
 ui.district.action.soon,Откроется позже,Opens later
 ui.district.hint.rest,Дом: отдых до утра,Home: rest until morning
 ui.district.hint.workshop,Мастерская: изготовление и улучшение,Workshop: crafting and upgrades
+ui.district.action.shift,Отработать смену (весь день),Work a shift (the whole day)
+ui.district.action.shop,Лавка,Shop
+ui.district.hint.shop,Лавка: покупка и продажа,Shop: buy and sell
+ui.district.debt,Долг! Неоплаченных аренд подряд: {n} из {of} — потом мастерскую закроют на день.,Debt! Unpaid rents in a row: {n} of {of}; then the workshop is shut for a day.
 ui.district.hint.rumors,Площадь: столб со слухами,Square: the rumor post
 ui.district.hint.locked,Закрыто,Closed
 ui.district.hint.soon,Откроется позже,Opens later
@@ -107,6 +111,29 @@ ui.workshop.done.craft,Готово: {name}.,Done: {name}.
 ui.workshop.done.upgrade,{name}: уровень повышен.,{name}: tier raised.
 ui.workshop.done.salvage,{name}: разобрано.,{name}: salvaged.
 ui.workshop.day_full,"На сегодня изделий больше нет — день кончится, когда вы вернётесь в район.",No more crafts today; the day ends when you return to the district.
+ui.workshop.locked_today,Мастерская закрыта за долги — сегодня работать нельзя.,The workshop is shut for debt today.
+ui.shop.title,Лавка «Тряпичник»,The Rag-and-Bone shop
+ui.shop.refresh,Новый товар — каждый понедельник. В долг не продают.,New stock every Monday. No credit.
+ui.shop.money,Деньги: {n},Money: {n}
+ui.shop.kind.module,Модули,Modules
+ui.shop.kind.blueprint,Чертежи,Blueprints
+ui.shop.kind.consumable,Расходники (в сумку),Consumables (for the bag)
+ui.shop.kind.resource,Материалы,Materials
+ui.shop.bag,Сумка: {n} / {of} — {list},Bag: {n} / {of} — {list}
+ui.shop.buy,Купить за {n},Buy for {n}
+ui.shop.sold,Продано,Sold
+ui.shop.sell_title,Продать,Sell
+ui.shop.nothing_to_sell,Продать нечего: трофеи и материалы появятся после охоты.,Nothing to sell: trophies and materials come from hunts.
+ui.shop.sell_row,{name} ({have}) — {n} за штуку,{name} ({have}) — {n} each
+ui.shop.sold_line,"Продано: {name}, +{n}.","Sold: {name}, +{n}."
+ui.shop.blueprint_of,Чертёж: {name},Blueprint: {name}
+ui.shop.blueprint_about,Учит изготавливать вещь в мастерской.,Teaches the workshop to make the item.
+ui.shop.blueprint_needs,Для изготовления нужен трофей: {trophy}.,Crafting needs the trophy: {trophy}.
+ui.shop.consumable_about,"Лежит в сумке и попадает в колоду каждого боя, пока не сыграна.",Stays in the bag and goes into every fight's deck until played.
+ui.shop.lot_about,Материалы для мастерской.,Materials for the workshop.
+ui.shift.title,Смена в «Фонаре и Крюке»,A shift at the Lantern & Hook
+ui.shift.money,Заработано: {n},Earned: {n}
+ui.shift.rumor,Подслушано у стойки: слух — {zone}. Ромб уже на карте.,Overheard at the bar: a rumor — {zone}. Its diamond is on the map.
 ui.rumor.outcome.target,Цель,The target
 ui.rumor.outcome.wrong_monster,Не та тварь,Wrong creature
 ui.rumor.outcome.discovery,Находка,Discovery
@@ -303,6 +330,11 @@ rule.workshop.no_resources,Не хватает материалов.,Not enough 
 rule.workshop.not_owned,Сначала изготовьте такой модуль.,Craft such a module first.
 rule.workshop.max_tier,Модуль уже высшего уровня.,The module is at its highest tier.
 rule.workshop.installed,Разобрать можно только запасную вещь — снимите её со снаряжения.,Only a spare item can be salvaged: take it off your gear.
+rule.workshop.locked,Мастерская закрыта за долги на сегодня.,The workshop is shut for debt today.
+rule.shop.sold,Это уже продано.,Already sold.
+rule.shop.no_money,Не хватает денег — в долг здесь не продают.,Not enough money; no credit here.
+rule.shop.bag_full,Сумка полна ({n} {n:вещь|вещи|вещей}).,The bag is full ({n} items).
+rule.shop.known,Этот чертёж уже известен.,This blueprint is already known.
 intent.attack,Атака,Attack
 intent.defend,Защита,Defend
 intent.fear,Страх,Fear
@@ -420,6 +452,12 @@ card.read_the_beast.name,Прочесть зверя,Read the Beast
 card.read_the_beast.text,Узнайте следующие ходы твари. Возьмите 1 карту. Изгнание.,See the creature's next moves. Draw 1 card. Exhaust.
 card.sidestep.name,Уход в сторону,Sidestep
 card.sidestep.text,Уклонитесь от следующей атаки.,Dodge the next attack.
+card.bandage.name,Бинт,Bandage
+card.bandage.text,Лечение 6. Получите 4 защиты.,Heal 6. Gain 4 Block.
+card.fire_flask.name,Склянка с огнём,Fire Flask
+card.fire_flask.text,Нанесите 10 урона. Уязвимость 1.,Deal 10 damage. Apply 1 Exposed.
+card.signal_flare.name,Сигнальная ракета,Signal Flare
+card.signal_flare.text,Слабость 2. Возьмите 1 карту.,Apply 2 Weak. Draw 1 card.
 card.shock_harpoon.name,Шоковый гарпун,Shock Harpoon
 card.shock_harpoon.text,Нанесите 12 урона. Уязвимость 2.,Deal 12 damage. Apply 2 Exposed.
 card.flash.name,Вспышка,Flash
@@ -887,3 +925,11 @@ rumor_witness.ash_sister.text,Пепельная сестра записала �
 rumor_witness.digger.text,Подручный могильщика бурчит:,The gravedigger's boy mutters:
 rumor_witness.leaflet.text,На столбе у костра приколот листок без подписи:,An unsigned leaflet is pinned to the post by the bonfire:
 rumor_witness.widow.text,Вдова с третьего этажа не спит уже третью ночь:,The widow from the third floor has not slept for three nights:
+rumor_gossip.pale_hounds.text,"Бледные Псы опять пили здесь. Говорят о Реестре охотников, будто он им принадлежит.",The Pale Hounds were drinking here again. They talk about the Hunter's Register as if they owned it.
+rumor_gossip.grey_candles.text,"По ночам в Старой Часовне горят серые свечи, хотя священника там нет уже много лет.","Grey candles burn in the Old Chapel at night, though no priest has been there for years."
+rumor_gossip.ringwall_guns.text,На прошлой неделе стража на северной стене развернула пушки внутрь. Никто не говорит зачем.,The guards on the north wall turned the guns inward last week. Nobody says why.
+rumor_gossip.hoist_sound.text,"Кто-то клянётся, что Сломанный подъёмник в полночь заскрипел сам, будто на нём что-то поднялось.","Someone swears the Broken Hoist creaked by itself at midnight, as if something rode it up."
+rumor_gossip.rent_collector.text,"Сборщик аренды снова поднял цену за чердаки. «Безопасность», — говорит.","The rent collector raised the price for the attic rooms again. 'Safety,' he says."
+rumor_gossip.ash_sisters.text,У Пепельных Сестёр кончились бинты. Теперь кипятят старые.,The Ash Sisters ran out of bandages. They boil the old ones now.
+rumor_gossip.fog_cellars.text,"Дети спорят, кто спустится в Туманные подвалы. Хвастаться возвращаются всё меньше.",Children dare each other to go down to the Fog Cellars. Fewer come back to brag.
+rumor_gossip.god_in_wall.text,У Бога в стене каждое утро свежие подношения. Кто-то очень усердно молится.,Fresh offerings at the God in the Wall every morning. Somebody is praying hard.

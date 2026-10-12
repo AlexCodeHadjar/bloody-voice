@@ -17,7 +17,7 @@ var _hero: HeroWalker
 var _life: LifeLayer
 var _card: LandmarkCard
 var _tracker: ContractTracker
-var _overlay_open: Control = null  ## the contract board or a tablet over the map
+var _panels := DistrictPanels.new()  ## the board, tablets, post, shop, shift result over the map
 var _tip: PanelContainer
 var _tip_label: Label
 var _day_label: Label
@@ -82,6 +82,11 @@ func _build() -> void:
 	_hero.arrived.connect(_on_arrived)
 	_hero.stepped.connect(func() -> void: UiKit.sound(&"world.step"))
 	_build_card()
+	_panels.host = self
+	_panels.rumor_chosen.connect(_go_to_rumor)
+	_panels.fight_started.connect(func() -> void:  # not saved here: quitting mid-fight keeps the rumor (saved after it)
+		get_tree().change_scene_to_file(COMBAT))
+	add_child(_panels)
 	_build_tracker()
 	_build_tip()
 
@@ -139,7 +144,7 @@ func _build_tracker() -> void:
 	_tracker.grow_horizontal = Control.GROW_DIRECTION_BEGIN
 	_tracker.position = Vector2(-ContractTracker.WIDTH - 24.0, 74.0)
 	_tracker.zone_requested.connect(_on_zone_requested)
-	_tracker.contract_opened.connect(_open_tablet)
+	_tracker.contract_opened.connect(_panels.open_contract)
 	add_child(_tracker)
 	TutorialAnchors.register(&"contract_tracker", _tracker)
 
@@ -162,6 +167,9 @@ func _refresh_bar() -> void:
 		"week": CalendarRules.week(run.day, b),
 		"rent": Loc.t("ui.city.rent_today") if rent_in == 0 else Loc.t("ui.city.rent_in", {"n": rent_in})})
 	_money_label.text = str(run.money)
+	_money_label.add_theme_color_override("font_color", Palette.ALARM if run.money < 0 else Palette.BRASS_LIGHT)
+	_money_label.mouse_filter = Control.MOUSE_FILTER_PASS
+	_money_label.tooltip_text = "" if run.money >= 0 else Loc.t("ui.district.debt", {"n": run.debt_strikes, "of": b.debt_strikes})
 
 
 ## Resources on the bar, rebuilt only when the stock changes.
@@ -270,37 +278,9 @@ func _on_action(action: StringName) -> void:
 		&"workshop":
 			GameState.save_game()
 			get_tree().change_scene_to_file(WORKSHOP)
-		&"tavern":
+		_:
 			_card.close_card()
-			_open_overlay(ContractBoard.new())
-		&"rumors":
-			_card.close_card()
-			var post := RumorPost.new()
-			_open_overlay(post)
-			post.rumor_chosen.connect(_go_to_rumor)
-
-
-func _open_overlay(o: Control) -> void:
-	if _overlay_open != null:
-		return
-	_overlay_open = o
-	add_child(o)
-	o.connect(&"closed", _on_overlay_closed)
-
-
-func _open_tablet(list: Array[ContractsState.Contract], index: int) -> void:
-	if _overlay_open != null:
-		return
-	var tablet := ContractTablet.new()
-	_open_overlay(tablet)
-	tablet.open_list(list, index)
-
-
-func _on_overlay_closed() -> void:
-	var was := _overlay_open
-	_overlay_open = null
-	if (was is ContractBoard or was is ContractTablet) and not ContractRules.active(GameState.run.contracts).is_empty():
-		Tutorial.trigger.call_deferred(&"contract_taken")
+			_panels.open_for(action)
 
 
 ## The hunter walks to the diamond; its tablet opens there (GDD 8.1).
@@ -314,13 +294,7 @@ func _go_to_rumor(uid: int) -> void:
 
 
 func _open_rumor(uid: int) -> void:
-	if _overlay_open != null:
-		return
-	var tablet := RumorTablet.new()
-	_open_overlay(tablet)
-	tablet.fight_started.connect(func() -> void:  # not saved here: quitting mid-fight keeps the rumor (saved after it)
-		get_tree().change_scene_to_file(COMBAT))
-	tablet.open_rumor(uid)
+	_panels.open_rumor(uid)
 
 
 ## The tracker's region icon: the zone where the creature was last seen glows and the view glides there
@@ -332,7 +306,7 @@ func _on_zone_requested(zone: StringName) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _view == null or _overlay_open != null:
+	if _view == null or _panels.is_open():
 		return
 	if event.is_action_pressed("ui_cancel"):
 		if _card.visible:

@@ -9,6 +9,7 @@ var shop_refresh_weekday: int = 0
 
 var start_money: int = 0
 var weekly_rent: int = 0
+var debt_strikes: int = 2  ## unpaid rents in a row that lock the workshop for a day
 
 var start_district: StringName = &""
 var open_districts: Array[StringName] = []  ## districts open at the start; the rest are locked until story events
@@ -36,6 +37,8 @@ var capture_max_chance: float = 0.0
 var contracts: ContractDefs.Balance = ContractDefs.Balance.new()  ## tavern contracts (GDD 7)
 var rumors: RumorDefs.Balance = RumorDefs.Balance.new()  ## rumor diamonds (GDD 8)
 var workshop: WorkshopDefs.Balance = WorkshopDefs.Balance.new()  ## crafting and loot (GDD 6)
+var shop: ShopDefs.Balance = ShopDefs.Balance.new()  ## the Rag-and-Bone shop (GDD 11.1)
+var tavern: ShopDefs.Tavern = ShopDefs.Tavern.new()  ## the tavern shift (GDD 3.3)
 
 
 static func from_dict(d: Dictionary, errs: ErrorLog) -> BalanceDef:
@@ -49,6 +52,7 @@ static func from_dict(d: Dictionary, errs: ErrorLog) -> BalanceDef:
 	var eco := DefReader.dict(d, "economy", errs, w)
 	b.start_money = DefReader.integer(eco, "start_money", errs, w + "/economy")
 	b.weekly_rent = DefReader.integer(eco, "weekly_rent", errs, w + "/economy")
+	b.debt_strikes = DefReader.integer(eco, "debt_strikes", errs, w + "/economy", 2)
 	var hero := DefReader.dict(d, "hero", errs, w)
 	b.start_district = DefReader.id(hero, "start_district", errs, w + "/hero")
 	b.open_districts = DefReader.ids(hero, "open_districts", errs, w + "/hero")
@@ -71,7 +75,15 @@ static func from_dict(d: Dictionary, errs: ErrorLog) -> BalanceDef:
 	b.capture_per_cunning = DefReader.number(cap, "per_cunning", errs, w + "/capture")
 	b.capture_per_broken_part = DefReader.number(cap, "per_broken_part", errs, w + "/capture")
 	b.capture_max_chance = DefReader.number(cap, "max_chance", errs, w + "/capture")
+	_blocks(b, d, errs)
+	return b
+
+
+## The blocks with their own def classes: contracts, rumors, workshop, shop, tavern.
+static func _blocks(b: BalanceDef, d: Dictionary, errs: ErrorLog) -> void:
+	var w := "balance.json"
 	b.contracts = ContractDefs.balance(DefReader.dict(d, "contracts", errs, w), errs)
 	b.rumors = RumorDefs.balance(DefReader.dict(d, "rumors", errs, w), errs)
 	b.workshop = WorkshopDefs.balance(DefReader.dict(d, "workshop", errs, w), errs)
-	return b
+	b.shop = ShopDefs.balance(DefReader.dict(d, "shop", errs, w), errs)
+	b.tavern = ShopDefs.tavern(DefReader.dict(d, "tavern", errs, w), errs)

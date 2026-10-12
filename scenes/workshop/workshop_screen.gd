@@ -121,6 +121,8 @@ func _refresh() -> void:
 	_crafts.text = Loc.t("ui.workshop.crafts_today", {"n": left, "of": per_day})
 	if left < per_day:  # a workshop day is on: leaving ends it
 		_crafts.text += Loc.t("ui.workshop.day_on")
+	if WorkshopRules.is_locked(GameState.run):
+		_crafts.text = Loc.t("ui.workshop.locked_today")
 	_list.refresh()
 	_bench.show_item(_list.selected)
 	_refresh_stash()

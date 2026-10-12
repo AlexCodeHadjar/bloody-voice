@@ -20,6 +20,7 @@ class ZoneDef:
 
 class Data:
 	var witnesses: Array[Witness] = []
+	var gossip: Array[Witness] = []  ## tavern-shift gossip lines (same shape: id + text)
 	var zones: Dictionary[StringName, Dictionary] = {}  ## district -> {zone id: ZoneDef}
 
 	func zone(district: StringName, zone_id: StringName) -> ZoneDef:
@@ -57,6 +58,11 @@ static func from_dict(d: Dictionary, errs: ErrorLog) -> Data:
 		wit.id = DefReader.id(v as Dictionary, "id", errs, w + "/witnesses")
 		wit.text = DefReader.string(v as Dictionary, "text", errs, w + "/witnesses/" + wit.id)
 		x.witnesses.append(wit)
+	for v: Variant in DefReader.array(d, "gossip", errs, w):
+		var g := Witness.new()
+		g.id = DefReader.id(v as Dictionary, "id", errs, w + "/gossip")
+		g.text = DefReader.string(v as Dictionary, "text", errs, w + "/gossip/" + g.id)
+		x.gossip.append(g)
 	var districts := DefReader.dict(d, "zones", errs, w)
 	for district: Variant in districts:
 		var zones: Dictionary = {}

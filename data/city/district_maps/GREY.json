@@ -1,5 +1,5 @@
 {
- "_comment": "District map of the Grey Chapels (GDD 20), calibrated to the final art (4000 x 6000 px). Nodes and positions are art pixels. Streets join consecutive nodes both ways. action: rest | workshop | rumors | tavern | locked | soon.",
+ "_comment": "District map of the Grey Chapels (GDD 20), calibrated to the final art (4000 x 6000 px). Nodes and positions are art pixels. Streets join consecutive nodes both ways. action: rest | workshop | rumors | tavern | shop | locked | soon.",
  "district": "GREY",
  "image": "res://art/city/district_maps/GREY__map.webp",
  "image_size": [4000, 6000],
@@ -109,7 +109,7 @@
   {"id": "silent_belfry", "number": 2, "name": "The Silent Belfry", "zone": "ash_quarter", "pos": [2165, 470], "node": "belfry", "radius": 160, "action": "soon"},
   {"id": "north_gate", "number": 3, "name": "North Gate", "zone": "ash_quarter", "pos": [1527, 415], "node": "north_gate", "radius": 120, "action": "locked"},
   {"id": "ash_market", "number": 4, "name": "Ash Market", "zone": "ash_quarter", "pos": [2050, 1150], "node": "market", "radius": 200, "action": "soon"},
-  {"id": "rag_and_bone", "number": 5, "name": "Rag-and-Bone Shop", "zone": "ash_quarter", "pos": [1780, 1720], "node": "shop", "radius": 110, "action": "soon"},
+  {"id": "rag_and_bone", "number": 5, "name": "Rag-and-Bone Shop", "zone": "ash_quarter", "pos": [1780, 1720], "node": "shop", "radius": 110, "action": "shop"},
   {"id": "lantern_and_hook", "number": 6, "name": "The Lantern & Hook", "zone": "ash_quarter", "pos": [1130, 1640], "node": "tavern", "radius": 120, "action": "tavern"},
   {"id": "ash_garret", "number": 7, "name": "Ash Garret", "zone": "ash_quarter", "pos": [860, 1900], "node": "home", "radius": 110, "action": "rest"},
   {"id": "rusty_cog", "number": 8, "name": "The Rusty Cog", "zone": "ash_quarter", "pos": [1490, 1860], "node": "workshop", "radius": 110, "action": "workshop"},

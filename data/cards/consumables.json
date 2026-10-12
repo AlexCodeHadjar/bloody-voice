@@ -1,0 +1,63 @@
+[
+ {
+  "id": "bandage",
+  "name": "Bandage",
+  "art": "tonic_of_morrell",
+  "type": "consumable",
+  "cost": 0,
+  "target": "self",
+  "text": "Heal 6. Gain 4 Block.",
+  "effects": [
+   {
+    "op": "heal",
+    "amount": 6
+   },
+   {
+    "op": "block",
+    "amount": 4
+   }
+  ]
+ },
+ {
+  "id": "fire_flask",
+  "name": "Fire Flask",
+  "art": "gout_of_flame",
+  "type": "consumable",
+  "cost": 1,
+  "target": "enemy",
+  "text": "Deal 10 damage. Apply 1 Exposed.",
+  "effects": [
+   {
+    "op": "damage",
+    "amount": 10
+   },
+   {
+    "op": "apply_status",
+    "status": "exposed",
+    "stacks": 1,
+    "to": "target"
+   }
+  ]
+ },
+ {
+  "id": "signal_flare",
+  "name": "Signal Flare",
+  "art": "flash",
+  "type": "consumable",
+  "cost": 0,
+  "target": "enemy",
+  "text": "Apply 2 Weak. Draw 1 card.",
+  "effects": [
+   {
+    "op": "apply_status",
+    "status": "weak",
+    "stacks": 2,
+    "to": "target"
+   },
+   {
+    "op": "draw",
+    "amount": 1
+   }
+  ]
+ }
+]

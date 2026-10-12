@@ -8,7 +8,9 @@
  },
  "economy": {
   "start_money": 60,
-  "weekly_rent": 25
+  "weekly_rent": 25,
+  "debt_strikes": 2,
+  "_comment": "Rent on Rentday may push money below 0 (debt). debt_strikes rents in a row left unpaid lock the workshop for that day; the count clears when money is 0 or more again (GDD 3.2; owner 2026-10-12)."
  },
  "hero": {
   "start_district": "GREY",
@@ -166,5 +168,62 @@
    }
   },
   "capture_ichor_mult": 2
+ },
+ "shop": {
+  "_comment": "The Rag-and-Bone shop (GDD 11.1; owner 2026-10-12): new stock every Monday — ready modules, blueprints not known yet, consumables for the bag, resource lots. Prices come from resource values. Trophies sell by the rank of the creature that drops them, resources at half their price. Bought consumables go into the bag and into every fight's deck until played.",
+  "slots": {
+   "module": 3,
+   "blueprint": 2,
+   "consumable": 3,
+   "resource": 3
+  },
+  "resource_prices": {
+   "scrap": 3,
+   "gears": 5,
+   "electronics": 9,
+   "ichor": 6
+  },
+  "module_mult": 1.5,
+  "mechanism_mult": 1.5,
+  "blueprint_mult": 2.0,
+  "price_step": 5,
+  "consumables": {
+   "tonic_of_morrell": 15,
+   "bandage": 8,
+   "fire_flask": 12,
+   "signal_flare": 8
+  },
+  "lots": {
+   "scrap": [
+    4,
+    6
+   ],
+   "gears": [
+    2,
+    4
+   ],
+   "electronics": [
+    1,
+    2
+   ],
+   "ichor": [
+    2,
+    3
+   ]
+  },
+  "trophy_price_by_rank": {
+   "A": 8,
+   "P": 12,
+   "D": 20,
+   "S": 30
+  },
+  "sell_share": 0.5,
+  "bag_size": 3
+ },
+ "tavern": {
+  "_comment": "Tavern shift (GDD 3.3; owner 2026-10-12): a day behind the bar pays money and one overheard rumor (true about an open contract's creature with this chance) plus a line of gossip.",
+  "shift_money_min": 15,
+  "shift_money_max": 25,
+  "overheard_true_chance": 0.5
  }
 }

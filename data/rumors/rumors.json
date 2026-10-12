@@ -1,23 +1,154 @@
 {
- "_comment": "Rumors (GDD 8, Phase 3 step 2). witnesses: who tells the rumor (English working text; Russian: rumor_witness.<id> in locale/strings.csv). zones: per zone of the district map, the rumor pictures (art/ui/RUMOR__art__<id>.webp) and the creature tags that make a rumor land there more often.",
+ "_comment": "Rumors (GDD 8, Phase 3 step 2). witnesses: who tells the rumor (English working text; Russian: rumor_witness.<id> in locale/strings.csv). zones: per zone of the district map, the rumor pictures (art/ui/RUMOR__art__<id>.webp) and the creature tags that make a rumor land there more often. gossip: lines heard during a tavern shift (Russian: rumor_gossip.<id>).",
  "witnesses": [
-  {"id": "washerwoman", "text": "A washerwoman at the pump swears by every saint:"},
-  {"id": "drunk", "text": "A drunk in the Lantern & Hook tells it while someone keeps pouring:"},
-  {"id": "urchin", "text": "A grubby urchin whispers it for a copper:"},
-  {"id": "watchman", "text": "The night watchman says it without looking at you:"},
-  {"id": "ash_sister", "text": "An Ash Sister wrote it down from a patient's words:"},
-  {"id": "digger", "text": "The gravedigger's boy mutters:"},
-  {"id": "leaflet", "text": "An unsigned leaflet is pinned to the post by the bonfire:"},
-  {"id": "widow", "text": "The widow from the third floor has not slept for three nights:"}
+  {
+   "id": "washerwoman",
+   "text": "A washerwoman at the pump swears by every saint:"
+  },
+  {
+   "id": "drunk",
+   "text": "A drunk in the Lantern & Hook tells it while someone keeps pouring:"
+  },
+  {
+   "id": "urchin",
+   "text": "A grubby urchin whispers it for a copper:"
+  },
+  {
+   "id": "watchman",
+   "text": "The night watchman says it without looking at you:"
+  },
+  {
+   "id": "ash_sister",
+   "text": "An Ash Sister wrote it down from a patient's words:"
+  },
+  {
+   "id": "digger",
+   "text": "The gravedigger's boy mutters:"
+  },
+  {
+   "id": "leaflet",
+   "text": "An unsigned leaflet is pinned to the post by the bonfire:"
+  },
+  {
+   "id": "widow",
+   "text": "The widow from the third floor has not slept for three nights:"
+  }
  ],
  "zones": {
   "GREY": {
-   "ash_quarter": {"art": ["street", "workshop", "home"], "tags": ["howl", "smell_of_medicine", "former_hunter", "prints_turn_to_paws", "lamps_die"]},
-   "shanty_roofs": {"art": ["rooftops", "home"], "tags": ["children_singing", "too_tall", "silent_wings", "wet_handprints"]},
-   "chapel_close": {"art": ["church", "graveyard"], "tags": ["covered_mirrors", "glass_chiming", "victim_smiling", "burnt_eyes"]},
-   "fog_hollow": {"art": ["fog", "water", "underground"], "tags": ["only_in_fog", "near_water", "during_rain", "wet_handprints", "drowned_shallow", "lamps_die"]},
-   "lower_yards": {"art": ["graveyard", "underground", "water"], "tags": ["tremors", "floors_collapse", "knocking_below", "acid", "howl"]},
-   "edge_walk": {"art": ["moon", "rooftops"], "tags": ["knocking_below", "tremors", "moonlight", "silent_wings"]}
+   "ash_quarter": {
+    "art": [
+     "street",
+     "workshop",
+     "home"
+    ],
+    "tags": [
+     "howl",
+     "smell_of_medicine",
+     "former_hunter",
+     "prints_turn_to_paws",
+     "lamps_die"
+    ]
+   },
+   "shanty_roofs": {
+    "art": [
+     "rooftops",
+     "home"
+    ],
+    "tags": [
+     "children_singing",
+     "too_tall",
+     "silent_wings",
+     "wet_handprints"
+    ]
+   },
+   "chapel_close": {
+    "art": [
+     "church",
+     "graveyard"
+    ],
+    "tags": [
+     "covered_mirrors",
+     "glass_chiming",
+     "victim_smiling",
+     "burnt_eyes"
+    ]
+   },
+   "fog_hollow": {
+    "art": [
+     "fog",
+     "water",
+     "underground"
+    ],
+    "tags": [
+     "only_in_fog",
+     "near_water",
+     "during_rain",
+     "wet_handprints",
+     "drowned_shallow",
+     "lamps_die"
+    ]
+   },
+   "lower_yards": {
+    "art": [
+     "graveyard",
+     "underground",
+     "water"
+    ],
+    "tags": [
+     "tremors",
+     "floors_collapse",
+     "knocking_below",
+     "acid",
+     "howl"
+    ]
+   },
+   "edge_walk": {
+    "art": [
+     "moon",
+     "rooftops"
+    ],
+    "tags": [
+     "knocking_below",
+     "tremors",
+     "moonlight",
+     "silent_wings"
+    ]
+   }
   }
- }
+ },
+ "gossip": [
+  {
+   "id": "pale_hounds",
+   "text": "The Pale Hounds were drinking here again. They talk about the Hunter's Register as if they owned it."
+  },
+  {
+   "id": "grey_candles",
+   "text": "Grey candles burn in the Old Chapel at night, though no priest has been there for years."
+  },
+  {
+   "id": "ringwall_guns",
+   "text": "The guards on the north wall turned the guns inward last week. Nobody says why."
+  },
+  {
+   "id": "hoist_sound",
+   "text": "Someone swears the Broken Hoist creaked by itself at midnight, as if something rode it up."
+  },
+  {
+   "id": "rent_collector",
+   "text": "The rent collector raised the price for the attic rooms again. 'Safety,' he says."
+  },
+  {
+   "id": "ash_sisters",
+   "text": "The Ash Sisters ran out of bandages. They boil the old ones now."
+  },
+  {
+   "id": "fog_cellars",
+   "text": "Children dare each other to go down to the Fog Cellars. Fewer come back to brag."
+  },
+  {
+   "id": "god_in_wall",
+   "text": "Fresh offerings at the God in the Wall every morning. Somebody is praying hard."
+  }
+ ]
 }

@@ -4,7 +4,7 @@ Run from the project root:  python tools/gen_locale.py
 
 - adds a row for every content text found in data/*.json (card names and texts, creatures with their parts, moves and
   phases, weapons, modules, mechanisms, armor, shapes, districts with their areas, district maps: landmarks, streets, zones;
-  creature sign tags, petition letters of contracts, rumor witnesses); the en column is refreshed from
+  creature sign tags, petition letters of contracts, rumor witnesses and gossip); the en column is refreshed from
   the JSON (the English working name), the ru column is kept;
 - keeps every other row (ui.*, effect.*, status.*, log.*) as it is;
 - prints the keys that still have no Russian text (tests/test_locale.gd fails on them).
@@ -83,6 +83,8 @@ def content_rows() -> dict[str, str]:
         rows[f"petition.{pe['id']}.text"] = pe["text"]
     for wi in _json("rumors/rumors.json")["witnesses"]:
         rows[f"rumor_witness.{wi['id']}.text"] = wi["text"]
+    for g in _json("rumors/rumors.json")["gossip"]:
+        rows[f"rumor_gossip.{g['id']}.text"] = g["text"]
     return rows
 
 
