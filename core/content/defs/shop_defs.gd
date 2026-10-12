@@ -10,7 +10,6 @@ class Balance:
 	var slots: Dictionary[StringName, int] = {}  ## kind -> how many on the table
 	var resource_prices: Dictionary[StringName, int] = {}
 	var module_mult: float = 1.5
-	var mechanism_mult: float = 1.5
 	var blueprint_mult: float = 2.0
 	var price_step: int = 5
 	var consumables: Dictionary[StringName, int] = {}  ## card id -> price
@@ -32,7 +31,6 @@ static func balance(d: Dictionary, errs: ErrorLog) -> Balance:
 	b.slots = WorkshopDefs.amounts(DefReader.dict(d, "slots", errs, w))
 	b.resource_prices = WorkshopDefs.amounts(DefReader.dict(d, "resource_prices", errs, w))
 	b.module_mult = DefReader.number(d, "module_mult", errs, w, 1.5)
-	b.mechanism_mult = DefReader.number(d, "mechanism_mult", errs, w, 1.5)
 	b.blueprint_mult = DefReader.number(d, "blueprint_mult", errs, w, 2.0)
 	b.price_step = DefReader.integer(d, "price_step", errs, w, 5)
 	b.consumables = WorkshopDefs.amounts(DefReader.dict(d, "consumables", errs, w))

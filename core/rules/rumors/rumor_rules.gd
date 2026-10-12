@@ -68,8 +68,14 @@ static func overheard(run: RunState, data: ContentData, rng: RandomNumberGenerat
 	var rs := run.rumors
 	var open := ContractRules.active(run.contracts)
 	var r: RumorsState.Rumor = null
+	var c: ContractsState.Contract = null
 	if not open.is_empty() and rng.randf() < data.balance.tavern.overheard_true_chance:
-		var c := open[rng.randi_range(0, open.size() - 1)]
+		c = open[rng.randi_range(0, open.size() - 1)]
+		for v: RumorsState.Rumor in visible(rs):
+			if v.kind == &"target" and v.contract_uid == c.uid:
+				c = null  # its true rumor is already on the map: overhear something else
+				break
+	if c != null:
 		r = RumorGenerator.make_target(data, run.hero_district, c, run.day, rng, rs.next_uid, _used_nodes(rs))
 	else:
 		r = RumorGenerator.make_random(data, run.hero_district, run.day, rng, rs.next_uid, _used_nodes(rs),

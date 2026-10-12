@@ -216,6 +216,7 @@ func work_shift() -> ShiftRules.Report:
 	var report := ShiftRules.work(run, ContentDB.data, Rng.stream(&"shift", run.day))
 	EventBus.money_changed.emit(run.money)
 	end_day()
+	# the rumor belongs to the new morning, so it comes after end_day (which saves); quitting in between loses only it
 	var r := RumorRules.overheard(run, ContentDB.data, Rng.stream(&"overheard", run.day))
 	if r != null:
 		report.rumor_uid = r.uid

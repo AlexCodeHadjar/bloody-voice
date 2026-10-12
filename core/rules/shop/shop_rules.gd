@@ -81,7 +81,8 @@ static func sell(run: RunState, data: ContentData, id: StringName) -> int:
 	return paid
 
 
-## After a fight: consumables of the bag that were played are used up (one bag copy per played card).
+## After a fight: consumables of the bag that were played are used up (one bag copy per played card). Only the bag
+## gives consumables today; if gear ever does, bag cards will need their own mark.
 static func spend_bag(run: RunState, s: CombatState) -> void:
 	for c: CardInstance in s.exhaust_pile:
 		if c.def.type == &"consumable" and run.bag.has(c.def.id):

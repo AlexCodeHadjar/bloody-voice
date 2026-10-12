@@ -184,7 +184,6 @@
    "ichor": 6
   },
   "module_mult": 1.5,
-  "mechanism_mult": 1.5,
   "blueprint_mult": 2.0,
   "price_step": 5,
   "consumables": {
