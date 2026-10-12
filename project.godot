@@ -40,6 +40,11 @@ window/size/window_height_override=900
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://locale/strings.ru.translation", "res://locale/strings.en.translation")
+locale/fallback="ru"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

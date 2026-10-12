@@ -58,7 +58,7 @@ func end_day() -> void:
 ## Gear can be changed anywhere outside a fight, for free (owner's decision, GDD 5).
 func equip_module(module: StringName, section: StringName, pos: Vector2i, rot: int) -> String:
 	if run == null or combat != null:
-		return "Not now."
+		return Loc.t("rule.not_now")
 	var problem := WeaponGridRules.place(run.loadout, ContentDB.data, module, section, pos, rot)
 	if problem == "":
 		_loadout_changed()
@@ -77,7 +77,7 @@ func unequip_module(index: int) -> StringName:
 
 func set_socket(piece: StringName, index: int, mechanism: StringName) -> String:
 	if run == null or combat != null:
-		return "Not now."
+		return Loc.t("rule.not_now")
 	var problem := ArmorRules.set_socket(run.loadout, ContentDB.data, piece, index, mechanism)
 	if problem == "":
 		_loadout_changed()
@@ -119,7 +119,7 @@ func start_hunt(monster_id: StringName = &"", capture_allowed: bool = false) -> 
 ## Returns "" or the reason the card can't be played.
 func combat_play(uid: int, target: CombatTarget) -> String:
 	if combat == null:
-		return "No fight."
+		return Loc.t("rule.no_fight")
 	var problem := CombatRules.play_card(combat, uid, target, ContentDB.data)
 	EventBus.combat_updated.emit()
 	return problem

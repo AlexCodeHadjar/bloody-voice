@@ -49,10 +49,11 @@ func show_district(d: DistrictDef, state: StringName, is_hero_here: bool) -> voi
 	for c: Node in _state.get_children():
 		c.queue_free()
 	if state != &"normal":
-		_state.add_child(Icons.with_text("STATE", state, String(state).capitalize(), 32, 18, Palette.BRASS_LIGHT))
+		_state.add_child(Icons.with_text("STATE", state, Loc.or_default("state.%s.name" % state, String(state).capitalize()), 32, 18, Palette.BRASS_LIGHT))
 	var areas: PackedStringArray = []
 	for a: StringName in d.area_ids:
 		areas.append(d.area_names[a])
-	_facts.text = "%s\nControlled by: %s\nDanger: %s\nAreas: %s" % [d.district_class, d.controller, d.danger, ", ".join(areas)]
+	_facts.text = Loc.t("ui.district.facts", {"class": d.district_class, "controller": d.controller, "danger": d.danger,
+		"areas": ", ".join(areas)})
 	_look.text = d.look
-	_hint.text = "The hunter is here." if is_hero_here else "Click to send the hunter here."
+	_hint.text = Loc.t("ui.district.hunter_here") if is_hero_here else Loc.t("ui.district.send")

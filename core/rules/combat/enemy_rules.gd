@@ -44,9 +44,9 @@ static func run_turn(state: CombatState, data: ContentData) -> void:
 	for move_id: StringName in e.intents:
 		var move: MonsterDef.MoveDef = e.def.moves[move_id]
 		if not e.move_available(move_id):
-			state.log_event(&"cancelled", "%s can no longer %s." % [e.display_name, move.name], 0, move_id)
+			state.log_event(&"cancelled", Loc.t("log.cancelled", {"enemy": e.display_name, "move": move.name}), 0, move_id)
 			continue
-		state.log_event(&"intent", "%s: %s." % [e.display_name, move.name], 0, move_id)
+		state.log_event(&"intent", Loc.t("log.intent", {"enemy": e.display_name, "move": move.name}), 0, move_id)
 		var ctx := EffectContext.create(e, state.hero, CombatTarget.self_target(), false)
 		for effect: Dictionary in move.effects:
 			EffectApplier.apply(state, effect, ctx, data)
@@ -66,7 +66,7 @@ static func break_part(state: CombatState, part_id: StringName) -> void:
 		e.removed_moves[mv] = true
 	if part.def.trophy != &"":
 		state.trophies.append(part.def.trophy)
-	state.log_event(&"part_broken", "%s is broken!" % part.def.name, 0, part_id)
+	state.log_event(&"part_broken", Loc.t("log.part_broken", {"part": part.def.name}), 0, part_id)
 
 
 static func check_phase(state: CombatState) -> void:
@@ -80,7 +80,7 @@ static func check_phase(state: CombatState) -> void:
 		for mv: StringName in ph.add:
 			e.move_draw.append(mv)
 		_shuffle(state, e.move_draw)
-		state.log_event(&"phase", "%s — %s." % [e.display_name, ph.name])
+		state.log_event(&"phase", Loc.t("log.phase", {"enemy": e.display_name, "phase": ph.name}))
 
 
 static func sorted_phases(def: MonsterDef) -> Array[MonsterDef.PhaseDef]:

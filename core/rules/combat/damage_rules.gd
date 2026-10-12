@@ -22,7 +22,7 @@ static func deal(state: CombatState, attacker: Combatant, defender: Combatant, b
 	var amount := compute(base, attacker, defender, b)
 	if defender.status(&"dodge") > 0:
 		defender.add_status(&"dodge", -1)
-		state.log_event(&"dodge", "%s dodges." % defender.display_name, 0, _subject(state, defender))
+		state.log_event(&"dodge", Loc.t("log.dodge", {"who": defender.display_name}), 0, _subject(state, defender))
 		return 0
 	var absorbed := mini(defender.block, amount)
 	defender.block -= absorbed
@@ -31,9 +31,9 @@ static func deal(state: CombatState, attacker: Combatant, defender: Combatant, b
 		return _hit_part(state, part_id, dealt, b)
 	defender.hp -= dealt
 	if dealt == 0:
-		state.log_event(&"blocked", "%s blocks the blow." % defender.display_name, 0, _subject(state, defender))
+		state.log_event(&"blocked", Loc.t("log.blocked", {"who": defender.display_name}), 0, _subject(state, defender))
 	else:
-		state.log_event(&"damage", "%s takes %d." % [defender.display_name, dealt], dealt, _subject(state, defender))
+		state.log_event(&"damage", Loc.t("log.damage", {"who": defender.display_name, "n": dealt}), dealt, _subject(state, defender))
 	if defender is EnemyCombatant:
 		EnemyRules.check_phase(state)
 	return dealt
@@ -45,7 +45,7 @@ static func _hit_part(state: CombatState, part_id: StringName, dealt: int, b: Ba
 	part.hp -= dealt
 	var to_body := int(round(dealt * b.part_main_damage_mult))
 	enemy.hp -= to_body
-	state.log_event(&"damage", "%s takes %d (%d to the body)." % [part.def.name, dealt, to_body], dealt, part_id)
+	state.log_event(&"damage", Loc.t("log.part_damage", {"part": part.def.name, "n": dealt, "body": to_body}), dealt, part_id)
 	if part.hp <= 0 and not part.broken:
 		EnemyRules.break_part(state, part_id)
 	EnemyRules.check_phase(state)

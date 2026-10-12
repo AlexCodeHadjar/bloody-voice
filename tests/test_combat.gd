@@ -50,7 +50,7 @@ func test_not_enough_ap() -> void:
 	var s: CombatState = r[0]
 	for i: int in 3:
 		CombatRules.play_card(s, s.hand[0].uid, CombatTarget.enemy(), r[1])
-	check(CombatRules.play_card(s, s.hand[0].uid, CombatTarget.enemy(), r[1]).contains("action points"), "4th strike refused")
+	check(CombatRules.play_card(s, s.hand[0].uid, CombatTarget.enemy(), r[1])== Loc.t("rule.no_ap"), "4th strike refused")
 
 
 func test_shot_needs_ammo_and_reload_refills() -> void:
@@ -58,7 +58,7 @@ func test_shot_needs_ammo_and_reload_refills() -> void:
 	var s: CombatState = r[0]
 	s.hero.ammo = 0
 	var shot := _card(s, &"shot")
-	check(CombatRules.play_card(s, shot.uid, CombatTarget.enemy(), r[1]).contains("ammo"), "no ammo")
+	check(CombatRules.play_card(s, shot.uid, CombatTarget.enemy(), r[1])== Loc.t("rule.no_ammo"), "no ammo")
 	eq(CombatRules.play_card(s, _card(s, &"reload").uid, CombatTarget.self_target(), r[1]), "", "reload")
 	eq(s.hero.ammo, s.hero.max_ammo, "full ammo")
 
@@ -78,7 +78,7 @@ func test_broken_part_cannot_be_targeted() -> void:
 	var r := _start(&"gutter_choir", [&"shot", &"shot", &"shot", &"strike", &"strike"])
 	var s: CombatState = r[0]
 	CombatRules.play_card(s, _card(s, &"shot").uid, CombatTarget.part(&"left_throat"), r[1])
-	check(CombatRules.play_card(s, _card(s, &"shot").uid, CombatTarget.part(&"left_throat"), r[1]).contains("broken"), "refused")
+	check(CombatRules.play_card(s, _card(s, &"shot").uid, CombatTarget.part(&"left_throat"), r[1])== Loc.t("rule.part_broken"), "refused")
 
 
 func test_phase_triggers_below_threshold() -> void:
@@ -159,7 +159,7 @@ func test_every_effect_op_is_implemented() -> void:
 		check(samples.has(op), "test sample for op %s" % op)
 		if samples.has(op):
 			var one: Array[Dictionary] = [samples[op] as Dictionary]
-			check(EffectText.describe(one) != "Does nothing.", "EffectText has a phrase for op %s" % op)
+			check(EffectText.describe(one) != Loc.t("effect.none"), "EffectText has a phrase for op %s" % op)
 			var before := s.events.size()
 			EffectApplier.apply(s, samples[op] as Dictionary, EffectContext.create(s.hero, s.enemy, CombatTarget.enemy(), true), data)
 			check(s.events.size() >= before, "op %s ran" % op)
@@ -176,8 +176,8 @@ func test_bot_finishes_every_fight() -> void:
 
 func test_move_text_is_built_from_effects() -> void:
 	eq(EffectText.describe([{"op": "damage", "amount": 4, "hits": 2}, {"op": "apply_status", "status": "bleed", "stacks": 2}]),
-		"Deal 4 twice, Bleed 2.", "damage + status")
+		"Урон 4 дважды, кровотечение 2.", "damage + status")
 	eq(EffectText.describe([{"op": "sanity", "amount": 4}, {"op": "apply_status", "status": "enraged", "stacks": 1, "to": "self"}]),
-		"4 Sanity damage, Enraged 1 (self).", "fear + self buff")
+		"Урон рассудку 4, ярость 1 (на себя).", "fear + self buff")
 	var lament: MonsterDef.MoveDef = load_content(false).monster(&"mourning_bride").moves[&"lament"]
-	eq(lament.text, "%d Sanity damage." % int(lament.effects[0]["amount"]), "data text follows numbers")
+	eq(lament.text, "Урон рассудку %d." % int(lament.effects[0]["amount"]), "data text follows numbers")

@@ -65,19 +65,19 @@ func _build_bar() -> Control:
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(spacer)
-	var gear := Icons.button("DIRECTION", &"equipment", "Equipment", 18)
+	var gear := Icons.button("DIRECTION", &"equipment", Loc.t("ui.city.equipment"), 18)
 	gear.custom_minimum_size = Vector2(190, 40)
 	gear.pressed.connect(func() -> void: get_tree().change_scene_to_file(EQUIPMENT))
 	row.add_child(gear)
-	var hunt := Icons.button("ACTION", &"investigate", "Hunt here (1 day)", 18)
+	var hunt := Icons.button("ACTION", &"investigate", Loc.t("ui.city.hunt"), 18)
 	hunt.custom_minimum_size = Vector2(250, 40)
 	hunt.pressed.connect(_hunt)
 	row.add_child(hunt)
-	var end_day := Icons.button("ACTION", &"rest", "Rest (end day)", 18)
+	var end_day := Icons.button("ACTION", &"rest", Loc.t("ui.city.rest"), 18)
 	end_day.custom_minimum_size = Vector2(225, 40)
 	end_day.pressed.connect(GameState.end_day)
 	row.add_child(end_day)
-	var menu := Icons.button("UI", &"menu", "Menu", 18)
+	var menu := Icons.button("UI", &"menu", Loc.t("ui.city.menu"), 18)
 	menu.custom_minimum_size = Vector2(140, 40)
 	menu.pressed.connect(_to_menu)
 	row.add_child(menu)
@@ -88,9 +88,9 @@ func _refresh_bar() -> void:
 	var run := GameState.run
 	var b := ContentDB.data.balance
 	var rent_in := CalendarRules.days_until_rent(run.day, b)
-	_day_label.text = "Day %d · %s · Week %d    Rent %s" % [
-		run.day, CalendarRules.weekday_name(run.day, b), CalendarRules.week(run.day, b),
-		"due today" if rent_in == 0 else "in %d d" % rent_in]
+	_day_label.text = Loc.t("ui.city.day_bar", {"day": run.day, "weekday": CalendarRules.weekday_name(run.day, b),
+		"week": CalendarRules.week(run.day, b),
+		"rent": Loc.t("ui.city.rent_today") if rent_in == 0 else Loc.t("ui.city.rent_in", {"n": rent_in})})
 	_money_label.text = str(run.money)
 
 

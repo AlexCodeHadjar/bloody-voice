@@ -27,7 +27,7 @@ func _ready() -> void:
 	add_child(_hero_box)
 	var v := VBoxContainer.new()
 	_hero_box.add_child(v)
-	v.add_child(UiKit.label("The Hunter", 24, Palette.PARCHMENT))
+	v.add_child(UiKit.label(Loc.t("ui.combat.hunter"), 24, Palette.PARCHMENT))
 	_hp = StatBar.new().setup(Palette.BLOOD, 320.0, 17, &"hp")
 	v.add_child(_hp)
 	_sanity = StatBar.new().setup(Color("6b5a9a"), 320.0, 17, &"sanity")
@@ -41,17 +41,17 @@ func _ready() -> void:
 	add_child(weapon)
 	var wv := VBoxContainer.new()
 	weapon.add_child(wv)
-	wv.add_child(UiKit.label("Hunting Rifle", 20, Palette.PARCHMENT))
+	wv.add_child(UiKit.label(_weapon_name(), 20, Palette.PARCHMENT))
 	_ammo = HBoxContainer.new()
 	_ammo.add_theme_constant_override("separation", 2)
-	_ammo.tooltip_text = "Ammo"
+	_ammo.tooltip_text = Loc.t("ui.combat.ammo")
 	wv.add_child(_ammo)
 
 
 func refresh(h: HeroCombatant, targeting_self: bool) -> void:
 	_ap.text = "%d/%d" % [h.ap, h.max_ap]
-	_hp.show_value("HP", h.hp, h.max_hp)
-	_sanity.show_value("Sanity" + ("  — PANIC" if h.panicked else ""), h.sanity, h.max_sanity)
+	_hp.show_value(Loc.t("ui.combat.hp"), h.hp, h.max_hp)
+	_sanity.show_value(Loc.t("ui.combat.sanity") + ("  — " + Loc.t("ui.combat.panic") if h.panicked else ""), h.sanity, h.max_sanity)
 	Icons.fill_statuses(_statuses, h)
 	_refresh_ammo(h)
 	var box := UiKit.panel_box(Color(0.08, 0.06, 0.06, 0.9), Palette.BRASS_LIGHT if targeting_self else Palette.BRASS)
@@ -73,3 +73,8 @@ func _on_hero_input(event: InputEvent) -> void:
 	var mb := event as InputEventMouseButton
 	if mb != null and mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT:
 		self_clicked.emit()
+
+
+func _weapon_name() -> String:
+	var w := ContentDB.data.weapon(GameState.run.loadout.weapon)
+	return w.name if w != null else ""

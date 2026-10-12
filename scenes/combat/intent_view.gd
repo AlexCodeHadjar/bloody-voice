@@ -19,9 +19,10 @@ func setup(move: MonsterDef.MoveDef, cancelled: bool, upcoming: bool = false) ->
 	var v := VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	h.add_child(v)
-	var head := ("Next: " if upcoming else "") + move.name + ("  (cancelled)" if cancelled else "")
+	var head := (Loc.t("ui.combat.intent_next", {"move": move.name}) if upcoming else move.name) \
+		+ ("  " + Loc.t("ui.combat.cancelled") if cancelled else "")
 	var title := UiKit.label(head, 20, border.lightened(0.35))
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	v.add_child(title)
-	v.add_child(UiKit.label(String(move.kind).capitalize(), 14, Palette.INK_MUTED))
+	v.add_child(UiKit.label(Loc.or_default("intent.%s" % move.kind, String(move.kind).capitalize()), 14, Palette.INK_MUTED))
 	v.add_child(UiKit.paragraph(move.text, 16, Palette.PARCHMENT))

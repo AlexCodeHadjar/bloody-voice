@@ -55,13 +55,13 @@ func refresh(e: EnemyCombatant, targeting: bool, parts_allowed: bool) -> void:
 	var phase_art := e.def.art_path("combat", "phase2")
 	_art.texture = UiKit.texture(phase_art if e.next_phase > 0 and ResourceLoader.exists(phase_art) else e.def.art_path("combat"))
 	_title.text = "%s   [%s]" % [e.display_name, e.def.rank]
-	_hp.show_value("HP", e.hp, e.max_hp)
+	_hp.show_value(Loc.t("ui.combat.hp"), e.hp, e.max_hp)
 	Icons.fill_statuses(_statuses, e)
 	for c: Node in _parts.get_children():
 		c.queue_free()
 	for id: StringName in e.part_order:
 		var p: PartState = e.parts[id]
-		var b := UiKit.button("%s\n%s" % [p.def.name, "BROKEN" if p.broken else "%d / %d" % [p.hp, p.def.hp]], 15)
+		var b := UiKit.button("%s\n%s" % [p.def.name, Loc.t("ui.combat.broken") if p.broken else "%d / %d" % [p.hp, p.def.hp]], 15)
 		b.custom_minimum_size = Vector2(150, 56)
 		b.disabled = p.broken or not (targeting and parts_allowed)
 		b.pressed.connect(part_clicked.emit.bind(id))

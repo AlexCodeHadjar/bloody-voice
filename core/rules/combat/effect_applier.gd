@@ -17,15 +17,15 @@ static func apply(state: CombatState, effect: Dictionary, ctx: EffectContext, da
 					break
 		&"block":
 			ctx.actor.block += amount
-			state.log_event(&"block", "%s gains %d block." % [ctx.actor.display_name, amount], amount)
+			state.log_event(&"block", Loc.t("log.block", {"who": ctx.actor.display_name, "n": amount}), amount)
 		&"heal":
 			var before := ctx.actor.hp
 			ctx.actor.hp = mini(ctx.actor.max_hp, ctx.actor.hp + amount)
-			state.log_event(&"heal", "%s heals %d." % [ctx.actor.display_name, ctx.actor.hp - before], ctx.actor.hp - before)
+			state.log_event(&"heal", Loc.t("log.heal", {"who": ctx.actor.display_name, "n": ctx.actor.hp - before}), ctx.actor.hp - before)
 		&"lose_hp":
 			var cost := GearEffectRules.hp_cost(state, ctx, amount)
 			ctx.actor.hp -= cost
-			state.log_event(&"lose_hp", "%s loses %d HP." % [ctx.actor.display_name, cost], cost)
+			state.log_event(&"lose_hp", Loc.t("log.lose_hp", {"who": ctx.actor.display_name, "n": cost}), cost)
 		&"sanity":
 			_sanity(state, amount, data)
 		&"draw":
@@ -34,7 +34,7 @@ static func apply(state: CombatState, effect: Dictionary, ctx: EffectContext, da
 			state.hero.ap += amount
 		&"reload":
 			state.hero.ammo = state.hero.max_ammo
-			state.log_event(&"reload", "Reloaded.")
+			state.log_event(&"reload", Loc.t("log.reload"))
 			DeckRules.draw(state, state.hero.mod(&"reload_draw"), b)
 		&"foresight":
 			state.foresight = true
@@ -43,7 +43,7 @@ static func apply(state: CombatState, effect: Dictionary, ctx: EffectContext, da
 		&"add_card":
 			var def := data.card(StringName(str(effect["card"])))
 			DeckRules.add_cards(state, def, StringName(str(effect.get("pile", "discard"))), int(effect.get("count", 1)))
-			state.log_event(&"add_card", "%s is added to your deck." % def.name)
+			state.log_event(&"add_card", Loc.t("log.add_card", {"card": def.name}))
 		&"capture":
 			_capture(state, float(effect["chance"]), b)
 		_:
@@ -56,29 +56,29 @@ static func _status(state: CombatState, effect: Dictionary, ctx: EffectContext) 
 	var status := StringName(str(effect["status"]))
 	var stacks := GearEffectRules.status_stacks(state, ctx, status, int(effect["stacks"]))
 	who.add_status(status, stacks)
-	state.log_event(&"status", "%s: %s %d." % [who.display_name, String(status).capitalize(), stacks], stacks)
+	state.log_event(&"status", Loc.t("log.status", {"who": who.display_name, "status": EffectText.status_name(status), "n": stacks}), stacks)
 
 
 static func _sanity(state: CombatState, amount: int, data: ContentData) -> void:
 	var h := state.hero
 	h.sanity = maxi(0, h.sanity - amount)
-	state.log_event(&"sanity", "Sanity −%d." % amount, amount, &"hero")
+	state.log_event(&"sanity", Loc.t("log.sanity", {"n": amount}), amount, &"hero")
 	if h.sanity == 0 and not h.panicked:
 		h.panicked = true
-		state.log_event(&"panic", "Your hands shake — panic!")
+		state.log_event(&"panic", Loc.t("log.panic"))
 		DeckRules.add_cards(state, data.card(data.balance.panic_card), &"hand", 1)
 
 
 static func _capture(state: CombatState, base: float, b: BalanceDef) -> void:
 	if not state.capture_allowed:
-		state.log_event(&"capture", "Nothing to bind it with here.")
+		state.log_event(&"capture", Loc.t("log.no_capture"))
 		return
 	var e := state.enemy
 	var chance := CaptureRules.chance(base, e.hp, e.max_hp, state.hero.cunning, e.broken_parts(), b)
 	if CaptureRules.roll(state.rng, chance):
 		state.captured = true
 		state.phase = CombatState.Phase.WON
-		state.log_event(&"captured", "%s is captured! (%d%%)" % [e.display_name, int(chance * 100)])
+		state.log_event(&"captured", Loc.t("log.captured", {"enemy": e.display_name, "chance": int(chance * 100)}))
 	else:
 		e.add_status(&"enraged", 1)
-		state.log_event(&"capture_failed", "The net slips (%d%%). It is enraged." % int(chance * 100))
+		state.log_event(&"capture_failed", Loc.t("log.capture_failed", {"chance": int(chance * 100)}))

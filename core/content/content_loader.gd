@@ -43,6 +43,7 @@ static func load_all(root: String, errs: ErrorLog) -> ContentData:
 		data.monsters[monster.id] = monster
 		data.monster_order.append(monster.id)
 	_load_gear(root, data, errs)
+	ContentLoc.apply(data)  # shown texts in the game language (GDD 22.5)
 	return data
 
 

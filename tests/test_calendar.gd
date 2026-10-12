@@ -7,7 +7,7 @@ func test_weeks_and_weekdays() -> void:
 	eq(CalendarRules.week(7, b), 1, "day 7")
 	eq(CalendarRules.week(8, b), 2, "day 8")
 	eq(CalendarRules.weekday(1, b), 0, "day 1 is Monday")
-	eq(CalendarRules.weekday_name(7, b), "Sunday", "day 7 name")
+	eq(CalendarRules.weekday_name(7, b), "Воскресенье", "day 7 name")
 
 
 func test_rent_and_shop_days() -> void:

@@ -33,7 +33,7 @@ static func draw(state: CombatState, count: int, b: BalanceDef) -> int:
 			state.draw_pile = state.discard_pile
 			state.discard_pile = []
 			shuffle(state, state.draw_pile)
-			state.log_event(&"shuffle", "The discard pile is shuffled into the draw pile.")
+			state.log_event(&"shuffle", Loc.t("log.shuffle"))
 		var card: CardInstance = state.draw_pile.pop_back()
 		if state.hand.size() >= b.max_hand:
 			state.discard_pile.append(card)

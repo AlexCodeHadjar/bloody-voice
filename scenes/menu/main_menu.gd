@@ -35,24 +35,24 @@ func _build() -> void:
 	box.add_theme_constant_override("separation", 14)
 	center.add_child(box)
 
-	var title := UiKit.label("BLOODY VOICE", 84, Palette.BLOOD)
+	var title := UiKit.label(Loc.t("ui.menu.title"), 84, Palette.BLOOD)
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_color_override("font_outline_color", Palette.SOOT)
 	title.add_theme_constant_override("font_outline_size", 10)
 	box.add_child(title)
-	var sub := UiKit.label("The city of Hallowdeep listens. So does the blood.", 22, Palette.FOG)
+	var sub := UiKit.label(Loc.t("ui.menu.tagline"), 22, Palette.FOG)
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(sub)
 	box.add_child(Control.new())
 
-	var new_btn := UiKit.button("New Hunt")
+	var new_btn := UiKit.button(Loc.t("ui.menu.new_hunt"))
 	new_btn.pressed.connect(_on_new)
 	box.add_child(new_btn)
-	var cont_btn := UiKit.button("Continue")
+	var cont_btn := UiKit.button(Loc.t("ui.menu.continue"))
 	cont_btn.disabled = not SaveService.has_save()
 	cont_btn.pressed.connect(_on_continue)
 	box.add_child(cont_btn)
-	var quit_btn := UiKit.button("Quit")
+	var quit_btn := UiKit.button(Loc.t("ui.menu.quit"))
 	quit_btn.pressed.connect(get_tree().quit)
 	box.add_child(quit_btn)
 	for b: Button in [new_btn, cont_btn, quit_btn]:

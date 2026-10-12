@@ -43,21 +43,21 @@ static func can_place(l: LoadoutState, data: ContentData, module_id: StringName,
 	var module := data.module(module_id)
 	var weapon := data.weapon(l.weapon)
 	if module == null or weapon == null:
-		return "Unknown module or weapon."
+		return Loc.t("rule.unknown_module")
 	if module.section != section_id:
-		return "%s fits only into the %s." % [module.name, module.section]
+		return Loc.t("rule.fits_only", {"module": module.name, "section": Loc.t("section.%s" % module.section)})
 	var section := weapon.section(section_id)
 	if section == null:
-		return "This weapon has no %s." % section_id
+		return Loc.t("rule.no_section", {"section": section_id})
 	var p := _placement(module_id, section_id, pos, rot)
 	var taken := _taken(l, data, section_id, ignore_index)
 	for c: Vector2i in covered(p, data):
 		if not section.cells.has(c):
-			return "It does not fit there."
+			return Loc.t("rule.no_fit")
 		if section.cells[c] != module.cell:
-			return "Needs %s cells." % module.cell
+			return Loc.t("rule.needs_cells", {"cell": Loc.t("cell.%s" % module.cell)})
 		if taken.has(c):
-			return "Another module is in the way."
+			return Loc.t("rule.in_the_way")
 	return ""
 
 
@@ -65,7 +65,7 @@ static func can_place(l: LoadoutState, data: ContentData, module_id: StringName,
 static func place(l: LoadoutState, data: ContentData, module_id: StringName, section_id: StringName,
 		pos: Vector2i, rot: int) -> String:
 	if not l.spare_modules().has(module_id):
-		return "You have no spare %s." % module_id
+		return Loc.t("rule.no_spare", {"item": data.module(module_id).name if data.module(module_id) != null else module_id})
 	var problem := can_place(l, data, module_id, section_id, pos, rot)
 	if problem == "":
 		l.placements.append(_placement(module_id, section_id, pos, rot))

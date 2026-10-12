@@ -262,6 +262,6 @@ func _draw_legend() -> void:
 		var icon := _tex(Icons.path("CELL", kind))
 		if icon != null:
 			draw_texture_rect(icon, Rect2(Vector2(x - 3, y - 19), Vector2(24, 24)), false)
-		draw_string(_font, Vector2(x + 26, y), "%s cell" % String(kind).capitalize(), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Palette.FOG)
-		x += 140.0
-	draw_string(_font, Vector2(x + 20, y), "Green outline = where the held module fits.", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Palette.FOG)
+		draw_string(_font, Vector2(x + 26, y), Loc.t("ui.equip.cell_legend", {"cell": Loc.t("cell.%s" % kind)}), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Palette.FOG)
+		x += 200.0
+	draw_string(_font, Vector2(x + 20, y), Loc.t("ui.equip.fit_legend"), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Palette.FOG)

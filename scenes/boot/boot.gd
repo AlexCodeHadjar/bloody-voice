@@ -23,5 +23,5 @@ func _show_errors(errors: PackedStringArray) -> void:
 	box.offset_top = 50
 	box.offset_right = -60
 	add_child(box)
-	box.add_child(UiKit.label("Content errors — fix data/ and restart", 32, Palette.BLOOD))
+	box.add_child(UiKit.label(Loc.t("ui.boot.content_errors"), 32, Palette.BLOOD))
 	box.add_child(UiKit.paragraph("\n".join(errors), 18, Palette.PARCHMENT))

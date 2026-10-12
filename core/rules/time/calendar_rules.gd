@@ -2,7 +2,6 @@ class_name CalendarRules
 extends RefCounted
 ## Days, weeks and chapters (GDD 3.2). Day 1 is the Monday of week 1.
 
-const WEEKDAY_NAMES: Array[String] = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
 
 @warning_ignore("integer_division")
@@ -17,7 +16,7 @@ static func weekday(day: int, b: BalanceDef) -> int:
 
 static func weekday_name(day: int, b: BalanceDef) -> String:
 	var i := weekday(day, b)
-	return WEEKDAY_NAMES[i] if i < WEEKDAY_NAMES.size() else "Day %d" % (i + 1)
+	return Loc.or_default("ui.weekday.%d" % i, str(i + 1))
 
 
 static func chapter_week(day: int, b: BalanceDef) -> int:

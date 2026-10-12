@@ -42,9 +42,9 @@ static func fill_statuses(box: HBoxContainer, c: Combatant) -> void:
 	for child: Node in box.get_children():
 		child.queue_free()
 	if c.block > 0:
-		box.add_child(_tip(with_text("STAT", &"block", str(c.block), 30, 18, Palette.FOG), "Block %d" % c.block))
+		box.add_child(_tip(with_text("STAT", &"block", str(c.block), 30, 18, Palette.FOG), Loc.t("ui.status.block", {"n": c.block})))
 	for s: StringName in c.statuses:
-		var label := "%s %d" % [String(s).capitalize(), c.statuses[s]]
+		var label := "%s %d" % [EffectText.status_name(s), c.statuses[s]]
 		box.add_child(_tip(with_text("STATUS", s, str(c.statuses[s]), 30, 18, Palette.FOG), label))
 
 

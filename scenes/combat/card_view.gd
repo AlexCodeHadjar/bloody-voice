@@ -36,7 +36,8 @@ func setup(card: CardInstance, playable: bool, selected: bool) -> void:
 	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	top.add_child(name_label)
-	var kind := String(def.type).capitalize() + ("   · ammo %d" % def.ammo if def.ammo > 0 else "")
+	var kind := Loc.or_default("card_type.%s" % def.type, String(def.type).capitalize()) \
+		+ ("   · " + Loc.t("ui.card.ammo", {"n": def.ammo}) if def.ammo > 0 else "")
 	var kind_row := HBoxContainer.new()
 	kind_row.add_child(Icons.rect("CARD_TYPE", def.type, 24))
 	kind_row.add_child(UiKit.label(kind, 14, TYPE_COLORS.get(def.type, Palette.INK_MUTED)))

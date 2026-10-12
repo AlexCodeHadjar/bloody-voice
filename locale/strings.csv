@@ -1,0 +1,491 @@
+keys,ru,en
+ui.menu.title,BLOODY VOICE,BLOODY VOICE
+ui.menu.tagline,Город Халлоудип слушает. Кровь — тоже.,The city of Hallowdeep listens. So does the blood.
+ui.menu.new_hunt,Новая охота,New Hunt
+ui.menu.continue,Продолжить,Continue
+ui.menu.quit,Выход,Quit
+ui.city.equipment,Снаряжение,Equipment
+ui.city.hunt,Охота здесь (1 день),Hunt here (1 day)
+ui.city.rest,Отдых (конец дня),Rest (end day)
+ui.city.menu,Меню,Menu
+ui.city.day_bar,День {day} · {weekday} · Неделя {week}    Аренда {rent},Day {day} · {weekday} · Week {week}    Rent {rent}
+ui.city.rent_today,сегодня,due today
+ui.city.rent_in,через {n} {n:день|дня|дней},in {n} d
+ui.district.facts,"{class}
+Хозяин: {controller}
+Опасность: {danger}
+Места: {areas}","{class}
+Controlled by: {controller}
+Danger: {danger}
+Areas: {areas}"
+ui.district.hunter_here,Охотник здесь.,The hunter is here.
+ui.district.send,"Нажмите, чтобы отправить охотника сюда.",Click to send the hunter here.
+ui.combat.outcome.slain,Тварь убита,The creature is slain
+ui.combat.outcome.captured,Тварь поймана,The creature is captured
+ui.combat.outcome.fallen,Охотник пал,The hunter falls
+ui.combat.outcome.escaped,Тварь ускользнула,It slipped away
+ui.combat.over,Бой окончен,The fight is over
+ui.combat.end_turn,Конец хода,End Turn
+ui.combat.pile.draw_pile,Колода добора,Draw pile
+ui.combat.pile.discard_pile,Сброс,Discard pile
+ui.combat.pile.exhaust_pile,Изгнанные карты,Exhaust pile
+ui.combat.choose_target,Выберите цель: тварь или часть тела.,Choose a target: the creature or a body part.
+ui.combat.summary,Ходов: {turns}    Осталось здоровья: {hp},Turns: {turns}    HP left: {hp}
+ui.combat.trophies,Трофеи: {list},Trophies: {list}
+ui.combat.back,Вернуться в город,Return to the city
+ui.combat.broken,СЛОМАНО,BROKEN
+ui.combat.intent_next,Далее: {move},Next: {move}
+ui.combat.cancelled,(отменено),(cancelled)
+ui.combat.hunter,Охотник,The Hunter
+ui.combat.ammo,Патроны,Ammo
+ui.combat.sanity,Рассудок,Sanity
+ui.combat.panic,ПАНИКА,PANIC
+ui.card.ammo,патроны: {n},ammo {n}
+ui.status.block,Защита {n},Block {n}
+ui.equip.hint,"Выберите запасной модуль справа, затем нажмите на ячейку (правая кнопка или R — поворот). Нажмите на установленный модуль, чтобы снять его.","Pick a spare module on the right, then click a cell (right click or R rotates). Click an installed module to take it out."
+ui.equip.title,Снаряжение,Equipment
+ui.equip.dev_all,Отладка: всё снаряжение,Dev: all gear
+ui.equip.back,Назад в город,Back to the city
+ui.equip.armor,Гнёзда брони,Armor sockets
+ui.equip.deck,Колода боя,Fight deck
+ui.equip.spares,Запасные модули,Spare modules
+ui.equip.no_spares,"Запасных модулей нет. Новые модули появятся в лавке, мастерской и особых заказах.","No spare modules. New modules will come from the shop, the workshop and special contracts."
+ui.equip.module_button,"{name}  [{section} · ячейка: {cell}]
+{effect}","{name}  [{section} · {cell} cell]
+{effect}"
+ui.equip.empty_socket,— пусто —,— empty —
+ui.equip.deck_line,{count} × {card}  — {origin},{count} × {card}  — {origin}
+ui.equip.deck_total,Карт: {cards} · Патронов: {ammo},Cards: {cards} · Ammo: {ammo}
+ui.equip.link,Связка: {link},Link: {link}
+ui.equip.holding,"В руке: {module} → {change}. Зелёная рамка — куда он встанет; правая кнопка или R — поворот, Esc — положить.","Holding {module} → {change}. Green outlines show where it fits; right click / R rotates, Esc drops it."
+ui.equip.picked,"Снято — нажмите на ячейку, чтобы поставить снова.",Picked up — click a cell to install it again.
+ui.equip.cell_legend,Ячейка: {cell},{cell} cell
+ui.equip.fit_legend,Зелёная рамка — куда встанет модуль в руке.,Green outline = where the held module fits.
+ui.deck.hunter,Охотник,Hunter
+log.hunter_name,Охотник,The hunter
+log.start,{enemy} преграждает путь.,{enemy} blocks the way.
+log.play,Вы разыгрываете «{card}».,You play {card}.
+log.won,{enemy} падает замертво.,{enemy} falls.
+log.lost,Охотник падает.,The hunter falls.
+log.escaped,{enemy} ускользает во тьму.,{enemy} slips away into the dark.
+log.dodge,{who} уклоняется.,{who} dodges.
+log.blocked,{who} принимает удар на защиту.,{who} blocks the blow.
+log.damage,{who}: урон {n}.,{who} takes {n}.
+log.part_damage,{part}: урон {n} ({body} по телу).,{part} takes {n} ({body} to the body).
+log.shuffle,Сброс замешан в колоду добора.,The discard pile is shuffled into the draw pile.
+log.block,{who}: защита +{n}.,{who} gains {n} block.
+log.heal,{who}: лечение {n}.,{who} heals {n}.
+log.lose_hp,{who}: −{n} здоровья.,{who} loses {n} HP.
+log.reload,Перезарядка.,Reloaded.
+log.add_card,В колоду добавлена карта «{card}».,{card} is added to your deck.
+log.status,{who}: {status} {n}.,{who}: {status} {n}.
+log.sanity,Рассудок −{n}.,Sanity −{n}.
+log.panic,Руки дрожат — паника!,Your hands shake — panic!
+log.no_capture,Здесь нечем её связать.,Nothing to bind it with here.
+log.captured,Поймано: {enemy}! ({chance}%),{enemy} is captured! ({chance}%)
+log.capture_failed,Сеть соскальзывает ({chance}%). Тварь в ярости.,The net slips ({chance}%). It is enraged.
+log.cancelled,{enemy} больше не может: {move}.,{enemy} can no longer {move}.
+log.intent,{enemy}: {move}.,{enemy}: {move}.
+log.part_broken,Сломано: {part}!,{part} is broken!
+log.phase,{enemy} — {phase}.,{enemy} — {phase}.
+log.recoil,Возвратная пружина держит удар: защита {n}.,The recoil spring braces you: block {n}.
+log.bleed,{who} истекает кровью: −{n}.,{who} bleeds for {n}.
+rule.not_your_turn,Сейчас не ваш ход.,Not your turn.
+rule.not_in_hand,Этой карты нет в руке.,That card is not in your hand.
+rule.no_ap,Не хватает очков действия.,Not enough action points.
+rule.no_ammo,Нет патронов — перезарядитесь.,Out of ammo — reload.
+rule.no_part,Нет такой части тела.,No such body part.
+rule.part_broken,Эта часть уже сломана.,That part is already broken.
+rule.aim,Цельтесь в тварь или в часть тела.,Aim at the creature or a body part.
+rule.unplayable,Эту карту нельзя разыграть.,Cannot be played.
+rule.unknown_armor,Неизвестная часть брони.,Unknown armor piece.
+rule.no_socket,Нет такого гнезда.,No such socket.
+rule.unknown_mechanism,Неизвестный механизм.,Unknown mechanism.
+rule.no_spare,Нет запасного: {item}.,You have no spare {item}.
+rule.unknown_module,Неизвестный модуль или оружие.,Unknown module or weapon.
+rule.no_section,У этого оружия нет секции: {section}.,This weapon has no {section}.
+rule.no_fit,Сюда не помещается.,It does not fit there.
+rule.needs_cells,Нужны ячейки: {cell}.,Needs {cell} cells.
+rule.in_the_way,Мешает другой модуль.,Another module is in the way.
+effect.none,Ничего не делает.,Does nothing.
+effect.damage,урон {n},deal {n}
+effect.hits_2,дважды,twice
+effect.hits_3,трижды,three times
+effect.hits,{h} {h:раз|раза|раз},{h} times
+effect.block,защита {n},block {n}
+effect.heal,лечение {n},heal {n}
+effect.lose_hp,−{n} здоровья,lose {n} HP
+effect.sanity,урон рассудку {n},{n} Sanity damage
+effect.draw,взять {n} {n:карту|карты|карт},draw {n}
+effect.gain_ap,+{n} ОД,gain {n} AP
+effect.reload,перезарядка,reload
+effect.foresight,видны следующие ходы,see the next moves
+effect.capture,попытка поимки,try to capture
+effect.status,{status} {n},{status} {n}
+effect.status_self,{status} {n} (на себя),{status} {n} (self)
+effect.add_card,добавляет карту «{card}»,adds {card}
+status.weak.name,Слабость,Weak
+status.exposed.name,Уязвимость,Exposed
+status.bleed.name,Кровотечение,Bleed
+status.dodge.name,Уклонение,Dodge
+status.enraged.name,Ярость,Enraged
+card_type.attack,Атака,Attack
+card_type.support,Поддержка,Support
+card_type.consumable,Расходник,Consumable
+card_type.capture,Поимка,Capture
+card_type.rage,Ярость,Rage
+card_type.curse,Проклятие,Curse
+cell.gear,шестерня,gear
+cell.spark,искра,spark
+cell.blood,кровь,blood
+mod.max_ammo,Патроны,Max ammo
+mod.max_hp,Наибольшее здоровье,Max HP
+mod.shot_damage,Урон выстрелов,Shot damage
+mod.part_damage,Урон по частям тела,Part damage
+mod.shot_block,Защита при выстреле,Shot block
+mod.shot_bleed,Кровотечение от выстрелов,Shot bleed
+mod.bleed_bonus,Сила кровотечения,Bleed bonus
+mod.reload_draw,Карты при перезарядке,Reload draw
+mod.first_turn_draw,Карты в первый ход,First turn draw
+mod.first_turn_ap,ОД в первый ход,First turn AP
+mod.foresight_start,Предвидение в начале боя,Foresight at start
+mod.rage_hp_discount,Скидка здоровья для ярости,Rage HP discount
+ui.weekday.0,Понедельник,Monday
+ui.weekday.1,Вторник,Tuesday
+ui.weekday.2,Среда,Wednesday
+ui.weekday.3,Четверг,Thursday
+ui.weekday.4,Пятница,Friday
+ui.weekday.5,Суббота,Saturday
+ui.weekday.6,Воскресенье,Sunday
+state.normal.name,Обычное,Normal
+state.fog_breach.name,Прорыв тумана,Fog breach
+state.flooded.name,Затопление,Flooded
+state.burning.name,Пожар,Burning
+state.burned.name,Пепелище,Burned
+state.rebuilding.name,Отстраивается,Rebuilding
+state.rebuilt.name,Отстроен заново,Rebuilt
+state.quarantine.name,Карантин,Quarantine
+state.riot.name,Бунт,Riot
+state.martial_law.name,Военное положение,Martial law
+state.festival.name,Праздник,Festival
+state.eclipse.name,Затмение,Eclipse
+state.collapsed.name,Обрушение,Collapsed
+state.cleansed.name,Очищен,Cleansed
+card.strike.name,Удар,Strike
+card.strike.text,Нанесите 6 урона.,Deal 6 damage.
+card.guard.name,Защита,Guard
+card.guard.text,Получите 5 защиты.,Gain 5 block.
+card.shot.name,Выстрел,Shot
+card.shot.text,Нанесите 9 урона. Тратит 1 патрон.,Deal 9 damage. Uses 1 ammo.
+card.reload.name,Перезарядка,Reload
+card.reload.text,Восполните патроны. Возьмите 1 карту.,Refill ammo. Draw 1 card.
+card.read_the_beast.name,Прочесть зверя,Read the Beast
+card.read_the_beast.text,Узнайте следующие ходы твари. Возьмите 1 карту. Изгнание.,See the creature's next moves. Draw 1 card. Exhaust.
+card.sidestep.name,Уход в сторону,Sidestep
+card.sidestep.text,Уклонитесь от следующей атаки.,Dodge the next attack.
+card.shock_harpoon.name,Шоковый гарпун,Shock Harpoon
+card.shock_harpoon.text,Нанесите 12 урона. Уязвимость 2.,Deal 12 damage. Apply 2 Exposed.
+card.flash.name,Вспышка,Flash
+card.flash.text,Слабость 2.,Apply 2 Weak.
+card.smoke_screen.name,Дымовая завеса,Smoke Screen
+card.smoke_screen.text,Получите 10 защиты.,Gain 10 block.
+card.serrated_edge.name,Зазубренный край,Serrated Edge
+card.serrated_edge.text,Нанесите 4 урона. Кровотечение 3.,Deal 4 damage. Apply 3 Bleed.
+card.harpoon_shot.name,Гарпун,Harpoon Shot
+card.harpoon_shot.text,Нанесите 12 урона.,Deal 12 damage.
+card.gout_of_flame.name,Струя пламени,Gout of Flame
+card.gout_of_flame.text,Нанесите 6 урона. Уязвимость 2.,Deal 6 damage. Apply 2 Exposed.
+card.overcharge.name,Перегрузка,Overcharge
+card.overcharge.text,Получите 1 ОД. Возьмите 1 карту. Изгнание.,Gain 1 AP. Draw 1 card. Exhaust.
+card.bayonet_thrust.name,Удар штыком,Bayonet Thrust
+card.bayonet_thrust.text,Нанесите 7 урона.,Deal 7 damage.
+card.iron_net.name,Железная сеть,Iron Net
+card.iron_net.text,"Попытка поймать тварь. Чем сильнее она ранена, тем выше шанс.",Try to capture the creature. Works better the more it is hurt.
+card.tonic_of_morrell.name,Тоник Моррелла,Tonic of Morrell
+card.tonic_of_morrell.text,Восстановите 12 здоровья.,Heal 12 HP.
+card.hounds_rage.name,Ярость гончей,Hound's Rage
+card.hounds_rage.text,Нанесите 12 урона. Потеряйте 4 здоровья.,Deal 12 damage. Lose 4 HP.
+card.panic.name,Паника,Panic
+card.panic.text,Нельзя разыграть. Руки дрожат.,Unplayable. Your hands are shaking.
+card.dread.name,Ужас,Dread
+card.dread.text,Потеряйте 2 рассудка. Изгнание.,Lose 2 Sanity. Exhaust.
+monster.gutter_choir.name,Сточный Хор,Gutter Choir
+monster.gutter_choir.part.left_throat,Левое горло,Left Throat
+monster.gutter_choir.part.right_throat,Правое горло,Right Throat
+monster.gutter_choir.move.claw,Коготь,Claw
+monster.gutter_choir.move.wail,Вой,Wail
+monster.gutter_choir.move.drowning_song,Песня утопленников,Drowning Song
+monster.gutter_choir.move.huddle,Сбиться в кучу,Huddle
+monster.gutter_choir.move.chorus,Хор,Chorus
+monster.gutter_choir.phase.0,Песня нарастает,The song rises
+monster.moth_matron.name,Матрона Моли,Moth Matron
+monster.moth_matron.part.wings,Крылья,Wings
+monster.moth_matron.move.dust_cloud,Облако пыльцы,Dust Cloud
+monster.moth_matron.move.sting,Жало,Sting
+monster.moth_matron.move.lull,Убаюкивание,Lull
+monster.moth_matron.move.cocoon,Кокон,Cocoon
+monster.moth_matron.move.swarm,Рой,Swarm
+monster.moth_matron.phase.0,Рой пробуждается,The swarm wakes
+monster.lamplighter.name,Фонарщик,The Lamplighter
+monster.lamplighter.part.lantern,Фонарь,Lantern
+monster.lamplighter.part.hands,Длинные руки,Long Hands
+monster.lamplighter.move.grasp,Хватка,Grasp
+monster.lamplighter.move.darkness,Тьма,Darkness
+monster.lamplighter.move.snuff,Задуть свет,Snuff
+monster.lamplighter.move.stride,Широкий шаг,Stride
+monster.lamplighter.move.burnt_gaze,Выжженный взгляд,Burnt Gaze
+monster.lamplighter.phase.0,Свет гаснет,The light goes out
+monster.rust_mantis.name,Ржавый Богомол,Rust Mantis
+monster.rust_mantis.part.left_scythe,Левая коса,Left Scythe
+monster.rust_mantis.part.right_scythe,Правая коса,Right Scythe
+monster.rust_mantis.move.scythe_slash,Удар косой,Scythe Slash
+monster.rust_mantis.move.double_cut,Двойной разрез,Double Cut
+monster.rust_mantis.move.acid_spit,Кислотный плевок,Acid Spit
+monster.rust_mantis.move.harden,Затвердеть,Harden
+monster.rust_mantis.move.frenzy,Неистовство,Frenzy
+monster.rust_mantis.phase.0,Ржавое неистовство,Rust frenzy
+monster.mourning_bride.name,Скорбящая Невеста,Mourning Bride
+monster.mourning_bride.part.veil,Вуаль,Veil
+monster.mourning_bride.part.mirror,Ручное зеркальце,Hand Mirror
+monster.mourning_bride.move.lament,Плач,Lament
+monster.mourning_bride.move.reflection,Отражение,Reflection
+monster.mourning_bride.move.embrace,Объятие,Embrace
+monster.mourning_bride.move.sorrow,Скорбь,Sorrow
+monster.mourning_bride.move.shatter,Осколки,Shatter
+monster.mourning_bride.phase.0,Зеркало трескается,The mirror cracks
+monster.vigil_hound.name,Сторожевой Пёс,Vigil Hound
+monster.vigil_hound.part.jaw,Челюсть,Jaw
+monster.vigil_hound.part.legs,Задние лапы,Hind Legs
+monster.vigil_hound.move.maul,Растерзать,Maul
+monster.vigil_hound.move.pounce,Прыжок,Pounce
+monster.vigil_hound.move.howl,Вой,Howl
+monster.vigil_hound.move.circle,Кружение,Circle
+monster.vigil_hound.move.frenzy_bite,Бешеный укус,Frenzy Bite
+monster.vigil_hound.phase.0,Хозяина больше нет,The hunter is gone
+monster.clay_saint.name,Глиняный Святой,Clay Saint
+monster.clay_saint.part.head,Голова,Head
+monster.clay_saint.part.core,Сердцевина,Core
+monster.clay_saint.move.sermon,Проповедь,Sermon
+monster.clay_saint.move.scalpel,Скальпель,Scalpel
+monster.clay_saint.move.mend,Залатать,Mend
+monster.clay_saint.move.ward,Оберег,Ward
+monster.clay_saint.move.dissect,Вскрытие,Dissect
+monster.clay_saint.phase.0,Процедура начинается,The procedure begins
+monster.burrow_wyrm.name,Роющий Змей,Burrow Wyrm
+monster.burrow_wyrm.part.maw,Пасть,Maw
+monster.burrow_wyrm.part.shell,Панцирь,Shell
+monster.burrow_wyrm.part.tail,Хвост,Tail
+monster.burrow_wyrm.move.devour,Пожрать,Devour
+monster.burrow_wyrm.move.burrow,Зарыться,Burrow
+monster.burrow_wyrm.move.tail_sweep,Удар хвостом,Tail Sweep
+monster.burrow_wyrm.move.acid_wash,Кислотная волна,Acid Wash
+monster.burrow_wyrm.move.tremor,Толчок,Tremor
+monster.burrow_wyrm.move.collapse,Обвал,Collapse
+monster.burrow_wyrm.phase.0,Пол проваливается,The floor gives way
+weapon.hunting_rifle.name,Охотничья винтовка,Hunting Rifle
+weapon.hunting_rifle.section.sight,Прицел,Sight
+weapon.hunting_rifle.section.magazine,Магазин,Magazine
+weapon.hunting_rifle.section.stock,Приклад,Stock
+weapon.hunting_rifle.section.frame,Рама,Frame
+weapon.hunting_rifle.section.barrel,Ствол,Barrel
+module.harpoon_launcher.name,Гарпунная пушка,Harpoon Launcher
+module.harpoon_launcher.effect,Добавляет карту: Гарпун.,Adds card: Harpoon Shot.
+module.rifled_barrel.name,Нарезной ствол,Rifled Barrel
+module.rifled_barrel.effect,Выстрелы наносят +2 урона.,Shots deal +2 damage.
+module.coil_accelerator.name,Катушечный ускоритель,Coil Accelerator
+module.coil_accelerator.effect,Рядом с гарпунной пушкой: Гарпун становится Шоковым гарпуном.,Next to a Harpoon Launcher: Harpoon Shot becomes Shock Harpoon.
+module.flame_nozzle.name,Огнемётное сопло,Flame Nozzle
+module.flame_nozzle.effect,Добавляет карту: Струя пламени.,Adds card: Gout of Flame.
+module.net_caster.name,Сетемёт,Net Caster
+module.net_caster.effect,В заказах на поимку добавляет карту: Железная сеть.,On capture contracts adds card: Iron Net.
+module.brass_scope.name,Латунный прицел,Brass Scope
+module.brass_scope.effect,Выстрелы по частям тела наносят +3 урона.,Shots at body parts deal +3 damage.
+module.lantern_lens.name,Линза фонаря,Lantern Lens
+module.lantern_lens.effect,Добавляет карту: Вспышка.,Adds card: Flash.
+module.hound_eye.name,Глаз гончей,Eye of the Hound
+module.hound_eye.effect,Начало боя: видны следующие ходы твари.,Start of the fight: see the creature's next moves.
+module.drum_magazine.name,Барабанный магазин,Drum Magazine
+module.drum_magazine.effect,+2 к наибольшему числу патронов.,+2 max ammo.
+module.quick_loader.name,Быстрый заряжатель,Quick Loader
+module.quick_loader.effect,Перезарядка также даёт взять 1 карту.,Reload also draws 1 more card.
+module.ichor_cartridges.name,Патроны с ихором,Ichor Cartridges
+module.ichor_cartridges.effect,Выстрелы накладывают кровотечение 1.,Shots apply 1 Bleed.
+module.capacitor_bank.name,Батарея конденсаторов,Capacitor Bank
+module.capacitor_bank.effect,Добавляет карту: Перегрузка.,Adds card: Overcharge.
+module.recoil_spring.name,Возвратная пружина,Recoil Spring
+module.recoil_spring.effect,Выстрелы также дают 2 защиты.,Shots also give 2 block.
+module.bayonet_mount.name,Крепление штыка,Bayonet Mount
+module.bayonet_mount.effect,Добавляет карту: Удар штыком.,Adds card: Bayonet Thrust.
+module.bone_brace.name,Костяной упор,Bone Brace
+module.bone_brace.effect,Карты ярости стоят на 1 здоровья меньше.,Rage cards cost 1 less HP.
+module.gyro_stabilizer.name,Гиростабилизатор,Gyro Stabilizer
+module.gyro_stabilizer.effect,Первый ход: взять на 1 карту больше.,First turn: draw 1 more card.
+module.galvanic_core.name,Гальваническое ядро,Galvanic Core
+module.galvanic_core.effect,Первый ход: +1 ОД.,First turn: +1 AP.
+module.vein_lattice.name,Венозная решётка,Vein Lattice
+module.vein_lattice.effect,Ваше кровотечение сильнее на 1.,Bleed you apply is 1 stack stronger.
+module.serrated_rail.name,Зазубренная планка,Serrated Rail
+module.serrated_rail.effect,Добавляет карту: Зазубренный край.,Adds card: Serrated Edge.
+module.smoke_vent.name,Дымовой клапан,Smoke Vent
+module.smoke_vent.effect,Добавляет карту: Дымовая завеса.,Adds card: Smoke Screen.
+mechanism.lantern_of_revealing.name,Фонарь откровения,Lantern of Revealing
+mechanism.lantern_of_revealing.effect,Добавляет карту: Вспышка.,Adds card: Flash.
+mechanism.smoke_bellows.name,Дымовые мехи,Smoke Bellows
+mechanism.smoke_bellows.effect,Добавляет карту: Дымовая завеса.,Adds card: Smoke Screen.
+mechanism.riveted_plates.name,Клёпаные пластины,Riveted Plates
+mechanism.riveted_plates.effect,+6 к наибольшему здоровью.,+6 max HP.
+mechanism.quick_holster.name,Быстрая кобура,Quick Holster
+mechanism.quick_holster.effect,Первый ход: взять на 1 карту больше.,First turn: draw 1 more card.
+armor.helmet.name,Шлем,Helmet
+armor.chestplate.name,Нагрудник,Chestplate
+armor.gauntlets.name,Перчатки и наплечники,Gauntlets & Pauldrons
+armor.greaves.name,Поножи,Greaves
+shape.M1.name,Одиночная,Single
+shape.I2.name,Полоса из 2,Bar 2
+shape.I3.name,Полоса из 3,Bar 3
+shape.L3.name,Уголок из 3,Corner 3
+shape.I4.name,Полоса из 4,Bar 4
+shape.O4.name,Квадрат,Square
+shape.T4.name,Т-фигура,T
+shape.L4.name,Г-фигура,L
+shape.J4.name,Обратная Г-фигура,J
+shape.S4.name,Зигзаг S,S
+shape.Z4.name,Зигзаг Z,Z
+district.CROWN.name,Коронный квартал,Crown Ward
+district.CROWN.class,Власть и знать,Administrative / nobility
+district.CROWN.controller,Коронная магистратура и старые знатные дома,Crown Magistracy and old noble houses
+district.CROWN.danger,A (заказы ведут к P–D),A (contracts lead to P–D)
+district.CROWN.look,"Мраморные галереи, цитадель из чёрной стали и белого камня, часовые башни на каждой площади, газовые фонари в латунных клетках, именные улицы, частные сады под стеклянными куполами.","Marble galleries, a citadel of black steel and white stone, clock towers on every square, gas lamps with brass cages, named streets, private gardens under glass domes."
+district.CROWN.area.citadel_square,Площадь Цитадели,Citadel Square
+district.CROWN.area.the_glass_gardens,Стеклянные сады,The Glass Gardens
+district.CROWN.area.gallery_row,Галерейный ряд (дома знати),Gallery Row (noble mansions)
+district.CROWN.area.clockmakers_steps,Ступени часовщиков,Clockmakers' Steps
+district.SILVERHILL.name,Серебряный холм,Silverhill
+district.SILVERHILL.class,Церковный,Religious
+district.SILVERHILL.controller,Церковь Бледного Свода,Church of the Pale Vault
+district.SILVERHILL.danger,"A днём, P ночью","A by day, P by night"
+district.SILVERHILL.look,"Белые соборы с лунными окнами-розами, серебряные купола, стены монастыря, ступенчатое кладбище до самой Кольцевой стены, дворы приюта.","White cathedrals with moon-shaped rose windows, silver domes, convent walls, terraced cemetery down to the Ringwall, orphanage courtyards."
+district.SILVERHILL.area.cathedral_close,Соборный двор,Cathedral Close
+district.SILVERHILL.area.convent_of_st_aldric,Монастырь святого Альдрика,Convent of St. Aldric
+district.SILVERHILL.area.terraced_cemetery,Ступенчатое кладбище,Terraced Cemetery
+district.SILVERHILL.area.orphans_stair,Сиротская лестница,Orphans' Stair
+district.VIGIL.name,Квартал Шпиля Бдения,Vigil Spire Ward
+district.VIGIL.class,Военный орден,Military order
+district.VIGIL.controller,Орден Железного Бдения,Order of the Iron Vigil
+district.VIGIL.danger,A,A
+district.VIGIL.look,"Трёхсотметровая сотовая башня с 49 лифтами, казармы, плацы, архивные залы, стальные знамёна.","A 300-metre honeycomb tower with 49 elevators, barracks, drill yards, archive halls, steel banners."
+district.VIGIL.area.the_spire,Шпиль,The Spire
+district.VIGIL.area.drill_yards,Плацы,Drill Yards
+district.VIGIL.area.archive_halls,Архивные залы,Archive Halls
+district.LUMEN.name,Кампус Люмен,Lumen Campus
+district.LUMEN.class,Университет и наука,University / science
+district.LUMEN.controller,Коллегия Люмен,Lumen Collegium
+district.LUMEN.danger,P (опыты вырываются на волю),P (experiments escape)
+district.LUMEN.look,"Лекционные залы, стеклянные лаборатории, трубы с цветным дымом, Великая библиотека под латунным куполом, мастерские механического факультета.","Lecture halls, glass laboratories, chimneys with coloured smoke, the Great Library with a brass dome, mechanical department workshops."
+district.LUMEN.area.great_library,Великая библиотека,Great Library
+district.LUMEN.area.alchemy_wing,Алхимическое крыло,Alchemy Wing
+district.LUMEN.area.mechanical_department,Механический факультет,Mechanical Department
+district.LUMEN.area.lecture_quad,Лекционный двор,Lecture Quad
+district.MARKET.name,Рябиновый рынок,Rowan Market
+district.MARKET.class,Торговля,Trade
+district.MARKET.controller,Рябиновая биржа,Rowan Exchange
+district.MARKET.danger,A,A
+district.MARKET.look,"Крытые ряды, весы, ящики, навесы, центральный зал с резной деревянной рябиной.","Covered rows, scales, crates, awnings, a central hall with a rowan tree carved in wood. The hero's shop is a wooden table with cards."
+district.MARKET.area.central_hall,Центральный зал,Central Hall
+district.MARKET.area.covered_rows,Крытые ряды,Covered Rows
+district.MARKET.area.crate_yards,Ящичные дворы,Crate Yards
+district.EXCHANGE.name,Заставы Рябиновой биржи,Rowan Exchange Posts
+district.EXCHANGE.class,Торговые анклавы,Trade enclaves
+district.EXCHANGE.controller,"Дома Рябиновой биржи: Харроу (Ястреб), Варга (Волк), Бранок (Медведь)","Rowan Exchange houses: Harrow (Hawk), Varga (Wolf), Brannoc (Bear)"
+district.EXCHANGE.danger,A,A
+district.EXCHANGE.look,"Укреплённые склады у ворот, резные тотемы (орёл, волк, медведь), караванные дворы, весовые башни.","Fortified warehouses at the gates, totem carvings (eagle / wolf / bear), caravan yards, weighing towers."
+district.EXCHANGE.area.hawk_post,Застава Ястреба,Hawk Post
+district.EXCHANGE.area.wolf_post,Застава Волка,Wolf Post
+district.EXCHANGE.area.bear_post,Застава Медведя,Bear Post
+district.AVENUES.name,Номерные проспекты,The Numbered Avenues
+district.AVENUES.class,Средний класс (самый большой район),Middle class (largest)
+district.AVENUES.controller,"Никто (формально Магистратура, на деле Железное Бдение)","Nobody (formally the Magistracy, in practice the Iron Vigil)"
+district.AVENUES.danger,"A, местами P","A, with P hotspots"
+district.AVENUES.look,"Бесконечная сетка одинаковых улиц: «12-й проспект», «Улица К». Конторы, лавки, доходные дома, трамваи.","An endless grid of identical streets: '12th Avenue', 'Street K'. Offices, shops, tenement houses, trams."
+district.AVENUES.area.4th_avenue,4-й проспект,4th Avenue
+district.AVENUES.area.23rd_avenue,23-й проспект,23rd Avenue
+district.AVENUES.area.tram_depot,Трамвайное депо,Tram Depot
+district.AVENUES.area.letter_streets,Буквенные улицы (А–Я),Letter Streets (A–Z)
+district.AVENUES.area.laundry_canals,Прачечные каналы,Laundry Canals
+district.MORRELL.name,Квартал Моррелл,Morrell Ward
+district.MORRELL.class,Медицина,Medical
+district.MORRELL.controller,Дом Моррелл,House Morrell
+district.MORRELL.danger,A,A
+district.MORRELL.look,"Клиники, аптеки, оранжереи с травами, морг с зелёными лампами.","Clinics, apothecaries, greenhouses with herbs, a morgue with green lamps."
+district.MORRELL.area.apothecarium,Аптекарий,Apothecarium
+district.MORRELL.area.greenhouses,Оранжереи,Greenhouses
+district.MORRELL.area.the_morgue,Морг,The Morgue
+district.NORDHAL.name,Квартал Нордхал,Nordhal Quarter
+district.NORDHAL.class,Охотники и рабочий люд,Hunters / working class — HOME
+district.NORDHAL.controller,Артели охотников и старые семьи Нордхала,Hunter crews and the old Nordhal families
+district.NORDHAL.danger,P,P
+district.NORDHAL.look,"Тёмный кирпич, нордхальские руны на дверях, кузни, бойцовые ямы, пар из бань.","Dark brick, Nordhal runes on doors, forges, fighting pits, steam from bathhouses."
+district.NORDHAL.area.tavern_street,Трактирная улица,Tavern Street
+district.NORDHAL.area.forge_row,Кузнечный ряд,Forge Row
+district.NORDHAL.area.the_pits,Ямы,The Pits
+district.NORDHAL.area.old_rune_yard,Старый рунный двор,Old Rune Yard
+district.GREY.name,Серые Часовни,Grey Chapels
+district.GREY.class,Трущобы у края платформы,Slums at the platform edge
+district.GREY.controller,Официально никто; тайно — Серое Причастие,Nobody officially; the Grey Communion secretly
+district.GREY.danger,P,P
+district.GREY.look,"Руины часовен забытой веры, хибары на крышах, серый туман в подвалах, костры.","Ruined chapels of a forgotten faith, shanty roofs, grey fog in cellars, bonfires."
+district.GREY.area.the_old_grey_chapel,Старая Серая Часовня,The Old Grey Chapel
+district.GREY.area.shanty_roofs,Хибары на крышах,Shanty Roofs
+district.GREY.area.edge_walk,Дорожка над Бездной,Edge Walk (railing over the abyss)
+district.DEEPWRIGHT.name,Подъёмники Дипрайта,Deepwright Lifts
+district.DEEPWRIGHT.class,Промышленный,Industrial
+district.DEEPWRIGHT.controller,Компания Дипрайт,Deepwright Company
+district.DEEPWRIGHT.danger,"P, у шахт D","P, D near the shafts"
+district.DEEPWRIGHT.look,"Гигантские шахтные подъёмники сквозь платформу, литейные, рудные дворы, рёв машин, рабочие в масках.","Giant mine lifts going down through the platform, foundries, ore yards, machines roaring, workers in masks."
+district.DEEPWRIGHT.area.main_lifts,Главные подъёмники,Main Lifts
+district.DEEPWRIGHT.area.foundry_line,Литейная линия,Foundry Line
+district.DEEPWRIGHT.area.ore_yards,Рудные дворы,Ore Yards
+district.DEEPWRIGHT.area.shaft_7,Шахта 7 (запечатана),Shaft 7 (sealed)
+district.SCARLET.name,Алый Фонарный ряд,Scarlet Lantern Row
+district.SCARLET.class,Квартал утех и чёрный рынок,Red-light / black market
+district.SCARLET.controller,Алая Вечеря,Scarlet Supper
+district.SCARLET.danger,P–D,P–D
+district.SCARLET.look,"Узкие переулки под красными фонарями, бордели, игорные притоны, подпольные аукционы, салоны чёрных магов.","Narrow alleys under red lanterns, brothels, gambling dens, underground auction houses, black magicians' parlours."
+district.SCARLET.area.lantern_alley,Фонарный переулок,Lantern Alley
+district.SCARLET.area.the_auction_house,Аукционный дом,The Auction House
+district.SCARLET.area.velvet_steps,Бархатные ступени,Velvet Steps
+rule.on_self,Эту карту играют на себя.,Play this on yourself.
+rule.aim_creature,Цельтесь в тварь.,Aim at the creature.
+ui.combat.hp,Здоровье,HP
+ui.combat.none,нет,none
+section.sight,Прицел,Sight
+section.magazine,Магазин,Magazine
+section.stock,Приклад,Stock
+section.frame,Рама,Frame
+section.barrel,Ствол,Barrel
+trophy.black_lace,Чёрное кружево,Black lace
+trophy.chitin,Хитин,Chitin
+trophy.clay_mask,Глиняная маска,Clay mask
+trophy.fang,Клык,Fang
+trophy.finger_bone,Кость пальца,Finger bone
+trophy.lantern_glass,Стекло фонаря,Lantern glass
+trophy.mirror_shard,Осколок зеркала,Mirror shard
+trophy.scythe,Коса,Scythe
+trophy.sinew,Сухожилие,Sinew
+trophy.spark_core,Искровое ядро,Spark core
+trophy.tail_spike,Шип хвоста,Tail spike
+trophy.throat,Горло,Throat
+trophy.wing_dust,Пыльца с крыльев,Wing dust
+trophy.wyrm_tooth,Зуб змея,Wyrm tooth
+rule.card_unplayable,«{card}» нельзя разыграть.,{card} cannot be played.
+rule.fits_only,«{module}» ставится только в секцию «{section}».,{module} fits only into the {section}.
+rule.not_now,Не сейчас.,Not now.
+rule.no_fight,Боя нет.,No fight.
+intent.attack,Атака,Attack
+intent.defend,Защита,Defend
+intent.fear,Страх,Fear
+intent.debuff,Ослабление,Debuff
+intent.buff,Усиление,Buff
+intent.heal,Лечение,Heal
+intent.unknown,Неизвестно,Unknown
+ui.boot.content_errors,Ошибки в данных — исправьте data/ и перезапустите,Content errors — fix data/ and restart

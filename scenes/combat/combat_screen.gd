@@ -3,10 +3,6 @@ extends Control
 
 const CITY_MAP := "res://scenes/city_map/city_map_screen.tscn"
 const LOG_WIDTH := 380
-const OUTCOME_TITLES: Dictionary[StringName, String] = {
-	&"slain": "The creature is slain", &"captured": "The creature is captured",
-	&"fallen": "The hunter falls", &"escaped": "It slipped away",
-}
 
 var _enemy_view: EnemyView
 var _hero_view: HeroView
@@ -87,7 +83,7 @@ func _build_hero_row() -> Control:
 	row.add_theme_constant_override("separation", 30)
 	_hero_view = HeroView.new()
 	row.add_child(_hero_view)
-	var end_turn := Icons.button("UI", &"end_turn", "End Turn", 24)
+	var end_turn := Icons.button("UI", &"end_turn", Loc.t("ui.combat.end_turn"), 24)
 	end_turn.pressed.connect(_end_turn)
 	row.add_child(end_turn)
 	return row
@@ -162,10 +158,10 @@ func _refresh_intents(s: CombatState) -> void:
 func _refresh_piles(s: CombatState) -> void:
 	for c: Node in _piles.get_children():
 		c.queue_free()
-	for pile: Array in [[&"draw_pile", "Draw", s.draw_pile.size()], [&"discard_pile", "Discard", s.discard_pile.size()],
-			[&"exhaust_pile", "Exhaust", s.exhaust_pile.size()]]:
-		var row := Icons.with_text("UI", pile[0] as StringName, str(pile[2]), 34, 20, Palette.FOG)
-		row.tooltip_text = "%s pile" % pile[1]
+	for pile: Array in [[&"draw_pile", s.draw_pile.size()], [&"discard_pile", s.discard_pile.size()],
+			[&"exhaust_pile", s.exhaust_pile.size()]]:
+		var row := Icons.with_text("UI", pile[0] as StringName, str(pile[1]), 34, 20, Palette.FOG)
+		row.tooltip_text = Loc.t("ui.combat.pile.%s" % pile[0])
 		row.mouse_filter = Control.MOUSE_FILTER_PASS
 		_piles.add_child(row)
 
@@ -201,7 +197,7 @@ func _on_card_chosen(uid: int) -> void:
 		_selected_uid = 0
 	elif card.def.needs_enemy_target():
 		var problem := CombatRules.can_play(s, card, CombatTarget.enemy())
-		_message.text = problem if problem != "" else "Choose a target: the creature or a body part."
+		_message.text = problem if problem != "" else Loc.t("ui.combat.choose_target")
 		_selected_uid = uid if problem == "" else 0
 	else:
 		_message.text = GameState.combat_play(uid, CombatTarget.self_target())
@@ -241,7 +237,7 @@ func _show_result(s: CombatState) -> void:
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 12)
 	panel.add_child(v)
-	v.add_child(UiKit.label(OUTCOME_TITLES.get(s.outcome(), "The fight is over"), 36, Palette.BRASS_LIGHT))
+	v.add_child(UiKit.label(Loc.or_default("ui.combat.outcome.%s" % s.outcome(), Loc.t("ui.combat.over")), 36, Palette.BRASS_LIGHT))
 	if s.outcome() == &"slain" or s.outcome() == &"captured":
 		var seal := TextureRect.new()  # the creature's silhouette, cracked: struck from the leaflets
 		seal.texture = UiKit.texture(s.enemy.def.art_path("silhouette", "cracked"))
@@ -249,10 +245,10 @@ func _show_result(s: CombatState) -> void:
 		seal.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		seal.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		v.add_child(seal)
-	var trophies := ", ".join(PackedStringArray(s.trophies.map(func(t: StringName) -> String: return String(t).capitalize())))
-	v.add_child(UiKit.label("Turns: %d    HP left: %d" % [s.turn, maxi(s.hero.hp, 0)], 20))
-	v.add_child(Icons.with_text("RESOURCE", &"trophy", "Trophies: %s" % (trophies if trophies != "" else "none"), 30, 20))
-	var back := UiKit.button("Return to the city")
+	var trophies := ", ".join(PackedStringArray(s.trophies.map(func(t: StringName) -> String: return Loc.or_default("trophy.%s" % t, String(t).capitalize()))))
+	v.add_child(UiKit.label(Loc.t("ui.combat.summary", {"turns": s.turn, "hp": maxi(s.hero.hp, 0)}), 20))
+	v.add_child(Icons.with_text("RESOURCE", &"trophy", Loc.t("ui.combat.trophies", {"list": trophies if trophies != "" else Loc.t("ui.combat.none")}), 30, 20))
+	var back := UiKit.button(Loc.t("ui.combat.back"))
 	back.pressed.connect(_return_to_city)
 	v.add_child(back)
 

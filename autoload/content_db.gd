@@ -8,6 +8,7 @@ var errors: PackedStringArray = []
 
 
 func _ready() -> void:
+	Loc.apply_locale()
 	reload()
 
 

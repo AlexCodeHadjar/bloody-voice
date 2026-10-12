@@ -33,12 +33,12 @@ static func after_shot(s: CombatState, card: CardDef) -> void:
 	var block := h.mod(&"shot_block")
 	if block > 0:
 		h.block += block
-		s.log_event(&"block", "The recoil spring braces you: block %d." % block, block)
+		s.log_event(&"block", Loc.t("log.recoil", {"n": block}), block)
 	var bleed := h.mod(&"shot_bleed")
 	if bleed > 0:
 		var stacks := bleed + h.mod(&"bleed_bonus")
 		s.enemy.add_status(&"bleed", stacks)
-		s.log_event(&"status", "%s: Bleed %d." % [s.enemy.display_name, stacks], stacks)
+		s.log_event(&"status", Loc.t("log.status", {"who": s.enemy.display_name, "status": EffectText.status_name(&"bleed"), "n": stacks}), stacks)
 
 
 ## Bleed applied by the hunter is stronger with bleed_bonus.

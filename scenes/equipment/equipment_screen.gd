@@ -5,7 +5,6 @@ extends Control
 
 const CITY_MAP := "res://scenes/city_map/city_map_screen.tscn"
 const TABLET_ART := "res://art/ui/WEAPON__tablet.webp"
-const HINT := "Pick a spare module on the right, then click a cell (right click or R rotates). Click an installed module to take it out."
 
 var _tablet: WeaponTabletView
 var _spares: VBoxContainer
@@ -47,16 +46,16 @@ func _build_left() -> Control:
 	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	left.add_theme_constant_override("separation", 14)
 	var top := HBoxContainer.new()
-	top.add_child(UiKit.label("Equipment", 36, Palette.BRASS_LIGHT))
+	top.add_child(UiKit.label(Loc.t("ui.equip.title"), 36, Palette.BRASS_LIGHT))
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(spacer)
 	if OS.is_debug_build():
-		var grant := UiKit.button("Dev: all gear", 16)
+		var grant := UiKit.button(Loc.t("ui.equip.dev_all"), 16)
 		grant.custom_minimum_size = Vector2(170, 40)
 		grant.pressed.connect(GameState.dev_grant_all_gear)
 		top.add_child(grant)
-	var back := UiKit.button("Back to the city", 18)
+	var back := UiKit.button(Loc.t("ui.equip.back"), 18)
 	back.custom_minimum_size = Vector2(220, 40)
 	back.pressed.connect(func() -> void: get_tree().change_scene_to_file(CITY_MAP))
 	top.add_child(back)
@@ -68,24 +67,24 @@ func _build_left() -> Control:
 	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	art.modulate = Color(1, 1, 1, 0.85)
 	left.add_child(art)
-	left.add_child(UiKit.label(GameState.run.loadout.weapon.capitalize(), 26))
+	left.add_child(UiKit.label(ContentDB.data.weapon(GameState.run.loadout.weapon).name, 26))
 	_tablet = WeaponTabletView.new()
 	_tablet.setup(ContentDB.data, GameState.run.loadout)
 	_tablet.cell_clicked.connect(_on_cell)
 	_tablet.rotate_requested.connect(_rotate)
 	left.add_child(_tablet)
-	_message = UiKit.paragraph(HINT, 18, Palette.FOG)
+	_message = UiKit.paragraph(Loc.t("ui.equip.hint"), 18, Palette.FOG)
 	left.add_child(_message)
 	var lower := HBoxContainer.new()
 	lower.add_theme_constant_override("separation", 40)
 	left.add_child(lower)
 	var armor_box := VBoxContainer.new()
-	armor_box.add_child(UiKit.label("Armor sockets", 24, Palette.BRASS_LIGHT))
+	armor_box.add_child(UiKit.label(Loc.t("ui.equip.armor"), 24, Palette.BRASS_LIGHT))
 	_armor = VBoxContainer.new()
 	armor_box.add_child(_armor)
 	lower.add_child(armor_box)
 	var deck_box := VBoxContainer.new()
-	deck_box.add_child(UiKit.label("Fight deck", 24, Palette.BRASS_LIGHT))
+	deck_box.add_child(UiKit.label(Loc.t("ui.equip.deck"), 24, Palette.BRASS_LIGHT))
 	_deck = UiKit.paragraph("", 16, Palette.PARCHMENT)
 	_deck.custom_minimum_size = Vector2(380, 0)
 	deck_box.add_child(_deck)
@@ -103,7 +102,7 @@ func _build_right() -> Control:
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.add_theme_constant_override("separation", 10)
 	scroll.add_child(v)
-	v.add_child(UiKit.label("Spare modules", 24, Palette.BRASS_LIGHT))
+	v.add_child(UiKit.label(Loc.t("ui.equip.spares"), 24, Palette.BRASS_LIGHT))
 	_spares = VBoxContainer.new()
 	v.add_child(_spares)
 	return panel
@@ -122,12 +121,13 @@ func _refresh_spares() -> void:
 		c.queue_free()
 	var spare := GameState.run.loadout.spare_modules()
 	if spare.is_empty():
-		_spares.add_child(UiKit.paragraph("No spare modules. New modules will come from the shop, the workshop and special contracts (next phases).", 15, Palette.INK_MUTED))
+		_spares.add_child(UiKit.paragraph(Loc.t("ui.equip.no_spares"), 15, Palette.INK_MUTED))
 	for id: StringName in spare:
 		var m := ContentDB.data.module(id)
 		var row := HBoxContainer.new()
 		row.add_child(_module_picture(m))
-		var b := UiKit.button("%s  [%s · %s cell]\n%s" % [m.name, m.section, m.cell, m.effect], 15)
+		var b := UiKit.button(Loc.t("ui.equip.module_button", {"name": m.name, "section": Loc.t("section.%s" % m.section),
+			"cell": Loc.t("cell.%s" % m.cell), "effect": m.effect}), 15)
 		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		b.custom_minimum_size = Vector2(360, 64)
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -159,7 +159,7 @@ func _refresh_armor() -> void:
 					choices.append(m)
 			for m: StringName in choices:
 				var mech := ContentDB.data.mechanism(m)
-				pick.add_item("— empty —" if m == &"" else "%s (%s)" % [mech.name, mech.effect])
+				pick.add_item(Loc.t("ui.equip.empty_socket") if m == &"" else "%s (%s)" % [mech.name, mech.effect])
 			pick.select(choices.find(current))
 			pick.item_selected.connect(func(idx: int) -> void: _message.text = GameState.set_socket(a.id, i, choices[idx]))
 			row.add_child(pick)
@@ -192,19 +192,20 @@ func _refresh_deck() -> void:
 	var lines: PackedStringArray = []
 	for key: String in order:
 		var parts := key.split("|")
-		lines.append("%d × %s  — %s" % [counts[key], ContentDB.data.card(StringName(parts[0])).name, parts[1]])
-	lines.append("\nCards: %d · Ammo: %d" % [b.deck.size(), b.max_ammo])
+		lines.append(Loc.t("ui.equip.deck_line", {"count": counts[key], "card": ContentDB.data.card(StringName(parts[0])).name,
+			"origin": parts[1]}))
+	lines.append("\n" + Loc.t("ui.equip.deck_total", {"cards": b.deck.size(), "ammo": b.max_ammo}))
 	for k: StringName in b.mods:
 		if k != &"max_ammo":
-			lines.append("%s +%d" % [String(k).capitalize(), b.mods[k]])
+			lines.append("%s +%d" % [Loc.t("mod.%s" % k), b.mods[k]])
 	for link: String in b.links:
-		lines.append("Link: %s" % link)
+		lines.append(Loc.t("ui.equip.link", {"link": link}))
 	_deck.text = "\n".join(lines)
 
 
 func _hold(id: StringName) -> void:
 	_held = id if _held != id else &""
-	_message.text = _holding_text() if _held != &"" else HINT
+	_message.text = _holding_text() if _held != &"" else Loc.t("ui.equip.hint")
 	_refresh()
 
 
@@ -215,9 +216,9 @@ func _holding_text() -> String:
 	for c: StringName in m.cards:
 		gains.append("+%s" % ContentDB.data.card(c).name)
 	for k: StringName in m.mods:
-		gains.append("%s +%d" % [String(k).capitalize(), m.mods[k]])
+		gains.append("%s +%d" % [Loc.t("mod.%s" % k), m.mods[k]])
 	var change := ", ".join(gains) if not gains.is_empty() else m.effect
-	return "Holding %s → %s. Green outlines show where it fits; right click / R rotates, Esc drops it." % [m.name, change]
+	return Loc.t("ui.equip.holding", {"module": m.name, "change": change})
 
 
 func _rotate() -> void:
@@ -237,7 +238,7 @@ func _on_cell(section: StringName, cell: Vector2i) -> void:
 	if index >= 0:
 		_rot = GameState.run.loadout.placements[index].rot
 		_held = GameState.unequip_module(index)
-		_message.text = "Picked up — click a cell to install it again."
+		_message.text = Loc.t("ui.equip.picked")
 		_refresh()
 
 
@@ -247,5 +248,5 @@ func _unhandled_input(event: InputEvent) -> void:
 		_rotate()
 	elif event.is_action_pressed("ui_cancel"):
 		_held = &""
-		_message.text = HINT
+		_message.text = Loc.t("ui.equip.hint")
 		_refresh()

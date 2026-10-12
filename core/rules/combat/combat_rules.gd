@@ -9,7 +9,7 @@ static func start(setup: CombatSetup, data: ContentData) -> CombatState:
 	s.rng.seed = setup.rng_seed
 	s.capture_allowed = setup.capture_allowed
 	var h := s.hero
-	h.display_name = "The hunter"
+	h.display_name = Loc.t("log.hunter_name")
 	h.hp = setup.hero_hp
 	h.max_hp = setup.hero_max_hp
 	h.sanity = setup.max_sanity
@@ -22,7 +22,7 @@ static func start(setup: CombatSetup, data: ContentData) -> CombatState:
 	h.mods = setup.mods.duplicate()
 	EnemyRules.setup(s, data.monster(setup.monster_id))
 	DeckRules.build(s, setup.deck, data)
-	s.log_event(&"start", "%s blocks the way." % s.enemy.display_name)
+	s.log_event(&"start", Loc.t("log.start", {"enemy": s.enemy.display_name}))
 	_start_player_turn(s, data)
 	return s
 
@@ -30,16 +30,16 @@ static func start(setup: CombatSetup, data: ContentData) -> CombatState:
 ## "" if the card can be played on that target, otherwise the reason (shown to the player).
 static func can_play(s: CombatState, card: CardInstance, target: CombatTarget) -> String:
 	if s.phase != CombatState.Phase.PLAYER:
-		return "Not your turn."
+		return Loc.t("rule.not_your_turn")
 	if card == null or not s.hand.has(card):
-		return "That card is not in your hand."
+		return Loc.t("rule.not_in_hand")
 	var def := card.def
 	if def.unplayable or def.target == &"none":
-		return "%s cannot be played." % def.name
+		return Loc.t("rule.card_unplayable", {"card": def.name})
 	if def.cost > s.hero.ap:
-		return "Not enough action points."
+		return Loc.t("rule.no_ap")
 	if def.ammo > s.hero.ammo:
-		return "Out of ammo — reload."
+		return Loc.t("rule.no_ammo")
 	return _target_problem(s, def, target)
 
 
@@ -52,7 +52,7 @@ static func play_card(s: CombatState, uid: int, target: CombatTarget, data: Cont
 	s.hero.ap -= def.cost
 	s.hero.ammo -= def.ammo
 	s.hand.erase(card)
-	s.log_event(&"play", "You play %s." % def.name, 0, def.id)
+	s.log_event(&"play", Loc.t("log.play", {"card": def.name}), 0, def.id)
 	var ctx := EffectContext.create(s.hero, s.enemy, target, true)
 	ctx.card = def
 	ctx.bonus_damage = GearEffectRules.bonus_damage(s, def, target)
@@ -84,10 +84,10 @@ static func check_end(s: CombatState) -> void:
 		return
 	if s.enemy.is_dead():
 		s.phase = CombatState.Phase.WON
-		s.log_event(&"won", "%s falls." % s.enemy.display_name)
+		s.log_event(&"won", Loc.t("log.won", {"enemy": s.enemy.display_name}))
 	elif s.hero.is_dead():
 		s.phase = CombatState.Phase.LOST
-		s.log_event(&"lost", "The hunter falls.")
+		s.log_event(&"lost", Loc.t("log.lost"))
 
 
 static func _start_player_turn(s: CombatState, data: ContentData) -> void:
@@ -95,7 +95,7 @@ static func _start_player_turn(s: CombatState, data: ContentData) -> void:
 	if s.turn > data.balance.turn_limit:
 		s.escaped = true
 		s.phase = CombatState.Phase.LOST
-		s.log_event(&"escaped", "%s slips away into the dark." % s.enemy.display_name)
+		s.log_event(&"escaped", Loc.t("log.escaped", {"enemy": s.enemy.display_name}))
 		return
 	s.phase = CombatState.Phase.PLAYER
 	StatusRules.turn_start(s, s.hero)
@@ -115,16 +115,16 @@ static func _start_player_turn(s: CombatState, data: ContentData) -> void:
 static func _target_problem(s: CombatState, def: CardDef, target: CombatTarget) -> String:
 	match def.target:
 		&"self":
-			return "" if target.kind == CombatTarget.SELF else "Play this on yourself."
+			return "" if target.kind == CombatTarget.SELF else Loc.t("rule.on_self")
 		&"enemy":
-			return "" if target.kind == CombatTarget.ENEMY else "Aim at the creature."
+			return "" if target.kind == CombatTarget.ENEMY else Loc.t("rule.aim_creature")
 		&"enemy_or_part":
 			if target.kind == CombatTarget.ENEMY:
 				return ""
 			if target.kind == CombatTarget.PART:
 				var part: PartState = s.enemy.parts.get(target.part_id)
 				if part == null:
-					return "No such body part."
-				return "That part is already broken." if part.broken else ""
-			return "Aim at the creature or a body part."
-	return "Cannot be played."
+					return Loc.t("rule.no_part")
+				return Loc.t("rule.part_broken") if part.broken else ""
+			return Loc.t("rule.aim")
+	return Loc.t("rule.unplayable")

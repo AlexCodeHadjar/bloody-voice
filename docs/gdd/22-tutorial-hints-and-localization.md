@@ -88,16 +88,18 @@ save), so a new run does not repeat them. Settings: «Подсказки: вкл
   `.translation` files on import. Locale `ru` is the default; `en` is filled later (Phase 10).
 - **UI strings:** never written in scenes. `tr("ui.combat.end_turn")` → «Конец хода».
 - **Content:** names and descriptions from data use keys by id: `card.strike.name`, `monster.vigil_hound.name`,
-  `module.brass_scope.name`, `district.GREY.name`, `landmark.ash_garret.name`… JSON keeps ids and numbers only;
-  the English names move to the `en` column.
+  `module.brass_scope.name`, `district.GREY.name`, `landmark.ash_garret.name`… JSON keeps ids, numbers and the English
+  working names; `python tools/gen_locale.py` copies them into the `en` column and lists keys without Russian text.
+  `ContentLoc.apply` puts the Russian texts into the loaded defs, so screens keep reading `def.name`.
+- **Done (2026-10-12):** table (≈ 470 keys), `Loc` (`core/content/loc.gd`), `ContentLoc`, all scenes, combat log,
+  rule messages and `EffectText` in Russian; `tests/test_locale.gd`. Font: system serif fonts (Georgia etc. have
+  Cyrillic on Windows) until the owner picks a bundled font.
 - **Effect text** (`EffectText`) is built from templates in the same table with numbers and Russian plural forms:
   `effect.draw` = «Возьмите {n} {n:карту|карты|карт}». A tiny formatter (`core/content/loc.gd`) fills `{n}` and picks
   the plural form (1 карту, 2 карты, 5 карт; 21 карту).
 - **Checks:** a test fails if any key used by data or scenes has no `ru` text, or a `ru` text has unknown placeholders.
-- **EffectText migration:** its English sentences become table templates; a test renders every effect for n = 0…30
-  and checks the Russian plural form (1, 2–4, 5–20, 21, 22…).
-- **EffectText migration:** its English sentences become table templates; a test renders every effect for n = 0…30
-  and checks the Russian plural form (1, 2–4, 5–20, 21, 22…).
+- **EffectText migration:** its English sentences became table templates (`effect.*`); `tests/test_locale.gd` checks the
+  Russian plural forms (0–30, 101, 111) and that every effect op has a template.
 - **Font:** bundle a serif font with Cyrillic (e.g. *PT Serif* or *Old Standard TT*, OFL) instead of relying on
   system fonts, so exported builds look the same on every PC.
 - **Comments, GDD, prompts and ids stay in English** (CLAUDE.md).

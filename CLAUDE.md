@@ -40,14 +40,15 @@
 - Файл ≤ 400 строк, функция ≤ 40. Без тяжёлой логики в `_process`. Случайность — только `SeededRng`/`Rng.stream`.
 - Сейвы: `RunState.SAVE_VERSION` + `SaveMigrations`; id из сейвов не переименовывать.
 - Комментарии, GDD, промты и id — по-английски; заметки для владельца — можно по-русски.
-- **Интерфейс игры — на русском** через ключи перевода (`tr()`, `locale/strings.csv`, GDD §22); строк в сценах не писать
-  (вводится в фазе 2b; существующие сцены ещё на английских строках — переводить при первой правке).
+- **Интерфейс игры — на русском**: любой текст только через `Loc.t("ключ")` (`core/content/loc.gd`, таблица `locale/strings.csv`,
+  GDD §22.5); названия из данных переводит `ContentLoc` при загрузке; новый контент → `python tools/gen_locale.py`, вписать ru.
 
 ## Где что
 
 | Область | Файлы |
 |---|---|
-| Контент | `core/content/` (`content_loader`, `content_validator`, `def_reader`, `effect_schema`, `effect_text` — текст хода из эффектов, `defs/`); `data/` |
+| Контент | `core/content/` (`content_loader`, `content_validator`, `def_reader`, `effect_schema`, `effect_text` — текст хода из эффектов, `loc` + `content_loc` — русский текст, `defs/`); `data/` |
+| Перевод | `locale/strings.csv` (keys, ru, en; `.translation` создаёт импорт) · `tools/gen_locale.py` · тест `tests/test_locale.gd` |
 | Состояние | `core/state/run_state.gd` (день, деньги, район, `CityState`, `LoadoutState`; `SAVE_VERSION` 2), `save_migrations.gd`; бой — `core/state/combat/` |
 | Время, город | `core/rules/time/` (календарь, конец дня, аренда); `core/rules/city/` (попадание по карте, состояния районов) |
 | Бой | `core/rules/combat/` (`combat_rules` поток, `effect_applier`, `damage_rules`, `enemy_rules`, `deck_rules`, `status_rules`, `capture_rules`, `gear_effect_rules` — бонусы снаряжения) |

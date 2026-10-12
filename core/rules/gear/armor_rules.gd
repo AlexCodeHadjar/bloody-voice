@@ -7,15 +7,15 @@ extends RefCounted
 static func set_socket(l: LoadoutState, data: ContentData, piece: StringName, index: int, mechanism: StringName) -> String:
 	var armor := _armor(data, piece)
 	if armor == null:
-		return "Unknown armor piece."
+		return Loc.t("rule.unknown_armor")
 	if index < 0 or index >= armor.sockets:
-		return "No such socket."
+		return Loc.t("rule.no_socket")
 	var slots := _slots(l, armor)
 	if mechanism != &"":
 		if data.mechanism(mechanism) == null:
-			return "Unknown mechanism."
+			return Loc.t("rule.unknown_mechanism")
 		if str(slots[index]) != String(mechanism) and not l.spare_mechanisms().has(mechanism):
-			return "You have no spare %s." % mechanism
+			return Loc.t("rule.no_spare", {"item": data.mechanism(mechanism).name})
 	slots[index] = String(mechanism)
 	l.sockets[piece] = slots
 	return ""

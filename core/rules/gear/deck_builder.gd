@@ -14,7 +14,7 @@ class Build:
 static func build(l: LoadoutState, data: ContentData, capture_allowed: bool = false) -> Build:
 	var b := Build.new()
 	var weapon := data.weapon(l.weapon)
-	_add(b, data.balance.starter_deck, "Hunter")
+	_add(b, data.balance.starter_deck, Loc.t("ui.deck.hunter"))
 	if weapon != null:
 		_add(b, weapon.cards, weapon.name)
 		b.max_ammo = weapon.max_ammo
