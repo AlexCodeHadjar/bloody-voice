@@ -88,11 +88,12 @@ func test_scriptorium_studies_a_trophy() -> void:
 			trophy = p.trophy
 	if trophy == &"" or c.known_tags.size() >= m.tags.size():
 		return
-	check(LibraryRules.study(run, data, trophy).is_empty(), "no trophy, no study")
+	check(LibraryRules.study(run, data, trophy) == null, "no trophy, no study")
 	run.workshop.trophies[trophy] = 1
 	var known := c.known_tags.size()
-	var taught := LibraryRules.study(run, data, trophy)
-	check(taught.has(c), "the contract learned")
+	var study := LibraryRules.study(run, data, trophy)
+	check(study.taught.has(c), "the contract learned")
+	check(study.dissected and run.bestiary.has(m.id, &"dissected"), "the Bestiary marks it dissected")
 	eq(c.known_tags.size(), known + 1, "one more sign")
 	check(m.tags.has(c.known_tags[-1]), "a true sign")
 	eq(run.workshop.amount(trophy), 0, "the trophy is spent")

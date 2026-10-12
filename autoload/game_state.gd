@@ -11,7 +11,9 @@ func accept_contract(uid: int) -> String:
 		return Loc.t("rule.not_now")
 	var problem := ContractRules.accept(run.contracts, ContentDB.data, uid)
 	if problem == "":
+		BestiaryRules.mark(run, run.contracts.find(uid).monster, &"seen")
 		EventBus.contracts_changed.emit()
+		EventBus.progress_changed.emit()
 		if RumorRules.seed_targets(run, ContentDB.data, Rng.stream(StringName("rumor_target_%d" % uid), run.day)):
 			EventBus.rumors_changed.emit()
 		save_game()
@@ -138,16 +140,17 @@ func verify_rumor(uid: int) -> String:
 	return problem
 
 
-## Day action in the Scriptorium: study a trophy; returns the contracts that learned a sign (empty = not done).
-func study_trophy(trophy: StringName) -> Array[ContractsState.Contract]:
+## Day action in the Scriptorium: study a trophy; returns what was learned (null = not done).
+func study_trophy(trophy: StringName) -> LibraryRules.Study:
 	if run == null or combat != null:
-		return []
-	var taught := LibraryRules.study(run, ContentDB.data, trophy)
-	if not taught.is_empty():
+		return null
+	var study := LibraryRules.study(run, ContentDB.data, trophy)
+	if study != null:
 		EventBus.stock_changed.emit()
 		EventBus.contracts_changed.emit()
+		EventBus.progress_changed.emit()
 		end_day()
-	return taught
+	return study
 
 
 ## Rag-and-Bone shop (GDD 11.1): buy an item of this week's table. "" or the reason it can't be bought.

@@ -127,6 +127,7 @@ func _build_bar() -> Control:
 	row.add_child(camera_buttons)
 	row.add_child(_bar_button("PLACE", &"city_map", "ui.district.city_map", _to_city))
 	row.add_child(_bar_button("STAT", &"xp", "ui.progress.button", func() -> void: _panels.open(HeroPanel.new())))
+	row.add_child(_bar_button("UI", &"bestiary", "ui.bestiary.button", func() -> void: _panels.open(BestiaryPanel.new())))
 	row.add_child(_bar_button("DIRECTION", &"equipment", "ui.city.equipment", _to_equipment))
 	row.add_child(_bar_button("UI", &"menu", "ui.city.menu", _to_menu))
 	return bar

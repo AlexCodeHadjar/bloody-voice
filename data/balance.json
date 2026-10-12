@@ -14,7 +14,9 @@
  },
  "hero": {
   "start_district": "GREY",
-  "open_districts": ["GREY"],
+  "open_districts": [
+   "GREY"
+  ],
   "base_hp": 40,
   "hp_per_level": 5,
   "base_ap": 3,
@@ -294,5 +296,62 @@
   "calm_voice": 5,
   "calm_cost": 20,
   "pure_sell_mult": 2
+ },
+ "factions": {
+  "_comment": "Reputation (GDD 12, owner 2026-10-12): tier_min — the lowest value of each tier; petition_done — the petitioner's faction when its contract is finished; rival_done — each rival of it; outcome — every fight by outcome (the Vigil wants creatures dead, the Communion alive).",
+  "tier_min": {
+   "hostile": -100,
+   "wary": -49,
+   "neutral": -9,
+   "trusted": 25,
+   "sworn": 60
+  },
+  "petition_done": 8,
+  "rival_done": -3,
+  "outcome": {
+   "slain": {
+    "vigil": 1
+   },
+   "captured": {
+    "grey_communion": 2,
+    "vigil": -1
+   }
+  }
+ },
+ "register": {
+  "_comment": "The hunter's Register rank (GDD 12.1, owner 2026-10-12: rises by an exam). The board offers creatures up to one rank above the hunter's. After exam_after[rank] finished contracts at a rank, the Register pins an exam leaflet: slay a creature of the next rank of the district, made stronger (overdue numbers), within exam_days; it does not count toward max_active. Pass: the next rank, exam_reward[rank] money, exam_xp. Fail (deadline): the leaflet goes, a new one next Monday. reward_bonus: contract rewards +this per rank above A.",
+  "ranks": [
+   "A",
+   "P",
+   "D",
+   "S"
+  ],
+  "exam_after": [
+   3,
+   4,
+   5
+  ],
+  "exam_days": 6,
+  "exam_reward": [
+   60,
+   100,
+   160
+  ],
+  "exam_xp": 40,
+  "reward_bonus": 0.1
+ },
+ "bestiary": {
+  "_comment": "Bestiary (GDD 10.3, owner 2026-10-12: knowledge helps). Knowledge marks per creature: seen (a contract on it taken, or met), fought, slain, captured, dissected (a trophy studied in the Scriptorium). Each mark gives bonuses (GearMods) in fights with that creature.",
+  "mods": {
+   "slain": {
+    "foresight_start": 1
+   },
+   "captured": {
+    "part_damage": 2
+   },
+   "dissected": {
+    "shot_damage": 2
+   }
+  }
  }
 }

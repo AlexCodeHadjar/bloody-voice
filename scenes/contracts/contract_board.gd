@@ -51,6 +51,13 @@ func _build_board() -> Control:
 	title.add_theme_constant_override("outline_size", 8)
 	title.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
 	v.add_child(title)
+	var data := ContentDB.data  # the hunter's rank decides which creatures the board offers (GDD 12.1)
+	var letter := RegisterRules.rank_letter(data, GameState.run.standing.rank)
+	var rank := UiKit.label(Loc.t("ui.register.board", {"rank": letter, "upto": RegisterRules.rank_letter(data, GameState.run.standing.rank + 1)}), 18, Palette.PARCHMENT)
+	rank.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	rank.add_theme_constant_override("outline_size", 6)
+	rank.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+	v.add_child(rank)
 	_row = HBoxContainer.new()
 	_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	_row.add_theme_constant_override("separation", 22)

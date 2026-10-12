@@ -71,8 +71,14 @@ func _reset(web_id: StringName) -> void:
 
 
 func _study(trophy: StringName) -> void:
-	var taught := GameState.study_trophy(trophy)
-	if taught.is_empty():
+	var study := GameState.study_trophy(trophy)
+	if study == null:
 		message.text = LibraryRules.can_study(GameState.run, ContentDB.data, trophy)
 		return
-	show_done(Loc.t("ui.library.studied", {"name": ContractKit.monster_name(taught[0]), "n": taught.size()}))
+	var name_text := ContentDB.data.monster(study.creature).name
+	var lines: PackedStringArray = []
+	if not study.taught.is_empty():
+		lines.append(Loc.t("ui.library.studied", {"name": name_text, "n": study.taught.size()}))
+	if study.dissected:
+		lines.append(Loc.t("ui.library.dissected", {"name": name_text}))
+	show_done("\n".join(lines))

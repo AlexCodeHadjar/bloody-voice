@@ -36,6 +36,7 @@ func show_result(s: CombatState) -> void:
 	if s.outcome() == &"fallen":  # the Hunter's Fall (GameState.finish_combat)
 		v.add_child(UiKit.paragraph(Loc.t("ui.combat.fall", {"n": ContentDB.data.balance.health.fall_fee}), 18, Palette.ALARM))
 	_add_contract_line(v, s)
+	_add_standing_lines(v, s)
 	var back := UiKit.button(Loc.t("ui.combat.back"))
 	back.pressed.connect(back_pressed.emit)
 	v.add_child(back)
@@ -68,6 +69,7 @@ func _add_xp_line(v: VBoxContainer, s: CombatState) -> void:
 	var data := ContentDB.data
 	var c := GameState.run.contracts.find(s.contract_uid)
 	var xp := ProgressRules.fight_xp(data, s) + (data.balance.progress.contract_xp if ContractRules.reward_for(c, s.outcome()) > 0 else 0)
+	xp += RegisterRules.exam_xp(data, c, s.outcome())
 	if xp <= 0:
 		return
 	v.add_child(Icons.with_text("STAT", &"xp", Loc.t("ui.progress.xp_gain", {"n": xp}), 30, 20))
@@ -85,3 +87,22 @@ func _add_contract_line(v: VBoxContainer, s: CombatState) -> void:
 		v.add_child(Icons.with_text("RESOURCE", &"money", Loc.t("ui.combat.contract_done", {"n": paid}), 30, 20, Palette.BRASS_LIGHT))
 	else:
 		v.add_child(UiKit.label(Loc.t("ui.combat.contract_open"), 18, Palette.FOG))
+
+
+## New Bestiary marks, reputation changes and a passed Register exam (taken on «back to the district»).
+func _add_standing_lines(v: VBoxContainer, s: CombatState) -> void:
+	var data := ContentDB.data
+	var marks: PackedStringArray = []
+	for k: StringName in BestiaryRules.fight_marks(GameState.run, s):
+		marks.append(Loc.t("ui.bestiary.mark.%s" % k))
+	if not marks.is_empty():
+		v.add_child(Icons.with_text("UI", &"bestiary", Loc.t("ui.bestiary.new_marks", {"list": ", ".join(marks)}), 30, 18))
+	var c := GameState.run.contracts.find(s.contract_uid)
+	var changes := FactionRules.fight_changes(data, c, s.outcome())
+	for f: StringName in changes:
+		var fd := data.faction(f)
+		v.add_child(Icons.with_text("FACTION", f, "%s %+d" % [fd.name if fd != null else String(f), changes[f]], 30, 18,
+			Palette.BRASS_LIGHT if changes[f] > 0 else Palette.ALARM))
+	if RegisterRules.exam_xp(data, c, s.outcome()) > 0:
+		var letter := RegisterRules.rank_letter(data, GameState.run.standing.rank + 1)
+		v.add_child(UiKit.label(Loc.t("ui.register.passed", {"rank": letter}), 24, Palette.BRASS_LIGHT))

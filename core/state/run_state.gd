@@ -3,7 +3,7 @@ extends RefCounted
 ## Everything that is saved for one playthrough. Pure data: no nodes, no signals.
 ## Only GameState (through rules) changes it.
 
-const SAVE_VERSION := 12
+const SAVE_VERSION := 13
 
 var master_seed: int = 0
 var day: int = 1  ## day 1 = Monday of week 1
@@ -22,6 +22,8 @@ var hero_hp: int = -1  ## HP carried between fights; -1 = full (GDD 4)
 var hero_sanity: int = -1  ## Sanity carried between fights; -1 = full
 var voice: int = 0  ## the Voice: corruption from the Monster web (GDD 4.2)
 var skills: SkillsState = SkillsState.new()  ## nodes bought in the skill webs (GDD 4.4)
+var bestiary: BestiaryState = BestiaryState.new()  ## what the hunter knows of each creature (GDD 10.3)
+var standing: StandingState = StandingState.new()  ## reputation and the Register rank (GDD 12)
 var progress: ProgressState = ProgressState.new()  ## level, XP, attributes (GDD 4); ProgressRules.ensure_start fills it
 var workshop_locked_day: int = 0  ## the workshop is shut for debt on this day
 var workshop: WorkshopState = WorkshopState.new()  ## resources, trophies, blueprints (GDD 6); filled by WorkshopRules.ensure_start
@@ -59,6 +61,8 @@ func to_dict() -> Dictionary:
 		"progress": progress.to_dict(),
 		"skills": skills.to_dict(),
 		"voice": voice,
+		"bestiary": bestiary.to_dict(),
+		"standing": standing.to_dict(),
 		"workshop_locked_day": workshop_locked_day,
 	}
 
@@ -85,5 +89,7 @@ static func from_dict(d: Dictionary) -> RunState:
 	r.progress = ProgressState.from_dict(d.get("progress", {}) as Dictionary)
 	r.skills = SkillsState.from_dict(d.get("skills", {}) as Dictionary)
 	r.voice = int(d.get("voice", 0))
+	r.bestiary = BestiaryState.from_dict(d.get("bestiary", {}) as Dictionary)
+	r.standing = StandingState.from_dict(d.get("standing", {}) as Dictionary)
 	r.workshop_locked_day = int(d.get("workshop_locked_day", 0))
 	return r

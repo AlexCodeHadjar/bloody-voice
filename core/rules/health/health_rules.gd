@@ -35,12 +35,13 @@ static func rest(run: RunState, data: ContentData) -> void:
 	VoiceRules.lower(run, data.balance.voice.rest_voice)  # sleep quiets the blood a little
 
 
-## The infirmary's price for what is missing.
+## The infirmary's price for what is missing; the Grey Communion's standing changes it (GDD 12).
 static func treat_cost(run: RunState, data: ContentData) -> int:
 	var h := data.balance.health
 	var missing_hp := max_hp(run, data) - hp(run, data)
 	var missing_sanity := max_sanity(run, data) - sanity(run, data)
-	return h.treat_base + h.treat_per_hp * missing_hp + h.treat_per_sanity * missing_sanity
+	var base := h.treat_base + h.treat_per_hp * missing_hp + h.treat_per_sanity * missing_sanity
+	return maxi(1, roundi(base * FactionRules.mult(run, data, &"infirmary_mult")))
 
 
 ## "" or why the sisters won't treat now.

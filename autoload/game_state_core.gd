@@ -80,10 +80,12 @@ func end_day() -> void:
 	save_game()
 
 
-## Every Monday the tavern board gets new leaflets and the shop a new table (GDD 3.2, 7.1, 11.1).
+## Every Monday the tavern board gets new leaflets and the shop a new table (GDD 3.2, 7.1, 11.1); every morning
+## the Register fails a missed exam or pins a due one (GDD 12.1).
 func _refresh_board() -> void:
 	var week := CalendarRules.week(run.day, ContentDB.data.balance)
-	if ContractRules.refresh_board(run, ContentDB.data, Rng.stream(&"contracts", week)):
+	var changed := ContractRules.refresh_board(run, ContentDB.data, Rng.stream(&"contracts", week))
+	if RegisterRules.update(run, ContentDB.data, Rng.stream(&"register", run.day)) or changed:  # the Register exam
 		EventBus.contracts_changed.emit()
 	ShopRules.refresh(run, ContentDB.data, Rng.stream(&"shop", week))
 
@@ -165,6 +167,7 @@ func _start_fight(id: StringName, contract: ContractsState.Contract, zone: Strin
 		setup.deck.append(&"iron_net")
 	setup.deck.append_array(run.bag)  # consumables of the bag (GDD 11.1)
 	_hero_into(setup, data)
+	GearMods.sum(setup.mods, BestiaryRules.mods(run, data, id))  # what the hunter knows of this creature (GDD 10.3)
 	setup.backdrop = _backdrop(zone)
 	combat = CombatRules.start(setup, data)
 	EventBus.combat_started.emit()
@@ -222,8 +225,12 @@ func finish_combat() -> void:
 	if combat == null:
 		return
 	var outcome := combat.outcome()
+	var c := run.contracts.find(combat.contract_uid)
+	var rep := FactionRules.fight_changes(ContentDB.data, c, outcome)  # before the contract is marked done
+	var xp := ProgressRules.fight_xp(ContentDB.data, combat) + RegisterRules.exam_xp(ContentDB.data, c, outcome)
 	var paid := ContractRules.resolve_fight(run, combat.contract_uid, outcome)
-	var xp := ProgressRules.fight_xp(ContentDB.data, combat) + (ContentDB.data.balance.progress.contract_xp if paid > 0 else 0)
+	xp += ContentDB.data.balance.progress.contract_xp if paid > 0 else 0
+	_standing_after_fight(c, paid, rep)
 	var loot := LootRules.fight_loot(ContentDB.data, combat)
 	var beast := lost_control()  # one roll a day (the result panel shows the same); before the loot
 	LootRules.take(run, ContentDB.data, loot)
@@ -245,6 +252,16 @@ func finish_combat() -> void:
 	if beast:  # the Beast took over: the hunter comes to somewhere in the gutters a day later
 		end_day()
 	end_day()
+
+
+## The Bestiary marks, reputation and the Register count a fight brings (GDD 10.3, 12); a due exam is pinned the
+## next morning (_refresh_board).
+func _standing_after_fight(c: ContractsState.Contract, paid: int, rep: Dictionary[StringName, int]) -> void:
+	BestiaryRules.after_fight(run, combat)
+	FactionRules.apply(run, rep)
+	if paid > 0:
+		RegisterRules.contract_done(run, c)
+	EventBus.progress_changed.emit()
 
 
 ## At the Voice's third stage the Beast may take the hunter after a fight (the same roll the result panel shows).

@@ -1,14 +1,21 @@
 class_name ContractGenerator
 extends RefCounted
 ## The tavern board of a week (GDD 17.2 ContractGenerator v1): 3–5 side contracts on creatures of the district.
-## Pure: the same seed, day and data give the same board. Rank of the hero and reputation come later (Phase 6).
+## Pure: the same seed, day, data and options give the same board. The caller passes what the hunter's standing
+## changes (GDD 12): the creatures allowed by rank, extra known signs and the reward multiplier.
+
+
+class Options:
+	var monsters: Array[StringName] = []  ## creatures the board may offer
+	var extra_signs: int = 0
+	var reward_mult: float = 1.0
 
 
 ## New leaflets for the board of `day`'s week. uids start at `first_uid`.
 static func generate(data: ContentData, district: StringName, day: int, rng: RandomNumberGenerator,
-		first_uid: int) -> Array[ContractsState.Contract]:
+		first_uid: int, opts: Options) -> Array[ContractsState.Contract]:
 	var c := data.balance.contracts
-	var monsters := EncounterRules.pool(data, district)
+	var monsters := opts.monsters
 	var out: Array[ContractsState.Contract] = []
 	if monsters.is_empty():
 		return out
@@ -21,12 +28,15 @@ static func generate(data: ContentData, district: StringName, day: int, rng: Ran
 		x.monster = _pick_monster(monsters, per_monster, c.max_same_monster, rng)
 		per_type[x.type] = per_type.get(x.type, 0) + 1
 		per_monster[x.monster] = per_monster.get(x.monster, 0) + 1
-		_fill(x, data, district, day, rng)
+		fill(x, data, district, day, rng)
+		x.known_tags = _more_signs(x, data, opts.extra_signs)
+		x.reward = maxi(c.reward_step, roundi(x.reward * opts.reward_mult / c.reward_step) * c.reward_step)
 		out.append(x)
 	return out
 
 
-static func _fill(x: ContractsState.Contract, data: ContentData, district: StringName, day: int,
+## Petition, known signs, last-seen zone, week, deadline and reward of a leaflet whose type and creature are set.
+static func fill(x: ContractsState.Contract, data: ContentData, district: StringName, day: int,
 		rng: RandomNumberGenerator) -> void:
 	var c := data.balance.contracts
 	var m := data.monster(x.monster)
@@ -36,6 +46,17 @@ static func _fill(x: ContractsState.Contract, data: ContentData, district: Strin
 	x.week = CalendarRules.week(day, data.balance)
 	x.deadline_day = day + rng.randi_range(c.deadline_min, c.deadline_max)
 	x.reward = reward(data, m.rank, x.type, rng)
+
+
+## The leaflet's signs plus `n` more of the creature's (the Iron Vigil's dossiers).
+static func _more_signs(x: ContractsState.Contract, data: ContentData, n: int) -> Array[StringName]:
+	var out: Array[StringName] = []
+	out.assign(x.known_tags)
+	for t: StringName in data.monster(x.monster).tags:
+		if n > 0 and not out.has(t):
+			out.append(t)
+			n -= 1
+	return out
 
 
 ## Money for a contract: by the creature's rank, ± spread, more for a capture, rounded to reward_step.

@@ -31,6 +31,8 @@ static func migrate(d: Dictionary, start_loadout: Dictionary = {}) -> Dictionary
 				_from_10(d)
 			11:
 				_from_11(d)
+			12:
+				_from_12(d)
 			_:
 				push_warning("[save] no migration from version %d" % version)
 		version += 1
@@ -112,3 +114,10 @@ static func _from_11(d: Dictionary) -> void:
 	var ws: Dictionary = d.get("workshop", {})
 	ws["samples"] = {}
 	ws["pure_samples"] = {}
+
+
+## v12 -> v13: the Bestiary, reputation and the Register rank (GDD 10.3, 12). Old runs start at rank A, neutral,
+## knowing nothing.
+static func _from_12(d: Dictionary) -> void:
+	d["bestiary"] = {"marks": {}}
+	d["standing"] = {"reputation": {}, "rank": 0, "rank_contracts": 0, "exam_block_week": 0}

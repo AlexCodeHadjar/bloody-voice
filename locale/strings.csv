@@ -58,6 +58,7 @@ ui.library.no_trophies,Трофеев нет.,No trophies.
 ui.library.do,Заняться,Do it
 ui.library.verified,Переписчики сверили записи: за слухом — «{outcome}». Это видно на его табличке.,The copyists checked the records: the rumor leads to «{outcome}». Its tablet shows it.
 ui.library.studied,Записи о твари «{name}»: новую верную примету узнали заказы — {n}.,Notes on «{name}»: {n} contracts learned a new true sign.
+ui.library.dissected,Бестиарий: тварь «{name}» изучена — в бою с ней вы сильнее.,Bestiary: «{name}» dissected; you are stronger in a fight with it.
 ui.library.reset_title,Сбросить ветку Механика (без затраты дня),Reset the Mechanic web (no day spent)
 ui.library.reset_text,Вернуть все очки ветки Механика — {n} крон. Чертежи останутся.,Get back every point of the Mechanic web — {n}. Blueprints stay.
 ui.library.reset_done,Ветка сброшена: очки вернулись. Бонусы ветки (и лишнее здоровье) пропали.,The web is reset: the points are back. Its bonuses (and the extra HP) are gone.
@@ -67,6 +68,46 @@ ui.progress.xp,Опыт: {n} / {of},XP: {n} / {of}
 ui.progress.max_level,Наивысший уровень,Highest level
 ui.progress.xp_gain,Опыт +{n},XP +{n}
 ui.progress.level_up,Новый уровень!,Level up!
+ui.bestiary.button,Бестиарий,Bestiary
+ui.bestiary.title,Бестиарий Серых Часовен,Bestiary of the Grey Chapels
+ui.bestiary.unknown,Неизвестная тварь,Unknown creature
+ui.bestiary.unseen,Вы ещё не встречали эту тварь. Возьмите заказ на неё или столкнитесь в бою.,You have not met this creature yet. Take a contract on it or meet it in a fight.
+ui.bestiary.body,Здоровье {hp}. Части тела: {parts}.,HP {hp}. Body parts: {parts}.
+ui.bestiary.moves,Приёмы: {list}.,Moves: {list}.
+ui.bestiary.not_fought,Тело и приёмы откроются после первого боя с ней.,Its body and moves open after the first fight with it.
+ui.bestiary.gives,{mark}: в бою с ней {list},{mark}: in a fight with it {list}
+ui.bestiary.mark.seen,Видел,Seen
+ui.bestiary.mark.fought,Бился,Fought
+ui.bestiary.mark.slain,Убил,Slain
+ui.bestiary.mark.captured,Поймал,Captured
+ui.bestiary.mark.dissected,Изучил,Dissected
+ui.bestiary.new_marks,Бестиарий: {list},Bestiary: {list}
+ui.register.rank,Ранг Реестра {rank} ({name}) · {next},Register rank {rank} ({name}) · {next}
+ui.register.rank_name.A,Аномальный,Anomalous
+ui.register.rank_name.P,Паника,Panic
+ui.register.rank_name.D,Опустошение,Desolation
+ui.register.rank_name.S,Владыка,Sovereign
+ui.register.left,до экзамена заказов: {n},contracts before the exam: {n}
+ui.register.exam_due,экзамен ждёт на доске в таверне,the exam waits on the tavern board
+ui.register.top,высший ранг,the highest rank
+ui.register.passed,Экзамен сдан! Ранг Реестра: {rank},Exam passed! Register rank: {rank}
+ui.register.board,Ваш ранг Реестра: {rank} — доска предлагает тварей до ранга {upto},Your Register rank: {rank}; the board offers creatures up to rank {upto}
+ui.faction.row,{name}: {n} — {tier},{name}: {n} — {tier}
+ui.faction.tier.hostile,Враждебны,Hostile
+ui.faction.tier.wary,Настороже,Wary
+ui.faction.tier.neutral,Нейтральны,Neutral
+ui.faction.tier.trusted,Доверяют,Trusted
+ui.faction.tier.sworn,Свои,Sworn
+ui.faction.effects.grey_communion.hostile,Лазарет берёт в полтора раза дороже.,The infirmary charges half as much again.
+ui.faction.effects.grey_communion.wary,Лазарет берёт на четверть дороже.,The infirmary charges a quarter more.
+ui.faction.effects.grey_communion.neutral,Обычные цены лазарета.,Usual infirmary prices.
+ui.faction.effects.grey_communion.trusted,Лазарет на четверть дешевле.,The infirmary is a quarter cheaper.
+ui.faction.effects.grey_communion.sworn,Лазарет вдвое дешевле.,The infirmary is half price.
+ui.faction.effects.vigil.hostile,Награды новых заказов −20 %.,New contract rewards −20%.
+ui.faction.effects.vigil.wary,Награды новых заказов −10 %.,New contract rewards −10%.
+ui.faction.effects.vigil.neutral,Без особых условий.,Nothing special.
+ui.faction.effects.vigil.trusted,Досье: на новых заказах на одну примету больше.,Dossiers: new leaflets show one more sign.
+ui.faction.effects.vigil.sworn,Досье: +1 примета; награды новых заказов +20 %.,Dossiers: +1 sign; new contract rewards +20%.
 ui.progress.skill_points,Очки навыков: {n},Skill points: {n}
 ui.progress.attributes,Атрибуты (свободных очков: {n}),Attributes (free points: {n})
 ui.progress.attr.will,Воля,Will
@@ -118,6 +159,7 @@ ui.contract.type.slay,Убить,Slay
 ui.contract.type.capture,Поймать живой,Capture
 ui.contract.type.research,Изучить,Research
 ui.contract.type.story,Сюжет,Story
+ui.contract.type.exam,Экзамен Реестра,Register exam
 ui.contract.rank,Ранг {rank},Rank {rank}
 ui.contract.signs,Известные приметы,Known signs
 ui.contract.last_seen,Видели:,Last seen:
@@ -419,7 +461,7 @@ rule.library.no_rumor,Такого слуха уже нет.,That rumor is gone.
 rule.library.verified,Этот слух уже проверен.,This rumor is already verified.
 rule.library.cools,"Этот слух остынет раньше, чем вы успеете им воспользоваться.",This rumor would cool before you could use it.
 rule.library.no_trophy,Такого трофея нет.,No such trophy.
-rule.library.nothing_to_learn,Нет заказов на эту тварь — записи ничего не дадут.,No contracts on this creature; the notes would teach nothing.
+rule.library.nothing_to_learn,"Тварь уже изучена, а заказов на неё нет — записи ничего не дадут.",The creature is already dissected and there are no contracts on it; the notes would teach nothing.
 rule.progress.unknown,Нет такого атрибута.,No such attribute.
 rule.progress.no_points,Нет свободных очков атрибутов.,No free attribute points.
 rule.skill.unknown,Такого узла нет.,No such node.
@@ -1018,6 +1060,8 @@ petition.ash_sisters.from,Лазарет Пепельных Сестёр,The Ash
 petition.ash_sisters.text,Нам нужна живая тварь: раны больных не похожи ни на что из книг. Приведите её живой — сёстры хорошо заплатят.,We need the creature alive: our patients' wounds match nothing in the books. Bring it breathing and the sisters will pay well.
 petition.crypt_copyist.from,Переписчик Скриптория в Крипте,A copyist of the Crypt Scriptorium
 petition.crypt_copyist.text,"Скрипторию нужен живой образец для описи. Мёртвое тело лжёт, живое — нет. Сеть выдадим.",The Scriptorium needs a living specimen for its register. A dead body lies; a living one does not. We will issue you a net.
+petition.register_exam.from,"Реестр Люмена, через пост Бдения","The Lumen Register, by the Vigil's post"
+petition.register_exam.text,"Реестр рассмотрит повышение вашего ранга. Одолейте названную тварь — она сильнее, чем говорят слухи, — до срока. Оправданий Реестр не записывает.","The Register will consider raising your rank. Bring down the creature named here, stronger than the rumours say, before the deadline. No excuses are entered in the Register."
 rumor_witness.washerwoman.text,Прачка у колонки клянётся всеми святыми:,A washerwoman at the pump swears by every saint:
 rumor_witness.drunk.text,"Пьяница в «Фонаре и Крюке» рассказывает, пока ему подливают:",A drunk in the Lantern & Hook tells it while someone keeps pouring:
 rumor_witness.urchin.text,Чумазый мальчишка шепчет за медяк:,A grubby urchin whispers it for a copper:
@@ -1110,6 +1154,10 @@ skill.monster.b_sw.name,Беспокойная кровь,Restless Blood
 skill.monster.b_sw.text,В первый ход берите на 1 карту больше.,Draw 1 more card on the first turn.
 skill.monster.b_nw.name,Горькая кровь,Bitter Blood
 skill.monster.b_nw.text,Ваше Кровотечение на 1 сильнее.,Bleed you apply is 1 stack stronger.
+faction.grey_communion.name,Серое Причастие,The Grey Communion
+faction.grey_communion.text,"Старая паства часовен и её Пепельные Сёстры. Им нужно, чтобы тварей понимали — и лучше живыми.","The chapels' old congregation and its Ash Sisters. They want the creatures understood, and preferably alive."
+faction.vigil.name,Железное Бдение,The Iron Vigil
+faction.vigil.text,Ночной дозор ордена в Серых Часовнях. Ведут досье на каждую тварь и хотят видеть их мёртвыми.,The order's night watch in the Grey Chapels. They keep dossiers on every creature and want them dead.
 rumor_gossip.pale_hounds.text,"Бледные Псы опять пили здесь. Говорят о Реестре охотников, будто он им принадлежит.",The Pale Hounds were drinking here again. They talk about the Hunter's Register as if they owned it.
 rumor_gossip.grey_candles.text,"По ночам в Старой Часовне горят серые свечи, хотя священника там нет уже много лет.","Grey candles burn in the Old Chapel at night, though no priest has been there for years."
 rumor_gossip.ringwall_guns.text,На прошлой неделе стража на северной стене развернула пушки внутрь. Никто не говорит зачем.,The guards on the north wall turned the guns inward last week. Nobody says why.

@@ -1,7 +1,8 @@
 class_name HeroPanel
 extends PlacePanel
 ## «Охотник» (GDD 4, 23.2 zones 1 and 4): level and XP toward the next, HP and Sanity, free skill points with the way
-## to the skill webs, attribute points and the three attributes with «+» while points are free.
+## to the skill webs, attribute points and the three attributes with «+» while points are free; the Register rank and
+## reputation with the district's factions (GDD 12).
 
 
 func _portrait() -> String:
@@ -37,6 +38,25 @@ func _fill() -> void:
 	body.add_child(UiKit.label(Loc.t("ui.progress.attributes", {"n": pr.attribute_points}), 22, Palette.BRASS_LIGHT))
 	for a: StringName in ProgressDefs.ATTRIBUTES:
 		body.add_child(_attribute_row(a))
+	_standing(run, data)
+
+
+func _standing(run: RunState, data: ContentData) -> void:
+	body.add_child(HSeparator.new())
+	var letter := RegisterRules.rank_letter(data, run.standing.rank)
+	var next := Loc.t("ui.register.top")
+	if not RegisterRules.is_top(run, data):
+		var left := RegisterRules.contracts_left(run, data)
+		next = Loc.t("ui.register.left", {"n": left}) if left > 0 else Loc.t("ui.register.exam_due")
+	body.add_child(Icons.with_text("RANK", StringName(letter.to_lower()), Loc.t("ui.register.rank", {"rank": letter,
+		"name": Loc.t("ui.register.rank_name.%s" % letter), "next": next}), 34, 18))
+	for f: StandingDefs.FactionDef in data.factions:
+		var t := FactionRules.tier(run, data, f.id)
+		var row := Icons.with_text("FACTION", f.id, Loc.t("ui.faction.row", {"name": f.name, "n": run.standing.rep(f.id),
+			"tier": Loc.t("ui.faction.tier.%s" % t)}), 34, 18)
+		row.tooltip_text = f.text + "\n" + Loc.t("ui.faction.effects.%s.%s" % [f.id, t])
+		row.mouse_filter = Control.MOUSE_FILTER_PASS
+		body.add_child(row)
 
 
 func _attribute_row(a: StringName) -> HBoxContainer:

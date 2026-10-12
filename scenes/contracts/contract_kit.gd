@@ -15,7 +15,7 @@ static func rank(c: ContractsState.Contract) -> String:
 
 
 static func type_name(c: ContractsState.Contract) -> String:
-	return Loc.t("ui.contract.type.%s" % c.type)
+	return Loc.t("ui.contract.type.exam") if c.exam else Loc.t("ui.contract.type.%s" % c.type)
 
 
 static func silhouette(c: ContractsState.Contract) -> Texture2D:

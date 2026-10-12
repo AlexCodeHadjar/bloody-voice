@@ -23,7 +23,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | File | Class | What | Public functions |
 |---|---|---|---|
 | `core/content/audio_validator.gd` | AudioValidator | Checks data/audio/sounds.json against the files in res://audio/ and the creatures (GDD 24). | validate |
-| `core/content/content_data.gd` | ContentData | All loaded game content. Read-only after loading; rules receive it as a parameter. | district, district_map, life, card, monster, weapon, module, mechanism, blueprint, trophy_ids, tag, petition |
+| `core/content/content_data.gd` | ContentData | All loaded game content. Read-only after loading; rules receive it as a parameter. | district, district_map, life, card, monster, weapon, module, mechanism, blueprint, trophy_ids, tag, faction, petition |
 | `core/content/content_loader.gd` | ContentLoader | Reads data/*.json into a ContentData. Never stops at the first problem: everything goes to the ErrorLog. | load_all, read_folder, read_json, read_object, read_array |
 | `core/content/content_loc.gd` | ContentLoc | Puts the game-language texts into loaded content (GDD 22.5). Data JSON keeps ids, numbers and the English working | apply, fields, area_keys |
 | `core/content/content_validator.gd` | ContentValidator | Cross-checks loaded content. Any error here stops the game at boot (GDD 19.6). | validate |
@@ -46,6 +46,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/content/defs/rumor_defs.gd` | RumorDefs | Rumor content (GDD 8): witnesses and per-zone pictures and tags (data/rumors/rumors.json), and the rumor numbers | from_dict, balance |
 | `core/content/defs/shop_defs.gd` | ShopDefs | The "shop" and "tavern" blocks of balance.json (GDD 11.1, 3.3): stock slots, prices, trophy prices, the bag, | balance, tavern |
 | `core/content/defs/skill_defs.gd` | SkillDefs | Skill webs (data/skills/*.json, GDD 4.4, 23.2): nodes with a type, a place on the web, links and an effect; | web, balance |
+| `core/content/defs/standing_defs.gd` | StandingDefs | The hunter's standing (GDD 10.3, 12): factions of the slice (data/factions/factions.json) and the "factions", | faction, factions_balance, register_balance, bestiary_balance |
 | `core/content/defs/tutorial_def.gd` | TutorialDef | One tutorial hint sequence (data/tutorial/sequences.json, GDD 22). | from_dict |
 | `core/content/defs/voice_defs.gd` | VoiceDefs | The "voice" block of balance.json (GDD 4.2, 4.4): stage thresholds, what each stage does, how the Voice falls, | balance |
 | `core/content/defs/weapon_def.gd` | WeaponDef | A weapon: base cards, magazine and its sections with typed cells (data/gear/weapons.json, GDD 5.2). | from_dict, section |
@@ -61,14 +62,16 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/content/rumor_validator.gd` | RumorValidator | Checks rumor content (GDD 8): witnesses exist, every zone of a district map with creatures has pictures and | validate |
 | `core/content/shop_validator.gd` | ShopValidator | Checks the shop, tavern, rent, health and progress numbers (GDD 11.1, 3.2–3.3, 4): slots, every resource priced, | validate |
 | `core/content/skill_validator.gd` | SkillValidator | Checks the skill webs (GDD 4.4): known node types, one start node, links to existing nodes, every node reachable | validate |
+| `core/content/standing_validator.gd` | StandingValidator | Checks the hunter's standing content (GDD 10.3, 12): factions (rivals, tiers, effects), petition factions, the | validate |
 | `core/content/workshop_validator.gd` | WorkshopValidator | Checks workshop content (GDD 6): every module and mechanism has a blueprint, costs name known resources or | validate |
 | `core/dev/combat_bot.gd` | CombatBot | A simple, honest player for balance testing (GDD 18.1 "bots test balance"). | run_fight, play_turn |
 | `core/dev/dev_shots.gd` |  | Developer auto-screenshots. Does nothing unless started with: |  |
-| `core/generation/contract_generator.gd` | ContractGenerator | The tavern board of a week (GDD 17.2 ContractGenerator v1): 3–5 side contracts on creatures of the district. | generate, reward |
+| `core/generation/contract_generator.gd` | ContractGenerator | The tavern board of a week (GDD 17.2 ContractGenerator v1): 3–5 side contracts on creatures of the district. | generate, fill, reward |
 | `core/generation/encounter_rules.gd` | EncounterRules | Which creatures live in a district, a creature for a developer fight, a zone for a fight background. | pool, pick_monster, pick_zone |
 | `core/generation/rumor_generator.gd` | RumorGenerator | Makes rumor diamonds (GDD 17.2 RumorGenerator v1, 17.3). A rumor about a creature shows 1–2 of its true tags and | make_target, make_random, all_tags |
 | `core/generation/seeded_rng.gd` | SeededRng | Pure helpers behind the Rng autoload, usable from tests and generators without the scene tree. | make_stream, new_master_seed, sample, weighted |
 | `core/generation/shop_generator.gd` | ShopGenerator | The Rag-and-Bone table of a week (GDD 17.2 ShopGenerator v1): ready modules, blueprints the hunter does not know, | generate, value, round_price |
+| `core/rules/bestiary/bestiary_rules.gd` | BestiaryRules | The Bestiary (GDD 10.3, owner 2026-10-12: knowledge helps): marks per creature — seen (a contract on it taken or | mark, fight_marks, after_fight, mods, creatures |
 | `core/rules/city/district_map_rules.gd` | DistrictMapRules | Walking on a district map (GDD 20): shortest street paths, spots on the streets, routes, and what lies under a point | spot_at_node, nearest_spot, shortest_path, route, nearest_node, landmark_at, zone_at, ambience_at, inside |
 | `core/rules/city/district_state_rules.gd` | DistrictStateRules | Changing and ticking district / area / landmark states (GDD 14.3). | apply, tick |
 | `core/rules/city/map_region_rules.gd` | MapRegionRules | Hit-testing on the city map. Points are in source-image pixels (MapRegionsDef.image_size). | region_at, district_at, home_region |
@@ -91,12 +94,15 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/rules/rumors/rumor_rules.gd` | RumorRules | Rumors (GDD 8, owner 2026-10-12): each morning 1–2 new diamonds on the district map (at most 5), each lives 3 | visible, new_morning, seed_targets, overheard, matches, best_contract, investigate |
 | `core/rules/shop/shop_rules.gd` | ShopRules | The Rag-and-Bone shop (GDD 11.1, owner 2026-10-12): a new table every Monday, buying (only with money in hand — | refresh, price, can_buy, buy, trophy_price, resource_sell_price, sell, sample_price, sell_sample, spend_bag |
 | `core/rules/skills/skill_rules.gd` | SkillRules | The skill webs (GDD 4.4, owner 2026-10-12): a node is bought for skill points of the shared pool when a node it | is_owned, can_buy, buy, owned_nodes, mods, cards, crafts_bonus, sync_sockets, reset_cost, can_reset, reset |
+| `core/rules/standing/faction_rules.gd` | FactionRules | Reputation (GDD 12, owner 2026-10-12: the slice has the Grey Communion and the Iron Vigil). −100..100, tiers by | tier, mult, bonus, fight_changes, apply |
+| `core/rules/standing/register_rules.gd` | RegisterRules | The hunter's Register rank (GDD 12.1, owner 2026-10-12: it rises by an exam). The board offers creatures up to one | rank_letter, rank_of, board_pool, reward_mult, is_top, contracts_left, exam_pool, open_exam, update, contract_done, exam_xp |
 | `core/rules/tavern/shift_rules.gd` | ShiftRules | A shift behind the bar of the Lantern & Hook (GDD 3.3, owner 2026-10-12): the day's main action. Pays money and | work |
 | `core/rules/time/calendar_rules.gd` | CalendarRules | Days, weeks and chapters (GDD 3.2). Day 1 is the Monday of week 1. | week, weekday, weekday_name, chapter_week, is_rent_day, is_shop_refresh_day, days_until_rent |
 | `core/rules/time/day_rules.gd` | DayRules | Ending a day (GDD 3.2–3.3): advance the calendar, tick district states, take rent on Rentday. Rent left unpaid | end_day |
-| `core/rules/voice/voice_rules.gd` | VoiceRules | The Voice (GDD 4.2, 4.4; owner 2026-10-12): Monster-web formulas raise it; stages at 10 / 20 / 30 (+3 per Will). | thresholds, stage, fight_cards, hunger_chance, loses_control, lower, can_calm, calm, hunger |
+| `core/rules/voice/voice_rules.gd` | VoiceRules | The Voice (GDD 4.2, 4.4; owner 2026-10-12): Monster-web formulas raise it; stages at 10 / 20 / 30 (+3 per Will). | thresholds, stage, fight_cards, hunger_chance, loses_control, lower, calm_cost, can_calm, calm, hunger |
 | `core/rules/workshop/loot_rules.gd` | LootRules | What a won fight gives (GDD 17.2 LootGenerator, owner 2026-10-12): ichor and scrap by the creature's rank (ichor | fight_loot, preview_blueprints, take, add_resources, add_to |
 | `core/rules/workshop/workshop_rules.gd` | WorkshopRules | The workshop (GDD 6.2, owner 2026-10-12): crafting from known blueprints, upgrading one module copy to tier II–III, | ensure_start, crafts_per_day, crafts_left, missing, can_craft, craft, upgrade_cost, can_upgrade, upgrade, salvage_refund, can_salvage, salvage, leave, is_locked |
+| `core/state/bestiary_state.gd` | BestiaryState | What the hunter knows of each creature (GDD 10.3): creature -> knowledge marks (StandingDefs.KNOWLEDGE). Saved. | of, has, to_dict, from_dict |
 | `core/state/city_state.gd` | CityState | States of districts, areas and landmarks. Keys: "NORDHAL", "NORDHAL/tavern_street", ... | get_place, state_of, to_dict, from_dict |
 | `core/state/combat/card_instance.gd` | CardInstance | One physical card in a fight. uid tells apart two copies of the same CardDef. | create |
 | `core/state/combat/combat_event.gd` | CombatEvent | One line of the fight log. Screens read new events to animate and to show the log. | create |
@@ -117,12 +123,14 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `core/state/save_migrations.gd` | SaveMigrations | Brings old save dictionaries up to RunState.SAVE_VERSION, one version step at a time. | migrate |
 | `core/state/shop_state.gd` | ShopState | The Rag-and-Bone shop's table this week (GDD 11.1). Saved. Prices are fixed when the stock is made. | find, to_dict, from_dict |
 | `core/state/skills_state.gd` | SkillsState | Nodes the hunter bought in the skill webs (GDD 4.4): web id -> node ids (the start node is always owned and not | owned_in, to_dict, from_dict |
+| `core/state/standing_state.gd` | StandingState | The hunter's standing (GDD 12): reputation with the factions and the Register rank. Saved. FactionRules and | rep, to_dict, from_dict |
 | `core/state/workshop_state.gd` | WorkshopState | The hunter's stock and workshop (GDD 6): resources, trophies, known blueprints and today's workshop day. | amount, to_dict, from_dict, create |
 
 ## scenes/
 
 | File | Class | What | Public functions |
 |---|---|---|---|
+| `scenes/bestiary/bestiary_panel.gd` | BestiaryPanel | «Бестиарий» (GDD 10.3): the creatures of the district, each with its knowledge marks (seen, fought, slain, captured, |  |
 | `scenes/boot/boot.gd` |  | First scene: content is already loaded by ContentDB. Broken content -> error list, never the game. |  |
 | `scenes/city_map/city_map_screen.gd` |  | City map screen (vertical-slice shell): map + district card + calendar bar. |  |
 | `scenes/city_map/district_panel.gd` | DistrictPanel | Right-side card about one district: establishing art + facts from DistrictDef. | show_district |
@@ -218,6 +226,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `tests/test_scripts.gd` |  | Every script in the project must compile. | test_all_scripts_compile |
 | `tests/test_shop.gd` |  | The shop, the bag, the tavern shift and rent debt (GDD 11.1, 3.2–3.3). | test_weekly_table_follows_the_slots, test_buying_never_goes_into_debt, test_bag_fills_and_is_spent_in_fights, test_selling_trophies_and_resources, test_tavern_shift_pays_and_overhears, test_two_unpaid_rents_lock_the_workshop, test_shop_survives_save_and_old_saves_migrate |
 | `tests/test_skills.gd` |  | The Mechanic skill web (GDD 4.4): buying linked nodes, blueprints, sockets, workshop crafts, passives, reset. | test_nodes_need_a_linked_owned_node_and_points, test_effects_blueprint_socket_crafts_and_passives, test_reset_refunds_points_for_money_and_keeps_blueprints, test_skills_survive_save_and_old_saves_migrate, test_skill_hp_and_sockets_all |
+| `tests/test_standing.gd` |  | The hunter's standing (GDD 10.3, 12): Bestiary marks and their fight bonuses, faction reputation and its effects, | test_bestiary_marks_and_bonuses, test_reputation_tiers_and_effects, test_fight_changes_follow_outcome_and_petition, test_board_offers_up_to_one_rank_above, test_exam_is_pinned_passed_and_failed, test_standing_survives_save_and_v12_starts_at_a |
 | `tests/test_suite.gd` | TestSuite | Base class for test suites. Every method named test_* is a test. | check, eq, near, load_content |
 | `tests/test_tutorial.gd` |  | Tutorial hints (GDD 22): sequences are valid data, play once, wait for «do» actions, queue, can be skipped; | test_sequences_are_loaded, test_sequence_plays_once_and_waits_for_actions, test_hints_off_and_skip_all, test_one_off_hint_waits_in_queue, test_profile_round_trip, test_abort_keeps_the_hint_for_later, test_bad_tutorial_data_is_reported |
 | `tests/test_voice.gd` |  | The Monster web and the Voice (GDD 4.2, 4.4): blood samples from fights, nodes that use them up and raise the Voice, | test_fights_give_samples_and_captures_pure_ones, test_nodes_use_up_samples_and_raise_the_voice, test_stages_cards_and_will, test_rest_and_calm_lower_the_voice, test_lose_control_only_at_the_beast, test_hunger_plays_an_attack_card, test_samples_sell_and_survive_save |

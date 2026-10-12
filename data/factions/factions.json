@@ -1,0 +1,50 @@
+{
+ "_comment": "Factions of the slice (GDD 12; owner 2026-10-12: one or two local ones while the game stays in the Grey Chapels). Reputation -100..100; tier effects: infirmary_mult (the Ash Sisters' prices: treatment and calming the blood), extra_signs (known signs on new leaflets), reward_mult (rewards of new leaflets). A finished contract raises its petitioner's faction and lowers its rivals'.",
+ "factions": [
+  {
+   "id": "grey_communion",
+   "name": "The Grey Communion",
+   "text": "The chapels' old congregation and its Ash Sisters. They want the creatures understood, and preferably alive.",
+   "rivals": [
+    "vigil"
+   ],
+   "tiers": {
+    "hostile": {
+     "infirmary_mult": 1.5
+    },
+    "wary": {
+     "infirmary_mult": 1.25
+    },
+    "trusted": {
+     "infirmary_mult": 0.75
+    },
+    "sworn": {
+     "infirmary_mult": 0.5
+    }
+   }
+  },
+  {
+   "id": "vigil",
+   "name": "The Iron Vigil",
+   "text": "The order's night watch in the Grey Chapels. They keep dossiers on every creature and want them dead.",
+   "rivals": [
+    "grey_communion"
+   ],
+   "tiers": {
+    "hostile": {
+     "reward_mult": 0.8
+    },
+    "wary": {
+     "reward_mult": 0.9
+    },
+    "trusted": {
+     "extra_signs": 1
+    },
+    "sworn": {
+     "extra_signs": 1,
+     "reward_mult": 1.2
+    }
+   }
+  }
+ ]
+}

@@ -48,11 +48,16 @@ static func lower(run: RunState, amount: int) -> void:
 	run.voice = maxi(0, run.voice - amount)
 
 
+## The sisters' price for calming the blood; the Grey Communion's standing changes it (GDD 12).
+static func calm_cost(run: RunState, data: ContentData) -> int:
+	return maxi(1, roundi(data.balance.voice.calm_cost * FactionRules.mult(run, data, &"infirmary_mult")))
+
+
 ## "" or why the sisters can't calm the blood now (no credit).
 static func can_calm(run: RunState, data: ContentData) -> String:
 	if run.voice <= 0:
 		return Loc.t("rule.voice.silent")
-	if run.money < data.balance.voice.calm_cost:
+	if run.money < calm_cost(run, data):
 		return Loc.t("rule.voice.no_money")
 	return ""
 
@@ -61,7 +66,7 @@ static func can_calm(run: RunState, data: ContentData) -> String:
 static func calm(run: RunState, data: ContentData) -> String:
 	var problem := can_calm(run, data)
 	if problem == "":
-		run.money -= data.balance.voice.calm_cost
+		run.money -= calm_cost(run, data)
 		lower(run, data.balance.voice.calm_voice)
 	return problem
 

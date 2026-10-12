@@ -20,6 +20,7 @@ const AUDIO := "audio/sounds.json"
 const TUTORIAL := "tutorial/sequences.json"
 const TAGS := "contracts/tags.json"
 const PETITIONS := "contracts/petitions.json"
+const FACTIONS := "factions/factions.json"
 const RUMORS := "rumors/rumors.json"
 const SKILLS_DIR := "skills"
 
@@ -100,7 +101,8 @@ static func _load_district_life(root: String, data: ContentData, errs: ErrorLog)
 		data.district_life[def.district] = def
 
 
-## Contracts, rumors and skill webs (GDD 7, 8, 4.4): tag catalogue, petitions, witnesses, zone pictures, webs.
+## Contracts, rumors, factions and skill webs (GDD 7, 8, 12, 4.4): tag catalogue, petitions, witnesses, zone
+## pictures, factions, webs.
 static func _load_investigation(root: String, data: ContentData, errs: ErrorLog) -> void:
 	var tags := read_object(root.path_join(TAGS), errs)
 	for key: Variant in tags:
@@ -112,6 +114,8 @@ static func _load_investigation(root: String, data: ContentData, errs: ErrorLog)
 			errs.add(PETITIONS, "duplicate petition id '%s'" % p.id)
 		data.petitions.append(p)
 	data.rumor_data = RumorDefs.from_dict(read_object(root.path_join(RUMORS), errs), errs)
+	for d: Variant in DefReader.array(read_object(root.path_join(FACTIONS), errs), "factions", errs, FACTIONS):
+		data.factions.append(StandingDefs.faction(d as Dictionary, errs))
 	var dir := DirAccess.open(root.path_join(SKILLS_DIR))
 	if dir == null:
 		errs.add(SKILLS_DIR, "folder not found")

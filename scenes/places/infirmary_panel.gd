@@ -33,7 +33,7 @@ func _calm_row(run: RunState, data: ContentData) -> void:
 	body.add_child(HSeparator.new())
 	body.add_child(Icons.with_text("STAT", &"voice", Loc.t("ui.voice.now", {"n": run.voice, "stage": Loc.t("ui.voice.stage.%d" % VoiceRules.stage(run, data))}), 30, 20))
 	var problem := VoiceRules.can_calm(run, data)
-	var b := Icons.button("STAT", &"voice", Loc.t("ui.infirmary.calm", {"n": data.balance.voice.calm_cost, "v": data.balance.voice.calm_voice}), 20)
+	var b := Icons.button("STAT", &"voice", Loc.t("ui.infirmary.calm", {"n": VoiceRules.calm_cost(run, data), "v": data.balance.voice.calm_voice}), 20)
 	b.disabled = problem != ""
 	b.tooltip_text = problem
 	b.pressed.connect(_calm)

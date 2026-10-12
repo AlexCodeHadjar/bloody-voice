@@ -16,7 +16,11 @@ static func refresh_board(run: RunState, data: ContentData, rng: RandomNumberGen
 	for c: ContractsState.Contract in cs.items:
 		if c.accepted and not c.done:
 			kept.append(c)
-	var fresh := ContractGenerator.generate(data, run.hero_district, run.day, rng, cs.next_uid)
+	var opts := ContractGenerator.Options.new()  # the hunter's standing (GDD 12): rank, Vigil dossiers, rewards
+	opts.monsters = RegisterRules.board_pool(run, data, run.hero_district)
+	opts.extra_signs = FactionRules.bonus(run, data, &"extra_signs")
+	opts.reward_mult = RegisterRules.reward_mult(run, data) * FactionRules.mult(run, data, &"reward_mult")
+	var fresh := ContractGenerator.generate(data, run.hero_district, run.day, rng, cs.next_uid, opts)
 	cs.next_uid += fresh.size()
 	kept.append_array(fresh)
 	cs.items = kept
@@ -50,7 +54,7 @@ static func can_accept(cs: ContractsState, data: ContentData, uid: int) -> Strin
 		return Loc.t("rule.contract.unknown")
 	if c.accepted:
 		return Loc.t("rule.contract.taken")
-	if active(cs).size() >= data.balance.contracts.max_active:
+	if not c.exam and active(cs).filter(func(a: ContractsState.Contract) -> bool: return not a.exam).size() >= data.balance.contracts.max_active:
 		return Loc.t("rule.contract.too_many", {"n": data.balance.contracts.max_active})
 	return ""
 
@@ -87,13 +91,13 @@ static func for_monster(cs: ContractsState, monster: StringName) -> ContractsSta
 	return null
 
 
-## Puts the contract into the fight: its uid, a net for a capture, a stronger creature when overdue.
+## Puts the contract into the fight: its uid, a net for a capture, a stronger creature when overdue or an exam.
 static func prepare_fight(setup: CombatSetup, c: ContractsState.Contract, day: int, b: BalanceDef) -> void:
 	if c == null:
 		return
 	setup.contract_uid = c.uid
 	setup.capture_allowed = setup.capture_allowed or c.type == &"capture"
-	if is_overdue(c, day):
+	if is_overdue(c, day) or c.exam:  # an exam creature is as strong as an overdue one
 		setup.enemy_hp_mult = b.contracts.overdue_hp_mult
 		setup.enemy_damage_bonus = b.contracts.overdue_damage_bonus
 

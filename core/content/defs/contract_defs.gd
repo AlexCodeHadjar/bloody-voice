@@ -3,7 +3,7 @@ extends RefCounted
 ## Contract content (GDD 7, 8.2): sign tags of creatures (data/contracts/tags.json), petition letters
 ## (data/contracts/petitions.json) and the contract numbers of balance.json.
 
-const TYPES: Array[StringName] = [&"slay", &"capture", &"research", &"story"]
+const TYPES: Array[StringName] = [&"slay", &"capture", &"research", &"story", &"exam"]  ## exam: petitions of Register exams
 const GENERATED: Array[StringName] = [&"slay", &"capture"]  ## types the board generator can make now
 const CATEGORIES: Array[StringName] = [&"sound", &"trace", &"victims", &"time", &"place", &"shape"]
 
@@ -19,6 +19,7 @@ class PetitionDef:
 	var types: Array[StringName] = []
 	var sender: String  ## who asks (JSON "from")
 	var text: String  ## the letter
+	var faction: StringName = &""  ## whose reputation the finished contract raises ("" = townsfolk)
 
 
 ## The "contracts" block of balance.json.
@@ -57,6 +58,7 @@ static func petition(d: Dictionary, errs: ErrorLog) -> PetitionDef:
 	p.types = DefReader.ids(d, "types", errs, w)
 	p.sender = DefReader.string(d, "from", errs, w)
 	p.text = DefReader.string(d, "text", errs, w)
+	p.faction = DefReader.id(d, "faction", errs, w, false)
 	return p
 
 

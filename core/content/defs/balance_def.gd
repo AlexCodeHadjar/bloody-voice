@@ -43,6 +43,9 @@ var health: HealthDefs.Balance = HealthDefs.Balance.new()  ## rest, infirmary, t
 var progress: ProgressDefs.Balance = ProgressDefs.Balance.new()  ## XP, levels, attributes (GDD 4.1–4.3)
 var skills: SkillDefs.Balance = SkillDefs.Balance.new()  ## skill webs (GDD 4.4)
 var voice: VoiceDefs.Balance = VoiceDefs.Balance.new()  ## the Voice and blood samples (GDD 4.2)
+var factions: StandingDefs.FactionBalance = StandingDefs.FactionBalance.new()  ## reputation (GDD 12)
+var register: StandingDefs.RegisterBalance = StandingDefs.RegisterBalance.new()  ## the hunter's rank (GDD 12.1)
+var bestiary: StandingDefs.BestiaryBalance = StandingDefs.BestiaryBalance.new()  ## knowledge bonuses (GDD 10.3)
 
 
 static func from_dict(d: Dictionary, errs: ErrorLog) -> BalanceDef:
@@ -83,7 +86,8 @@ static func from_dict(d: Dictionary, errs: ErrorLog) -> BalanceDef:
 	return b
 
 
-## The blocks with their own def classes: contracts, rumors, workshop, shop, tavern, health, progress, skills, voice.
+## The blocks with their own def classes: contracts, rumors, workshop, shop, tavern, health, progress, skills, voice,
+## factions, register, bestiary.
 static func _blocks(b: BalanceDef, d: Dictionary, errs: ErrorLog) -> void:
 	var w := "balance.json"
 	b.contracts = ContractDefs.balance(DefReader.dict(d, "contracts", errs, w), errs)
@@ -95,3 +99,6 @@ static func _blocks(b: BalanceDef, d: Dictionary, errs: ErrorLog) -> void:
 	b.progress = ProgressDefs.balance(DefReader.dict(d, "progress", errs, w), errs)
 	b.skills = SkillDefs.balance(DefReader.dict(d, "skills", errs, w), errs)
 	b.voice = VoiceDefs.balance(DefReader.dict(d, "voice", errs, w), errs)
+	b.factions = StandingDefs.factions_balance(DefReader.dict(d, "factions", errs, w), errs)
+	b.register = StandingDefs.register_balance(DefReader.dict(d, "register", errs, w), errs)
+	b.bestiary = StandingDefs.bestiary_balance(DefReader.dict(d, "bestiary", errs, w), errs)

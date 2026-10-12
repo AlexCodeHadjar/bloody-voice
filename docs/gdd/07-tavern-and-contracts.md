@@ -39,7 +39,7 @@
 | Leaflet | Type icon, rank badge, black silhouette, creature name, reward, days left; a wax seal once taken. |
 | Tablet | Petition (who asks + letter, `data/contracts/petitions.json`), type, rank, silhouette, 2–3 known signs (tags with category icons, `data/contracts/tags.json`), last seen (a zone of the district map), deadline, reward; arrows; «Принять заказ». |
 | Limits | At most 3 open contracts; 2 leaflets on one creature per board. |
-| Reward | Money only (XP and reputation come with Phase 6): by the creature's rank A 30 / P 50 / D 80 / S 130, ±20 %, ×1.5 for a capture, rounded to 5. |
+| Reward | Money (XP since Phase 6 step 1; reputation and rank effects — GDD 12.2): by the creature's rank A 30 / P 50 / D 80 / S 130, ±20 %, ×1.5 for a capture, rounded to 5. |
 | Deadline | 4–10 days. **Overdue: the contract stays, the creature is stronger (hp ×1.25, +1 damage per hit), the reward does not grow** (owner). Shown red in the tracker and on the fight's top bar. |
 | Region icon | Makes the zone where the creature was last seen glow blue on the district map; the camera glides there. |
 | Rumors (step 2) | A taken contract seeds a true rumor diamond at once and then every 2–3 days (GDD 8.4). Any fight with a contract's creature counts for the contract with the nearest deadline. |
