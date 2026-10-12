@@ -115,3 +115,29 @@ func test_contracts_survive_save_and_old_saves_get_an_empty_board() -> void:
 	var old := RunState.from_dict(SaveMigrations.migrate({"version": 3, "master_seed": 9, "day": 10}))
 	eq(old.contracts.items.size(), 0, "v3 save: no contracts yet")
 	check(ContractRules.refresh_board(old, data, SeededRng.make_stream(9, &"contracts", 2)), "filled on load")
+
+
+func test_a_taken_contract_can_be_given_up() -> void:
+	var data := load_content(false)
+	var run := _new_run(data)
+	var c := ContractRules.board(run.contracts)[0]
+	check(ContractRules.can_abandon(run.contracts, c.uid) != "", "a leaflet nobody took can't be given up")
+	ContractRules.accept(run.contracts, data, c.uid)
+	c.petition = &"watch_corporal"
+	var changes := FactionRules.abandon_changes(data, c)
+	eq(changes.get(&"vigil", 0), data.balance.factions.abandon, "the petitioner's faction frowns")
+	var rep_before := run.standing.rep(&"vigil")
+	eq(ContractRules.abandon(run.contracts, c.uid), "", "given up")
+	FactionRules.apply(run, changes)
+	check(run.standing.rep(&"vigil") < rep_before, "reputation dropped")
+	check(run.contracts.find(c.uid) == null, "gone")
+	check(ContractRules.active(run.contracts).is_empty(), "the slot is free")
+	var exam := ContractsState.Contract.new()
+	exam.uid = 999
+	exam.accepted = true
+	exam.exam = true
+	run.contracts.items.append(exam)
+	check(ContractRules.can_abandon(run.contracts, 999) != "", "an exam can't be given up")
+	exam.exam = false
+	exam.done = true
+	check(ContractRules.can_abandon(run.contracts, 999) != "", "nor a finished contract")

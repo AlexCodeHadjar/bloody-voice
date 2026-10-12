@@ -39,8 +39,11 @@ static func hunger_chance(run: RunState, data: ContentData) -> float:
 	return data.balance.voice.hunger_chance if stage(run, data) >= 2 else 0.0
 
 
-## After a fight at stage 3: does the hunter lose control? (rolled on the given stream)
-static func loses_control(run: RunState, data: ContentData, rng: RandomNumberGenerator) -> bool:
+## After a won fight (slain or captured, owner 2026-10-12) at stage 3: does the hunter lose control? (rolled on the
+## given stream)
+static func loses_control(run: RunState, data: ContentData, rng: RandomNumberGenerator, outcome: StringName) -> bool:
+	if not (outcome in [&"slain", &"captured"]):
+		return false
 	return stage(run, data) >= 3 and rng.randf() < data.balance.voice.lose_control_chance
 
 

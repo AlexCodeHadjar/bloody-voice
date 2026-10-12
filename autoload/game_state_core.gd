@@ -237,7 +237,7 @@ func finish_combat() -> void:
 	xp += ContentDB.data.balance.progress.contract_xp if paid > 0 else 0
 	_standing_after_fight(c, paid, rep)
 	var loot := LootRules.fight_loot(ContentDB.data, combat)
-	var beast := lost_control()  # one roll a day (the result panel shows the same); before the loot
+	var beast := lost_control(outcome)  # one roll a day (the result panel shows the same); before the loot
 	LootRules.take(run, ContentDB.data, loot)
 	ShopRules.spend_bag(run, combat)
 	HealthRules.after_fight(run, combat)
@@ -269,6 +269,7 @@ func _standing_after_fight(c: ContractsState.Contract, paid: int, rep: Dictionar
 	EventBus.progress_changed.emit()
 
 
-## At the Voice's third stage the Beast may take the hunter after a fight (the same roll the result panel shows).
-func lost_control() -> bool:
-	return run != null and VoiceRules.loses_control(run, ContentDB.data, Rng.stream(&"voice", run.day))
+## At the Voice's third stage the Beast may take the hunter after a won fight — slain or captured, owner 2026-10-12
+## (the same roll the result panel shows).
+func lost_control(outcome: StringName) -> bool:
+	return run != null and VoiceRules.loses_control(run, ContentDB.data, Rng.stream(&"voice", run.day), outcome)

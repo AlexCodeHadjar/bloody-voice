@@ -31,7 +31,7 @@ func show_result(s: CombatState) -> void:
 	_add_loot_lines(v, s)
 	_add_sample_line(v, s)
 	_add_xp_line(v, s)
-	if GameState.lost_control():  # the Voice's third stage (GameState.finish_combat adds the day)
+	if GameState.lost_control(s.outcome()):  # the Voice's third stage (GameState.finish_combat adds the day)
 		v.add_child(UiKit.paragraph(Loc.t("ui.voice.lost_control"), 18, Palette.ALARM))
 	if s.outcome() == &"fallen":  # the Hunter's Fall (GameState.finish_combat)
 		v.add_child(UiKit.paragraph(Loc.t("ui.combat.fall", {"n": ContentDB.data.balance.health.fall_fee}), 18, Palette.ALARM))

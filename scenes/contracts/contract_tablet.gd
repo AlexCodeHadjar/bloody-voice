@@ -14,6 +14,8 @@ var _list: Array[ContractsState.Contract] = []
 var _index := 0
 var _body: VBoxContainer
 var _accept: Button
+var _abandon: Button  ## gives a taken contract up (two presses)
+var _abandon_armed := false
 var _problem: Label
 var _seal: TextureRect
 
@@ -93,6 +95,9 @@ func _build_buttons() -> HBoxContainer:
 	_accept = Icons.button("UI", &"accept", Loc.t("ui.contract.accept"), 20)
 	_accept.pressed.connect(_on_accept)
 	row.add_child(_accept)
+	_abandon = UiKit.button(Loc.t("ui.contract.abandon"), 18)
+	_abandon.pressed.connect(_on_abandon)
+	row.add_child(_abandon)
 	var next := Icons.button("UI", &"arrow_right", "", 16)
 	next.custom_minimum_size = Vector2(52, 52)
 	next.pressed.connect(_step.bind(1))
@@ -113,6 +118,9 @@ func _show_current() -> void:
 	var status := "ui.contract.done" if c.done else ("ui.contract.taken" if c.accepted else "ui.contract.accept")
 	_accept.text = Loc.t(status)
 	_accept.disabled = c.accepted or c.done
+	_abandon.visible = ContractRules.can_abandon(GameState.run.contracts, c.uid) == ""
+	_abandon.text = Loc.t("ui.contract.abandon")
+	_abandon_armed = false
 
 
 func _fill(c: ContractsState.Contract) -> void:
@@ -190,6 +198,30 @@ func _on_accept() -> void:
 	var tw := create_tween().set_parallel().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tw.tween_property(_seal, "scale", Vector2.ONE, 0.25)
 	tw.tween_property(_seal, "modulate", Color.WHITE, 0.15)
+
+
+## The first press warns (the petitioner's faction will frown), the second gives the contract up.
+func _on_abandon() -> void:
+	if _list.is_empty():
+		return
+	if not _abandon_armed:
+		_abandon_armed = true
+		_abandon.text = Loc.t("ui.contract.abandon_sure")
+		_problem.text = Loc.t("ui.contract.abandon_warn")
+		return
+	var c := _list[_index]
+	if ContractRules.can_abandon(GameState.run.contracts, c.uid) != "":
+		_problem.text = ContractRules.can_abandon(GameState.run.contracts, c.uid)
+		UiKit.sound(&"ui.error")
+		return
+	_list.erase(c)  # before the call: contracts_changed redraws from the list
+	_index = clampi(_index, 0, maxi(0, _list.size() - 1))
+	GameState.abandon_contract(c.uid)
+	UiKit.sound(&"paper.map")
+	if _list.is_empty():
+		close_tablet()
+		return
+	_show_current()
 
 
 func close_tablet() -> void:

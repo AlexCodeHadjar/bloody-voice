@@ -41,6 +41,7 @@
 | Limits | At most 3 open contracts; 2 leaflets on one creature per board. |
 | Reward | Money (XP since Phase 6 step 1; reputation and rank effects — GDD 12.2): by the creature's rank A 30 / P 50 / D 80 / S 130, ±20 %, ×1.5 for a capture, rounded to 5. |
 | Deadline | 4–10 days. **Overdue: the contract stays, the creature is stronger (hp ×1.25, +1 damage per hit), the reward does not grow** (owner). Shown red in the tracker and on the fight's top bar. |
+| Give up | A taken contract (not a Register exam) can be given up on its tablet (two presses): it goes and frees its slot; the petitioner's faction −5 (owner 2026-10-12). |
 | Region icon | Makes the zone where the creature was last seen glow blue on the district map; the camera glides there. |
 | Rumors (step 2) | A taken contract seeds a true rumor diamond at once and then every 2–3 days (GDD 8.4). Any fight with a contract's creature counts for the contract with the nearest deadline. |
 

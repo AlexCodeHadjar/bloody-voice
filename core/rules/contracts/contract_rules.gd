@@ -67,6 +67,23 @@ static func accept(cs: ContractsState, data: ContentData, uid: int) -> String:
 	return problem
 
 
+## "" or why the hunter can't give the contract up: only a taken one that is not done and not a Register exam.
+static func can_abandon(cs: ContractsState, uid: int) -> String:
+	var c := cs.find(uid)
+	if c == null or not c.accepted or c.done or c.exam:
+		return Loc.t("rule.contract.cant_abandon")
+	return ""
+
+
+## Gives a taken contract up (owner, 2026-10-12): it goes from the list and frees its slot; the caller lowers the
+## petitioner's reputation (FactionRules.abandon_changes). Counts for nothing.
+static func abandon(cs: ContractsState, uid: int) -> String:
+	var problem := can_abandon(cs, uid)
+	if problem == "":
+		cs.items.erase(cs.find(uid))
+	return problem
+
+
 static func days_left(c: ContractsState.Contract, day: int) -> int:
 	return c.deadline_day - day
 

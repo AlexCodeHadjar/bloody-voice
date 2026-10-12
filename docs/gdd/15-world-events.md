@@ -19,6 +19,6 @@ Random events are drawn from a weighted, seeded table so every playthrough feels
 | Rule | Value |
 |---|---|
 | Table | `data/city/events.json`: Fog Breach (fog_breach, weight 3, 3–6 days), Grey Plague Scare (quarantine, 2, 4–6), Dusk Night (festival, 2, 2–3) — district GREY. |
-| Roll | Each Monday (`EventRules.weekly`, stream `events` by week): none before week 2, none while one is on or in the rest week after one ended; then a 50 % chance, weighted pick. A save loaded mid-week waits for Monday. The roll comes before the board, so rewards of the week's leaflets follow the state. |
+| Roll | Each Monday (`EventRules.weekly`, stream `events` by week): none before week 2, none while one is on or in the rest week after one ended; then a 35 % chance (owner 2026-10-12: rarer), weighted pick. A save loaded mid-week waits for Monday. The roll comes before the board, so rewards of the week's leaflets follow the state. |
 | News | The morning leaflet («Новости»: the event picture `EVENT__art__<id>`, the news, what the state changes) when an event starts and when it ends; shown on the district screen, one after another, after any open panel. |
 | Later | Story events at fixed weeks, events of other districts, events from the hero's deeds. |

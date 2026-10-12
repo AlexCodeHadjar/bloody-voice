@@ -20,6 +20,20 @@ func accept_contract(uid: int) -> String:
 	return problem
 
 
+## Gives a taken contract up: its slot frees, its petitioner's faction frowns (owner, 2026-10-12). "" or why not.
+func abandon_contract(uid: int) -> String:
+	if run == null or combat != null:
+		return Loc.t("rule.not_now")
+	var changes := FactionRules.abandon_changes(ContentDB.data, run.contracts.find(uid))
+	var problem := ContractRules.abandon(run.contracts, uid)
+	if problem == "":
+		FactionRules.apply(run, changes)
+		EventBus.contracts_changed.emit()
+		EventBus.progress_changed.emit()
+		save_game()
+	return problem
+
+
 ## Workshop (GDD 6.2): craft from a known blueprint. "" or the reason it can't be done.
 func craft_item(item: StringName) -> String:
 	if run == null or combat != null:

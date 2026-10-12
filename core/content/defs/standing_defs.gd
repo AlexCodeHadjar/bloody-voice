@@ -20,6 +20,7 @@ class FactionBalance:
 	var tier_min: Dictionary[StringName, int] = {}
 	var petition_done: int = 0
 	var rival_done: int = 0
+	var abandon: int = 0  ## the petitioner's faction when its contract is given up
 	var outcome: Dictionary[StringName, Dictionary] = {}  ## fight outcome -> Dictionary[StringName, int] {faction: change}
 
 
@@ -63,6 +64,7 @@ static func factions_balance(d: Dictionary, errs: ErrorLog) -> FactionBalance:
 		b.tier_min[StringName(str(k))] = int(mins[k])
 	b.petition_done = DefReader.integer(d, "petition_done", errs, w)
 	b.rival_done = DefReader.integer(d, "rival_done", errs, w)
+	b.abandon = DefReader.integer(d, "abandon", errs, w)
 	var outcome := DefReader.dict(d, "outcome", errs, w)
 	for k: Variant in outcome:
 		b.outcome[StringName(str(k))] = WorkshopDefs.amounts(outcome[k] as Dictionary)

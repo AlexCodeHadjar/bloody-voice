@@ -296,7 +296,7 @@
   "pure_sell_mult": 2
  },
  "factions": {
-  "_comment": "Reputation (GDD 12, owner 2026-10-12): tier_min — the lowest value of each tier; petition_done — the petitioner's faction when its contract is finished; rival_done — each rival of it; outcome — every fight by outcome (the Vigil wants creatures dead, the Communion alive).",
+  "_comment": "Reputation (GDD 12, owner 2026-10-12): tier_min — the lowest value of each tier; petition_done — the petitioner's faction when its contract is finished; rival_done — each rival of it; abandon — the petitioner's faction when the hunter gives the contract up; outcome — every fight by outcome (the Vigil wants creatures dead, the Communion alive).",
   "tier_min": {
    "hostile": -100,
    "wary": -49,
@@ -306,6 +306,7 @@
   },
   "petition_done": 8,
   "rival_done": -3,
+  "abandon": -5,
   "outcome": {
    "slain": {
     "vigil": 1
@@ -355,7 +356,7 @@
  "events": {
   "_comment": "District events (GDD 15, owner 2026-10-12): no event before first_week; each Monday chance to start one if none is on and rest_weeks have passed since the last ended. danger_hp_mult / danger_damage: creatures of a district with danger_delta > 0, per point.",
   "first_week": 2,
-  "chance": 0.5,
+  "chance": 0.35,
   "rest_weeks": 1,
   "danger_hp_mult": 1.2,
   "danger_damage": 1

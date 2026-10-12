@@ -137,7 +137,7 @@ ui.voice.stage.3,Зверь,The Beast
 ui.voice.effect.0,Кровь молчит.,The blood is silent.
 ui.voice.effect.1,в каждом бою в колоде «Ярость гончей».,a Hound's Rage in every fight's deck.
 ui.voice.effect.2,в начале хода карта атаки может сыграть сама.,an attack card may play itself at the start of a turn.
-ui.voice.effect.3,в колоде «Облик Зверя»; после боя Зверь может взять верх — пропадёт день.,Beast Form in the deck; after a fight the Beast may take over and a day is lost.
+ui.voice.effect.3,в колоде «Облик Зверя»; после победы Зверь может взять верх — пропадёт день.,Beast Form in the deck; after a won fight the Beast may take over and a day is lost.
 ui.voice.sample,Образец крови: {name},Blood sample: {name}
 ui.voice.pure_sample,Чистый образец: {name},Pure sample: {name}
 ui.voice.lost_control,Зверь взял верх. Вы очнётесь в сточной канаве только через день.,The Beast took over. You will come to in a gutter a day later.
@@ -163,6 +163,9 @@ ui.contract.days_left,осталось {n} {n:день|дня|дней},{n} d le
 ui.contract.last_day,последний день,last day
 ui.contract.overdue,просрочен — тварь усилилась,overdue — the creature grew stronger
 ui.contract.accept,Принять заказ,Accept
+ui.contract.abandon,Отказаться,Give up
+ui.contract.abandon_sure,Точно отказаться,Give up for sure
+ui.contract.abandon_warn,"Заказ уйдёт, место освободится, но фракция заказчика это запомнит.","The contract goes and its slot frees, but the petitioner's faction will remember."
 ui.contract.taken,Заказ принят,Taken
 ui.contract.done,Выполнен,Done
 ui.contract.tracker,Заказы,Contracts
@@ -421,6 +424,7 @@ state.cleansed.name,Очищен,Cleansed
 rule.on_self,Эту карту играют на себя.,Play this on yourself.
 rule.aim_creature,Цельтесь в тварь.,Aim at the creature.
 ui.combat.hp,Здоровье,HP
+ui.combat.rank_tip,Ранг Реестра {rank}: {name},Register rank {rank}: {name}
 ui.combat.none,нет,none
 section.sight,Прицел,Sight
 section.magazine,Магазин,Magazine
@@ -447,6 +451,7 @@ rule.not_now,Не сейчас.,Not now.
 rule.no_fight,Боя нет.,No fight.
 rule.contract.unknown,Такого заказа нет.,No such contract.
 rule.contract.taken,Этот заказ уже принят.,This contract is already taken.
+rule.contract.cant_abandon,Отказаться можно только от взятого заказа (не от экзамена).,Only a taken contract can be given up (not an exam).
 rule.contract.too_many,Больше {n} {n:заказа|заказов|заказов} сразу не взять.,You can't hold more than {n} contracts.
 rule.workshop.unknown,Этот чертёж ещё не известен.,This blueprint is not known yet.
 rule.workshop.no_crafts,Сегодня в мастерской уже сделано {n} {n:изделие|изделия|изделий}.,Today's {n} crafts are done.

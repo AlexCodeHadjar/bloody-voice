@@ -52,6 +52,15 @@ static func fight_changes(data: ContentData, c: ContractsState.Contract, outcome
 	return out
 
 
+## Giving a contract up angers its petitioner's faction.
+static func abandon_changes(data: ContentData, c: ContractsState.Contract) -> Dictionary[StringName, int]:
+	var out: Dictionary[StringName, int] = {}
+	var p := data.petition(c.petition) if c != null else null
+	if p != null and data.faction(p.faction) != null:
+		_add(out, p.faction, data.balance.factions.abandon)
+	return out
+
+
 static func apply(run: RunState, changes: Dictionary[StringName, int]) -> void:
 	for f: StringName in changes:
 		run.standing.reputation[f] = clampi(run.standing.rep(f) + changes[f], MIN_REP, MAX_REP)

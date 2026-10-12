@@ -90,12 +90,15 @@ func test_lose_control_only_at_the_beast() -> void:
 	var run := _run(data)
 	var rng := SeededRng.make_stream(1, &"voice", 1)
 	for i: int in 20:
-		check(not VoiceRules.loses_control(run, data, rng), "never below stage 3")
+		check(not VoiceRules.loses_control(run, data, rng, &"slain"), "never below stage 3")
 	run.voice = 100
 	var lost := 0
 	for i: int in 200:
-		lost += 1 if VoiceRules.loses_control(run, data, rng) else 0
+		lost += 1 if VoiceRules.loses_control(run, data, rng, &"slain") else 0
 	check(lost > 0 and lost < 200, "a chance at stage 3")
+	for i: int in 50:
+		check(not VoiceRules.loses_control(run, data, rng, &"fallen"), "never after a fall")
+		check(not VoiceRules.loses_control(run, data, rng, &"escaped"), "never after the creature escaped")
 
 
 func test_hunger_plays_an_attack_card() -> void:
