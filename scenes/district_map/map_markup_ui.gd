@@ -170,9 +170,11 @@ func _on_menu(id: int) -> void:
 			problem = _delete()
 		UNLINK:
 			MapMarkupOps.unlink(ed.map, _link[0], _link[1])
-		NEW_NODE:
+		NEW_NODE:  # a lone node stops the game: the chain starts from it at once (owner 2026-10-14)
 			ed.clear()
 			ed.node = MapMarkupOps.add_node(ed.map, _at)
+			chain_from = ed.node
+			_status(Loc.t("ui.dev.chain", {"id": chain_from}))
 		ZONE_CORNER, DARK_CORNER, FOG_CORNER:
 			var which: StringName = {ZONE_CORNER: &"zone", DARK_CORNER: &"contour", FOG_CORNER: &"fog"}[id]
 			MapMarkupOps.add_corner(ed.map, which, _at)
@@ -181,7 +183,7 @@ func _on_menu(id: int) -> void:
 			_create(id)
 	if problem != "":
 		_status(problem)
-	elif id != CONNECT:
+	elif id != CONNECT and id != NEW_NODE:
 		view.show_pick()
 
 
@@ -270,19 +272,17 @@ func _apply_rename(text: String) -> void:
 	view.show_pick()
 
 
-## Ctrl+S: writes the files, then checks the map and the residents the way the game does at boot.
+## Ctrl+S: checks the map and the residents the way the game does at boot first; a markup the game would not start
+## with is NOT written (owner 2026-10-14: a broken save locked him out of F3) — the changes stay here to be fixed.
 func _save() -> void:
-	var path := MapMarkupSaver.save(ed)
-	if path == "":
-		_status(Loc.t("ui.dev.map_not_saved"))
-		return
 	var errs := ErrorLog.new()
 	DistrictMapValidator.validate(ContentDB.data, errs, false)
 	DistrictLifeValidator.validate(ContentDB.data, errs, false)
-	if errs.messages.is_empty():
-		_status(Loc.t("ui.dev.map_saved", {"path": path}))
-	else:
-		_status(Loc.t("ui.dev.map_saved_errors", {"path": path, "n": errs.messages.size(), "first": errs.messages[0]}))
+	if not errs.messages.is_empty():
+		_status(Loc.t("ui.dev.map_save_refused", {"n": errs.messages.size(), "first": errs.messages[0]}))
+		return
+	var path := MapMarkupSaver.save(ed)
+	_status(Loc.t("ui.dev.map_saved", {"path": path}) if path != "" else Loc.t("ui.dev.map_not_saved"))
 	life_changed.emit()
 
 

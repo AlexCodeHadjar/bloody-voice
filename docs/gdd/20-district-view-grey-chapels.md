@@ -183,5 +183,8 @@ A yellow ring is the picked point; the line with its name and coordinates sits a
   The hero's home node, the only place with an action and a walker's second-to-last node cannot be deleted.
 - **Ctrl+S** writes `data/city/district_maps/<ID>.json` and `data/city/district_life/<ID>.json` in their own layout
   (`core/dev/json_layout.gd`; untouched fields stay) and the Russian names of new places and streets into
-  `locale/strings.csv`, then runs the map and residents checks the way the game does at boot and says if it would not
-  start. An exported build writes `user://district_maps/`. Residents are rebuilt at once after a change.
+  `locale/strings.csv`. First it runs the map and residents checks the way the game does at boot: a markup the game
+  would not start with is not written (owner 2026-10-14 — a lone node once locked him out of the game); the changes
+  stay in memory to be fixed.
+  «Создать узел улицы» starts the chain from the new node at once.
+  An exported build writes `user://district_maps/`. Residents are rebuilt at once after a change.

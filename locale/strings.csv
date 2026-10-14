@@ -233,7 +233,7 @@ ui.dev.no_delete_walker,Нельзя: у жителя {id} останется м
 ui.dev.no_delete_home,Это дом героя — его узел удалить нельзя.,This is the hero's home node — it cannot be deleted.
 ui.dev.place_name,Место {n},Place {n}
 ui.dev.path_name,Проход {id},Path {id}
-ui.dev.map_saved_errors,Сохранено: {path}. Но игра не запустится — ошибок: {n}. Первая: {first},Saved: {path}. The game will not start — {n} errors. First: {first}
+ui.dev.map_save_refused,Не сохранено: с такой разметкой игра не запустится (ошибок: {n}). Первая: {first}. Исправьте и нажмите Ctrl+S снова — правки пока в памяти.,Not saved: the game would not start with this markup ({n} errors). First: {first}. Fix it and press Ctrl+S again — the changes are kept.
 ui.story.title.step,Письмо,A letter
 ui.story.title.after,Записка,A note
 ui.story.title.end,Конец главы,End of the chapter
@@ -643,6 +643,14 @@ ui.combat.close,Закрыть,Close
 ui.combat.settings,Настройки,Settings
 ui.combat.part_tip,{name}: {hp} / {max},{name}: {hp} / {max}
 ui.combat.ap,Очки действия,Action points
+district_map.GREY.street.belfry_steps,Ступени колокольни,Belfry Steps
+district_map.GREY.street.bridge_lane,Мостовой переулок,Bridge Lane
+district_map.GREY.street.rope_bridges,Верёвочные мосты,Rope Bridges
+district_map.GREY.street.cloister_path,Монастырская тропа,Cloister Path
+district_map.GREY.street.aqueduct_walk,Тропа по акведуку,Aqueduct Walk
+district_map.GREY.street.grave_path,Кладбищенская тропа,Grave Path
+district_map.GREY.street.yard_road,Дворовая улица,Yard Road
+district_map.GREY.street.viaduct_road,Дорога у виадука,Viaduct Road
 card.strike.name,Удар,Strike
 card.strike.text,Нанесите 6 урона.,Deal 6 damage.
 card.guard.name,Защита,Guard
@@ -1064,19 +1072,45 @@ district_map.GREY.landmark.tram_depot.name,Трамвайное депо,The Tra
 district_map.GREY.landmark.tram_depot.desc,"Три длинных ангара, рельсы веером, поворотный круг и старый трамвайный вагон.","Three long engine sheds, fanned tracks, a turntable, and an old tram car."
 district_map.GREY.street.ash_street,Пепельная улица,Ash Street
 district_map.GREY.street.north_road,Северная дорога,North Road
-district_map.GREY.street.belfry_steps,Ступени колокольни,Belfry Steps
+district_map.GREY.street.north_road_1,Северная дорога,north_road_1
+district_map.GREY.street.belfry_steps_1,Ступени колокольни,belfry_steps_1
 district_map.GREY.street.hook_lane,Крюков переулок,Hook Lane
 district_map.GREY.street.rail_track_lane,Путейский проулок,Rail Track Lane
-district_map.GREY.street.bridge_lane,Мостовой переулок,Bridge Lane
-district_map.GREY.street.rope_bridges,Верёвочные мосты,Rope Bridges
+district_map.GREY.street.bridge_lane_1,Мостовой переулок,bridge_lane_1
 district_map.GREY.street.railing_path,Тропа у перил,Railing Path
-district_map.GREY.street.cloister_path,Монастырская тропа,Cloister Path
+district_map.GREY.street.railing_path_1,Тропа у перил,railing_path_1
+district_map.GREY.street.cloister_path_1,Монастырская тропа,cloister_path_1
 district_map.GREY.street.hollow_stair,Лестница в лог,Hollow Stair
-district_map.GREY.street.aqueduct_walk,Тропа по акведуку,Aqueduct Walk
 district_map.GREY.street.gutter_road,Сточная дорога,Gutter Road
-district_map.GREY.street.grave_path,Кладбищенская тропа,Grave Path
-district_map.GREY.street.yard_road,Дворовая улица,Yard Road
-district_map.GREY.street.viaduct_road,Дорога у виадука,Viaduct Road
+district_map.GREY.street.gutter_road_1,Сточная дорога,gutter_road_1
+district_map.GREY.street.grave_path_1,Кладбищенская тропа,grave_path_1
+district_map.GREY.street.path_2,Проход path_2,path_2
+district_map.GREY.street.path_1,Проход path_1,path_1
+district_map.GREY.street.path_4,Проход path_4,path_4
+district_map.GREY.street.path_5,Проход path_5,path_5
+district_map.GREY.street.path_6,Проход path_6,path_6
+district_map.GREY.street.path_7,Проход path_7,path_7
+district_map.GREY.street.path_8,Проход path_8,path_8
+district_map.GREY.street.path_9,Проход path_9,path_9
+district_map.GREY.street.path_10,Проход path_10,path_10
+district_map.GREY.street.path_11,Проход path_11,path_11
+district_map.GREY.street.path_3,Проход path_3,path_3
+district_map.GREY.street.path_12,Проход path_12,path_12
+district_map.GREY.street.path_13,Проход path_13,path_13
+district_map.GREY.street.path_14,Проход path_14,path_14
+district_map.GREY.street.path_15,Проход path_15,path_15
+district_map.GREY.street.path_16,Проход path_16,path_16
+district_map.GREY.street.path_17,Проход path_17,path_17
+district_map.GREY.street.path_18,Проход path_18,path_18
+district_map.GREY.street.path_19,Проход path_19,path_19
+district_map.GREY.street.path_20_1,Проход path_20,path_20_1
+district_map.GREY.street.path_21,Проход path_21,path_21
+district_map.GREY.street.path_20,Проход path_20,path_20
+district_map.GREY.street.path_22,Проход path_22,path_22
+district_map.GREY.street.path_23,Проход path_23,path_23
+district_map.GREY.street.path_24,Проход path_24,path_24
+district_map.GREY.street.path_25,Проход path_25,path_25
+district_map.GREY.street.path_26,Проход path_26,path_26
 district_map.GREY.zone.edge_walk,Дорожка над Бездной,Edge Walk
 district_map.GREY.zone.fog_hollow,Туманный лог,Fog Hollow
 district_map.GREY.zone.chapel_close,Часовенный двор,Chapel Close
