@@ -6,7 +6,6 @@ func _run(data: ContentData) -> RunState:
 	var run := RunState.create(6, data.balance)
 	WorkshopRules.ensure_start(run, data)
 	ContractRules.refresh_board(run, data, SeededRng.make_stream(6, &"contracts", 1))
-	RumorRules.new_morning(run, data, SeededRng.make_stream(6, &"rumors", 1))
 	return run
 
 
@@ -65,16 +64,6 @@ func test_hunters_fall_takes_the_fee_even_into_debt() -> void:
 	eq(fee, data.balance.health.fall_fee, "the fee")
 	eq(run.money, 5 - fee, "into debt if need be")
 	eq(HealthRules.hp(run, data), HealthRules.max_hp(run, data), "healed")
-
-
-func test_scriptorium_verifies_a_rumor() -> void:
-	var data := load_content(false)
-	var run := _run(data)
-	var r := RumorRules.visible(run.rumors)[0]
-	eq(LibraryRules.verify(run, r.uid), "", "verified")
-	check(r.verified, "flag set")
-	check(LibraryRules.verify(run, r.uid) != "", "not twice")
-	check(LibraryRules.verify(run, 9999) != "", "unknown rumor")
 
 
 func test_scriptorium_studies_a_trophy() -> void:

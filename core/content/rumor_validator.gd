@@ -42,17 +42,13 @@ static func _zone(data: ContentData, district: StringName, zone_id: StringName, 
 
 static func _balance(b: RumorDefs.Balance, errs: ErrorLog) -> void:
 	var w := "balance.json/rumors"
-	var pairs: Array[Array] = [[b.new_min, b.new_max], [b.true_every_min, b.true_every_max], [b.true_tags_min, b.true_tags_max],
-		[b.lie_tags_min, b.lie_tags_max], [b.discovery_money_min, b.discovery_money_max], [b.small_money_min, b.small_money_max]]
-	for pair: Array in pairs:
-		if int(pair[0]) < 0 or int(pair[1]) < int(pair[0]):
-			errs.add(w, "every *_min must be >= 0 and <= its *_max")
-	if b.max_on_map < 1 or b.lifetime_days < 1 or b.true_every_min < 1 or b.true_tags_min < 1:
-		errs.add(w, "max_on_map, lifetime_days, true_every_min and true_tags_min must be >= 1")
-	if b.noise_chance < 0.0 or b.noise_chance > 1.0:
-		errs.add(w, "noise_chance must be in 0..1")
-	if b.kind_weights.is_empty():
-		errs.add(w, "kind_weights is empty")
-	for k: StringName in b.kind_weights:
-		if not RumorDefs.KINDS.has(k) or k == &"target" or b.kind_weights[k] <= 0.0:
-			errs.add(w, "kind_weights: '%s' must be a non-target kind with a weight > 0" % k)
+	for pair: Array in [[b.true_tags_min, b.true_tags_max], [b.lie_tags_min, b.lie_tags_max]]:
+		if int(pair[0]) < 1 or int(pair[1]) < int(pair[0]):
+			errs.add(w, "every *_tags_min must be >= 1 and <= its *_max")
+	if b.listen_every_min <= 0.0 or b.listen_every_max < b.listen_every_min or b.heard_seconds <= 0.0:
+		errs.add(w, "need 0 < listen_every_min <= listen_every_max and heard_seconds > 0")
+	if b.max_heard < 1 or b.trail_needed < 1 or b.threat_needed < 1 or b.threat_days < 1:
+		errs.add(w, "max_heard, trail_needed, threat_needed and threat_days must be >= 1")
+	for c: float in [b.true_chance, b.wrong_creature_chance, b.noise_chance]:
+		if c < 0.0 or c > 1.0:
+			errs.add(w, "true_chance, wrong_creature_chance and noise_chance must be in 0..1")

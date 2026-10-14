@@ -35,7 +35,7 @@ SKIP_FOLDERS = {"refs", "district_maps"}
 NAME_RE = re.compile(r"^[A-Z0-9_]+(__[a-z0-9_]+)+$")
 MAX_SIDE = 1672
 # Smaller caps for art shown small on screen (card art window ~176x98 px, crisp at 2x).
-MAX_SIDE_BY_PREFIX = {"CARD__art__": 768, "LIFE__": 512}  # map life (scenes, vehicles, decor) ~ 1–2 houses on the map
+MAX_SIDE_BY_PREFIX = {"CARD__art__": 768, "LIFE__": 512, "SIGN__": 384}  # map life ~ 1–2 houses; signboards ~ a roof on the map
 QUALITY = 88
 # Sheets made before the naming rule: stem -> (set, (cols, rows)).
 LEGACY_SHEETS = {"RESOURCES__six_icons": ("RESOURCE", (6, 1))}

@@ -7,7 +7,7 @@ extends RefCounted
 
 const NEW_KIND := &"street"  ## the kind of a link the owner draws
 const PLACE_RADIUS := 140.0
-const SINGLE_PLACES: Array[StringName] = [&"rest", &"workshop", &"rumors", &"tavern", &"shop", &"infirmary", &"library"]
+const SINGLE_PLACES: Array[StringName] = [&"rest", &"workshop", &"tavern", &"shop", &"infirmary", &"library"]
 
 
 ## A polygon of the map: a zone, the district outline ("contour") or the open fog side ("fog").

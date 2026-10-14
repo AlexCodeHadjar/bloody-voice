@@ -1,11 +1,11 @@
 class_name DistrictPanels
 extends Node
-## Full-screen panels over the district map (one at a time): the contract board and tablets, the rumor post and
-## tablets, the shop, the tavern-shift result, the infirmary, the Scriptorium and the morning news. Adds them to the district screen
+## Full-screen panels over the district map (one at a time): the contract board and tablets, a heard rumor and a
+## mark (GDD 8.4), the shop, the tavern-shift result, the infirmary, the Scriptorium and the morning news. Adds them to the district screen
 ## and tells it what happened.
 
-signal rumor_chosen(uid: int)  ## the rumor post's «Идти»
-signal fight_started  ## a rumor tablet started a fight
+signal rumor_taken(t: RumorRules.Taken)  ## «Взять в записи» on a heard rumor
+signal fight_started  ## a mark started a fight
 
 var host: Control
 var current: Control = null
@@ -40,10 +40,6 @@ func open_for(action: StringName) -> bool:
 			open(InfirmaryPanel.new())
 		&"library":
 			open(LibraryPanel.new())
-		&"rumors":
-			var post := RumorPost.new()
-			open(post)
-			post.rumor_chosen.connect(func(uid: int) -> void: rumor_chosen.emit(uid))
 		_:
 			return false
 	return true
@@ -75,13 +71,22 @@ func open_contract(list: Array[ContractsState.Contract], index: int) -> void:
 	tablet.open_list(list, index)
 
 
-func open_rumor(uid: int) -> void:
+func open_heard(h: RumorGenerator.Heard) -> void:
 	if current != null:
 		return
-	var tablet := RumorTablet.new()
-	open(tablet)
-	tablet.fight_started.connect(func() -> void: fight_started.emit())
-	tablet.open_rumor(uid)
+	var sheet := RumorSheet.new()
+	open(sheet)
+	sheet.taken.connect(func(t: RumorRules.Taken) -> void: rumor_taken.emit(t))
+	sheet.open_heard(h)
+
+
+func open_mark(uid: int) -> void:
+	if current != null:
+		return
+	var sheet := MarkSheet.new()
+	open(sheet)
+	sheet.fight_started.connect(func() -> void: fight_started.emit())
+	sheet.open_mark(uid)
 
 
 func _on_closed() -> void:

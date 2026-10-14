@@ -2,7 +2,7 @@
 
 > **Готово (2026-10-10):** части G–Q (93 картинки) сгенерированы и импортированы в `art/`; листы иконок `MECHANISM` и
 > `SETTINGS` разрезаны (наборы добавлены в `data/ui/icons.json`). Q1 (значок) — из `art/ui/WAX__seal.webp`, когда понадобится.
-> **Ждём ещё:** U (иконка сумки), V (вывески мест). **Получено 2026-10-14:** R (три новые твари — арт в `art/monsters/`, в игру войдут с данными), S (иконки 5 механизмов),
+> **Ждём ещё:** U (иконка сумки). **Получено 2026-10-14:** V (вывески мест; столб V7 не подключён — столба больше нет), K (листовка и картинки слухов), R (три новые твари — арт в `art/monsters/`, в игру войдут с данными), S (иконки 5 механизмов),
 > T (экран «Снаряжение» — верстак, `art/ui/EQUIP__*`, `TEX__felt`); их промты удалены. **Ждём:** P2 (карты состояний района).
 
 Всё, что ещё понадобится игре из арта, **кроме** уже расписанного:
@@ -18,7 +18,6 @@
 | **H** | Эффекты боя: удар, выстрел, кровь, искры, огонь, ток, дым, вспышка, сеть, страх, лечение, трещина | 13 | **сейчас** — бой v2 (§21: вспышка удара, анимации карт) |
 | **I** | Картинки на картах (окно в верхней части карты) | 19 | когда захочешь (до них игра ставит большую иконку типа) |
 | **J** | Иконки: механизмы брони, настройки | 2 листа | получено (механизмы, настройки) |
-| **K** | Расследование: листовка, картинки слухов | 11 | фаза 3 |
 | **L** | Экраны итогов: победа, Падение охотника, конец дня, аренда, добыча, новый уровень, стадия Голоса, Реестр | 8 | фазы 3–6 |
 | **M** | Портрет охотника по стадиям Голоса | 3 | фаза 6 |
 | **N** | Бестиарий, поимка, вскрытие | 5 | фазы 3–6 |
@@ -172,30 +171,6 @@ Exactly the look of the attached icons. Transparent background. No text.
 5 hints: a brass hand lantern with a small curled flame and a keyhole on its base.
 ```
 
-## K. Расследование (11) — чат «Investigation»
-
-Плашка слуха (`RUMOR__diamond`), табличка контракта и доска в таверне уже есть. Нужны **листовка** (её вешают на
-столб Костровой площади, GDD §20) и **картинки слухов** — иллюстрация слева на табличке слуха (GDD §8.1).
-Папка `assets/ui/`.
-
-| # | Файл | Холст | Блоки | Промт |
-|---|---|---|---|---|
-| K1 | `RUMOR__leaflet.png` | tall | UI + TRANSPARENT | A single cheap paper leaflet, slightly crumpled, torn bottom corner, a rusty nail through the top, rain stains; the paper is EMPTY (the game prints the text). |
-| K2–K11 | `RUMOR__art__<id>.png` (общие картинки «место и след»; какая к какому признаку твари — решу при подключении) | square | SCENE, без прозрачности | Общая часть: `A small eerie illustration for a rumor, like a witness's memory: one place at night, no creature visible, only its traces. Soft dark vignette.` + строка ниже |
-
-| Файл | Тема слуха (тег места/следа) | Промт |
-|---|---|---|
-| `RUMOR__art__water.png` | у воды | Shallow black water in a flooded alley, small wet handprints climbing the wall above it. |
-| `RUMOR__art__rooftops.png` | крыши | Wet slate rooftops, a broken chimney, long scratch marks along the tiles, a dropped shoe. |
-| `RUMOR__art__church.png` | церковь | Inside a dark chapel, candles blown out in a line, one pew overturned. |
-| `RUMOR__art__underground.png` | под землёй | Stairs down into a flooded cellar, grey fog rising, a lantern left on the steps. |
-| `RUMOR__art__street.png` | улица | An empty lane under a single gas lamp, three parallel furrows gouged into the cobbles. |
-| `RUMOR__art__home.png` | дом | An empty child's bed by an open window, the curtain blowing, dust on the sill. |
-| `RUMOR__art__graveyard.png` | кладбище | A paupers' graveyard, an opened grave, earth thrown out from below, a crow on a marker. |
-| `RUMOR__art__fog.png` | туман | A street swallowed by fog, the silhouette of something far too tall barely visible. |
-| `RUMOR__art__moon.png` | луна, ночь | A pale full moon over roofs, a window with a sleeper and grey dust on the sill. |
-| `RUMOR__art__workshop.png` | механизмы, ржавчина | A rusted workshop, metal torn like paper, rust stains in the shape of footprints. |
-
 ## L. Экраны итогов (8) — чат «Results»
 
 Папка `assets/ui/`. Текст ставит игра.
@@ -280,34 +255,6 @@ UI STYLE BLOCK + TRANSPARENT BLOCK, холст square, папка `assets/icons/
 | # | Файл | Где в игре | Промт |
 |---|---|---|---|
 | U1 | `UI__bag.png` | Верхняя полоса района: кнопка «Снаряжение» (владелец 2026-10-14) | A hunter's leather satchel with a brass buckle and a strap, a gun cartridge loop on its side, seen from the front, fills the middle two thirds of the canvas. |
-
-## V. Вывески мест на карте района (7) — чат «Signs»
-
-Нынешние вывески — рамка, нарисованная кодом, с маленькой иконкой внутри; владелец 2026-10-14: «выглядят убого».
-Нужны настоящие кованые вывески, как над дверью лавки в старом городе. Висят над зданием на карте района и видны мелко
-(примерно 60–90 px на экране), поэтому главное — **крупный простой силуэт эмблемы**, читаемый издалека.
-
-UI STYLE BLOCK + TRANSPARENT BLOCK, холст square, папка `assets/ui/`. Порядок: сначала **V1**, затем каждую следующую
-делай в том же чате с приложенной готовой `SIGN__home.png`: «Exactly the same bracket, board shape, size, metal and
-lighting as the attached sign; only the emblem and the board's paint change.» Для V7 — «keep the same bracket and chains, replace the board by the post-top». При импорте Claude переключит вывески
-на эти картинки (`scenes/district_map/place_signs.gd`), нынешняя рамка останется запасной.
-
-Общее для всех: *A hanging shop sign of a Victorian slum, seen straight from the front: a short wrought-iron wall
-bracket with a curled end at the top, two small chains, and under it a thick wooden board in a riveted iron frame.
-On the board a bold emblem in pale tarnished brass or bone-white paint, clearly lighter than the board, with a thin
-light edge; no more than two main shapes; the emblem takes at least half of the board, the bracket and chains stay
-thin. Readable when tiny. Weathered, sooty, a little rust, warm lamplight from below-left. No writing anywhere.
-The sign fills the middle two thirds of the canvas, nothing else.*
-
-| # | Файл | Место | Эмблема и доска (дописать к общему) |
-|---|---|---|---|
-| V1 | `SIGN__home.png` | Пепельный чердак — дом, отдых | Dark plank board; emblem: a crooked garret house with a single lit window and a crescent moon over the roof. |
-| V2 | `SIGN__workshop.png` | Мастерская «Ржавая Шестерня» | Board painted soot-black; emblem: a large rusty cogwheel crossed by a hammer. |
-| V3 | `SIGN__tavern.png` | Таверна «Фонарь и Крюк» (доска заказов) | Board painted dark oxblood; emblem: a lantern hanging from a hook. |
-| V4 | `SIGN__shop.png` | Лавка старьёвщика | Faded green board; emblem: a pair of old brass scales with a coin in one pan. |
-| V5 | `SIGN__infirmary.png` | Лазарет Пепельных Сестёр | Dark ash-grey board; emblem: a simple bone-white cross with a red drop at its centre. |
-| V6 | `SIGN__library.png` | Скрипторий в крипте | Deep blue-black board; emblem: an open book with a quill standing in it. |
-| V7 | `SIGN__rumors.png` | Столб со слухами | Instead of a board: a small wooden post-top with one torn paper leaflet nailed to it, a crude drawn eye on it; no writing on the leaflet. |
 
 ## Q. Значок и Steam — фаза 10
 

@@ -1,10 +1,8 @@
 class_name RumorDefs
 extends RefCounted
-## Rumor content (GDD 8): witnesses and per-zone pictures and tags (data/rumors/rumors.json), and the rumor numbers
+## Rumor content (GDD 8): witnesses, tavern gossip and per-zone pictures and tags (data/rumors/rumors.json), and the rumor numbers
 ## of balance.json.
 
-const KINDS: Array[StringName] = [&"target", &"wrong_monster", &"discovery", &"false_lead", &"empty_night"]
-const FIGHTS: Array[StringName] = [&"target", &"wrong_monster"]  ## outcomes that start a fight
 const ART_DIR := "res://art/ui/RUMOR__art__%s.webp"
 
 
@@ -27,27 +25,22 @@ class Data:
 		return (zones.get(district, {}) as Dictionary).get(zone_id) as ZoneDef
 
 
-## The "rumors" block of balance.json.
+## The "rumors" block of balance.json (GDD 8.4).
 class Balance:
-	var new_min: int = 1
-	var new_max: int = 2
-	var max_on_map: int = 5
-	var lifetime_days: int = 3
-	var true_every_min: int = 2
-	var true_every_max: int = 3
-	var kind_weights: Dictionary[StringName, float] = {}
+	var listen_every_min: float = 4.0  ## seconds between rumors while listening
+	var listen_every_max: float = 6.0
+	var max_heard: int = 3  ## rumors on the map at once (+ the district state's rumor_bonus)
+	var heard_seconds: float = 20.0  ## an unread rumor fades after this
+	var true_chance: float = 0.5  ## in a zone with a taken contract: the rumor is about its creature
+	var wrong_creature_chance: float = 0.5  ## otherwise: about another creature of the district, else lies
 	var true_tags_min: int = 1
 	var true_tags_max: int = 2
-	var noise_chance: float = 0.0
+	var noise_chance: float = 0.0  ## a creature rumor gets one lie mixed in
 	var lie_tags_min: int = 1
 	var lie_tags_max: int = 3
-	var zone_tag_weight: float = 1.0
-	var discovery_money_min: int = 0
-	var discovery_money_max: int = 0
-	var small_money_min: int = 0
-	var small_money_max: int = 0
-	var discovery_resources: Dictionary[StringName, Vector2i] = {}  ## resource -> [min, max]
-	var empty_night_resources: Dictionary[StringName, Vector2i] = {}
+	var trail_needed: int = 3  ## right rumors taken -> the creature's mark
+	var threat_needed: int = 3  ## wrong rumors taken in a zone -> a red threat mark
+	var threat_days: int = 3
 
 
 static func from_dict(d: Dictionary, errs: ErrorLog) -> Data:
@@ -79,26 +72,10 @@ static func from_dict(d: Dictionary, errs: ErrorLog) -> Data:
 static func balance(d: Dictionary, errs: ErrorLog) -> Balance:
 	var b := Balance.new()
 	var w := "balance.json/rumors"
-	for key: String in ["new_min", "new_max", "max_on_map", "lifetime_days", "true_every_min", "true_every_max",
-			"true_tags_min", "true_tags_max", "lie_tags_min", "lie_tags_max", "discovery_money_min",
-			"discovery_money_max", "small_money_min", "small_money_max"]:
+	for key: String in ["max_heard", "true_tags_min", "true_tags_max", "lie_tags_min", "lie_tags_max", "trail_needed",
+			"threat_needed", "threat_days"]:
 		b.set(key, DefReader.integer(d, key, errs, w))
-	b.noise_chance = DefReader.number(d, "noise_chance", errs, w)
-	b.zone_tag_weight = DefReader.number(d, "zone_tag_weight", errs, w, 1.0)
-	var weights := DefReader.dict(d, "kind_weights", errs, w)
-	for k: Variant in weights:
-		b.kind_weights[StringName(str(k))] = float(weights[k])
-	b.discovery_resources = _ranges(DefReader.dict(d, "discovery_resources", errs, w), errs, w)
-	b.empty_night_resources = _ranges(DefReader.dict(d, "empty_night_resources", errs, w), errs, w)
+	for key: String in ["listen_every_min", "listen_every_max", "heard_seconds", "true_chance", "wrong_creature_chance",
+			"noise_chance"]:
+		b.set(key, DefReader.number(d, key, errs, w))
 	return b
-
-
-static func _ranges(d: Dictionary, errs: ErrorLog, w: String) -> Dictionary[StringName, Vector2i]:
-	var out: Dictionary[StringName, Vector2i] = {}
-	for k: Variant in d:
-		var a: Variant = d[k]
-		if typeof(a) != TYPE_ARRAY or (a as Array).size() != 2:
-			errs.add(w, "'%s' must be [min, max]" % k)
-			continue
-		out[StringName(str(k))] = Vector2i(int((a as Array)[0]), int((a as Array)[1]))
-	return out

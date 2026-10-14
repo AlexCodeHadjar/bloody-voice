@@ -80,7 +80,7 @@ func test_selling_trophies_and_resources() -> void:
 	eq(ShopRules.sell(run, data, &"chitin"), 0, "nothing to sell")
 
 
-func test_tavern_shift_pays_and_overhears() -> void:
+func test_tavern_shift_pays_with_gossip() -> void:
 	var data := load_content(false)
 	var run := _run(data)
 	var money := run.money
@@ -88,7 +88,6 @@ func test_tavern_shift_pays_and_overhears() -> void:
 	check(r.money >= data.balance.tavern.shift_money_min and r.money <= data.balance.tavern.shift_money_max, "pay in range")
 	eq(run.money, money + r.money, "paid")
 	check(r.gossip != &"", "a line of gossip")
-	check(RumorRules.overheard(run, data, SeededRng.make_stream(1, &"overheard", 1)) != null, "an overheard rumor")
 
 
 func test_two_unpaid_rents_lock_the_workshop() -> void:

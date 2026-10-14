@@ -131,3 +131,21 @@ static func _build_theme() -> Theme:
 static func signed(n: int) -> String:
 	return ("+%d" % n) if n >= 0 else ("−%d" % -n)
 
+
+## A full-screen overlay on `host`: the shade over the screen and a dark framed panel in the middle (returned).
+static func overlay(host: Control, border: Color, min_size: Vector2) -> PanelContainer:
+	host.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)  # fill the screen, not keep the 0×0 size
+	host.mouse_filter = Control.MOUSE_FILTER_STOP
+	var dim := ColorRect.new()
+	dim.color = Palette.SHADE
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	host.add_child(dim)
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	host.add_child(center)
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = min_size
+	panel.add_theme_stylebox_override("panel", panel_box(Color(0.06, 0.05, 0.045, 0.97), border))
+	center.add_child(panel)
+	return panel

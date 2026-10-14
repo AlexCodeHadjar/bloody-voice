@@ -103,31 +103,44 @@ func _contract_shots() -> void:
 	await _shot("18_contract_tracker_zone")
 
 
-## Rumors (GDD 8): diamonds on the map, the post on Bonfire Square, a rumor tablet.
+## Rumors (GDD 8.4): listening in the hunter's zone, a heard rumor, a mark with its sheet.
 func _rumor_shots() -> void:
 	var screen := get_tree().current_scene
-	var list := RumorRules.visible(GameState.run.rumors)
-	if list.is_empty():
+	var listen: ListenLayer = screen.get("_listen")
+	var panels: DistrictPanels = screen.get("_panels")
+	if listen == null:
 		return
-	var map := ContentDB.data.district_map(GameState.run.hero_district)
-	for n: Node in screen.find_children("*", "Control", true, false):
-		if n is DistrictView:
-			(n as DistrictView).center_on(map.node_pos(list[0].node))
-	await _wait(0.6)
-	await _shot("19_rumor_diamonds")
-	screen.call("_on_action", &"rumors")
-	await _wait(0.6)
-	await _shot("20_rumor_post")
-	for n: Node in screen.get_children():
-		if n is RumorPost:
-			(n as RumorPost).close_post()
+	var left := panels.current  # the contract tablet of the shots before
+	if left != null:
+		left.emit_signal(&"closed")
+		left.queue_free()
 	await _wait(0.3)
-	screen.call("_open_rumor", list[0].uid)
+	screen.call("_to_hero")
+	listen.toggle()
+	await _wait(3.5)
+	await _shot("19_rumor_listening")
+	var zone := DistrictMapRules.zone_at(ContentDB.data.district_map(GameState.run.hero_district),
+		(screen.get("_hero") as HeroWalker).position)
+	var h := GameState.hear_rumor(zone, [])
+	if h == null:
+		return
+	panels.open_heard(h)
 	await _wait(0.6)
-	await _shot("21_rumor_tablet")
-	for n: Node in screen.get_children():
-		if n is RumorTablet:
-			(n as RumorTablet).close_tablet()
+	await _shot("20_rumor_sheet")
+	(panels.current as RumorSheet).close_sheet()
+	listen.stop()
+	for i: int in 30:  # take rumors until a mark comes out (a creature's or a threat)
+		var t := GameState.take_rumor(GameState.hear_rumor(zone, []))
+		if t != null and t.mark != null:
+			(screen.get("_view") as DistrictView).center_on(ContentDB.data.district_map(GameState.run.hero_district).node_pos(t.mark.node))
+			await _wait(0.6)
+			await _shot("21_rumor_mark")
+			panels.open_mark(t.mark.uid)
+			break
+	await _wait(0.6)
+	await _shot("21_rumor_mark_sheet")
+	if panels.current is MarkSheet:
+		(panels.current as MarkSheet).close_sheet()
 
 
 ## The shop, a tavern shift, the infirmary and the Scriptorium (GDD 11.1, 3.3, 4).
@@ -230,6 +243,6 @@ func _check_panels(root: Node) -> void:
 		return
 	var screen := get_viewport().get_visible_rect().size
 	for n: Node in root.find_children("*", "Control", true, false):
-		if (n is ContractBoard or n is ContractTablet or n is RumorPost or n is RumorTablet or n is ShopTable
+		if (n is ContractBoard or n is ContractTablet or n is RumorSheet or n is MarkSheet or n is ShopTable
 				or n is ShiftPanel or n is PlacePanel) and not (n as Control).size.is_equal_approx(screen):
 			push_error("panel %s is %s, not the screen %s" % [(n.get_script() as Script).get_global_name(), (n as Control).size, screen])

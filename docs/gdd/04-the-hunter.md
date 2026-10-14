@@ -5,8 +5,8 @@
 | Attribute | In combat | Outside combat |
 |---|---|---|
 | **Will** | Max Sanity; resistance to Fear and Curse cards | Thresholds of the Voice (corruption); resisting story temptations |
-| **Agility** | +1 card drawn at 4 and 8; dodge chance; bonuses for light modules | Speed of the search ring growth |
-| **Cunning** | Preview depth of enemy intents; capture chance; trap power | Rumor analysis (flags noise tags), shop prices, contract reward bargaining |
+| **Agility** | +1 card drawn at 4 and 8; dodge chance; bonuses for light modules | — |
+| **Cunning** | Preview depth of enemy intents; capture chance; trap power | Rumor analysis (senses a wrong rumor), shop prices, contract reward bargaining |
 
 ## 4.2 Resources of the hero
 
@@ -66,7 +66,7 @@ Engineering, precision and control. Safe and predictable. Rich in Support cards,
 | Rest | Ash Garret, a day: +⅓ of max HP and max Sanity. |
 | Infirmary | The Ash Sisters (place 16, action `infirmary`): a day and 5 + 1 per missing HP + 1 per missing Sanity → full HP and Sanity. No credit. |
 | Hunter's Fall | 0 HP in a fight: the sisters pick the hunter up — one more day passes (two in all), the fee of 30 is taken even into debt, HP and Sanity are restored, the fight's loot and trophies are lost. Scars come later (Phase 6). |
-| Scriptorium | Crypt Scriptorium (place 12, action `library`), a day: **verify a rumor** (its tablet then shows what it leads to) or **study a trophy** (spent; every taken or pinned contract on its creature learns one more true sign). Bestiary, blueprints from books and Cunning checks come later. |
+| Scriptorium | Crypt Scriptorium (place 12, action `library`), a day: **study a trophy** (spent; every taken or pinned contract on its creature learns one more true sign). Bestiary and blueprints from books come later. |
 
 Numbers: `balance.json → health`. Code: `core/rules/health/health_rules.gd`, `core/rules/library/library_rules.gd`,
 screens `scenes/places/` (infirmary, Scriptorium).
@@ -75,12 +75,12 @@ screens `scenes/places/` (infirmary, Scriptorium).
 
 | Rule | Value |
 |---|---|
-| XP | A won fight by the creature's rank (A 20 · P 35 · D 60 · S 100), a capture ×1.5; a finished contract +15; a rumor discovery +5. |
+| XP | A won fight by the creature's rank (A 20 · P 35 · D 60 · S 100), a capture ×1.5; a finished contract +15. |
 | Levels | Level n → n+1 costs 50 + 25 × n; cap 15. Each level: +1 skill point (+1 more at 5, 10, 15), +5 max HP; every second level +1 attribute point. Skill points wait for the webs (step 2). |
 | Start | Will 1, Agility 1, Cunning 1. Sanity = 20 + 4 × Will (was a flat 28: the start is 24 now). |
 | Will | +4 Sanity per point (the Voice thresholds come with the Monster web, step 3). |
 | Agility | +1 card in hand at 4 and 8; 3 % per point to slip a hit (a free dodge, logged; the start Agility 1 already gives 3 %). |
-| Cunning | Capture chance (as before), +1 creature move always visible at 3 and 6, a 10 % per point chance to see a rumor's noise sign as «звучит выдумано» (fixed per rumor), 3 % shop discount per point (max 30 %). |
+| Cunning | Capture chance (as before), +1 creature move always visible at 3 and 6, a 10 % per point chance to sense a wrong rumor: «Чутьё: слух сомнительный» (fixed per rumor), 3 % shop discount per point (max 30 %). |
 | Screen | «Охотник» on the district bar: level, XP bar, HP, Sanity, free points, attributes with «+». The fight result shows the XP and «Новый уровень!». |
 | Points | One pool for both webs; resetting the Mechanic web costs money (owner) — built with the webs. |
 

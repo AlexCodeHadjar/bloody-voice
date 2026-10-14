@@ -27,7 +27,7 @@ In Scarlet Lantern Row: illegal modules, ichor, forbidden formulas. Buying lower
 | Prices | From resource values (scrap 3, gears 5, electronics 9, ichor 6): module = its blueprint's resources ×1.5, blueprint ×2, rounded to 5; lots = amount × price; consumables by table (tonic 15, fire flask 12, bandage 8, signal flare 8). No credit: buying needs the money in hand. |
 | Selling | Trophies by the rank of the creature that drops them (A 8 · P 12 · D 20 · S 30), resources at half their price (at least 1). Items are not sold (salvage them in the workshop). |
 | Bag | Up to 3 consumables; they go into every fight's deck and a played one is used up. |
-| Tavern shift | A day action on the Lantern & Hook card: 15–25 money, a line of gossip, and next morning a rumor overheard at the bar (50 %: a true one about an open contract's creature). |
+| Tavern shift | A day action on the Lantern & Hook card: 15–25 money, and a line of gossip. |
 | Rent debt | Rent may push money below 0. 2 unpaid rents in a row shut the workshop for that day (crafting, upgrades and salvage refused); the count clears when money is back at 0 or more. Money shows red with the count. |
 
 Numbers: `balance.json → shop`, `tavern`, `economy.debt_strikes`. Code: `core/generation/shop_generator.gd`,

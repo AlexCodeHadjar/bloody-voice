@@ -26,8 +26,8 @@ static func validate(data: ContentData, errs: ErrorLog) -> void:
 	if b.bag_size < 1 or b.price_step < 1 or b.sell_share <= 0.0 or b.sell_share > 1.0:
 		errs.add(w, "bag_size and price_step must be >= 1, sell_share in (0, 1]")
 	var t := data.balance.tavern
-	if t.shift_money_min < 0 or t.shift_money_max < t.shift_money_min or t.overheard_true_chance < 0.0 or t.overheard_true_chance > 1.0:
-		errs.add("balance.json/tavern", "need 0 <= shift_money_min <= shift_money_max and a chance in 0..1")
+	if t.shift_money_min < 0 or t.shift_money_max < t.shift_money_min:
+		errs.add("balance.json/tavern", "need 0 <= shift_money_min <= shift_money_max")
 	if data.rumor_data.gossip.is_empty():
 		errs.add("rumors/rumors.json", "needs at least one gossip line")
 	if data.balance.debt_strikes < 1:

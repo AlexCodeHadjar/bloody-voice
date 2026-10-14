@@ -1,62 +1,52 @@
 class_name RumorGenerator
 extends RefCounted
-## Makes rumor diamonds (GDD 17.2 RumorGenerator v1, 17.3). A rumor about a creature shows 1–2 of its true tags and
-## maybe one noise tag; rumors without a creature show only lies. Creature rumors land more often in zones whose
-## tags fit the creature. The outcome and its money are fixed here (OutcomeResolver). Pure: same rng, same rumor.
+## Makes the rumors the hunter hears while listening to the street (GDD 8.4). A rumor about a creature shows 1–2 of
+## its true signs and maybe one lie; a rumor of lies shows only lies, taken from the signs people of that zone talk
+## about. Pure: same rng, same rumor.
 
 
-## A true rumor seeded by a taken contract: investigating it means the fight with the contract's creature.
-static func make_target(data: ContentData, district: StringName, c: ContractsState.Contract, day: int,
-		rng: RandomNumberGenerator, uid: int, used_nodes: Array[StringName]) -> RumorsState.Rumor:
-	var r := _base(data, uid, day, rng)
-	r.kind = &"target"
-	r.monster = c.monster
-	r.contract_uid = c.uid
-	_creature_tags(r, data, rng)
-	for t: StringName in AffixGenerator.tags(data, c.affixes):  # the affixed creature leaves its affixes' signs
-		if not r.tags.has(t):
-			r.tags.append(t)
-	return _place(r, data, district, rng, used_nodes)
+## A heard rumor: lives on the screen until it is read, taken, thrown away or fades. Never saved.
+class Heard:
+	var uid: int
+	var zone: StringName
+	var node: StringName  ## the street node its icon flares up on
+	var monster: StringName  ## the creature it is about ("" = lies)
+	var contract_uid: int  ## the contract whose creature it is about (0 = a wrong rumor)
+	var witness: StringName
+	var art: StringName  ## a picture of the zone (RumorDefs.ART_DIR)
+	var tags: Array[StringName] = []
+	var lies: Array[StringName] = []  ## the shown signs that are not the creature's
+
+	func right() -> bool:
+		return contract_uid != 0
 
 
-## A rumor with a non-target outcome: another creature, a discovery, a false lead or an empty night.
-## `avoid`: creatures not to pick as the «wrong» one (the targets of open contracts).
-static func make_random(data: ContentData, district: StringName, day: int, rng: RandomNumberGenerator, uid: int,
-		used_nodes: Array[StringName], avoid: Array[StringName]) -> RumorsState.Rumor:
-	var b := data.balance.rumors
-	var r := _base(data, uid, day, rng)
-	r.kind = SeededRng.weighted(b.kind_weights, rng)
-	var others: Array[StringName] = []
-	for id: StringName in EncounterRules.pool(data, district):
-		if not avoid.has(id):
-			others.append(id)
-	if r.kind == &"wrong_monster" and others.is_empty():
-		r.kind = &"false_lead"
-	if r.kind == &"wrong_monster":
-		r.monster = others[rng.randi_range(0, others.size() - 1)]
-		_creature_tags(r, data, rng)
+## A rumor in `zone`: about the creature of `target` (a contract taken in this zone), or — `target` null — about
+## another creature of the district (none of `avoid`) or lies. `used`: street nodes already showing a rumor.
+static func make(data: ContentData, district: StringName, zone: StringName, target: ContractsState.Contract,
+		avoid: Array[StringName], used: Array[StringName], uid: int, rng: RandomNumberGenerator) -> Heard:
+	var h := Heard.new()
+	h.uid = uid
+	h.zone = zone
+	if target != null:
+		h.monster = target.monster
+		h.contract_uid = target.uid
+		_creature_tags(h, data, rng)
+		for t: StringName in AffixGenerator.tags(data, target.affixes):  # an affixed creature leaves its affixes' signs
+			if not h.tags.has(t):
+				h.tags.append(t)
 	else:
-		r.lies = SeededRng.sample(all_tags(data), rng.randi_range(b.lie_tags_min, b.lie_tags_max), rng)
-		r.tags.assign(r.lies)
-		var discovery := r.kind == &"discovery"
-		r.money = rng.randi_range(b.discovery_money_min if discovery else b.small_money_min,
-			b.discovery_money_max if discovery else b.small_money_max)
-		_finds(r, b, rng)
-	return _place(r, data, district, rng, used_nodes)
-
-
-## Resources a discovery or an empty night turns up (rolled now, so a reload never changes them).
-static func _finds(r: RumorsState.Rumor, b: RumorDefs.Balance, rng: RandomNumberGenerator) -> void:
-	var finds: Dictionary[StringName, Vector2i] = {}
-	if r.kind == &"discovery":
-		finds = b.discovery_resources
-	elif r.kind == &"empty_night":
-		finds = b.empty_night_resources
-	for res: StringName in finds:
-		var span := finds[res]
-		var n := rng.randi_range(span.x, span.y)
-		if n > 0:
-			r.resources[res] = n
+		var others: Array[StringName] = []
+		for id: StringName in EncounterRules.pool(data, district):
+			if not avoid.has(id):
+				others.append(id)
+		if not others.is_empty() and rng.randf() < data.balance.rumors.wrong_creature_chance:
+			h.monster = others[rng.randi_range(0, others.size() - 1)]
+			_creature_tags(h, data, rng)
+		else:
+			_lies(h, data, district, rng)
+	_dress(h, data, district, used, rng)
+	return h
 
 
 static func all_tags(data: ContentData) -> Array[StringName]:
@@ -66,22 +56,11 @@ static func all_tags(data: ContentData) -> Array[StringName]:
 	return out
 
 
-static func _base(data: ContentData, uid: int, day: int, rng: RandomNumberGenerator) -> RumorsState.Rumor:
-	var r := RumorsState.Rumor.new()
-	r.uid = uid
-	r.day = day
-	r.expires_day = day + data.balance.rumors.lifetime_days
-	var witnesses := data.rumor_data.witnesses
-	if not witnesses.is_empty():
-		r.witness = witnesses[rng.randi_range(0, witnesses.size() - 1)].id
-	return r
-
-
-## 1–2 true tags of the creature, maybe one noise tag (a lie mixed in).
-static func _creature_tags(r: RumorsState.Rumor, data: ContentData, rng: RandomNumberGenerator) -> void:
+## 1–2 true signs of the creature, maybe one lie mixed in.
+static func _creature_tags(h: Heard, data: ContentData, rng: RandomNumberGenerator) -> void:
 	var b := data.balance.rumors
-	var m := data.monster(r.monster)
-	r.tags = SeededRng.sample(m.tags, rng.randi_range(b.true_tags_min, b.true_tags_max), rng)
+	var m := data.monster(h.monster)
+	h.tags = SeededRng.sample(m.tags, rng.randi_range(b.true_tags_min, b.true_tags_max), rng)
 	if rng.randf() < b.noise_chance:
 		var noise: Array[StringName] = []
 		for t: StringName in all_tags(data):
@@ -89,49 +68,42 @@ static func _creature_tags(r: RumorsState.Rumor, data: ContentData, rng: RandomN
 				noise.append(t)
 		if not noise.is_empty():
 			var lie := noise[rng.randi_range(0, noise.size() - 1)]
-			r.tags.insert(rng.randi_range(0, r.tags.size()), lie)
-			r.lies.append(lie)
+			h.tags.insert(rng.randi_range(0, h.tags.size()), lie)
+			h.lies.append(lie)
 
 
-## Zone (weighted by the creature's tags), a free street node inside it and a picture of the zone.
-static func _place(r: RumorsState.Rumor, data: ContentData, district: StringName, rng: RandomNumberGenerator,
-		used_nodes: Array[StringName]) -> RumorsState.Rumor:
+## Only lies: the signs people of the zone talk about (any signs when the zone has too few).
+static func _lies(h: Heard, data: ContentData, district: StringName, rng: RandomNumberGenerator) -> void:
+	var b := data.balance.rumors
+	var n := rng.randi_range(b.lie_tags_min, b.lie_tags_max)
+	var zd := data.rumor_data.zone(district, h.zone)
+	var pool := zd.tags if zd != null and zd.tags.size() >= n else all_tags(data)
+	h.lies = SeededRng.sample(pool, n, rng)
+	h.tags.assign(h.lies)
+
+
+## The witness, a picture of the zone and a free street node in it.
+static func _dress(h: Heard, data: ContentData, district: StringName, used: Array[StringName],
+		rng: RandomNumberGenerator) -> void:
+	var witnesses := data.rumor_data.witnesses
+	if not witnesses.is_empty():
+		h.witness = witnesses[rng.randi_range(0, witnesses.size() - 1)].id
+	var zd := data.rumor_data.zone(district, h.zone)
+	if zd != null and not zd.art.is_empty():
+		h.art = zd.art[rng.randi_range(0, zd.art.size() - 1)]
 	var map := data.district_map(district)
-	if map == null or map.zones.is_empty():
-		return null
-	var m := data.monster(r.monster)
-	var weights: Dictionary[StringName, float] = {}
-	for z: DistrictMapDef.ZoneDef in map.zones:
-		var zd := data.rumor_data.zone(district, z.id)
-		var fit := 0
-		if m != null and zd != null:
-			for t: StringName in m.tags:
-				fit += 1 if zd.tags.has(t) else 0
-		weights[z.id] = 1.0 + data.balance.rumors.zone_tag_weight * fit
-	r.zone = SeededRng.weighted(weights, rng)
-	r.node = _free_node(map, r.zone, rng, used_nodes)
-	var actual := DistrictMapRules.zone_at(map, map.node_pos(r.node))
-	if actual != &"":
-		r.zone = actual  # the zone was full and the diamond went elsewhere
-	var zone_def := data.rumor_data.zone(district, r.zone)
-	if zone_def != null and not zone_def.art.is_empty():
-		r.art = zone_def.art[rng.randi_range(0, zone_def.art.size() - 1)]
-	return r
+	if map != null:
+		h.node = free_node(map, h.zone, used, rng)
 
 
-## A street node in the zone that has no diamond and no place on it; any free node when the zone is full.
-static func _free_node(map: DistrictMapDef, zone: StringName, rng: RandomNumberGenerator,
-		used_nodes: Array[StringName]) -> StringName:
+## A street node in the zone with no rumor or mark and no place on it; &"" when the zone has none free.
+static func free_node(map: DistrictMapDef, zone: StringName, used: Array[StringName],
+		rng: RandomNumberGenerator) -> StringName:
 	var places := {}
 	for lm: DistrictMapDef.LandmarkDef in map.landmarks:
 		places[lm.node] = true
-	var in_zone: Array[StringName] = []
-	var anywhere: Array[StringName] = []
+	var free: Array[StringName] = []
 	for id: StringName in map.nodes:
-		if used_nodes.has(id) or places.has(id):
-			continue
-		anywhere.append(id)
-		if DistrictMapRules.zone_at(map, map.node_pos(id)) == zone:
-			in_zone.append(id)
-	var pick := in_zone if not in_zone.is_empty() else anywhere
-	return pick[rng.randi_range(0, pick.size() - 1)] if not pick.is_empty() else map.home
+		if not used.has(id) and not places.has(id) and DistrictMapRules.zone_at(map, map.node_pos(id)) == zone:
+			free.append(id)
+	return free[rng.randi_range(0, free.size() - 1)] if not free.is_empty() else &""

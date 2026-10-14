@@ -1,6 +1,6 @@
 extends TestSuite
 ## Creature affixes (GDD 17): the threat by week and rank, the roll, their moves and HP in a fight, their signs on
-## leaflets and target rumors, saves.
+## leaflets and right rumors, saves.
 
 
 func test_threat_grows_with_week_and_rank() -> void:
@@ -44,10 +44,9 @@ func test_leaflets_and_rumors_show_affix_signs() -> void:
 		check(not c.affixes.is_empty(), "every leaflet at threat 2 has affixes")
 		for t: StringName in AffixGenerator.tags(data, c.affixes):
 			check(c.known_tags.has(t), "its sign %s is known" % t)
-	var r := RumorGenerator.make_target(data, &"GREY", board[0], 1, SeededRng.make_stream(4, &"rumors", 1), 99, [])
-	if r != null:
-		for t: StringName in AffixGenerator.tags(data, board[0].affixes):
-			check(r.tags.has(t), "the target rumor carries %s" % t)
+	var r := RumorGenerator.make(data, &"GREY", board[0].zone, board[0], [], [], 99, SeededRng.make_stream(4, &"rumors", 1))
+	for t: StringName in AffixGenerator.tags(data, board[0].affixes):
+		check(r.tags.has(t), "the right rumor carries %s" % t)
 
 
 func test_affixes_survive_save_and_v14_has_none() -> void:
@@ -62,7 +61,7 @@ func test_affixes_survive_save_and_v14_has_none() -> void:
 	eq(RunState.from_dict(SaveMigrations.migrate(old)).contracts.items[0].affixes.size(), 0, "v14: none")
 
 
-func test_affix_signs_are_never_crossed_out_or_studied_as_missing() -> void:
+func test_affix_signs_are_learned_and_never_studied_as_missing() -> void:
 	var data := load_content(false)
 	var run := RunState.create(41, data.balance)
 	ContractRules.refresh_board(run, data, SeededRng.make_stream(41, &"contracts", 1))
@@ -70,15 +69,10 @@ func test_affix_signs_are_never_crossed_out_or_studied_as_missing() -> void:
 	c.accepted = true
 	c.affixes.assign([&"venom"])
 	var affix_sign := data.affix(&"venom").tag
-	c.known_tags.append(affix_sign)
-	var r := RumorsState.Rumor.new()
-	r.uid = 77
-	r.kind = &"false_lead"
-	r.tags.assign([affix_sign])
-	r.expires_day = run.day + 3
-	run.rumors.items.append(r)
-	RumorRules.investigate(run, data, 77)
-	check(not c.crossed_tags.has(affix_sign), "a false lead does not cross out the affix's sign")
+	c.known_tags.erase(affix_sign)
+	var h := RumorGenerator.make(data, &"GREY", c.zone, c, [], [], 77, SeededRng.make_stream(4, &"rumors", 1))
+	RumorRules.take(run, data, h, SeededRng.make_stream(4, &"take", 1))
+	check(c.known_tags.has(affix_sign), "a right rumor teaches the affix's sign")
 	var m := data.monster(c.monster)
 	c.known_tags.assign([affix_sign])  # only the affix's sign: the creature's own signs are still to learn
 	check(LibraryRules.contracts_to_teach(run, data, c.monster).has(c), "an affix sign does not hide missing own signs")

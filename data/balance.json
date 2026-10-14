@@ -91,49 +91,21 @@
   "overdue_damage_bonus": 1
  },
  "rumors": {
-  "_comment": "Rumor diamonds on the district map (GDD 8, 17.2; owner 2026-10-12): 1-2 new each morning, at most 5 on the map, each lives 3 days; every taken contract seeds a true rumor every 2-3 days (the first one at once). Outcomes without the target give a little money (a discovery and an empty night also resources); a false lead or an empty night crosses out a tag.",
-  "new_min": 1,
-  "new_max": 2,
-  "max_on_map": 5,
-  "lifetime_days": 3,
-  "true_every_min": 2,
-  "true_every_max": 3,
-  "kind_weights": {
-   "wrong_monster": 0.35,
-   "discovery": 0.25,
-   "false_lead": 0.25,
-   "empty_night": 0.15
-  },
+  "_comment": "Listening for rumors (GDD 8.4; owner 2026-10-14): «Слушать улицу» in a zone shows a new rumor every 4-6 s (at most 3 at once, an unread one fades after 20 s). In a zone with a taken contract a rumor is about its creature with true_chance; otherwise about another creature of the district (wrong_creature_chance) or lies. 3 right rumors taken bring the contract's creature out; 3 wrong ones taken in a zone bring a red unknown threat for 3 days.",
+  "listen_every_min": 4,
+  "listen_every_max": 6,
+  "max_heard": 3,
+  "heard_seconds": 20,
+  "true_chance": 0.5,
+  "wrong_creature_chance": 0.5,
   "true_tags_min": 1,
   "true_tags_max": 2,
-  "noise_chance": 0.35,
+  "noise_chance": 0.3,
   "lie_tags_min": 1,
   "lie_tags_max": 3,
-  "zone_tag_weight": 3,
-  "discovery_money_min": 5,
-  "discovery_money_max": 12,
-  "small_money_min": 3,
-  "small_money_max": 8,
-  "discovery_resources": {
-   "scrap": [
-    2,
-    4
-   ],
-   "gears": [
-    0,
-    2
-   ],
-   "electronics": [
-    0,
-    1
-   ]
-  },
-  "empty_night_resources": {
-   "scrap": [
-    1,
-    2
-   ]
-  }
+  "trail_needed": 3,
+  "threat_needed": 3,
+  "threat_days": 3
  },
  "workshop": {
   "_comment": "Workshop and loot (GDD 6, 17.2 LootGenerator; owner 2026-10-12): the first craft or upgrade of a day starts a workshop day (2 items), leaving the workshop ends it. Salvage is free and returns half. A won fight gives ichor and scrap by the creature's rank (x2 ichor for a capture) plus monsters[].loot and the trophies of broken parts.",
@@ -220,10 +192,9 @@
   "bag_size": 3
  },
  "tavern": {
-  "_comment": "Tavern shift (GDD 3.3; owner 2026-10-12): a day behind the bar pays money and one overheard rumor (true about an open contract's creature with this chance) plus a line of gossip.",
+  "_comment": "Tavern shift (GDD 3.3; owner 2026-10-12): a day behind the bar pays money and a line of gossip (owner 2026-10-14: no rumor is overheard any more).",
   "shift_money_min": 15,
-  "shift_money_max": 25,
-  "overheard_true_chance": 0.5
+  "shift_money_max": 25
  },
  "health": {
   "_comment": "Health between fights (GDD 4, owner 2026-10-12): HP and Sanity carry over from fight to fight. Resting at the garret restores a third of each; the Ash Sisters' infirmary heals fully for a day and money (base + per missing HP). At 0 HP the hunter falls: wakes in the infirmary one more day later, healed, and the fee is taken even into debt; the fight's trophies and loot are lost.",
@@ -234,7 +205,7 @@
   "fall_fee": 30
  },
  "progress": {
-  "_comment": "Levels and attributes (GDD 4.1–4.3, owner 2026-10-12). XP for a won fight by the creature's rank (capture x1.5), a finished contract and a rumor discovery. Level n -> n+1 costs xp_base + xp_per_level * n. Each level: skill points (+1 more at the bonus levels), an attribute point every attribute_point_every levels, +hero.hp_per_level max HP. Sanity = hero.base_sanity + sanity_per_will * Will. Agility: +1 card in hand at each agility_hand_at, dodge chance per point. Cunning: capture chance (capture.per_cunning), +1 visible creature move at each cunning_preview_at, a chance per point to flag a noise sign in a rumor, a shop discount per point.",
+  "_comment": "Levels and attributes (GDD 4.1–4.3, owner 2026-10-12). XP for a won fight by the creature's rank (capture x1.5), and a finished contract. Level n -> n+1 costs xp_base + xp_per_level * n. Each level: skill points (+1 more at the bonus levels), an attribute point every attribute_point_every levels, +hero.hp_per_level max HP. Sanity = hero.base_sanity + sanity_per_will * Will. Agility: +1 card in hand at each agility_hand_at, dodge chance per point. Cunning: capture chance (capture.per_cunning), +1 visible creature move at each cunning_preview_at, a chance per point to sense that a heard rumor is wrong, a shop discount per point.",
   "level_cap": 15,
   "xp_base": 50,
   "xp_per_level": 25,
@@ -246,7 +217,6 @@
   },
   "capture_xp_mult": 1.5,
   "contract_xp": 15,
-  "discovery_xp": 5,
   "skill_points_per_level": 1,
   "bonus_point_levels": [
    5,

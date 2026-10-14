@@ -1,7 +1,7 @@
 class_name ContractTracker
 extends VBoxContainer
 ## The contracts list at the right edge of the district screen (GDD 7.1; owner 2026-10-14): one panel with a title and a
-## row per taken contract — name, days left and the region icon (no silhouette: owner 2026-10-14). The icon makes the zone where the creature was last seen glow on the map; the row opens the
+## row per taken contract — name, days left, the rumor trail («След 2/3», GDD 8.4) and the region icon (no silhouette: owner 2026-10-14). The icon makes the zone where the creature was last seen glow on the map; the row opens the
 ## contract tablet. Hidden while no contract is taken.
 
 signal zone_requested(zone: StringName)
@@ -15,6 +15,7 @@ func _ready() -> void:
 	add_theme_constant_override("separation", 6)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	EventBus.contracts_changed.connect(refresh)
+	EventBus.rumors_changed.connect(refresh)
 	EventBus.day_changed.connect(func(_d: int) -> void: refresh())
 	refresh()
 
@@ -66,6 +67,9 @@ func _row(list: Array[ContractsState.Contract], index: int) -> PanelContainer:
 	h.add_child(v)
 	v.add_child(Icons.with_text("CONTRACT", c.type, ContractKit.monster_name(c), 22, 17))
 	v.add_child(UiKit.label(ContractKit.deadline_text(c), 15, ContractKit.deadline_color(c, Palette.FOG)))
+	var found := RumorRules.target_mark(GameState.run.rumors, c.uid) != null
+	v.add_child(UiKit.label(Loc.t("ui.rumor.found") if found else Loc.t("ui.rumor.trail", {"n": GameState.run.rumors.trail(c.uid),
+		"of": ContentDB.data.balance.rumors.trail_needed}), 15, Palette.BRASS_LIGHT if found else Palette.FOG))
 	if c.zone != &"":
 		var region := Icons.button("CONTRACT", &"region", "", 14)
 		region.custom_minimum_size = Vector2(44, 44)

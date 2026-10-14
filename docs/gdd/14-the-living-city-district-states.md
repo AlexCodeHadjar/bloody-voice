@@ -16,7 +16,7 @@ Districts and specific areas **change their appearance and rules** because of st
 |---|---|---|---|
 | normal | default | Base art | Base values |
 | fog_breach | timed 3–7 days | Grey fog overlay, dimmed lamps, cracked wall | Dreamspawn pool, danger +1 rank, Ringwall contracts |
-| flooded | timed (storm season) | Water overlay on low areas, boats, sandbags | Some areas closed; water creatures; search ring grows slower |
+| flooded | timed (storm season) | Water overlay on low areas, boats, sandbags | Some areas closed; water creatures; fewer rumors heard at once |
 | burning → burned | event → permanent | Fire, then black ruins | Shop closed; scavenging gives more Scrap |
 | rebuilding → rebuilt | timed → permanent | Scaffolding, then a NEW look (different from the original) | New landmark may appear |
 | quarantine | timed | Barricades, plague doctors, chalk marks | Entry needs a pass or reputation; medical contracts |
@@ -47,7 +47,6 @@ Districts and specific areas **change their appearance and rules** because of st
     "closed_areas": ["laundry_canals"],
     "monster_pool_add": ["gutter_choir"],
     "rumor_tag_weights": { "near_water": 2.0, "rain": 2.0 },
-    "ring_growth_mult": 0.5,
     "shop_price_mult": 1.1
   }
 }
@@ -92,6 +91,6 @@ Districts and specific areas **change their appearance and rules** because of st
 | Rule | Value |
 |---|---|
 | States in play | fog_breach, quarantine, festival — brought by events (§15.1) on the hero's district. The rest of the catalog waits. |
-| Effects | From `district_states.json`: danger_delta (creatures +20 % HP and +1 damage per point, `balance.json/events`), shop_price_mult, infirmary_mult, shift_pay_mult, contract_reward_mult (leaflets pinned while it lasts), rumor_bonus (diamonds each morning and room on the map), closed_actions (place buttons shut). Fog breach: danger 1, shop +20 %, infirmary +20 %, rewards +25 %. Quarantine: shop +30 %, infirmary +50 %, rewards +10 %, no tavern shifts. Festival: shop +20 %, shifts +50 %, +1 rumor a morning. |
+| Effects | From `district_states.json`: danger_delta (creatures +20 % HP and +1 damage per point, `balance.json/events`), shop_price_mult, infirmary_mult, shift_pay_mult, contract_reward_mult (leaflets pinned while it lasts), rumor_bonus (+N rumors on the street at once, max_heard), closed_actions (place buttons shut). Fog breach: danger 1, shop +20 %, infirmary +20 %, rewards +25 %. Quarantine: shop +30 %, infirmary +50 %, rewards +10 %, no tavern shifts. Festival: shop +20 %, shifts +50 %, +1 rumor at once on the street. |
 | Look | No state art yet: a tint and drifting particles over the map (`scenes/district_map/district_weather.gd`: fog, chalk, lanterns), the state icon with days left on the bar (tooltip: what it changes), shut buttons on place cards. Map art per state — `docs/art-prompts/art-backlog.md` P2. |
-| Not yet | monster_pool_add (no fog creature in content), ring_growth_mult (no search ring), rumor_tag_weights; areas and landmarks as separate places. |
+| Not yet | monster_pool_add (no fog creature in content), rumor_tag_weights; areas and landmarks as separate places. |

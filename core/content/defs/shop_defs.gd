@@ -22,7 +22,6 @@ class Balance:
 class Tavern:
 	var shift_money_min: int = 0
 	var shift_money_max: int = 0
-	var overheard_true_chance: float = 0.0
 
 
 static func balance(d: Dictionary, errs: ErrorLog) -> Balance:
@@ -54,5 +53,4 @@ static func tavern(d: Dictionary, errs: ErrorLog) -> Tavern:
 	var w := "balance.json/tavern"
 	t.shift_money_min = DefReader.integer(d, "shift_money_min", errs, w)
 	t.shift_money_max = DefReader.integer(d, "shift_money_max", errs, w)
-	t.overheard_true_chance = DefReader.number(d, "overheard_true_chance", errs, w)
 	return t

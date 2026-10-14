@@ -1,32 +1,14 @@
 class_name LibraryRules
 extends RefCounted
-## The Crypt Scriptorium (GDD 3.3, owner 2026-10-12): a day there verifies one rumor (shows what it leads to) or
-## studies one trophy (it is spent; every open contract and leaflet on that creature learns one more sign, and the
-## Bestiary marks the creature dissected, GDD 10.3). The caller ends the day.
+## The Crypt Scriptorium (GDD 3.3, owner 2026-10-12): a day there studies one trophy (it is spent; every open contract
+## and leaflet on that creature learns one more sign, and the Bestiary marks the creature dissected, GDD 10.3).
+## The caller ends the day.
 
 
 class Study:
 	var creature: StringName
 	var taught: Array[ContractsState.Contract] = []  ## contracts that learned a sign
 	var dissected: bool = false  ## the Bestiary mark is new
-
-
-static func can_verify(run: RunState, uid: int) -> String:
-	var r := run.rumors.find(uid)
-	if r == null or r.investigated:
-		return Loc.t("rule.library.no_rumor")
-	if r.verified:
-		return Loc.t("rule.library.verified")
-	if r.expires_day <= run.day + 1:  # the day spent here would let it cool before it could be used
-		return Loc.t("rule.library.cools")
-	return ""
-
-
-static func verify(run: RunState, uid: int) -> String:
-	var problem := can_verify(run, uid)
-	if problem == "":
-		run.rumors.find(uid).verified = true
-	return problem
 
 
 ## The creature a trophy comes from (the first that drops it); &"" if none.

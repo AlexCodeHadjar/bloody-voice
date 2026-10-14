@@ -97,9 +97,9 @@ func _refresh_board() -> void:
 	ShopRules.refresh(run, ContentDB.data, Rng.stream(&"shop", week))
 
 
-## The morning's rumor diamonds (GDD 8): once per day.
+## Each morning threats that faded and the marks of closed contracts go (GDD 8.4).
 func _new_morning() -> void:
-	if RumorRules.new_morning(run, ContentDB.data, Rng.stream(&"rumors", run.day)):
+	if RumorRules.tidy(run):
 		EventBus.rumors_changed.emit()
 
 

@@ -49,6 +49,8 @@ static func _step(d: Dictionary, version: int, start_loadout: Dictionary) -> voi
 			_from_15(d)
 		16:
 			_from_16(d)
+		17:
+			_from_17(d)
 		_:
 			push_warning("[save] no migration from version %d" % version)
 
@@ -156,3 +158,9 @@ static func _from_15(d: Dictionary) -> void:
 static func _from_16(d: Dictionary) -> void:
 	var l: Dictionary = d.get("loadout", {})
 	l["blood_cells"] = {}
+
+
+## v17 -> v18: listening for rumors (GDD 8.4, owner 2026-10-14). The old morning diamonds are dropped; trails, threat
+## counts and marks start empty.
+static func _from_17(d: Dictionary) -> void:
+	d["rumors"] = {"marks": [], "trails": {}, "threats": {}, "next_uid": 1}

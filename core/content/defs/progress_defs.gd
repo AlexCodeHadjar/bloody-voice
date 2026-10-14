@@ -12,7 +12,6 @@ class Balance:
 	var xp_by_rank: Dictionary[String, int] = {}
 	var capture_xp_mult: float = 1.5
 	var contract_xp: int = 0
-	var discovery_xp: int = 0
 	var skill_points_per_level: int = 1
 	var bonus_point_levels: Array[int] = []
 	var attribute_point_every: int = 2
@@ -29,7 +28,7 @@ class Balance:
 static func balance(d: Dictionary, errs: ErrorLog) -> Balance:
 	var b := Balance.new()
 	var w := "balance.json/progress"
-	for key: String in ["level_cap", "xp_base", "xp_per_level", "contract_xp", "discovery_xp", "skill_points_per_level",
+	for key: String in ["level_cap", "xp_base", "xp_per_level", "contract_xp", "skill_points_per_level",
 			"attribute_point_every", "sanity_per_will"]:
 		b.set(key, DefReader.integer(d, key, errs, w))
 	for key: String in ["capture_xp_mult", "dodge_per_agility", "flag_per_cunning", "discount_per_cunning", "max_discount"]:

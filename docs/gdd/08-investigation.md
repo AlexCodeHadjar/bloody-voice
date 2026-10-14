@@ -1,19 +1,22 @@
 # 8. Investigation
 
-> **Owner, 2026-10-12:** while the game is confined to the Grey Chapels, rumors appear as **diamonds right on the
-> district map** (GDD §20), in zones that fit their tags; the leaflet post on Bonfire Square lists them too. The hero
-> walks to a diamond, opens the rumor tablet, «Расследовать» costs the day. Built in Phase 3 step 2 (8.4); the city-map
-> figure and search ring below return when other districts open.
+> **Owner, 2026-10-14 — listening for rumors.** The old morning diamonds, the rumor post, «Расследовать (весь день)»
+> and the Scriptorium's «Проверить слух» are gone. The hunter **listens to the street** in a zone of the district map;
+> rumors surface there; he keeps the right ones in his notes; three right ones bring the contract's creature out, three
+> wrong ones bring an unknown threat. Section 8.4 is the rule as built; 8.2 (tags) still holds.
 
 ## 8.1 Flow
 
-1. Select a contract in the tracker, click its region icon — the region glows on the city map.
-2. Drag the **hero figure** (a stone figurine on a pedestal) to that district.
-3. While the figure stays there, a **blue aura ring** spreads from it. Each day the ring grows.
-4. Inside the ring **diamond icons** (rumors), resources and small events appear.
-5. Clicking a diamond opens the **rumor tablet**: an illustration on the left, rumors about the missing and what happened to them on the right, with **highlighted tags**.
-6. The player may open his contract tablet at any time to compare the silhouette and known signs.
-7. Either skip the rumor (wait for the next diamond) or press **Investigate** (costs the day).
+1. Take a contract on the tavern board (GDD 7): it says in which **zone** the creature was last seen.
+2. Walk the hunter into a zone and press **«Слушать улицу»** (the button shows while he stands still; it works in any
+   zone, with a contract there or not). Blue rings spread from him like a locator and fade at the zone's border.
+3. Every few seconds a **rumor icon** flares up somewhere in the zone (at most three at a time; an unread one fades).
+4. A click opens the **rumor**: who tells it and what they heard and saw — a few **signs** of a creature.
+5. The player compares the signs with the contract's known signs and decides: **«Взять в записи»** or **«Отбросить»**.
+6. Three **right** rumors taken → the **creature's mark** appears in the zone: a click starts the fight (the day ends
+   after it). Three **wrong** rumors taken (the count is hidden) → a **red mark of an unknown threat**: an optional fight
+   with any creature of the district; it fades after a few days.
+7. Listening is free; only the fight costs the day. Walking away pauses it; the button again stops it.
 
 ## 8.2 Tag system
 
@@ -29,32 +32,32 @@ Every monster has 4–6 sign tags across categories:
 | Shape | too tall, many arms, hunched, 'a man, but wrong' |
 
 - A rumor carries 1–3 tags; some may be **noise** (lies or confusion).
-- High **Cunning** marks suspicious tags ('this sounds made up').
-- The rumor tablet shows a **confidence line**: 'matches 2 of 3 known signs' — never a guarantee.
-- A failed investigation **crosses out** a tag, so each next decision is better informed.
-- **Rival hunters** (Pale Hounds, Weavers) take rumors too: a diamond can disappear if the player waits too long.
+- High **Cunning** may whisper that a rumor is suspicious ('this sounds made up').
+- The rumor shows a **confidence line**: 'matches 2 of 3 known signs' — never a guarantee.
+- A right rumor taken adds its true signs to the contract, so each next decision is better informed.
+- **Rival hunters** (Pale Hounds, Weavers) may take rumors too (later).
 
-## 8.3 Investigation outcomes
+## 8.3 Outcomes
 
-| Outcome | What happens | Gives |
-|---|---|---|
-| The target | Fight with the contract monster | Contract completion |
-| Wrong monster | Fight with another creature | XP, ichor, sometimes starts a new contract |
-| Discovery | Interesting find, no fight | Resources, sometimes a blueprint or lore |
-| False lead | Nothing there; rumor was a lie | A crossed-out tag, small resource |
-| Empty night | Wasted time | Always at least a hint or a few scrap |
-
-## 8.4 How it works now (Phase 3 step 2, owner 2026-10-12)
-
-| Rule | Value |
+| Taken rumor | What happens |
 |---|---|
-| Where | Brass diamonds stand on street nodes of the district map (not on places). Creature rumors land 3× more often in zones whose tags fit the creature (`data/rumors/rumors.json → zones`); each zone has its rumor pictures (`RUMOR__art__*`). Bonfire Square is the **rumor post**: a list of all diamonds, «Идти» sends the hunter there. The random hunt is gone: fights come only from rumors. |
-| How many | Every morning 1–2 new diamonds (at most 5 on the map); each cools after 3 days. A taken contract seeds a **true** rumor at once and then every 2–3 days (these may exceed the cap). |
-| Rumor kinds | Target (the contract's creature) · Wrong creature (another creature of the district, never a contract target) · Discovery · False lead · Empty night — weights in `balance.json → rumors.kind_weights`. Fixed when the rumor is made (reload never rerolls). |
-| Signs | A creature rumor shows 1–2 of its true tags and, with a 35 % chance, one noise tag; rumors without a creature show 1–3 random tags (lies). |
-| Tablet | Picture, zone, witness line (`witnesses`), signs (highlighted; signs crossed out on the best contract struck through), confidence line «Заказ «X»: совпадает N из M известных примет» for the best-fitting open contract (most matches) with its known signs, days until it cools; «Расследовать (весь день)» / «Пропустить». |
-| Outcomes | Target / wrong creature: a fight on the rumor zone's background, the day ends after it. Discovery: 10–25 money. False lead / empty night: 3–8 money and one shown sign that is not the best contract creature's own is **crossed out** on that contract (shown on its tablet). The day ends. Resources replace money in Phase 4. |
-| Not yet | Cunning marking suspicious tags (Phase 6), rival hunters taking diamonds (with factions), the city-map figure and search ring (when other districts open). |
+| Right (about the creature of a contract taken in this zone) | +1 to that contract's trail (shown in the contracts list, «След 2/3»); its true signs are added to the contract's known signs. At the trail's goal the creature's mark appears in the zone. |
+| Wrong (another creature, or lies) | +1 to the zone's hidden threat count. At its goal a red mark appears: an unknown threat. |
+| Discarded | Nothing; it is gone. |
 
-Code: `core/generation/rumor_generator.gd`, `core/rules/rumors/rumor_rules.gd`, `core/state/rumors_state.gd`,
-screens `scenes/rumors/` (diamond layer, rumor tablet, rumor post).
+## 8.4 How it works now (owner 2026-10-14)
+
+| Rule | Value (`balance.json → rumors`) |
+|---|---|
+| Listening | «Слушать улицу» while the hunter stands; a new rumor every `listen_every_min`–`listen_every_max` s at a random free street point of the zone, at most `max_heard` at once (+ the district state's `rumor_bonus`), an unread one fades after `heard_seconds` s. Blue rings from the hunter to the zone border. Walking pauses, the button stops. |
+| Right or wrong | In a zone with a taken contract whose creature is not found yet a rumor is about it with chance `true_chance`; otherwise it is about another creature of the district (`wrong_creature_chance`) or lies. A creature rumor shows `true_tags_min`–`true_tags_max` of its signs (and its affixes' signs) and with `noise_chance` one lie; a rumor of lies shows `lie_tags_min`–`lie_tags_max` signs people of that zone talk about (`rumors.json → zones`). A right rumor whose creature is already found only teaches its signs. |
+| The rumor | Picture of the zone, the witness line, the signs; for each contract taken in this zone «Совпадает N из M известных примет» and its trail; Cunning may whisper «Чутьё: слух сомнительный» on a wrong one. «Взять в записи» / «Отбросить». |
+| Goals | `trail_needed` right rumors → the creature's mark (stays while the contract is open); `threat_needed` wrong ones in a zone → a red threat mark for `threat_days` days, a random creature of the district. |
+| Fight | A click on a mark → the fight on the zone's background; the contract resolves as before (GDD 7); a threat gives loot and XP. |
+| Time | Listening and taking rumors are free; the fight ends the day. |
+| Gone | Morning diamonds, the rumor post (Bonfire Square is «soon» now), «Расследовать (весь день)», the Scriptorium's «Проверить слух», the rumor overheard in a tavern shift, discovery / false lead / empty night. |
+| Not yet | Rival hunters taking rumors (with factions). |
+
+Code: `core/generation/rumor_generator.gd` (a heard rumor, never saved), `core/rules/rumors/rumor_rules.gd` (hear, take,
+trails, threats, marks, the morning tidy-up), `core/state/rumors_state.gd` (trails, hidden threat counts, marks; save v18),
+screens `scenes/rumors/` (`listen_layer` — the button, rings, rumor icons and marks; `rumor_sheet`; `mark_sheet`).

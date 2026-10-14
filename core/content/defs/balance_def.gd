@@ -35,7 +35,7 @@ var capture_per_broken_part: float = 0.0
 var capture_max_chance: float = 0.0
 
 var contracts: ContractDefs.Balance = ContractDefs.Balance.new()  ## tavern contracts (GDD 7)
-var rumors: RumorDefs.Balance = RumorDefs.Balance.new()  ## rumor diamonds (GDD 8)
+var rumors: RumorDefs.Balance = RumorDefs.Balance.new()  ## listening for rumors (GDD 8.4)
 var workshop: WorkshopDefs.Balance = WorkshopDefs.Balance.new()  ## crafting and loot (GDD 6)
 var shop: ShopDefs.Balance = ShopDefs.Balance.new()  ## the Rag-and-Bone shop (GDD 11.1)
 var tavern: ShopDefs.Tavern = ShopDefs.Tavern.new()  ## the tavern shift (GDD 3.3)

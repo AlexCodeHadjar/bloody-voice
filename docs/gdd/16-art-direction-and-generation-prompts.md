@@ -71,8 +71,8 @@ State to apply: <STATE>. No text.
 | Wax seal stamp | A red wax seal with a hook-and-lantern emblem, top view, isolated on transparent background, 1:1. |
 | Shop table | A rough wooden table seen from above, with space for cards laid out in rows, a brass scale and coin pouches on the edges, warm lamp light, 16:9. |
 | Hero figurine | A small carved stone figurine of a monster hunter in a long coat and wide-brimmed hat with a rifle on the back, standing on a round stone pedestal. Make 4 views: front, back, left, right. Isolated, transparent background. |
-| Rumor diamond icon | A diamond-shaped icon of aged brass with a small inner glow (blue), slightly worn, isolated, 1:1, three versions: idle, hovered (brighter), investigated (dim, crossed). |
-| Search ring | A soft blue circular aura spreading on a map surface, ink-like edges, transparent background, 1:1. |
+| Rumor diamond icon | A diamond-shaped icon of aged brass with a small inner glow (blue), slightly worn, isolated, 1:1, three versions: idle, hovered (brighter), investigated (dim, crossed). Used tinted as the heard-rumor icon and the zone marks; idle and hovered are used, «investigated» no longer. |
+| Search ring (listening rings) | A soft blue circular aura spreading on a map surface, ink-like edges, transparent background, 1:1. |
 | Weapon tablet | A side view of a hunting rifle on a parchment schematic with five clearly separated sections (scope, magazine, stock, frame, barrel) and empty square cells drawn over each section. Engineering drawing style, 16:9, no text. |
 | Resource icons | Set of 6 icons in one row, same style: brass gear, pile of scrap metal, small circuit board, drop of dark red blood, a monster fang, a gold coin. Transparent background. |
 

@@ -1,78 +1,72 @@
 class_name RumorsState
 extends RefCounted
-## Rumor diamonds on the district map (GDD 8). Saved. What a rumor leads to is decided when it is made
-## (GDD 17.2 OutcomeResolver), so reloading never rerolls it. RumorRules changes it; screens only read it.
+## Rumors (GDD 8.4, owner 2026-10-14): what listening to the street has gathered — each contract's trail (right rumors
+## taken), the hidden count of wrong rumors taken per zone, and the marks on the map (the creature found, an unknown
+## threat). Heard rumors themselves are not kept: they flare up and fade while the hunter listens.
 
 
-class Rumor:
+## A mark on the district map: the creature of a contract found, or an unknown threat (red).
+class Mark:
 	var uid: int
-	var kind: StringName  ## RumorDefs.KINDS: target / wrong_monster / discovery / false_lead / empty_night
-	var monster: StringName  ## the creature met (target, wrong_monster); "" otherwise
-	var contract_uid: int  ## the contract a target rumor was seeded by (0 = none)
-	var witness: StringName
-	var tags: Array[StringName] = []  ## shown on the tablet
-	var lies: Array[StringName] = []  ## the shown tags that are not true (noise, or all of a rumor without a creature)
+	var kind: StringName  ## target | threat
+	var contract_uid: int  ## the contract a target mark belongs to (0 = a threat)
+	var monster: StringName
 	var zone: StringName
-	var node: StringName  ## the street node of the district map the diamond stands on
-	var art: StringName  ## RUMOR__art__<art>
-	var day: int  ## the morning it appeared
-	var expires_day: int  ## gone on this morning
-	var money: int  ## paid by a discovery / false lead / empty night
-	var resources: Dictionary[StringName, int] = {}  ## found on a discovery / empty night
-	var investigated: bool = false
-	var verified: bool = false  ## checked in the Scriptorium: the tablet shows what it leads to
+	var node: StringName  ## the street node it stands on
+	var expires_day: int  ## a threat fades on this morning (0 = never: a target stays while its contract is open)
 
 	func to_dict() -> Dictionary:
-		return {"uid": uid, "kind": kind, "monster": monster, "contract_uid": contract_uid, "witness": witness,
-			"tags": tags, "lies": lies, "zone": zone, "node": node, "art": art, "day": day, "expires_day": expires_day,
-			"money": money, "resources": resources, "investigated": investigated,
-			"verified": verified}
+		return {"uid": uid, "kind": kind, "contract_uid": contract_uid, "monster": monster, "zone": zone, "node": node,
+			"expires_day": expires_day}
 
-	static func from_dict(d: Dictionary) -> Rumor:
-		var r := Rumor.new()
-		r.uid = int(d.get("uid", 0))
-		r.kind = StringName(str(d.get("kind", "empty_night")))
-		r.monster = StringName(str(d.get("monster", "")))
-		r.contract_uid = int(d.get("contract_uid", 0))
-		r.witness = StringName(str(d.get("witness", "")))
-		r.tags = ContractsState.names(d.get("tags", []) as Array)
-		r.lies = ContractsState.names(d.get("lies", []) as Array)
-		r.zone = StringName(str(d.get("zone", "")))
-		r.node = StringName(str(d.get("node", "")))
-		r.art = StringName(str(d.get("art", "")))
-		r.day = int(d.get("day", 0))
-		r.expires_day = int(d.get("expires_day", 0))
-		r.money = int(d.get("money", 0))
-		r.resources = WorkshopDefs.amounts(d.get("resources", {}) as Dictionary)
-		r.investigated = bool(d.get("investigated", false))
-		r.verified = bool(d.get("verified", false))
-		return r
+	static func from_dict(d: Dictionary) -> Mark:
+		var m := Mark.new()
+		m.uid = int(d.get("uid", 0))
+		m.kind = StringName(str(d.get("kind", "threat")))
+		m.contract_uid = int(d.get("contract_uid", 0))
+		m.monster = StringName(str(d.get("monster", "")))
+		m.zone = StringName(str(d.get("zone", "")))
+		m.node = StringName(str(d.get("node", "")))
+		m.expires_day = int(d.get("expires_day", 0))
+		return m
 
 
-var items: Array[Rumor] = []
+var marks: Array[Mark] = []
+var trails: Dictionary[int, int] = {}  ## contract uid -> right rumors taken
+var threats: Dictionary[StringName, int] = {}  ## zone -> wrong rumors taken (hidden from the player)
 var next_uid: int = 1
-var last_day: int = 0  ## the morning random rumors were last added; 0 = never
 
 
-func find(uid: int) -> Rumor:
-	for r: Rumor in items:
-		if r.uid == uid:
-			return r
+func find(uid: int) -> Mark:
+	for m: Mark in marks:
+		if m.uid == uid:
+			return m
 	return null
+
+
+func trail(contract_uid: int) -> int:
+	return trails.get(contract_uid, 0)
 
 
 func to_dict() -> Dictionary:
 	var list: Array[Dictionary] = []
-	for r: Rumor in items:
-		list.append(r.to_dict())
-	return {"items": list, "next_uid": next_uid, "last_day": last_day}
+	for m: Mark in marks:
+		list.append(m.to_dict())
+	var t := {}
+	for k: int in trails:
+		t[str(k)] = trails[k]
+	return {"marks": list, "trails": t, "threats": threats, "next_uid": next_uid}
 
 
 static func from_dict(d: Dictionary) -> RumorsState:
 	var s := RumorsState.new()
-	for v: Variant in d.get("items", []) as Array:
-		s.items.append(Rumor.from_dict(v as Dictionary))
+	for v: Variant in d.get("marks", []) as Array:
+		s.marks.append(Mark.from_dict(v as Dictionary))
+	var t: Dictionary = d.get("trails", {})
+	for k: Variant in t:
+		s.trails[int(str(k))] = int(t[k])
+	var th: Dictionary = d.get("threats", {})
+	for k: Variant in th:
+		s.threats[StringName(str(k))] = int(th[k])
 	s.next_uid = int(d.get("next_uid", 1))
-	s.last_day = int(d.get("last_day", 0))
 	return s
-

@@ -43,7 +43,7 @@
 | Deadline | 4–10 days. **Overdue: the contract stays, the creature is stronger (hp ×1.25, +1 damage per hit), the reward does not grow** (owner). Shown red in the tracker and on the fight's top bar. |
 | Give up | A taken contract (not a Register exam) can be given up on its tablet (two presses): it goes and frees its slot; the petitioner's faction −5 (owner 2026-10-12). |
 | Region icon | Makes the zone where the creature was last seen glow blue on the district map; the camera glides there. |
-| Rumors (step 2) | A taken contract seeds a true rumor diamond at once and then every 2–3 days (GDD 8.4). Any fight with a contract's creature counts for the contract with the nearest deadline. |
+| Rumors (step 2) | The hunter listens to the street in a zone (free) and takes rumors into the notes; three right ones about a taken contract's creature bring its mark, shown as «След N/3» (GDD 8.4). Any fight with a contract's creature counts for the contract with the nearest deadline. |
 
 Numbers: `balance.json → contracts`. Code: `core/generation/contract_generator.gd`, `core/rules/contracts/contract_rules.gd`,
 `core/state/contracts_state.gd`, screens `scenes/contracts/`.

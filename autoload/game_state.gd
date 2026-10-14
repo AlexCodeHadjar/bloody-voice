@@ -4,8 +4,8 @@ extends "res://autoload/game_state_core.gd"
 ## game_state_core.gd. Screens call these commands; only this node changes RunState, through rules, then emits signals.
 
 
-## Free action (GDD 3.3): take a leaflet from the tavern board; its first true rumor appears at once.
-## "" or the reason it can't be taken.
+## Free action (GDD 3.3): take a leaflet from the tavern board; rumors of its zone can now lead to its creature
+## (GDD 8.4). "" or the reason it can't be taken.
 func accept_contract(uid: int) -> String:
 	if run == null:
 		return Loc.t("rule.not_now")
@@ -14,8 +14,6 @@ func accept_contract(uid: int) -> String:
 		BestiaryRules.mark(run, run.contracts.find(uid).monster, &"seen")
 		EventBus.contracts_changed.emit()
 		EventBus.progress_changed.emit()
-		if RumorRules.seed_targets(run, ContentDB.data, Rng.stream(StringName("rumor_target_%d" % uid), run.day)):
-			EventBus.rumors_changed.emit()
 		save_game()
 	return problem
 
@@ -68,47 +66,48 @@ func _workshop_result(problem: String) -> String:
 	return problem
 
 
-## Investigate a rumor (GDD 8): costs the day. A fight starts for the target or another creature (the day ends
-## after it); otherwise the money and a crossed-out sign are taken and the day ends now. null if not possible.
-func investigate_rumor(uid: int) -> RumorRules.Outcome:
+## Listening to the street (GDD 8.4): a new rumor in the zone; free. `used`: street nodes already showing a rumor.
+## null when nothing can be heard now.
+func hear_rumor(zone: StringName, used: Array[StringName]) -> RumorGenerator.Heard:
 	if run == null or combat != null:
 		return null
-	var o := RumorRules.investigate(run, ContentDB.data, uid)
-	if o == null:
+	return RumorRules.hear(run, ContentDB.data, zone, used,
+		Rng.stream(StringName("listen_%d" % run.rumors.next_uid), run.day))
+
+
+## «Взять в записи»: a right rumor grows its contract's trail and teaches signs, a wrong one the zone's hidden count;
+## a mark may appear. Free. null if not now.
+func take_rumor(h: RumorGenerator.Heard) -> RumorRules.Taken:
+	if run == null or combat != null or h == null:
 		return null
-	EventBus.rumors_changed.emit()
-	if o.monster != &"":
-		var contract := run.contracts.find(o.contract_uid)
-		_start_fight(o.monster, contract if ContractRules.active(run.contracts).has(contract) else null, o.zone)
-		return o
-	if o.money != 0:
-		EventBus.money_changed.emit(run.money)
-	if not o.resources.is_empty():
-		EventBus.stock_changed.emit()
-	if o.kind == &"discovery":
-		var gained := ProgressRules.add_xp(run, ContentDB.data, ContentDB.data.balance.progress.discovery_xp)
-		o.xp = gained.xp
-		o.levels = gained.levels
-		EventBus.progress_changed.emit()
-	if o.crossed != &"":
+	var t := RumorRules.take(run, ContentDB.data, h, Rng.stream(StringName("rumor_take_%d" % h.uid), run.day))
+	if t.right:
 		EventBus.contracts_changed.emit()
-	end_day()
-	return o
+	EventBus.rumors_changed.emit()
+	save_game()
+	return t
 
 
-## Day action (GDD 3.3): a shift behind the bar. The day ends; the morning brings the overheard rumor. null if not now.
+## A click on a mark: the fight with the found creature or the unknown threat on the zone's background (the day ends
+## after it). false if there is no such mark.
+func fight_mark(uid: int) -> bool:
+	if run == null or combat != null:
+		return false
+	var m := RumorRules.engage(run, uid)
+	if m == null:
+		return false
+	EventBus.rumors_changed.emit()
+	_start_fight(m.monster, run.contracts.find(m.contract_uid) if m.contract_uid != 0 else null, m.zone)
+	return true
+
+
+## Day action (GDD 3.3): a shift behind the bar: money and a line of gossip; the day ends. null if not now.
 func work_shift() -> ShiftRules.Report:
 	if run == null or combat != null or EventRules.is_closed(run, ContentDB.data, &"shift"):
 		return null
 	var report := ShiftRules.work(run, ContentDB.data, Rng.stream(&"shift", run.day))
 	EventBus.money_changed.emit(run.money)
 	end_day()
-	# the rumor belongs to the new morning, so it comes after end_day (which saves); quitting in between loses only it
-	var r := RumorRules.overheard(run, ContentDB.data, Rng.stream(&"overheard", run.day))
-	if r != null:
-		report.rumor_uid = r.uid
-		EventBus.rumors_changed.emit()
-		save_game()
 	return report
 
 
@@ -139,17 +138,6 @@ func calm_voice() -> String:
 	if problem == "":
 		EventBus.money_changed.emit(run.money)
 		EventBus.progress_changed.emit()
-		end_day()
-	return problem
-
-
-## Day action in the Scriptorium: verify a rumor. "" or the reason it can't be done.
-func verify_rumor(uid: int) -> String:
-	if run == null or combat != null:
-		return Loc.t("rule.not_now")
-	var problem := LibraryRules.verify(run, uid)
-	if problem == "":
-		EventBus.rumors_changed.emit()
 		end_day()
 	return problem
 

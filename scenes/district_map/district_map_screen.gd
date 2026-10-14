@@ -30,7 +30,8 @@ var _weather: DistrictWeather
 var _voice_box: HBoxContainer  ## the Voice and its stage (GDD 4.2), hidden while silent
 var _spot: DistrictMapRules.Spot  ## where the hero stands or walks to
 var _target: DistrictMapDef.LandmarkDef = null  ## the card opens when the hero gets there
-var _target_rumor := 0  ## the rumor tablet opens when the hero gets to this diamond
+var _target_mark := 0  ## the mark's sheet opens when the hero gets to this mark
+var _listen: ListenLayer
 var _sound_clock := 0.0
 
 
@@ -72,11 +73,13 @@ func _build() -> void:
 	_life = LifeLayer.new()  # residents (map-life-people.md), below the hero
 	_life.setup(_map, ContentDB.data)
 	_view.add_layer(_life)
-	var rumors := RumorLayer.new()  # rumor diamonds (GDD 8), below the hero
-	rumors.setup(_map)
-	rumors.rumor_clicked.connect(_go_to_rumor)
-	_view.add_layer(rumors)
 	_hero = HeroWalker.new()
+	_listen = ListenLayer.new()  # listening for rumors and the marks (GDD 8.4), below the hero
+	_listen.setup(_map, _hero)
+	_listen.busy = _panels.is_open
+	_listen.rumor_opened.connect(_panels.open_heard)
+	_listen.mark_clicked.connect(_go_to_mark)
+	_view.add_layer(_listen)
 	_view.add_layer(_hero)
 	_life.hero = _hero
 	_view.hero = _hero
@@ -90,10 +93,10 @@ func _build() -> void:
 	_hero.stepped.connect(func() -> void: UiKit.sound(&"world.step"))
 	_build_card()
 	_panels.host = self
-	_panels.rumor_chosen.connect(_go_to_rumor)
-	_panels.fight_started.connect(func() -> void:  # not saved here: quitting mid-fight keeps the rumor (saved after it)
-		get_tree().change_scene_to_file(COMBAT))
+	_panels.rumor_taken.connect(_listen.show_taken)
+	_panels.fight_started.connect(func() -> void: get_tree().change_scene_to_file(COMBAT))
 	add_child(_panels)
+	add_child(_listen.make_button())
 	_build_tracker()
 	_build_tip()
 	_markup = MapMarkupUi.new()  # F3 markup tools (debug builds)
@@ -270,7 +273,7 @@ func _on_hovered(lm: DistrictMapDef.LandmarkDef) -> void:
 
 func _on_landmark_clicked(lm: DistrictMapDef.LandmarkDef) -> void:
 	_target = lm
-	_target_rumor = 0
+	_target_mark = 0
 	_walk_to(DistrictMapRules.spot_at_node(_map, lm.node))
 
 
@@ -280,7 +283,7 @@ func _on_street_clicked(p: Vector2) -> void:
 	if spot == null:
 		return
 	_target = null
-	_target_rumor = 0
+	_target_mark = 0
 	_walk_to(spot)
 
 
@@ -305,9 +308,9 @@ func _on_arrived() -> void:
 	GameState.set_hero_node(DistrictMapRules.nearest_node(_map, _spot))
 	GameState.save_game()
 	Tutorial.action(&"hero_walked")
-	if _target_rumor != 0:
-		_open_rumor(_target_rumor)
-		_target_rumor = 0
+	if _target_mark != 0:
+		_panels.open_mark(_target_mark)
+		_target_mark = 0
 	if _target != null:
 		_card.position.y = _tracker.position.y + _tracker.size.y + 14.0 if _tracker.visible else 90.0
 		_card.show_landmark(_target, _zone_name(_target.zone))
@@ -341,18 +344,14 @@ func _on_action(action: StringName) -> void:
 			_panels.open_for(action)
 
 
-## The hunter walks to the diamond; its tablet opens there (GDD 8.1).
-func _go_to_rumor(uid: int) -> void:
-	var r := GameState.run.rumors.find(uid)
-	if r == null:
+## The hunter walks to the mark; its sheet opens there (GDD 8.4).
+func _go_to_mark(uid: int) -> void:
+	var m := GameState.run.rumors.find(uid)
+	if m == null:
 		return
 	_target = null
-	_target_rumor = uid
-	_walk_to(DistrictMapRules.spot_at_node(_map, r.node))
-
-
-func _open_rumor(uid: int) -> void:
-	_panels.open_rumor(uid)
+	_target_mark = uid
+	_walk_to(DistrictMapRules.spot_at_node(_map, m.node))
 
 
 ## The tracker's region icon: the zone where the creature was last seen glows and the view glides there.

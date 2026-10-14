@@ -81,10 +81,7 @@ func test_prices_rewards_and_rumors_follow_the_state() -> void:
 	run.city = CityState.new()
 	_start(run, data, &"dusk_night")
 	var quiet := RunState.create(31, data.balance)
-	RumorRules.new_morning(quiet, data, SeededRng.make_stream(7, &"rumors", 1))
-	run.rumors = RumorsState.new()
-	RumorRules.new_morning(run, data, SeededRng.make_stream(7, &"rumors", 1))
-	check(RumorRules.visible(run.rumors).size() > RumorRules.visible(quiet.rumors).size(), "a festival brings more rumors")
+	check(RumorRules.max_heard(run, data) > RumorRules.max_heard(quiet, data), "a festival street holds more rumors")
 
 
 func test_event_ends_with_news_and_rest_weeks() -> void:

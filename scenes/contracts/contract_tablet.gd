@@ -186,16 +186,6 @@ func _fill_facts(c: ContractsState.Contract, box: VBoxContainer) -> void:
 	box.add_child(UiKit.label(Loc.t("ui.contract.signs"), 19, INK_RED))
 	for tag: StringName in c.known_tags:
 		box.add_child(Icons.with_text("TAG", ContractKit.tag_category(tag), ContractKit.tag_name(tag), 26, 18, INK))
-	if not c.crossed_tags.is_empty():  # signs false leads proved not to be the creature's (GDD 8.2)
-		var crossed := PackedStringArray(c.crossed_tags.map(func(t: StringName) -> String: return "[s]%s[/s]" % ContractKit.tag_name(t)))
-		var l := RichTextLabel.new()
-		l.bbcode_enabled = true
-		l.fit_content = true
-		l.scroll_active = false
-		l.add_theme_font_size_override("normal_font_size", 17)
-		l.add_theme_color_override("default_color", INK_SOFT)
-		l.text = "%s %s" % [Loc.t("ui.contract.crossed"), ", ".join(crossed)]
-		box.add_child(l)
 	if not c.affixes.is_empty():  # a stronger creature: its affixes add moves and HP (GDD 17)
 		box.add_child(_fact("INTENT", &"buff", "ui.contract.affixes", AffixGenerator.names(ContentDB.data, c.affixes), INK_RED))
 	box.add_child(_fact("CONTRACT", &"region", "ui.contract.last_seen", ContractKit.last_seen(c), INK))

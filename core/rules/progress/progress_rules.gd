@@ -103,14 +103,13 @@ static func discount(run: RunState, data: ContentData) -> float:
 	return minf(p.max_discount, p.discount_per_cunning * run.progress.attribute(&"cunning"))
 
 
-## Cunning: the noise signs of a rumor the hunter sees through. Stable per rumor and sign (seeded).
-static func flagged(run: RunState, data: ContentData, r: RumorsState.Rumor) -> Array[StringName]:
-	var out: Array[StringName] = []
+## Cunning: the hunter senses that a heard rumor is wrong («Чутьё: слух сомнительный»). Never on a right one;
+## stable per rumor (seeded).
+static func suspicious(run: RunState, data: ContentData, h: RumorGenerator.Heard) -> bool:
+	if h.right():
+		return false
 	var chance := data.balance.progress.flag_per_cunning * run.progress.attribute(&"cunning")
-	for t: StringName in r.lies:
-		if SeededRng.make_stream(run.master_seed, StringName("flag_%d_%s" % [r.uid, t])).randf() < chance:
-			out.append(t)
-	return out
+	return SeededRng.make_stream(run.master_seed, StringName("flag_%d" % h.uid)).randf() < chance
 
 
 static func _reached(thresholds: Array[int], value: int) -> int:

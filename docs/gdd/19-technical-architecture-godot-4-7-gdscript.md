@@ -39,7 +39,7 @@ bloody_voice/
     rules/                      # pure static logic, grouped by domain
       combat/        combat_rules.gd, deck_rules.gd, intent_rules.gd, effect_applier.gd, capture_rules.gd
       gear/          weapon_grid_rules.gd, deck_builder.gd, crafting_rules.gd
-      investigation/ ring_rules.gd, tag_match_rules.gd, outcome_rules.gd
+      rumors/ rumor_rules.gd
       time/          calendar_rules.gd, day_action_rules.gd
       economy/       economy_rules.gd, shop_rules.gd
       progression/   level_rules.gd, skill_web_rules.gd, voice_rules.gd, faction_rules.gd
@@ -86,7 +86,7 @@ extends Node
 
 signal day_changed(day: int)
 signal contract_accepted(contract_id: StringName)
-signal rumor_spawned(rumor_id: StringName)
+signal rumor_heard(rumor_id: StringName)
 signal district_state_changed(target: StringName, old_state: StringName, new_state: StringName)
 signal card_played(card_id: StringName, target: StringName)
 signal combat_finished(result: Dictionary)
@@ -142,12 +142,13 @@ static func apply(state: CombatState, effect: Dictionary, ctx: EffectContext) ->
 
 ```text
 # autoload/game_state.gd (fragment)
-func investigate(rumor_id: StringName) -> void:
-    var result: OutcomeResult = OutcomeRules.resolve(run, rumor_id, ContentDB.data)
-    run = DayActionRules.spend_day(run, &"investigate")
-    EventBus.day_changed.emit(run.calendar.day)
-    if result.starts_combat:
-        _open_combat(result.encounter)
+func fight_mark(uid: int) -> bool:
+    var m := RumorRules.engage(run, uid)       # rules change the state and return what happened
+    if m == null:
+        return false
+    EventBus.rumors_changed.emit()             # only GameState emits signals
+    _start_fight(m.monster, run.contracts.find(m.contract_uid), m.zone)  # the day ends after the fight
+    return true
 ```
 
 ### Seeded RNG streams
@@ -170,7 +171,7 @@ func stream(name: StringName, day: int = 0) -> RandomNumberGenerator:
 - File size budget: **≤ 400 lines** per script, functions **≤ 40 lines**. Split before it grows (lesson from SunLess: 1200-line screens are hard to change).
 - Every public function has a type signature and a one-line `##` doc comment.
 - No logic in `_process`; screens refresh on signals and a queued refresh (`_queue_refresh`).
-- Pool card views and diamond icons; cache derived data in ContentDB (`memo`).
+- Pool card views and rumor icons; cache derived data in ContentDB (`memo`).
 - Every new mechanic: rules file + test suite + validator rules + tutorial hint entry.
 - Content ids are stable: never rename an id that is in a save; add a migration instead.
 - Commit after every phase step; tests must be green before a commit.

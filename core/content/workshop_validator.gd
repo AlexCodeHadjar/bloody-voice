@@ -58,10 +58,6 @@ static func _balance(data: ContentData, trophies: Array[StringName], errs: Error
 		_amounts(data, m.loot, [], errs, "monsters/%s/loot" % m.id)
 	for rank: String in b.loot_by_rank:
 		_amounts(data, b.loot_by_rank[rank], [], errs, w + "/loot_by_rank/" + rank)
-	var r := data.balance.rumors
-	for res: StringName in r.discovery_resources.keys() + r.empty_night_resources.keys():
-		if not b.resources.has(res):
-			errs.add("balance.json/rumors", "unknown resource '%s'" % res)
 
 
 ## Keys must be resources (or trophies where allowed); amounts > 0.

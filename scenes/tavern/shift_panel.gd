@@ -1,7 +1,7 @@
 class_name ShiftPanel
 extends Control
-## The morning after a tavern shift (GDD 3.3): the keeper's portrait, the money earned, a line of gossip and the
-## rumor overheard at the bar (its diamond is already on the map). Full-screen overlay.
+## The morning after a tavern shift (GDD 3.3): the keeper's portrait, the money earned and a line of gossip.
+## Full-screen overlay.
 
 signal closed
 
@@ -35,10 +35,6 @@ func show_report(r: ShiftRules.Report) -> void:
 	for g: RumorDefs.Witness in ContentDB.data.rumor_data.gossip:
 		if g.id == r.gossip:
 			v.add_child(UiKit.paragraph("«%s»" % g.text, 18, Palette.PARCHMENT))
-	var rumor := GameState.run.rumors.find(r.rumor_uid)
-	if rumor != null:
-		var map := ContentDB.data.district_map(GameState.run.hero_district)
-		v.add_child(Icons.with_text("PLACE", &"leaflets", Loc.t("ui.shift.rumor", {"zone": ContractKit.zone_name(map, rumor.zone)}), 30, 18))
 	v.add_child(UiKit.label(Loc.t("ui.rumor.day_over"), 16, Palette.INK_MUTED))
 	var next := UiKit.button(Loc.t("ui.rumor.next"), 20)
 	next.pressed.connect(close_panel)

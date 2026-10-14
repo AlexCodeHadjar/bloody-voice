@@ -67,12 +67,11 @@ func test_attribute_effects() -> void:
 	eq(ProgressRules.hand_bonus(run, data), data.balance.progress.agility_hand_at.size(), "two extra cards")
 	eq(ProgressRules.preview(run, data), data.balance.progress.cunning_preview_at.size(), "two moves ahead")
 	check(ProgressRules.discount(run, data) <= data.balance.progress.max_discount, "discount capped")
-	var r := RumorsState.Rumor.new()
-	r.uid = 3
-	r.lies = [&"howl"]
-	eq(ProgressRules.flagged(run, data, r), ProgressRules.flagged(run, data, r), "the same rumor is flagged the same way")
+	var h := RumorGenerator.Heard.new()
+	h.uid = 3
+	eq(ProgressRules.suspicious(run, data, h), ProgressRules.suspicious(run, data, h), "the same rumor, the same whisper")
 	run.progress.attributes[&"cunning"] = 0
-	eq(ProgressRules.flagged(run, data, r).size(), 0, "no Cunning, no flags")
+	check(not ProgressRules.suspicious(run, data, h), "no Cunning, no whisper")
 
 
 func test_progress_survives_save_and_old_saves_start() -> void:
