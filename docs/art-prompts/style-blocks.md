@@ -2,6 +2,8 @@
 
 Paste the blocks a prompt file asks for at the start of each chat (one chat per part). Canvas: square 1024, wide 1536×1024, tall 1024×1536. Save with the exact file name into `assets/…` and ask Claude to import the art.
 
+```text
+UI STYLE BLOCK:
 Dark gaslight-and-steel fantasy, Lovecraftian mysticism. Hand-painted illustration
 with ink linework, like an old engraved plate coloured with muted watercolour.
 Palette: soot black #2B2420, parchment #ECE4D2, tarnished brass #B08A4A,
