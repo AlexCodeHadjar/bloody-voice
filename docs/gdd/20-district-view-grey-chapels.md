@@ -157,7 +157,7 @@ Done 2026-10-12 — see §20.11 and CLAUDE.md («Район»).
 | Hero | The stone figurine (four views), 350 px/s, footsteps; the camera does not follow (owner 2026-10-14) |
 | Neighbours | Veil 70 % black + diagonal hatching outside the contour, except the open fog beyond the Ringwall; «Нордхал — закрыто» labels |
 | Time of day | Always evening for now (the art is a night scene); real day / night comes with hours (phase 7) |
-| Residents | About 40 people + animals, scenes at places, living decor (no laundry, banners, card players, street circus or leaflet readers — owner 2026-10-14: they only got in the way) (`data/city/district_life/GREY.json`, `scenes/district_map/life/`): they walk, look around, chat with an emote, work at their spots, step aside for the hero. Only atmosphere; the little stories of map-life-people.md part D are the next step |
+| Residents | About 40 people + animals, scenes at places, living decor (no laundry, banners, card players, street circus, leaflet readers, roof repair or fortune teller — owner 2026-10-14: they only got in the way) (`data/city/district_life/GREY.json`, `scenes/district_map/life/`): they walk, look around, chat with an emote, work at their spots, step aside for the hero. Only atmosphere; the little stories of map-life-people.md part D are the next step |
 | Sound | Music «Deep Humidity» + rain; a second layer by the place under the camera: cellars in the Fog Hollow, wind at the Ringwall, fire by the tavern, the market and Bonfire Square (`sound_spots` / zone `ambience` in the map data) |
 
 ## 20.12 Markup editing (debug builds, owner 2026-10-12/14)

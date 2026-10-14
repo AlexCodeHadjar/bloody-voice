@@ -63,14 +63,12 @@
  ],
  "scenes": [
   {"art": "scene__market_crowd", "pos": [1960, 1230]},
-  {"art": "scene__fortune_teller", "pos": [2260, 1100]},
   {"art": "scene__cult_circle", "pos": [2525, 2425]},
   {"art": "scene__infirmary_queue", "pos": [1930, 3610]},
   {"art": "scene__funeral", "pos": [1950, 4320]},
   {"art": "scene__wall_cannon_crew", "pos": [3300, 4120]},
   {"art": "group__wall_drill", "pos": [3300, 2450]},
-  {"art": "group__night_watch_fire", "pos": [1600, 540]},
-  {"art": "group__roof_repair", "pos": [2560, 1110]}
+  {"art": "group__night_watch_fire", "pos": [1600, 540]}
  ],
  "fx": [
   {"art": "fx__bonfire", "kind": "flicker", "additive": true, "scale": 0.22, "rate": 7, "amp": 0.3, "points": [[2164, 1945], [2110, 1150], [1960, 1110], [2860, 1750]]},
