@@ -9,10 +9,16 @@ signal closed
 const ART := "res://art/ui/CONTRACT__tablet.webp"
 const SEAL := "res://art/ui/WAX__seal.webp"
 const TABLET := Vector2(660, 880)
+const MEDALLION := Vector2(314, 244)  ## the centre of the ornate ring on the tablet art (silhouette)
+const SEAL_SPOT := Vector2(314, 770)  ## the small ring at the foot (the seal)
+const INK := Color(0.11, 0.07, 0.04)  ## text on the parchment: near-black ink (owner 2026-10-14: readable)
+const INK_RED := Color(0.38, 0.06, 0.03)
+const INK_SOFT := Color(0.27, 0.2, 0.14)
+const PAPER := Color(0.93, 0.88, 0.78, 0.86)  ## a clean patch of paper under the text, over the ruled lines
 
 var _list: Array[ContractsState.Contract] = []
 var _index := 0
-var _body: VBoxContainer
+var _body: Control
 var _accept: Button
 var _abandon: Button  ## gives a taken contract up (two presses)
 var _abandon_armed := false
@@ -44,36 +50,34 @@ func open_list(list: Array[ContractsState.Contract], index: int) -> void:
 	UiKit.sound(&"paper.map")
 
 
+## The tablet art with everything in its own place on the parchment (owner 2026-10-14: no dark inlay, ink on paper):
+## type and rank on the bars beside the medallion, the silhouette in it, the name and the petition under it, the facts
+## on the ruled lines, the seal in the small circle at the foot. The arrows flank the tablet, the buttons sit under it.
 func _build_tablet() -> Control:
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation", 10)
+	col.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 16)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	col.add_child(row)
+	row.add_child(_arrow("arrow_left", -1))
 	var tablet := TextureRect.new()
 	tablet.texture = UiKit.texture(ART)
 	tablet.custom_minimum_size = TABLET
 	tablet.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	tablet.stretch_mode = TextureRect.STRETCH_SCALE
 	tablet.mouse_filter = Control.MOUSE_FILTER_STOP
-	var panel := PanelContainer.new()  # a dark inlay so the text reads on any part of the art
-	panel.add_theme_stylebox_override("panel", UiKit.panel_box(Color(0.06, 0.05, 0.045, 0.8), Palette.BRASS))
-	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
-	panel.offset_left = 70
-	panel.offset_right = -70
-	panel.offset_top = 80
-	panel.offset_bottom = -80
-	tablet.add_child(panel)
-	var v := VBoxContainer.new()
-	v.add_theme_constant_override("separation", 8)
-	panel.add_child(v)
-	_body = VBoxContainer.new()
-	_body.add_theme_constant_override("separation", 8)
-	_body.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	v.add_child(_body)
-	_problem = UiKit.paragraph("", 16, Palette.ALARM)
-	_problem.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	v.add_child(_problem)
-	v.add_child(_build_buttons())
-	_seal = UiKit.picture(UiKit.texture(SEAL), Vector2(150, 150))
-	_seal.size = Vector2(150, 150)
-	_seal.position = Vector2(TABLET.x - 230, TABLET.y - 300)
-	_seal.pivot_offset = Vector2(75, 75)
+	row.add_child(tablet)
+	row.add_child(_arrow("arrow_right", 1))
+	_body = Control.new()  # holds the per-contract pieces, placed by hand on the tablet
+	_body.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_body.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tablet.add_child(_body)
+	_seal = UiKit.picture(UiKit.texture(SEAL), Vector2(120, 120))
+	_seal.size = Vector2(120, 120)
+	_seal.position = SEAL_SPOT - Vector2(60, 60)
+	_seal.pivot_offset = Vector2(60, 60)
 	_seal.rotation = -0.3
 	tablet.add_child(_seal)
 	var close := Icons.button("UI", &"close", "", 16)
@@ -81,27 +85,33 @@ func _build_tablet() -> Control:
 	close.position = Vector2(TABLET.x - 64, 18)
 	close.pressed.connect(close_tablet)
 	tablet.add_child(close)
-	return tablet
+	col.add_child(_build_buttons())
+	_problem = UiKit.paragraph("", 16, Palette.ALARM)
+	_problem.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	col.add_child(_problem)
+	return col
+
+
+func _arrow(icon: StringName, step: int) -> Button:
+	var b := Icons.button("UI", icon, "", 16)
+	b.custom_minimum_size = Vector2(56, 56)
+	b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	b.pressed.connect(_step.bind(step))
+	return b
 
 
 func _build_buttons() -> HBoxContainer:
 	var row := HBoxContainer.new()
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
-	row.add_theme_constant_override("separation", 12)
-	var prev := Icons.button("UI", &"arrow_left", "", 16)
-	prev.custom_minimum_size = Vector2(52, 52)
-	prev.pressed.connect(_step.bind(-1))
-	row.add_child(prev)
+	row.add_theme_constant_override("separation", 14)
 	_accept = Icons.button("UI", &"accept", Loc.t("ui.contract.accept"), 20)
+	_accept.custom_minimum_size = Vector2(260, 52)
 	_accept.pressed.connect(_on_accept)
 	row.add_child(_accept)
 	_abandon = UiKit.button(Loc.t("ui.contract.abandon"), 18)
+	_abandon.custom_minimum_size = Vector2(240, 52)
 	_abandon.pressed.connect(_on_abandon)
 	row.add_child(_abandon)
-	var next := Icons.button("UI", &"arrow_right", "", 16)
-	next.custom_minimum_size = Vector2(52, 52)
-	next.pressed.connect(_step.bind(1))
-	row.add_child(next)
 	return row
 
 
@@ -124,54 +134,79 @@ func _show_current() -> void:
 
 
 func _fill(c: ContractsState.Contract) -> void:
-	var head := HBoxContainer.new()
-	head.add_child(Icons.with_text("CONTRACT", c.type, ContractKit.type_name(c), 34, 20, Palette.BRASS_LIGHT))
-	var gap := Control.new()
-	gap.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	head.add_child(gap)
-	head.add_child(Icons.with_text("RANK", StringName(ContractKit.rank(c).to_lower()),
-		Loc.t("ui.contract.rank", {"rank": ContractKit.rank(c)}), 34, 18, Palette.FOG))
-	_body.add_child(head)
-	var who := HBoxContainer.new()
-	who.add_theme_constant_override("separation", 14)
-	who.add_child(UiKit.picture(ContractKit.silhouette(c), Vector2(150, 150)))
-	var letter := VBoxContainer.new()
-	letter.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	letter.add_child(UiKit.label(ContractKit.monster_name(c), 30, Palette.BRASS_LIGHT))
+	_paper(Rect2(74, 236, 140, 42))
+	_place(Icons.with_text("CONTRACT", c.type, ContractKit.type_name(c), 32, 20, INK), Rect2(78, 236, 140, 42))
+	_paper(Rect2(442, 236, 140, 42))
+	_place(Icons.with_text("RANK", StringName(ContractKit.rank(c).to_lower()), Loc.t("ui.contract.rank", {"rank": ContractKit.rank(c)}),
+		32, 20, INK), Rect2(446, 236, 140, 42))
+	_place(UiKit.picture(ContractKit.silhouette(c), Vector2(170, 170)), Rect2(MEDALLION - Vector2(85, 85), Vector2(170, 170)))
+	var title := UiKit.label(ContractKit.monster_name(c), 34, INK_RED)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_place(title, Rect2(70, 372, 520, 40))
 	var p := ContentDB.data.petition(c.petition)
 	if p != null:
-		letter.add_child(UiKit.paragraph(p.text, 16, Palette.PARCHMENT))
-		letter.add_child(UiKit.paragraph("— " + p.sender, 15, Palette.INK_MUTED))
-	who.add_child(letter)
-	_body.add_child(who)
-	_fill_facts(c)
+		var letter := VBoxContainer.new()
+		letter.add_theme_constant_override("separation", 0)
+		var text := UiKit.paragraph(p.text, 17, INK)
+		text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		letter.add_child(text)
+		var who := UiKit.paragraph("— " + p.sender, 15, INK_SOFT)
+		who.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		letter.add_child(who)
+		_paper(Rect2(72, 412, 516, 84))
+		_place(letter, Rect2(80, 414, 500, 80))
+	var facts := VBoxContainer.new()
+	facts.add_theme_constant_override("separation", 2)
+	_paper(Rect2(76, 500, 508, 236))
+	_place(facts, Rect2(86, 504, 488, 228))
+	_fill_facts(c, facts)
 
 
-func _fill_facts(c: ContractsState.Contract) -> void:
-	_body.add_child(UiKit.label(Loc.t("ui.contract.signs"), 18, Palette.BRASS))
+## A clean patch of paper under a block of text, so the ruled lines of the form do not cross the letters.
+func _paper(rect: Rect2) -> void:
+	var patch := Panel.new()
+	var box := StyleBoxFlat.new()
+	box.bg_color = PAPER
+	box.set_corner_radius_all(6)
+	box.shadow_color = Color(PAPER, 0.5)
+	box.shadow_size = 6  # soft edges, no frame
+	patch.add_theme_stylebox_override("panel", box)
+	_place(patch, rect)
+
+
+func _place(node: Control, rect: Rect2) -> void:
+	node.position = rect.position
+	node.size = rect.size
+	node.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_body.add_child(node)
+
+
+## Signs and facts on the ruled lines, in ink.
+func _fill_facts(c: ContractsState.Contract, box: VBoxContainer) -> void:
+	box.add_child(UiKit.label(Loc.t("ui.contract.signs"), 19, INK_RED))
 	for tag: StringName in c.known_tags:
-		_body.add_child(Icons.with_text("TAG", ContractKit.tag_category(tag), ContractKit.tag_name(tag), 26, 17))
+		box.add_child(Icons.with_text("TAG", ContractKit.tag_category(tag), ContractKit.tag_name(tag), 26, 18, INK))
 	if not c.crossed_tags.is_empty():  # signs false leads proved not to be the creature's (GDD 8.2)
 		var crossed := PackedStringArray(c.crossed_tags.map(func(t: StringName) -> String: return "[s]%s[/s]" % ContractKit.tag_name(t)))
 		var l := RichTextLabel.new()
 		l.bbcode_enabled = true
 		l.fit_content = true
 		l.scroll_active = false
-		l.add_theme_font_size_override("normal_font_size", 16)
-		l.add_theme_color_override("default_color", Palette.INK_MUTED)
+		l.add_theme_font_size_override("normal_font_size", 17)
+		l.add_theme_color_override("default_color", INK_SOFT)
 		l.text = "%s %s" % [Loc.t("ui.contract.crossed"), ", ".join(crossed)]
-		_body.add_child(l)
+		box.add_child(l)
 	if not c.affixes.is_empty():  # a stronger creature: its affixes add moves and HP (GDD 17)
-		_body.add_child(_fact("INTENT", &"buff", "ui.contract.affixes", AffixGenerator.names(ContentDB.data, c.affixes), Palette.ALARM))
-	_body.add_child(_fact("CONTRACT", &"region", "ui.contract.last_seen", ContractKit.last_seen(c), Palette.PARCHMENT))
-	_body.add_child(_fact("CONTRACT", &"deadline", "ui.contract.deadline", ContractKit.deadline_text(c),
-		ContractKit.deadline_color(c, Palette.PARCHMENT)))
-	_body.add_child(_fact("RESOURCE", &"money", "ui.contract.reward", str(c.reward), Palette.BRASS_LIGHT))
+		box.add_child(_fact("INTENT", &"buff", "ui.contract.affixes", AffixGenerator.names(ContentDB.data, c.affixes), INK_RED))
+	box.add_child(_fact("CONTRACT", &"region", "ui.contract.last_seen", ContractKit.last_seen(c), INK))
+	box.add_child(_fact("CONTRACT", &"deadline", "ui.contract.deadline", ContractKit.deadline_text(c),
+		ContractKit.deadline_color(c, INK)))
+	box.add_child(_fact("RESOURCE", &"money", "ui.contract.reward", str(c.reward), INK))
 
 
 func _fact(set_code: String, icon: StringName, key: String, value: String, color: Color) -> HBoxContainer:
-	var h := Icons.with_text(set_code, icon, Loc.t(key), 30, 17, Palette.BRASS)
-	var l := UiKit.label(value, 17, color)
+	var h := Icons.with_text(set_code, icon, Loc.t(key), 28, 18, INK_RED)
+	var l := UiKit.label(value, 18, color)
 	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	h.add_child(l)

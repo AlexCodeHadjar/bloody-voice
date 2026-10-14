@@ -197,6 +197,9 @@ ui.dev.map_help,"Разметка (F3): легенда слева внизу. К
 ui.dev.map_point,"{id}: {x}, {y}","{id}: {x}, {y}"
 ui.dev.map_saved,Сохранено: {path},Saved: {path}
 ui.dev.map_not_saved,Не удалось сохранить файл карты.,Could not save the map file.
+ui.dev.region_add_corner,Добавить угол на ближайшую границу,Add a corner on the nearest border
+ui.dev.region_anchor,{id}: точка фигурки,{id}: figure point
+ui.dev.region_help,"Границы районов на карте города (F3): клик — выбрать угол или точку фигурки, Ctrl + мышь — двигать, правый клик — добавить или удалить угол, Ctrl+S — сохранить, F3 — выйти. Карту района вблизи это не меняет.","District borders on the city map (F3): click picks a corner or a figure point, Ctrl + mouse moves it, right click adds or deletes a corner, Ctrl+S saves, F3 leaves. The close-up district map is not changed."
 ui.dev.no_delete_zone_story,Нельзя: в зону «{name}» отправляет сюжет.,No: the story sends the hunter to «{name}».
 ui.dev.no_delete_zone_last,Это последняя зона — удалить нельзя.,The last zone cannot be deleted.
 ui.dev.menu_delete_zone,Удалить зону «{name}» (её место займут соседние),Delete zone «{name}» (the neighbours take its ground)
@@ -330,7 +333,6 @@ ui.rumor.outcome.false_lead,Ложный след,False lead
 ui.rumor.outcome.false_lead.text,"Слух оказался враньём. Зато теперь ясно, что одна примета — чужая.",The rumor was a lie. At least one sign is now known to be false.
 ui.rumor.outcome.empty_night,Пустая ночь,Empty night
 ui.rumor.outcome.empty_night.text,"Всю ночь — ни звука. Пара монет в грязи и одна примета, которая не сходится.",Not a sound all night. A few coins in the mud and one sign that does not fit.
-ui.city.back_to_district,К району,To the district
 ui.combat.outcome.slain,Тварь убита,The creature is slain
 ui.combat.outcome.captured,Тварь поймана,The creature is captured
 ui.combat.outcome.fallen,Охотник пал,The hunter falls

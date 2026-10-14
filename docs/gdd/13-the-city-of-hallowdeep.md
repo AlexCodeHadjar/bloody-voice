@@ -251,3 +251,11 @@ Each district is described with the same fields. **Code** is the stable identifi
 | Ruins of the Old Capital | Chapter III / finale | Under everything: catacombs, dragon bones (top crafting material), shards of the Ember Tablets, ancient shrines. |
 
 > **Note:** The Lower City is not just 'the enemy'. The Grey Communion is an ally with a different truth: the people below hate the Upper City for centuries of oppression. This is a key story choice in Chapter II.
+
+## City map controls (owner 2026-10-14)
+
+The city map is reached from a district by turning the wheel on past the farthest zoom (GDD §20.3). On it a click on an
+open district goes straight down into it; the wheel towards the player goes back to the hero's district. No equipment
+or «back» buttons — the menu is an icon. F3 (debug builds) edits the districts' clickable borders on the city map and the
+hero figure's point (`data/city/map_regions.json`, `scenes/city_map/region_markup.gd`); the close-up district map has
+its own outline and is not changed by it.

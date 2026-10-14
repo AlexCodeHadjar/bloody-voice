@@ -1,7 +1,7 @@
 class_name ContractTracker
 extends VBoxContainer
-## The tracker at the left edge of the district screen (GDD 7.1): one row per taken contract — silhouette, name, days left and
-## the region icon. The icon makes the zone where the creature was last seen glow on the map; the row opens the
+## The contracts list at the right edge of the district screen (GDD 7.1; owner 2026-10-14): one panel with a title and a
+## row per taken contract — name, days left and the region icon (no silhouette: owner 2026-10-14). The icon makes the zone where the creature was last seen glow on the map; the row opens the
 ## contract tablet. Hidden while no contract is taken.
 
 signal zone_requested(zone: StringName)
@@ -26,18 +26,32 @@ func refresh() -> void:
 	visible = not list.is_empty()
 	if list.is_empty():
 		return
-	var title := UiKit.label(Loc.t("ui.contract.tracker"), 18, Palette.BRASS_LIGHT)
-	title.add_theme_constant_override("outline_size", 6)
-	title.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
-	add_child(title)
+	var box := PanelContainer.new()
+	box.add_theme_stylebox_override("panel", UiKit.panel_box(Color(0.06, 0.045, 0.035, 0.88), Palette.BRASS))
+	add_child(box)
+	var v := VBoxContainer.new()
+	v.add_theme_constant_override("separation", 4)
+	box.add_child(v)
+	var title := UiKit.label(Loc.t("ui.contract.tracker"), 22, Palette.BRASS_LIGHT)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(title)
 	for i: int in list.size():
-		add_child(_row(list, i))
+		var line := ColorRect.new()  # a thin brass rule between the title and each row
+		line.color = Color(Palette.BRASS, 0.45)
+		line.custom_minimum_size = Vector2(0, 1)
+		v.add_child(line)
+		v.add_child(_row(list, i))
 
 
 func _row(list: Array[ContractsState.Contract], index: int) -> PanelContainer:
 	var c := list[index]
 	var panel := PanelContainer.new()
-	panel.add_theme_stylebox_override("panel", UiKit.panel_box(Palette.PANEL, Palette.BRASS))
+	var flat := StyleBoxFlat.new()  # a row of the list: no frame of its own, a soft light under the mouse
+	flat.bg_color = Color(1, 1, 1, 0.0)
+	flat.set_content_margin_all(6)
+	panel.add_theme_stylebox_override("panel", flat)
+	panel.mouse_entered.connect(func() -> void: flat.bg_color = Color(1.0, 0.85, 0.5, 0.08))
+	panel.mouse_exited.connect(func() -> void: flat.bg_color = Color(1, 1, 1, 0.0))
 	panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	panel.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	panel.tooltip_text = Loc.t("ui.contract.open_hint")
@@ -45,7 +59,6 @@ func _row(list: Array[ContractsState.Contract], index: int) -> PanelContainer:
 	var h := HBoxContainer.new()
 	h.add_theme_constant_override("separation", 8)
 	panel.add_child(h)
-	h.add_child(UiKit.picture(ContractKit.silhouette(c), Vector2(48, 48)))
 	var v := VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.add_theme_constant_override("separation", 0)

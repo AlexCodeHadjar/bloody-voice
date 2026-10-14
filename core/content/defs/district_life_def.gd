@@ -13,6 +13,7 @@ class WalkerKind:
 	var weight: float
 	var speed: float
 	var periods: Array[StringName] = []
+	var scale: float = 1.0  ## of the common figure height (children are smaller)
 
 
 class ResidentDef:
@@ -57,6 +58,7 @@ class PropDef:
 var district: StringName
 var period: StringName
 var figure_scale: float
+var figure_height: float  ## art px every person stands at, whatever the size of the picture (owner 2026-10-14); 0 = figure_scale
 var scene_scale: float
 var emote_scale: float
 var shadow: float  ## shadow width relative to the figure width
@@ -76,6 +78,7 @@ static func from_dict(d: Dictionary, errs: ErrorLog, where: String) -> DistrictL
 	x.period = DefReader.id(d, "period", errs, where)
 	var sc := DefReader.dict(d, "scales", errs, where)
 	x.figure_scale = DefReader.number(sc, "figure", errs, where + "/scales")
+	x.figure_height = DefReader.number(sc, "figure_height", errs, where + "/scales", 0.0, false)
 	x.scene_scale = DefReader.number(sc, "scene", errs, where + "/scales")
 	x.emote_scale = DefReader.number(sc, "emote", errs, where + "/scales")
 	x.shadow = DefReader.number(sc, "shadow", errs, where + "/scales")
@@ -119,6 +122,7 @@ static func _kind(kd: Dictionary, errs: ErrorLog, where: String) -> WalkerKind:
 	k.weight = DefReader.number(kd, "weight", errs, where + "/" + k.set_id)
 	k.speed = DefReader.number(kd, "speed", errs, where + "/" + k.set_id)
 	k.periods = DefReader.ids(kd, "periods", errs, where + "/" + k.set_id)
+	k.scale = DefReader.number(kd, "scale", errs, where + "/" + k.set_id, 1.0, false)
 	return k
 
 

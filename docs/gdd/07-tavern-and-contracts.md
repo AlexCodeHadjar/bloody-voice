@@ -4,7 +4,7 @@
 
 - The tavern 'The Lantern & Hook' (in the Grey Chapels, GDD §20) has a **wooden wall with pinned leaflets**: reward, short description, black silhouette.
 - Clicking a leaflet opens the **contract tablet** in front of the hero. Arrows left/right switch between tablets.
-- **Accept** stamps a seal on the leaflet (the hunter has taken the job). The contract moves to the **tracker** at the left edge of the screen.
+- **Accept** stamps a seal on the leaflet (the hunter has taken the job). The contract moves to the **contracts list** at the right edge of the screen.
 - Tracker row: monster silhouette, name, days left, **region icon**. Clicking the icon plays a glowing outline animation of the region where the creature was last seen.
 
 ## 7.2 Contract tablet
@@ -33,7 +33,7 @@
 
 | Rule | Value |
 |---|---|
-| Where | The board hangs in the Lantern & Hook (Grey Chapels, place 6 on the district map, action `tavern`); the tracker sits at the left edge of the district screen (owner 2026-10-14). |
+| Where | The board hangs in the Lantern & Hook (Grey Chapels, place 6 on the district map, action `tavern`); the contracts list sits at the right edge of the district screen (owner 2026-10-14). The tablet is the parchment art with everything in ink in its own place: type and rank on the bars beside the medallion, the silhouette in it, the name and petition under it, the facts on the ruled lines, the seal in the small ring at the foot; arrows beside, buttons under it. |
 | Board | Every Monday (and at a new game / on loading a save from an earlier week) 3–5 leaflets on creatures that live in the hero's district (`monsters[].districts`; GREY: Gutter Choir, Lamplighter, Vigil Hound, Burrow Wyrm). Leaflets nobody took go on Monday; taken ones stay in the tracker. |
 | Types now | Slay and Capture (Research and Story come later). Capture: the fight gets an iron net; only a captured creature counts. Slay: slain or captured. |
 | Leaflet | Type icon, rank badge, black silhouette, creature name, reward, days left; a wax seal once taken. |

@@ -37,6 +37,7 @@ static func walkers(ctx: LifeContext) -> Array[DistrictLifeDef.ResidentDef]:
 		r.slot = ctx.rng.randi_range(0, 3) * 2 + 1
 		r.mode = &"wander"
 		r.speed = kind.speed
+		r.scale = kind.scale
 		r.chat = true
 		out.append(r)
 	return out

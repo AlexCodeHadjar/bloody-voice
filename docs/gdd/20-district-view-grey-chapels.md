@@ -47,7 +47,7 @@ question 20.10).
 | Input | Effect |
 |---|---|
 | Hold **left button** and move (more than 6 px) | Drag the map. Releasing does not count as a click |
-| **Left click** (no drag) on a landmark / street | The hero walks there along the streets; a warm ring of light spreads and fades where he is going (`click_ripple.gd`, owner 2026-10-14) |
+| **Left click** (no drag) on a landmark / street | The hero walks there along the streets (a click on a house counts as its nearest street point — owner 2026-10-14); a warm ring of light spreads and fades where he is going (`click_ripple.gd`, owner 2026-10-14) |
 | Hover a landmark | Its name and action in a tooltip; the building gets a brass ring and its signboard glows |
 | Mouse wheel | Zoom from "the map is as wide as the screen" (≈ 0.48) to 1.25 (1.0 = native art); start 0.8. At the farthest zoom three more notches out rise to the city map (a hint counts them; owner 2026-10-14) |
 | Space / double-click the hero | Centre the camera on the hero |
@@ -61,7 +61,12 @@ question 20.10).
   Scriptorium, rumor post) has a small wrought plate with the action's icon hanging over it, always shown; under the
   mouse it grows, glows brass and shows the place's name (`scenes/district_map/place_signs.gd`). Closed places have none.
 - The map, residents and smoke draw under every panel and window (the map world has z −10).
-- The contract tracker sits at the left edge of the screen with a small gap (owner 2026-10-14).
+- The contracts list sits at the right edge as one panel (title «Заказы», a row per contract: name, days left,
+  region icon; no silhouette); the place card opens at the left (owner 2026-10-14).
+- People on the map stand at one height whatever the size of their picture (`scales.figure_height`, art px; children
+  — walker kind `scale` 0.75); animals keep the common scale (owner 2026-10-14).
+- The closed neighbours lie under a dark, half-clear fog (the fog texture over a dark veil) with a soft, blurred edge
+  along the district — no hatching (owner 2026-10-14).
 - The viewport (1920 × 1080) shows about 68 % of the width and 29 % of the height — the player must drag to
   see the whole district, which is the point: the slums feel big.
 
@@ -155,7 +160,7 @@ Done 2026-10-12 — see §20.11 and CLAUDE.md («Район»).
 | Hover | A brass ring round the place and a tooltip: name + what it does |
 | Streets | A click on a street (≤ 110 px from it) sends the hero there; the hero's node is saved (`RunState.hero_node`, save v3). Old v2 saves are moved to GREY and every other district is locked — on purpose (the game starts confined to GREY) |
 | Hero | The stone figurine (four views), 350 px/s, footsteps; the camera does not follow (owner 2026-10-14) |
-| Neighbours | Veil 70 % black + diagonal hatching outside the contour, except the open fog beyond the Ringwall; «Нордхал — закрыто» labels |
+| Neighbours | A dark half-clear fog with a soft edge outside the contour, except the open fog beyond the Ringwall; «Нордхал — закрыто» labels |
 | Time of day | Always evening for now (the art is a night scene); real day / night comes with hours (phase 7) |
 | Residents | About 40 people + animals, scenes at places, living decor (no laundry, banners, card players, street circus, leaflet readers, roof repair, fortune teller, night-watch fire or market crowd — owner 2026-10-14: they only got in the way) (`data/city/district_life/GREY.json`, `scenes/district_map/life/`): they walk, look around, chat with an emote, work at their spots, step aside for the hero. Only atmosphere; the little stories of map-life-people.md part D are the next step |
 | Sound | Music «Deep Humidity» + rain; a second layer by the place under the camera: cellars in the Fog Hollow (the wind of the Edge Walk zone went with it, 2026-10-14), fire by the tavern, the market and Bonfire Square (`sound_spots` / zone `ambience` in the map data) |

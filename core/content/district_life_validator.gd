@@ -36,6 +36,11 @@ static func _numbers(l: DistrictLifeDef, errs: ErrorLog, w: String) -> void:
 	for v: float in [l.var_scale, l.var_speed, l.var_value]:
 		if not _in(v, 0.0, 0.5):
 			errs.add(w + "/scales/variation", "variation must be in 0..0.5")
+	if l.figure_height < 0.0 or l.figure_height > 400.0:
+		errs.add(w + "/scales", "figure_height must be in 0..400 art px (0 = the figure scale)")
+	for k: DistrictLifeDef.WalkerKind in l.kinds:
+		if k.scale < 0.3 or k.scale > 2.0:
+			errs.add("%s/walkers/%s" % [w, k.set_id], "scale must be in 0.3..2")
 	if l.walker_count < 0 or l.walker_count > 100:
 		errs.add(w + "/walkers", "count must be in 0..100")
 

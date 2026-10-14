@@ -5,9 +5,13 @@ extends Node2D
 ## builds (F3), the calibration overlay: street graph, landmark spots, zones and the contour (GDD 20.9 step 6b).
 ## flash_zone() makes a zone glow for a moment: where a contract's creature was last seen (GDD 7.1).
 
-const VEIL := Color(0.0, 0.0, 0.0, 0.7)
-const HATCH := Color(0.55, 0.5, 0.45, 0.22)
-const HATCH_STEP := 46.0
+## The closed neighbours lie under a dark, half-clear fog with a soft edge (owner 2026-10-14: no sharp hatching).
+const VEIL := Color(0.02, 0.02, 0.04, 0.5)
+const FOG_TINT := Color(0.32, 0.34, 0.4, 0.4)  ## the fog texture over the veil
+const FOG_ART := "res://art/ui/TEX__fog.webp"
+const FOG_TILE := 700.0  ## art px per repeat of the fog texture
+const FEATHER: Array[float] = [240.0, 170.0, 110.0, 60.0]  ## widths of the soft bands along the district's edge
+const FEATHER_ALPHA := 0.08
 const LABEL_SIZE := 64
 const RING := Color(0.85, 0.7, 0.4, 0.95)
 const RING_FILL := Color(1.0, 0.85, 0.5, 0.10)
@@ -25,7 +29,8 @@ var draft := PackedVector2Array()  ## F3: the corners of a new zone being outlin
 
 var _map: DistrictMapDef
 var _veil: Array[PackedVector2Array] = []  ## the whole art with the district and the open fog side cut out
-var _hatch: Array[PackedVector2Array] = []
+var _edges: Array[PackedVector2Array] = []  ## the district's edge against the veil (not against the open fog), as polylines
+var _fog: Texture2D  ## kept here: a texture nobody holds is freed before the frame is drawn
 var _labels: Array[Array] = []  ## [[pos: Vector2, text: String], ...]
 var _hovered: DistrictMapDef.LandmarkDef = null
 var _font: Font
@@ -45,11 +50,9 @@ func setup(map: DistrictMapDef) -> void:
 		_veil.assign(Geometry2D.clip_polygons(keyhole, map.fog_side))
 	else:
 		_veil = [keyhole]
-	for line: PackedVector2Array in _hatch_lines(map.contour, map.image_size):
-		if map.fog_side.size() >= 3:
-			_hatch.append_array(Geometry2D.clip_polyline_with_polygon(line, map.fog_side))
-		else:
-			_hatch.append(line)
+	_edges = _veil_edges(map)
+	_fog = UiKit.texture(FOG_ART)
+	texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 	for n: DistrictMapDef.NeighbourDef in map.neighbours:
 		var d := ContentDB.data.district(n.district)
 		var name := d.name if d != null else str(n.district)
@@ -94,8 +97,14 @@ func _draw() -> void:
 	for v: PackedVector2Array in _veil:
 		if not Geometry2D.triangulate_polygon(v).is_empty():
 			draw_colored_polygon(v, VEIL)
-	for line: PackedVector2Array in _hatch:
-		draw_line(line[0], line[1], HATCH, 3.0)
+			if _fog != null:
+				var uv := PackedVector2Array()
+				for p: Vector2 in v:
+					uv.append(p / FOG_TILE)
+				draw_colored_polygon(v, FOG_TINT, uv, _fog)
+	for edge: PackedVector2Array in _edges:  # wide soft bands blur the border between the district and the veil
+		for w: float in FEATHER:
+			draw_polyline(edge, Color(VEIL, FEATHER_ALPHA), w, true)
 	for l: Array in _labels:
 		_draw_label(l[0] as Vector2, l[1] as String)
 	if flash_alpha > 0.0 and not _flash.is_empty():
@@ -153,13 +162,30 @@ static func _keyhole(contour: PackedVector2Array, art: Vector2) -> PackedVector2
 	return out
 
 
-## Diagonal hatching lines, cut where they cross into the district.
-static func _hatch_lines(contour: PackedVector2Array, art: Vector2) -> Array[PackedVector2Array]:
+## The district's outline split into the stretches that face the veil (a stretch along the open fog is left out).
+static func _veil_edges(map: DistrictMapDef) -> Array[PackedVector2Array]:
 	var out: Array[PackedVector2Array] = []
-	var c := -art.y
-	while c < art.x:
-		var line := PackedVector2Array([Vector2(c, 0.0), Vector2(c + art.y, art.y)])
-		for part: PackedVector2Array in Geometry2D.clip_polyline_with_polygon(line, contour):
-			out.append(part)
-		c += HATCH_STEP
+	var run := PackedVector2Array()
+	var n := map.contour.size()
+	for i: int in n + 1:
+		var a := map.contour[i % n]
+		var b := map.contour[(i + 1) % n]
+		var mid := (a + b) * 0.5
+		var in_fog := map.fog_side.size() >= 3 and Geometry2D.is_point_in_polygon(mid, map.fog_side)
+		var open := in_fog or _on_border(map.fog_side, mid)
+		if open or i == n:
+			if run.size() >= 2:
+				out.append(run)
+			run = PackedVector2Array()
+			continue
+		if run.is_empty():
+			run.append(a)
+		run.append(b)
 	return out
+
+
+static func _on_border(poly: PackedVector2Array, p: Vector2) -> bool:
+	for i: int in poly.size():
+		if Geometry2D.get_closest_point_to_segment(p, poly[i], poly[(i + 1) % poly.size()]).distance_to(p) < 2.0:
+			return true
+	return false

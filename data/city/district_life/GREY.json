@@ -2,7 +2,7 @@
  "_comment": "Life on the Grey Chapels map (map-life-people.md): passers-by, groups, local characters, roles, animals, standing scenes and effects. Positions are art pixels of the 4000 x 6000 map and must be inside the district contour; 'nodes' are street-graph ids. Atmosphere only. mode: wander | stand | work | circle | dash. slot = first picture of the sheet (towards; away = slot+1; work alternates slot and slot+1); single = one picture only.",
  "district": "GREY",
  "period": "evening",
- "scales": {"figure": 0.22, "scene": 0.28, "emote": 0.3, "shadow": 0.42, "variation": {"scale": 0.05, "speed": 0.2, "value": 0.1}},
+ "scales": {"figure": 0.22, "figure_height": 44, "scene": 0.28, "emote": 0.3, "shadow": 0.42, "variation": {"scale": 0.05, "speed": 0.2, "value": 0.1}},
  "walkers": {
   "count": 20,
   "kinds": [
@@ -10,7 +10,7 @@
    {"set": "pass_burdens", "weight": 4, "speed": 62, "periods": ["day", "evening"]},
    {"set": "pass_elders", "weight": 3, "speed": 40, "periods": ["day", "evening"]},
    {"set": "pass_pairs", "weight": 3, "speed": 60, "periods": ["day", "evening", "night"]},
-   {"set": "pass_children", "weight": 3, "speed": 110, "periods": ["day", "evening"]},
+   {"set": "pass_children", "weight": 3, "speed": 110, "periods": ["day", "evening"], "scale": 0.75},
    {"set": "pass_night", "weight": 4, "speed": 70, "periods": ["evening", "night"]},
    {"set": "pass_rain", "weight": 3, "speed": 70, "periods": ["rain"]},
    {"set": "pass_visitors", "weight": 1, "speed": 65, "periods": ["day", "evening", "night"]}

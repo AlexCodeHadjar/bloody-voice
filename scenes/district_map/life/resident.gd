@@ -53,7 +53,7 @@ func setup(d: DistrictLifeDef.ResidentDef, ctx: LifeContext) -> void:
 	for s: int in d.slots():
 		_tex.append(ctx.texture(d.art, s))
 	var v := ctx.life.var_scale
-	_unit = ctx.life.figure_scale * d.scale * (1.0 + rng.randf_range(-v, v))
+	_unit = _base_scale(d, ctx) * d.scale * (1.0 + rng.randf_range(-v, v))
 	_speed = d.speed * (1.0 + rng.randf_range(-ctx.life.var_speed, ctx.life.var_speed))
 	_side = rng.randf_range(SIDE_MIN, SIDE_MAX) * (1.0 if rng.randf() < 0.5 else -1.0)
 	_flipped = rng.randf() < 0.5
@@ -68,6 +68,17 @@ func setup(d: DistrictLifeDef.ResidentDef, ctx: LifeContext) -> void:
 	_shadow_w = _tex[0].get_width() * _unit * ctx.life.shadow if _tex[0] != null else 0.0
 	_begin()
 	queue_redraw()
+
+
+## People stand at one height on the map whatever the size of their picture (owner 2026-10-14: some looked tiny);
+## animals keep the common scale (a dog and a crow are not one size).
+func _base_scale(d: DistrictLifeDef.ResidentDef, ctx: LifeContext) -> float:
+	if d.group == &"animals" or ctx.life.figure_height <= 0.0 or _tex.is_empty() or _tex[0] == null:
+		return ctx.life.figure_scale
+	var h := 0.0
+	for t: Texture2D in _tex:
+		h += t.get_height() if t != null else 0.0
+	return ctx.life.figure_height / maxf(1.0, h / _tex.size())  # the mean of its pictures: no jump when it turns
 
 
 func is_walking() -> bool:

@@ -4,7 +4,6 @@ extends Control
 
 const MAIN_MENU := "res://scenes/menu/main_menu.tscn"
 const DISTRICT := "res://scenes/district_map/district_map_screen.tscn"
-const EQUIPMENT := "res://scenes/equipment/equipment_screen.tscn"
 
 var _map_view: MapView
 var _panel: DistrictPanel
@@ -48,6 +47,7 @@ func _build() -> void:
 	_map_view.setup(ContentDB.data.map_regions)
 	_map_view.district_hovered.connect(_on_hovered)
 	_map_view.district_clicked.connect(_on_clicked)
+	_map_view.zoomed_in.connect(_to_district)  # the wheel back the way it came
 	_panel = DistrictPanel.new()
 	body.add_child(_panel)
 
@@ -68,16 +68,13 @@ func _build_bar() -> Control:
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(spacer)
-	var gear := Icons.button("DIRECTION", &"equipment", Loc.t("ui.city.equipment"), 18)
-	gear.custom_minimum_size = Vector2(190, 40)
-	gear.pressed.connect(func() -> void: get_tree().change_scene_to_file(EQUIPMENT))
-	row.add_child(gear)
-	var back := Icons.button("PLACE", &"hunter", Loc.t("ui.city.back_to_district"), 18)
-	back.custom_minimum_size = Vector2(200, 40)
-	back.pressed.connect(_to_district)
-	row.add_child(back)
-	var menu := Icons.button("UI", &"menu", Loc.t("ui.city.menu"), 18)
-	menu.custom_minimum_size = Vector2(140, 40)
+	# no equipment or «back» buttons (owner 2026-10-14): a click on the district or the wheel towards you goes there
+	var menu := Button.new()
+	menu.icon = Icons.texture("UI", &"menu")
+	menu.expand_icon = true
+	menu.custom_minimum_size = Vector2(62, 56)
+	menu.add_theme_constant_override("icon_max_width", 44)
+	menu.tooltip_text = Loc.t("ui.city.menu")
 	menu.pressed.connect(_to_menu)
 	row.add_child(menu)
 	return bar
@@ -108,9 +105,11 @@ func _locked_districts() -> Array[StringName]:
 	return out
 
 
+## An open district: the hunter goes there and the view goes down into it at once (owner 2026-10-14).
 func _on_clicked(district: StringName) -> void:
 	if GameState.is_open(district):
 		GameState.move_hero(district)
+		_to_district()
 	else:
 		UiKit.sound(&"ui.error")
 
@@ -126,9 +125,31 @@ func _on_hero_moved(district: StringName) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if OS.is_debug_build() and _markup_key(event):
+		return
 	if event.is_action_pressed("ui_cancel"):
 		GameState.save_game()
 		SettingsPanel.open(self, true)
+
+
+## F3 toggles the districts' borders editor (RegionMarkup); in it Ctrl+S checks and saves them. True when handled.
+func _markup_key(event: InputEvent) -> bool:
+	var k := event as InputEventKey
+	if k == null or not k.pressed or k.echo:
+		return false
+	if k.keycode == KEY_F3:
+		if _map_view.markup == null:
+			_map_view.markup = RegionMarkup.new(ContentDB.data.map_regions)
+		_map_view.markup.on = not _map_view.markup.on
+		_map_view.markup.clear()
+		_map_view.markup_text = Loc.t("ui.dev.region_help")
+		_map_view.queue_redraw()
+		return true
+	if k.keycode == KEY_S and k.ctrl_pressed and _map_view.markup != null and _map_view.markup.on:
+		_map_view.markup_text = _map_view.markup.save(ContentDB.data)
+		_map_view.queue_redraw()
+		return true
+	return false
 
 
 ## Back to the close-up map of the hero's district (hunts and rest happen there now, GDD 20).

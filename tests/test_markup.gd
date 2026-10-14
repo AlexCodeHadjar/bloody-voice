@@ -180,3 +180,44 @@ func test_heal_puts_places_in_their_zone() -> void:
 		var here := DistrictMapRules.zone_at(map, lm.pos)
 		if here != &"":
 			eq(lm.zone, here, "%s takes the zone it stands in" % lm.id)
+
+
+func test_click_on_a_house_goes_to_the_nearest_street() -> void:
+	var data := load_content(false)
+	var map := _map(data)
+	var far := map.node_pos(map.home) + Vector2(400, 0)  # well off the street, inside the district
+	if Geometry2D.is_point_in_polygon(far, map.contour):
+		check(DistrictMapRules.nearest_spot(map, far, INF) != null, "any point of the district has a nearest street")
+
+
+func test_figure_height_and_walker_scale_are_checked() -> void:
+	var data := load_content(false)
+	var life := data.life(&"GREY")
+	check(life.figure_height > 0.0, "people have one height on the map")
+	life.figure_height = -1.0
+	life.kinds[0].scale = 5.0
+	var errs := ErrorLog.new()
+	DistrictLifeValidator.validate(data, errs, false)
+	var all := " ".join(errs.messages)
+	check(all.contains("figure_height"), "a negative height fails")
+	check(all.contains("scale must be in"), "a walker scale out of range fails")
+
+
+func test_city_map_shared_corner_moves_in_both_regions() -> void:
+	var data := load_content(false)
+	var m := RegionMarkup.new(data.map_regions)
+	var shared := Vector2.INF
+	for a: MapRegionsDef.Region in data.map_regions.regions:
+		for b: MapRegionsDef.Region in data.map_regions.regions:
+			for p: Vector2 in a.polygon:
+				if a != b and shared == Vector2.INF and b.polygon.has(p):
+					shared = p
+	if shared == Vector2.INF:
+		return
+	check(m.pick(shared, 1.0), "the shared corner is picked")
+	m.start_move(shared)
+	m.move_to(shared + Vector2(6, 0))
+	var moved := 0
+	for r: MapRegionsDef.Region in data.map_regions.regions:
+		moved += 1 if r.polygon.has(shared + Vector2(6, 0)) else 0
+	check(moved >= 2, "a corner shared by two districts moves in both")

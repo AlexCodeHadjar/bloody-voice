@@ -164,17 +164,20 @@ func _bar_button(set_code: String, icon: StringName, key: String, action: Callab
 
 func _build_card() -> void:
 	_card = LandmarkCard.new()
-	_card.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	_card.position = Vector2(-LandmarkCard.WIDTH - 24.0, 90.0)
+	_card.set_anchors_preset(Control.PRESET_TOP_LEFT)  # the contracts list holds the right edge
+	_card.position = Vector2(16.0, 90.0)
 	_card.action_chosen.connect(_on_action)
 	add_child(_card)
 
 
-## Taken contracts in the top-right corner (GDD 7.1); the place card opens below them.
+## Taken contracts as a list at the right edge (GDD 7.1; owner 2026-10-14); the place card opens at the left.
 func _build_tracker() -> void:
 	_tracker = ContractTracker.new()
-	_tracker.set_anchors_preset(Control.PRESET_TOP_LEFT)  # pressed to the left edge with a small gap (owner 2026-10-14)
-	_tracker.position = Vector2(16.0, 74.0)
+	_tracker.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	_tracker.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_tracker.offset_left = -ContractTracker.WIDTH - 16.0  # offsets, not position: pressed to the right edge
+	_tracker.offset_right = -16.0
+	_tracker.offset_top = 84.0
 	_tracker.zone_requested.connect(_on_zone_requested)
 	_tracker.contract_opened.connect(_panels.open_contract)
 	add_child(_tracker)
@@ -272,7 +275,8 @@ func _on_landmark_clicked(lm: DistrictMapDef.LandmarkDef) -> void:
 
 
 func _on_street_clicked(p: Vector2) -> void:
-	var spot := DistrictMapRules.nearest_spot(_map, p, STREET_PICK)
+	var inside := Geometry2D.is_point_in_polygon(p, _map.contour)  # a house counts as its nearest street (owner 2026-10-14)
+	var spot := DistrictMapRules.nearest_spot(_map, p, INF if inside else STREET_PICK)
 	if spot == null:
 		return
 	_target = null

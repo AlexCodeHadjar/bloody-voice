@@ -5,6 +5,7 @@ extends Control
 
 signal district_hovered(district: StringName)
 signal district_clicked(district: StringName)
+signal zoomed_in  ## the wheel towards the player: back down to the district (owner 2026-10-14)
 
 const FIGURE := "res://art/ui/HERO__figurine__front.webp"
 const FIGURE_HEIGHT := 120.0
@@ -23,6 +24,9 @@ var _hovered: StringName = &""
 var _hero_district: StringName = &""
 var _locked: Array[StringName] = []  # district ids drawn dark
 var _time := 0.0
+var markup: RegionMarkup = null  ## F3 (debug builds): the districts' borders on the city map (set by the screen)
+var markup_text := ""  ## the F3 line at the top
+var _markup_menu: PopupMenu = null
 
 
 func setup(map: MapRegionsDef) -> void:
@@ -82,6 +86,9 @@ func _to_image(p: Vector2) -> Vector2:
 func _gui_input(event: InputEvent) -> void:
 	if _map == null:
 		return
+	if markup != null and markup.on:
+		_markup_input(event)
+		return
 	if event is InputEventMouseMotion:
 		var d := MapRegionRules.district_at(_map, _to_image((event as InputEventMouseMotion).position))
 		if d != _hovered:
@@ -91,6 +98,8 @@ func _gui_input(event: InputEvent) -> void:
 		var mb := event as InputEventMouseButton
 		if mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT and _hovered != &"":
 			district_clicked.emit(_hovered)
+		elif mb.pressed and mb.button_index == MOUSE_BUTTON_WHEEL_UP:
+			zoomed_in.emit()
 
 
 func _notification(what: int) -> void:
@@ -110,6 +119,10 @@ func _draw() -> void:
 		elif r.district == _hero_district:
 			_draw_region(r.id, Color(0, 0, 0, 0), HERO_LINE, 2.0)
 	_draw_figure()
+	if markup != null and markup.on:
+		markup.draw(self, _to_screen)
+		draw_string_outline(get_theme_default_font(), Vector2(16, 28), markup_text, HORIZONTAL_ALIGNMENT_LEFT, size.x - 32, 18, 6, Color(0, 0, 0, 0.9))
+		draw_string(get_theme_default_font(), Vector2(16, 28), markup_text, HORIZONTAL_ALIGNMENT_LEFT, size.x - 32, 18, Palette.PARCHMENT)
 
 
 func _draw_locked(r: MapRegionsDef.Region) -> void:
@@ -142,3 +155,50 @@ func _draw_figure() -> void:
 	var bob := sin(_time * 2.0) * 2.0
 	draw_circle(foot, h * 0.28, Color(0.35, 0.6, 1.0, 0.18 + 0.06 * sin(_time * 2.0)))
 	draw_texture_rect(_figure, Rect2(foot - Vector2(h * 0.5, h - 4.0 + bob), Vector2(h, h)), false)
+
+
+## F3: a click picks a corner or a figure point, Ctrl + the held button moves it, right click adds / deletes a corner.
+func _markup_input(event: InputEvent) -> void:
+	var px_per_screen := _map.image_size.x / _draw_rect.size.x  # image px per screen px
+	var mm := event as InputEventMouseMotion
+	if mm != null and markup.moving:
+		markup.move_to(_to_image(mm.position))
+		markup_text = "%s: %d, %d" % [markup.label(), markup.picked().x, markup.picked().y]
+		_relayout()
+		return
+	var mb := event as InputEventMouseButton
+	if mb == null:
+		return
+	if mb.button_index == MOUSE_BUTTON_LEFT and not mb.pressed:
+		markup.moving = false
+	elif mb.button_index == MOUSE_BUTTON_LEFT and mb.pressed:
+		var found := markup.pick(_to_image(mb.position), RegionMarkup.PICK * px_per_screen)
+		if mb.ctrl_pressed and markup.has_pick():
+			markup.start_move(_to_image(mb.position))
+		if found:
+			markup_text = "%s: %d, %d" % [markup.label(), markup.picked().x, markup.picked().y]
+	elif mb.button_index == MOUSE_BUTTON_RIGHT and mb.pressed:
+		_open_markup_menu(_to_image(mb.position))
+	queue_redraw()
+
+
+func _open_markup_menu(at: Vector2) -> void:
+	if _markup_menu == null:
+		_markup_menu = PopupMenu.new()
+		add_child(_markup_menu)
+	for c: Dictionary in _markup_menu.id_pressed.get_connections():
+		_markup_menu.id_pressed.disconnect(c["callable"] as Callable)
+	_markup_menu.clear()
+	_markup_menu.add_item(Loc.t("ui.dev.region_add_corner"), 1)
+	if markup.has_pick():
+		_markup_menu.add_item(Loc.t("ui.dev.menu_delete"), 2)
+	_markup_menu.id_pressed.connect(func(id: int) -> void:
+		if id == 1:
+			markup.add_corner(at)
+		else:
+			var problem := markup.delete_corner()
+			if problem != "":
+				markup_text = problem
+		_relayout())
+	_markup_menu.reset_size()
+	_markup_menu.popup(Rect2i(Vector2i(get_viewport().get_mouse_position()), Vector2i.ZERO))
