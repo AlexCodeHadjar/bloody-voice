@@ -208,6 +208,9 @@ func _tick_pause(delta: float) -> void:
 			_set_flip(not _flipped)
 	if _timer <= 0.0:
 		_emote.visible = false
+		if state == State.CHAT and _pi < _path.size():
+			state = State.MOVE  # a chat stops a walker mid-street: go on along the same way (owner 2026-10-14:
+			return  # re-planning from the far destination sent walkers straight over the houses)
 		_plan_trip()
 
 
