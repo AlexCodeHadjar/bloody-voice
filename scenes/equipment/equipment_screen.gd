@@ -1,16 +1,21 @@
 extends Control
-## Equipment (GDD 5): weapon cells with modules, armor sockets with mechanisms, and the deck they make.
-## Free and instant, anywhere outside a fight. Click a spare module, right-click / R to rotate,
-## click a cell to install; click an installed module to pick it up.
+## Equipment (GDD 5) as the hunter's workbench (owner 2026-10-14, sketch docs/assets/ui/equipment_workbench.png, GDD 5.7):
+## the armor on a mannequin with its mechanism sockets (left), the rifle large with its cells (centre), the drawer of
+## spare modules and mechanisms (right), the fight deck as a fan of cards (bottom). Free and instant outside a fight.
+## Take a spare from the drawer, right-click / R to rotate, click a cell (or a mechanism socket) to install; click an
+## installed module or mechanism to take it back into the hand.
 
 const DISTRICT := "res://scenes/district_map/district_map_screen.tscn"
-const TABLET_ART := "res://art/ui/WEAPON__tablet.webp"
+const BENCH_ART := "res://art/ui/EQUIP__bench.webp"
+const FRAME := Vector2(1920, 1080)
 
+var _frame: Control
 var _tablet: WeaponTabletView
-var _spares: VBoxContainer
-var _armor: VBoxContainer
-var _deck: Label
+var _stand: ArmorStandView
+var _drawer: GearDrawerView
+var _deck: DeckFanView
 var _message: Label
+var _held_kind: StringName = &""  ## module | mechanism
 var _held: StringName = &""
 var _held_tier := 1  ## every module copy has its own tier (GDD 6.3)
 var _rot: int = 0
@@ -28,203 +33,138 @@ func _ready() -> void:
 
 
 func _build() -> void:
-	var bg := ColorRect.new()
-	bg.color = Palette.SOOT
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	add_child(bg)
-	var margin := MarginContainer.new()
-	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
-	for side: String in ["left", "right", "top", "bottom"]:
-		margin.add_theme_constant_override("margin_" + side, 24)
-	add_child(margin)
-	var root := HBoxContainer.new()
-	root.add_theme_constant_override("separation", 24)
-	margin.add_child(root)
-	root.add_child(_build_left())
-	root.add_child(_build_right())
+	var bench := TextureRect.new()
+	bench.texture = UiKit.texture(BENCH_ART)
+	bench.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	bench.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	bench.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	add_child(bench)
+	var dim := ColorRect.new()
+	dim.color = Color(0, 0, 0, 0.25)
+	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(dim)
+	_frame = Control.new()
+	_frame.set_anchors_preset(Control.PRESET_CENTER)
+	_frame.offset_left = -FRAME.x / 2.0
+	_frame.offset_right = FRAME.x / 2.0
+	_frame.offset_top = -FRAME.y / 2.0
+	_frame.offset_bottom = FRAME.y / 2.0
+	_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_frame)
+	_build_top()
+	_build_stand()
+	_build_rifle()
+	_build_drawer()
+	_panel(Rect2(16, 788, 300, 280))  # backing for the deck's title and totals
+	_deck = DeckFanView.new()
+	_deck.position = Vector2(30, 796)
+	_deck.setup()
+	_frame.add_child(_deck)
+	TutorialAnchors.register(&"deck", _deck)
 
 
-func _build_left() -> Control:
-	var left := VBoxContainer.new()
-	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	left.add_theme_constant_override("separation", 14)
-	var top := HBoxContainer.new()
-	top.add_child(UiKit.label(Loc.t("ui.equip.title"), 36, Palette.BRASS_LIGHT))
-	var spacer := Control.new()
-	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	top.add_child(spacer)
+func _panel(rect: Rect2) -> PanelContainer:
+	var p := PanelContainer.new()
+	p.position = rect.position
+	p.size = rect.size
+	p.add_theme_stylebox_override("panel", UiKit.panel_box(Color(0.06, 0.045, 0.035, 0.8), Palette.BRASS))
+	_frame.add_child(p)
+	return p
+
+
+func _build_top() -> void:
+	var bar := HBoxContainer.new()
+	bar.position = Vector2(24, 14)
+	bar.size = Vector2(1872, 64)
+	bar.add_theme_constant_override("separation", 18)
+	_frame.add_child(bar)
+	var title := UiKit.label(Loc.t("ui.equip.title"), 46, Palette.BRASS_LIGHT)
+	title.add_theme_constant_override("outline_size", 10)  # readable over the lamp on the bench
+	title.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+	bar.add_child(title)
+	_message = UiKit.paragraph(Loc.t("ui.equip.hint"), 17, Palette.PARCHMENT)  # what the hand holds and what to do
+	_message.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_message.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_message.add_theme_constant_override("outline_size", 6)
+	_message.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+	bar.add_child(_message)
 	if OS.is_debug_build():
 		var grant := UiKit.button(Loc.t("ui.equip.dev_all"), 16)
-		grant.custom_minimum_size = Vector2(170, 40)
+		grant.custom_minimum_size = Vector2(190, 48)
 		grant.pressed.connect(GameState.dev_grant_all_gear)
-		top.add_child(grant)
-	var back := UiKit.button(Loc.t("ui.equip.back"), 18)
-	back.custom_minimum_size = Vector2(220, 40)
+		bar.add_child(grant)
+	var back := UiKit.button(Loc.t("ui.equip.back"), 20)
+	back.custom_minimum_size = Vector2(230, 48)
 	back.pressed.connect(func() -> void: get_tree().change_scene_to_file(DISTRICT))
-	top.add_child(back)
-	left.add_child(top)
-	var art := TextureRect.new()
-	art.texture = UiKit.texture(TABLET_ART)
-	art.custom_minimum_size = Vector2(0, 130)
-	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	art.modulate = Color(1, 1, 1, 0.85)
-	left.add_child(art)
-	left.add_child(UiKit.label(ContentDB.data.weapon(GameState.run.loadout.weapon).name, 26))
+	bar.add_child(back)
+
+
+func _build_stand() -> void:
+	var p := _panel(Rect2(16, 96, 360, 680))
+	var v := VBoxContainer.new()
+	p.add_child(v)
+	v.add_child(UiKit.label(Loc.t("ui.equip.armor"), 28, Palette.BRASS_LIGHT))
+	_stand = ArmorStandView.new()
+	_stand.setup(ContentDB.data, GameState.run.loadout)
+	_stand.socket_clicked.connect(_on_socket)
+	v.add_child(_stand)
+	TutorialAnchors.register(&"armor", _stand)
+
+
+func _build_rifle() -> void:
+	var p := _panel(Rect2(392, 96, 1080, 680))
+	var v := VBoxContainer.new()
+	v.add_theme_constant_override("separation", 0)
+	p.add_child(v)
+	v.add_child(UiKit.label(ContentDB.data.weapon(GameState.run.loadout.weapon).name, 28, Palette.BRASS_LIGHT))
 	_tablet = WeaponTabletView.new()
 	_tablet.setup(ContentDB.data, GameState.run.loadout)
 	_tablet.cell_clicked.connect(_on_cell)
 	_tablet.rotate_requested.connect(_rotate)
-	left.add_child(_tablet)
+	_tablet.module_hovered.connect(func(module_name: String) -> void: _deck.light(module_name))
+	v.add_child(_tablet)
 	TutorialAnchors.register(&"weapon_grid", _tablet)
-	_message = UiKit.paragraph(Loc.t("ui.equip.hint"), 18, Palette.FOG)
-	left.add_child(_message)
-	var lower := HBoxContainer.new()
-	lower.add_theme_constant_override("separation", 40)
-	left.add_child(lower)
-	var armor_box := VBoxContainer.new()
-	armor_box.add_child(UiKit.label(Loc.t("ui.equip.armor"), 24, Palette.BRASS_LIGHT))
-	_armor = VBoxContainer.new()
-	armor_box.add_child(_armor)
-	lower.add_child(armor_box)
-	TutorialAnchors.register(&"armor", armor_box)
-	var deck_box := VBoxContainer.new()
-	deck_box.add_child(UiKit.label(Loc.t("ui.equip.deck"), 24, Palette.BRASS_LIGHT))
-	_deck = UiKit.paragraph("", 16, Palette.PARCHMENT)
-	_deck.custom_minimum_size = Vector2(380, 0)
-	deck_box.add_child(_deck)
-	lower.add_child(deck_box)
-	TutorialAnchors.register(&"deck", deck_box)
-	return left
 
 
-func _build_right() -> Control:
-	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(470, 0)
-	var scroll := ScrollContainer.new()
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	panel.add_child(scroll)
-	var v := VBoxContainer.new()
-	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	v.add_theme_constant_override("separation", 10)
-	scroll.add_child(v)
-	v.add_child(UiKit.label(Loc.t("ui.equip.spares"), 24, Palette.BRASS_LIGHT))
-	_spares = VBoxContainer.new()
-	v.add_child(_spares)
-	TutorialAnchors.register(&"spares", panel)
-	return panel
+func _build_drawer() -> void:
+	_drawer = GearDrawerView.new()
+	_drawer.position = Vector2(1488, 96)
+	_drawer.size = Vector2(416, 680)
+	_drawer.setup()
+	_drawer.picked.connect(_hold_item)
+	_frame.add_child(_drawer)
+	TutorialAnchors.register(&"spares", _drawer)
 
 
 func _refresh() -> void:
-	_tablet.set_ghost(_held, _rot)
+	_tablet.set_ghost(_held if _held_kind == &"module" else &"", _rot)
 	_tablet.refresh()
-	_refresh_spares()
-	_refresh_armor()
-	_refresh_deck()
+	_stand.refresh()
+	_drawer.set_held(_held_kind, _held, _held_tier)
+	_drawer.refresh()
+	_deck.refresh()
 
 
-func _refresh_spares() -> void:
-	for c: Node in _spares.get_children():
-		c.queue_free()
-	var l := GameState.run.loadout
-	var spare: Array[Array] = []  # [id, tier] per spare copy
-	var seen: Dictionary[StringName, bool] = {}
-	for id: StringName in l.owned_modules:
-		if seen.has(id):
-			continue
-		seen[id] = true
-		for t: int in l.spare_tiers(id):
-			spare.append([id, t])
-	if spare.is_empty():
-		_spares.add_child(UiKit.paragraph(Loc.t("ui.equip.no_spares"), 15, Palette.INK_MUTED))
-	for copy: Array in spare:
-		var id: StringName = copy[0]
-		var t: int = copy[1]
-		var m := ContentDB.data.module(id)
-		var row := HBoxContainer.new()
-		row.add_child(_module_picture(m))
-		var b := UiKit.button(Loc.t("ui.equip.module_button", {"name": "%s %s" % [m.name, WorkshopKit.tier_text(t)],
-			"section": Loc.t("section.%s" % m.section), "cell": Loc.t("cell.%s" % m.cell), "effect": m.effect_at(t)}), 15)
-		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		b.custom_minimum_size = Vector2(360, 64)
-		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		b.tooltip_text = m.effect_at(t)
-		b.add_theme_color_override("font_color", Palette.BRASS_LIGHT if id == _held and t == _held_tier else Palette.PARCHMENT)
-		b.pressed.connect(_hold.bind(id, t))
-		row.add_child(b)
-		_spares.add_child(row)
-
-
-func _refresh_armor() -> void:
-	for c: Node in _armor.get_children():
-		c.queue_free()
-	var l := GameState.run.loadout
-	for a: GearDefs.ArmorDef in ContentDB.data.armor:
-		for i: int in ArmorRules.socket_count(GameState.run.loadout, a):
-			var row := HBoxContainer.new()
-			row.add_child(Icons.rect("ARMOR", a.id, 34))
-			row.add_child(UiKit.label("%s:" % a.name, 18))
-			var pick := OptionButton.new()
-			pick.custom_minimum_size = Vector2(320, 36)
-			var current := ArmorRules.mechanism_at(l, a.id, i)
-			var choices: Array[StringName] = [&""]
-			if current != &"":
-				choices.append(current)
-			for m: StringName in l.spare_mechanisms():
-				if not choices.has(m):
-					choices.append(m)
-			for m: StringName in choices:
-				var mech := ContentDB.data.mechanism(m)
-				pick.add_item(Loc.t("ui.equip.empty_socket") if m == &"" else "%s (%s)" % [mech.name, mech.effect])
-			pick.select(choices.find(current))
-			pick.item_selected.connect(func(idx: int) -> void: _message.text = GameState.set_socket(a.id, i, choices[idx]))
-			row.add_child(pick)
-			_armor.add_child(row)
-
-
-## The module's art (its exact cell shape) or, without art, a drawn outline of the shape.
-func _module_picture(m: ModuleDef) -> Control:
-	var tex := UiKit.texture(m.art_path())
-	if tex == null:
-		return ShapeIcon.new().setup(ContentDB.data.shapes[m.shape].cells, m.cell)
-	var r := TextureRect.new()
-	r.texture = tex
-	r.custom_minimum_size = Vector2(76, 64)
-	r.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	r.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	r.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	return r
-
-
-func _refresh_deck() -> void:
-	var b := DeckBuilder.build(GameState.run.loadout, ContentDB.data)
-	var counts := {}
-	var order: Array[String] = []
-	for i: int in b.deck.size():
-		var key := "%s|%s" % [b.deck[i], b.origins[i]]
-		if not counts.has(key):
-			order.append(key)
-		counts[key] = int(counts.get(key, 0)) + 1
-	var lines: PackedStringArray = []
-	for key: String in order:
-		var parts := key.split("|")
-		lines.append(Loc.t("ui.equip.deck_line", {"count": counts[key], "card": ContentDB.data.card(StringName(parts[0])).name,
-			"origin": parts[1]}))
-	lines.append("\n" + Loc.t("ui.equip.deck_total", {"cards": b.deck.size(), "ammo": b.max_ammo}))
-	for k: StringName in b.mods:
-		if k != &"max_ammo" and b.mods[k] != 0:  # a cost and a bonus of the same kind may cancel out
-			lines.append("%s %s" % [Loc.t("mod.%s" % k), UiKit.signed(b.mods[k])])
-	for link: String in b.links:
-		lines.append(Loc.t("ui.equip.link", {"link": link}))
-	_deck.text = "\n".join(lines)
-
-
-func _hold(id: StringName, tier: int = 1) -> void:
-	_held = id if _held != id or _held_tier != tier else &""
+## The drawer's tray in hand (the same tray again puts it back).
+func _hold_item(kind: StringName, id: StringName, tier: int) -> void:
+	var same := _held_kind == kind and _held == id and _held_tier == tier
+	_held_kind = &"" if same else kind
+	_held = &"" if same else id
 	_held_tier = tier
-	_message.text = _holding_text() if _held != &"" else Loc.t("ui.equip.hint")
+	if _held == &"":
+		_message.text = Loc.t("ui.equip.hint")
+	elif kind == &"module":
+		_message.text = _holding_text()
+	else:
+		_message.text = Loc.t("ui.equip.holding_mech", {"mechanism": ContentDB.data.mechanism(id).name})
+	UiKit.sound(&"ui.click")
 	_refresh()
+
+
+## Kept for the dev shots: takes a spare module into the hand.
+func _hold(id: StringName, tier: int = 1) -> void:
+	_hold_item(&"module", id, tier)
 
 
 ## What installing the held module would change, so the player sees the deck effect before placing it.
@@ -243,17 +183,21 @@ func _holding_text() -> String:
 
 func _rotate() -> void:
 	_rot = (_rot + 1) % 4
-	_tablet.set_ghost(_held, _rot)
+	_tablet.set_ghost(_held if _held_kind == &"module" else &"", _rot)
 
 
 func _on_cell(section: StringName, cell: Vector2i) -> void:
-	if _held != &"":
+	if _held_kind == &"mechanism":  # a mechanism goes into a socket on the mannequin, never onto the rifle
+		_message.text = Loc.t("ui.equip.mech_not_here")
+		UiKit.sound(&"ui.error")
+		return
+	if _held_kind == &"module":
 		var problem := GameState.equip_module(_held, section, cell, _rot, _held_tier)
 		_message.text = problem
 		UiKit.sound(&"gear.install" if problem == "" else &"ui.error")
 		if problem == "":
 			Tutorial.action(&"module_installed")
-		if problem == "":
+			_held_kind = &""
 			_held = &""
 			_refresh()
 		return
@@ -261,10 +205,34 @@ func _on_cell(section: StringName, cell: Vector2i) -> void:
 	if index >= 0:
 		_rot = GameState.run.loadout.placements[index].rot
 		var p := GameState.unequip_module(index)
+		_held_kind = &"module" if p != null else &""
 		_held = p.module if p != null else &""
 		_held_tier = p.tier if p != null else 1
 		_message.text = Loc.t("ui.equip.picked")
 		_refresh()
+
+
+## A mechanism socket on the mannequin: the mechanism in hand goes in; with an empty hand the one there comes out.
+func _on_socket(piece: StringName, index: int) -> void:
+	if _held_kind == &"mechanism":
+		var problem := GameState.set_socket(piece, index, _held)
+		_message.text = problem
+		UiKit.sound(&"gear.install" if problem == "" else &"ui.error")
+		if problem == "":
+			_held_kind = &""
+			_held = &""
+			_refresh()
+		return
+	var current := ArmorRules.mechanism_at(GameState.run.loadout, piece, index)
+	if current == &"":
+		_message.text = Loc.t("ui.equip.socket_hint")
+		return
+	GameState.set_socket(piece, index, &"")
+	_held_kind = &"mechanism"
+	_held = current
+	_held_tier = 1
+	_message.text = Loc.t("ui.equip.picked_mech", {"mechanism": ContentDB.data.mechanism(current).name})
+	_refresh()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -274,6 +242,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("ui_cancel") and _held == &"":
 		SettingsPanel.open(self, true)
 	elif event.is_action_pressed("ui_cancel"):
+		_held_kind = &""
 		_held = &""
 		_message.text = Loc.t("ui.equip.hint")
 		_refresh()

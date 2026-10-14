@@ -355,22 +355,26 @@ ui.combat.sanity,Рассудок,Sanity
 ui.combat.panic,ПАНИКА,PANIC
 ui.card.ammo,патроны: {n},ammo {n}
 ui.status.block,Защита {n},Block {n}
-ui.equip.hint,"Выберите запасной модуль справа, затем нажмите на ячейку (правая кнопка или R — поворот). Нажмите на установленный модуль, чтобы снять его.","Pick a spare module on the right, then click a cell (right click or R rotates). Click an installed module to take it out."
+ui.equip.hint,"Возьмите модуль или механизм из ящика справа и нажмите на ячейку винтовки или на гнездо на манекене (правая кнопка или R — поворот). Нажмите на установленное, чтобы снять.",Take a module or a mechanism from the drawer and click a rifle cell or a socket on the mannequin (right click or R rotates). Click an installed one to take it off.
 ui.equip.title,Снаряжение,Equipment
+ui.equip.mech_not_here,"Механизм ставится в гнездо у брони на манекене, не на винтовку.","A mechanism goes into a socket beside the armor on the mannequin, not onto the rifle."
+ui.equip.card_origin,Откуда: {origin},From: {origin}
+ui.equip.picked_mech,"Снято: {mechanism} — нажмите на гнездо, чтобы поставить, или Esc.","Taken off: {mechanism} — click a socket to put it in, or Esc."
+ui.equip.holding_mech,В руке: {mechanism}. Нажмите на гнездо рядом с бронёй на манекене.,In hand: {mechanism}. Click a socket beside the armor on the mannequin.
+ui.equip.socket_empty_tip,Гнездо механизма — пусто,Mechanism socket — empty
+ui.equip.socket_hint,"Гнездо пусто: возьмите механизм во вкладке «Механизмы» ящика, затем нажмите на гнездо.","The socket is empty: take a mechanism from the drawer's «Mechanisms» tab, then click the socket."
+ui.equip.no_mechanisms,Запасных механизмов нет. Их делают в мастерской.,No spare mechanisms. The workshop makes them.
+ui.equip.tab_mechanism,Механизмы,Mechanisms
+ui.equip.tab_module,Модули,Modules
+ui.equip.drawer,Ящик,Drawer
 ui.equip.dev_all,Отладка: всё снаряжение,Dev: all gear
-ui.equip.back,Назад в город,Back to the city
+ui.equip.back,В район,To the district
 ui.equip.armor,Гнёзда брони,Armor sockets
 ui.equip.deck,Колода боя,Fight deck
-ui.equip.spares,Запасные модули,Spare modules
 ui.equip.no_spares,"Запасных модулей нет. Новые модули появятся в лавке, мастерской и особых заказах.","No spare modules. New modules will come from the shop, the workshop and special contracts."
-ui.equip.module_button,"{name}  [{section} · ячейка: {cell}]
-{effect}","{name}  [{section} · {cell} cell]
-{effect}"
-ui.equip.empty_socket,— пусто —,— empty —
-ui.equip.deck_line,{count} × {card}  — {origin},{count} × {card}  — {origin}
 ui.equip.deck_total,Карт: {cards} · Патронов: {ammo},Cards: {cards} · Ammo: {ammo}
 ui.equip.link,Связка: {link},Link: {link}
-ui.equip.holding,"В руке: {module} → {change}. Зелёная рамка — куда он встанет; правая кнопка или R — поворот, Esc — положить.","Holding {module} → {change}. Green outlines show where it fits; right click / R rotates, Esc drops it."
+ui.equip.holding,"В руке: {module} → {change}. Правая кнопка или R — поворот, Esc — положить.","In hand: {module} → {change}. Right click or R rotates, Esc puts it back."
 ui.equip.picked,"Снято — нажмите на ячейку, чтобы поставить снова.",Picked up — click a cell to install it again.
 ui.equip.cell_legend,Ячейка: {cell},{cell} cell
 ui.equip.fit_legend,Зелёная рамка — куда встанет модуль в руке.,Green outline = where the held module fits.

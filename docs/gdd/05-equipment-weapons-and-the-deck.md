@@ -102,7 +102,11 @@ Data: `data/gear/mechanisms.json` (negative mods are the costs), blueprints in `
 
 ## 5.7 Screen sketch — the workbench (owner 2026-10-14)
 
-`docs/assets/ui/equipment_workbench.png` — the next look of the Equipment screen (not built yet). The rifle lies large
+`docs/assets/ui/equipment_workbench.png` — the look of the Equipment screen, **built 2026-10-14** from the art of
+backlog part T (`art/ui/EQUIP__*`): `scenes/equipment/` — `weapon_tablet_view` (the rifle and its cells),
+`armor_stand_view` (the mannequin: armor sockets, mechanism dots — click with a mechanism in hand to install, with an
+empty hand to take one out), `gear_drawer_view` (tabs Modules / Mechanisms, felt trays), `deck_fan_view` (real cards,
+«×N» for copies; the hovered module's cards are lit). The rifle lies large
 on a workbench in the middle with its cells drawn on its parts (stock, frame, magazine, scope, barrel; leader lines);
 left — a mannequin with the four armor sockets and their mechanism dots; right — a drawer with spare modules,
 mechanisms and armor plates in tabs (a taken module follows the cursor, a green frame shows where it will go);

@@ -192,9 +192,11 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `scenes/district_map/news_panel.gd` | NewsPanel | «Новости» (GDD 15): the morning leaflet of a district event starting or ending — its picture (EVENT__art__<id>), | effects_text |
 | `scenes/district_map/place_signs.gd` | PlaceSigns | Hanging signboards over the places where the hunter can do something (owner 2026-10-14): a small wrought plate | has_sign, draw_all |
 | `scenes/district_map/zone_mosaic.gd` | ZoneMosaic | F3 markup (owner 2026-10-14): the zones always tile the district — no holes, no overlaps. heal() cuts every zone to | heal, gaps, is_island, snap, tidy, largest, area, perimeter, centre, border_distance |
-| `scenes/equipment/equipment_screen.gd` |  | Equipment (GDD 5): weapon cells with modules, armor sockets with mechanisms, and the deck they make. |  |
-| `scenes/equipment/shape_icon.gd` | ShapeIcon | Small picture of a module's cell shape (for the spare-module list). | setup |
-| `scenes/equipment/weapon_tablet_view.gd` | WeaponTabletView | Draws the weapon's sections as cell grids, the placed modules (their art, rotated) and a ghost of the | setup, set_ghost, refresh |
+| `scenes/equipment/armor_stand_view.gd` | ArmorStandView | The armor on the mannequin (owner 2026-10-14, sketch docs/assets/ui/equipment_workbench.png): each armor piece is a | setup, refresh |
+| `scenes/equipment/deck_fan_view.gd` | DeckFanView | The fight deck as a fan of real cards leaning on a ledge (owner 2026-10-14, sketch | setup, refresh, light |
+| `scenes/equipment/equipment_screen.gd` |  | Equipment (GDD 5) as the hunter's workbench (owner 2026-10-14, sketch docs/assets/ui/equipment_workbench.png, GDD 5.7): |  |
+| `scenes/equipment/gear_drawer_view.gd` | GearDrawerView | The drawer with spare gear (owner 2026-10-14, sketch docs/assets/ui/equipment_workbench.png): tabs «Модули» and | setup, set_held, refresh |
+| `scenes/equipment/weapon_tablet_view.gd` | WeaponTabletView | The rifle on the workbench (owner 2026-10-14, sketch docs/assets/ui/equipment_workbench.png): the weapon art large, | setup, set_ghost, refresh |
 | `scenes/hero/hero_panel.gd` | HeroPanel | «Охотник» (GDD 4, 23.2 zones 1 and 4): level and XP toward the next, HP and Sanity, free skill points with the way |  |
 | `scenes/menu/main_menu.gd` |  | Title screen: New game / Continue / Quit over the city map. |  |
 | `scenes/places/infirmary_panel.gd` | InfirmaryPanel | The Ash Sisters' infirmary (GDD 4, owner 2026-10-12): HP and Sanity now, the price of a full treatment and |  |
