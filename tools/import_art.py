@@ -245,6 +245,7 @@ def _cut_icon_sheet(src: Path, set_code: str, icons: dict, legacy: tuple | None,
         return 0
     ids, grid = icons[set_code]
     cols, rows = legacy[1] if legacy else grid
+    ids = ids[:cols * rows]  # icons added to a set later come as single files, not on the old sheet
     written = 0
     for icon_id, icon in zip(ids, slice_grid(Image.open(src).convert("RGBA"), cols, rows, len(ids))):
         if icon is None:

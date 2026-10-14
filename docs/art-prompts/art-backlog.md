@@ -2,8 +2,8 @@
 
 > **Готово (2026-10-10):** части G–Q (93 картинки) сгенерированы и импортированы в `art/`; листы иконок `MECHANISM` и
 > `SETTINGS` разрезаны (наборы добавлены в `data/ui/icons.json`). Q1 (значок) — из `art/ui/WAX__seal.webp`, когда понадобится.
-> **Ждём:** P2 (карты состояний района), R (три новые твари — войдут в игру с артом), S (иконки 5 новых механизмов),
-> T (экран «Снаряжение» — верстак, 2026-10-14).
+> **Получено 2026-10-14:** R (три новые твари — арт в `art/monsters/`, в игру войдут с данными), S (иконки 5 механизмов),
+> T (экран «Снаряжение» — верстак, `art/ui/EQUIP__*`, `TEX__felt`); их промты удалены. **Ждём:** P2 (карты состояний района).
 
 Всё, что ещё понадобится игре из арта, **кроме** уже расписанного:
 
@@ -17,16 +17,13 @@
 | **G** | Мелкие детали интерфейса: разделители, уголки, заголовки, подсказки, полосы прокрутки, ползунок, счётчик, всплывашка, клавиша и мышь для обучения, шестерёнка загрузки | 17 | **сейчас** — во всех экранах фазы 2b |
 | **H** | Эффекты боя: удар, выстрел, кровь, искры, огонь, ток, дым, вспышка, сеть, страх, лечение, трещина | 13 | **сейчас** — бой v2 (§21: вспышка удара, анимации карт) |
 | **I** | Картинки на картах (окно в верхней части карты) | 19 | когда захочешь (до них игра ставит большую иконку типа) |
-| **J** | Иконки: механизмы брони, настройки | 2 листа | механизмы — сейчас; настройки — с меню |
+| **J** | Иконки: механизмы брони, настройки | 2 листа | получено (механизмы, настройки) |
 | **K** | Расследование: листовка, картинки слухов | 11 | фаза 3 |
 | **L** | Экраны итогов: победа, Падение охотника, конец дня, аренда, добыча, новый уровень, стадия Голоса, Реестр | 8 | фазы 3–6 |
 | **M** | Портрет охотника по стадиям Голоса | 3 | фаза 6 |
 | **N** | Бестиарий, поимка, вскрытие | 5 | фазы 3–6 |
 | **O** | Сюжет: окно диалога, табличка имени, заставки глав | 5 | фазы 8–9 |
 | **P** | События города | 9 | фаза 7 |
-| **R** | Новые твари: крысиная стая, вурдалак, тварь из Бездны | 12 | **сейчас** — твари войдут в игру с артом |
-| **S** | Иконки 5 новых механизмов брони | 5 | **сейчас** — механизмы уже в игре, без иконки рисуется пустое место |
-| **T** | Экран «Снаряжение» — верстак: фон, винтовка крупно, манекен, гнёзда, ячейки, ящик, полка колоды, текстура сукна | 13 | когда возьмёмся за новый экран снаряжения (эскиз готов) |
 | **Q** | Обложка Steam (значок игры — из готовой печати) | 1 | фаза 10 |
 
 ## Не из ChatGPT (тоже понадобится)
@@ -274,234 +271,12 @@ SCENE STYLE BLOCK, wide, без прозрачности, `assets/ui/`, имя `
 | `GREY__map__quarantine.png` | Карантин | The same district map, grey chalk crosses on doors, wooden barricades across two streets, a plague cart, few people, smoke from burning rags in braziers. |
 | `GREY__map__festival.png` | Ночь Сумерек | The same district map at dusk, strings of paper lanterns between houses, bonfires on the square, crowds in the streets, warm orange light. |
 
-## S. Иконки новых механизмов брони (5) — чат «Icons» (фаза 8, механизмы с компромиссом)
-
-[STYLE BLOCK] + [TRANSPARENT BLOCK] из `style-blocks.md`, square 1024, **по одной картинке на файл**, в `assets/icons/`.
-Тот же вид, что у готовых иконок механизмов (`art/ui/icons/MECHANISM__*.webp` — приложи одну как образец):
-предмет целиком, вид спереди-сбоку, в центре, читается в 64 px. После генерации скажи «импортируй арт» — я добавлю
-id в набор `MECHANISM` (`data/ui/icons.json`) и импортирую.
-
-Общая часть промта: `A single armor mechanism icon for a gaslight-and-steel hunter's gear, the object alone, centred, readable at 64 px:` + строка ниже.
-
-| Файл | Механизм | Промт |
-|---|---|---|
-| `MECHANISM__heavy_plating.png` | Тяжёлые латы | Thick overlapping iron plates bolted onto a leather back-plate, dented and heavy. |
-| `MECHANISM__galvanic_harness.png` | Гальваническая сбруя | A chest harness of copper coils and a humming glass cell, thin wires running to the spine. |
-| `MECHANISM__fog_lens.png` | Туманная линза | A monocle of smoky grey glass in a brass ring, faint fog swirling inside the lens. |
-| `MECHANISM__ichor_injector.png` | Ихорный инжектор | A brass syringe pump strapped to the forearm, a vial of glowing amber ichor in its chamber. |
-| `MECHANISM__blood_pump.png` | Кровяной насос | A small bellows-heart of red leather and brass valves, pumping dark blood through glass tubes. |
-
-## T. Экран «Снаряжение» — верстак (13) — чат «Equipment»
-
-Эскиз раскладки — `docs/assets/ui/equipment_workbench.png` (решение владельца 2026-10-14, GDD §5.7). Блоки:
-T1 — UI STYLE BLOCK (без прозрачности); T2–T12 — UI STYLE BLOCK + TRANSPARENT BLOCK; T13 — UI STYLE BLOCK +
-TEXTURE BLOCK. Папка `assets/ui/`. В начале чата приложи `art/ui/WORKSHOP__background.webp` и
-`art/ui/WEAPON__tablet.webp`: «Same wood, brass, rivets and engraved look as the attached pictures.»
-
-**Не рисовать заново — уже есть:** вкладки ящика — `WORKSHOP__tab`; заголовки — `UI__header_plate`; кнопки —
-`UI__button__brass`; карты колоды — `COMBAT__card_frame__*`, `CARD__art__*`, `COMBAT__card_back`; иконки ячеек,
-частей оружия, брони — наборы `CELL`, `SECTION`, `ARMOR`; точки механизмов у гнёзд брони — иконка `ARMOR__mechanism_socket`; дерево панелей — `TEX__dark_wood`;
-подсказки — `UI__tooltip_dark`. Подсветку «куда встанет модуль», выноски, цифры и надписи рисует игра.
-
-| # | Файл | Холст | Где в игре | Промт |
-|---|---|---|---|---|
-| T1 | `EQUIP__bench.png` | wide | Фон всего экрана | Top-down view of a monster hunter's workbench in a cramped attic workshop at night: dark oiled oak planks with scratches, burn marks and old blood stains, lit by one warm oil lamp from the top-left. Tools and clutter only along the edges — a bench vice, pliers, an oil can, brass cartridges, a rag, screws in a tin, a candle stub. The whole middle of the bench is clear and calm, darker towards the edges, so interface panels can sit on it. Attach the sketch: use only its zone layout — keep the four zones (left, middle, right, bottom) free of objects; do not copy its panels, text, numbers or red circles. The clear middle must stay clear when the picture is cropped to 16:9. |
-| T2 | `EQUIP__rifle__hunting.png` | wide | Винтовка крупно посередине; ячейки игра ставит рядом, выноской от каждой части | The hunting rifle from the attached weapon tablet, alone, a clean side view pointing right, large across the whole canvas width. Five parts clearly readable as separate blocks: a wooden stock on the left, a riveted steel frame in the middle with a box magazine hanging below it, a long brass telescopic sight on top of the frame, a long barrel to the right. No background tablet, no parchment, no frames, no ornaments, no slots or plates, no red rag, no straps, no hands — only the rifle itself. |
-| T3 | `EQUIP__mannequin.png` | tall | Манекен слева, на нём 4 гнезда брони | A tailor's dummy turned into an armour stand: a dark wooden torso with a round wooden head, jointed wooden arms held slightly away from the body, wooden legs, standing on a black iron tripod stand with brass feet. Front view, whole figure from head to the feet of the stand, plain bare wood, no armour, no clothes. |
-| T4 | `EQUIP__armor_socket.png` | square | Гнездо брони на манекене (иконку пластины ставит игра) | A round socket of tarnished brass: a thick riveted ring with four small clamp teeth, the centre a plain dark recessed hollow, front view, fills the middle half of the canvas. |
-| T5 | `EQUIP__cell__gear.png` | square | Пустая ячейка «шестерня» у винтовки. Приложи `art/ui/icons/CELL__gear.webp` | An empty square slot in the same brass and the same cog motif as the attached icon: a raised brass rim with small engraved gear teeth along the edges and a rivet in each corner, recessed into dark gunmetal, the inside plain, flat and dark (no cog in the middle). Front view, fills the middle two thirds of the canvas. |
-| T6 | `EQUIP__cell__spark.png` | square | Пустая ячейка «искра». Приложи готовый `EQUIP__cell__gear.png` и `art/ui/icons/CELL__spark.webp` | Exactly the same slot shape as the attached EQUIP__cell__gear, but in the copper and lightning motif of the attached spark icon: a copper rim wound with thin blue-glinting wire, a tiny glass insulator in each corner instead of rivets; the inside plain and dark with a faint cold blue sheen (no lightning in the middle). |
-| T7 | `EQUIP__cell__blood.png` | square | Пустая ячейка «кровь» (открывают узлы ветки Тварь). Приложи готовый `EQUIP__cell__gear.png` и `art/ui/icons/CELL__blood.webp` | Exactly the same slot shape as the attached EQUIP__cell__gear, but in the bone and blood motif of the attached blood icon: an aged bone rim with thin dark red veins running into it and a small red drop engraved in each corner; the inside plain and dark with a faint deep red sheen (no drop in the middle). |
-| T8 | `EQUIP__drawer.png` | tall | Ящик с запасными модулями справа. Растягивается | An open wooden drawer seen straight from above: thick dark wooden sides with brass corner caps, a brass pull handle at the bottom edge, the inside lined with plain dark oxblood felt, empty. Down the whole canvas height, about two thirds of the canvas wide. Uniform sides so it can be stretched. |
-| T9 | `EQUIP__drawer_slot.png` | square | Ячейка-лоток одного модуля в ящике. Приложи готовый `EQUIP__drawer.png` | A small square tray of the same dark wood and oxblood felt as the attached drawer, with tiny brass caps on the four corners, empty, seen from above. Fills the middle two thirds of the canvas. |
-| T10 | `EQUIP__deck_ledge.png` | wide | Полка внизу, на которую веером опираются карты колоды. Растягивается | A long low wooden ledge seen from the front: a dark oak rail with a shallow groove on top and small brass brackets at both ends, plain. Across the whole canvas width, about one eighth of the canvas tall. Uniform middle so it can be stretched. |
-| T11 | `EQUIP__link_clamp.png` | square | Скоба между двумя соседними модулями, которые дают связку | A small brass staple clamp with two rivets, seen from the front, lying horizontally, like a bracket that joins two plates. Fills the middle third of the canvas. |
-| T12 | `EQUIP__leader_pin.png` | square | Головка выноски от ячеек к части винтовки (линию рисует игра) | A tiny round brass pin head with a dark dot in the centre, front view, fills the middle quarter of the canvas. |
-| T13 | `TEX__felt.png` | square | Подкладка ящика и лотков (если T8/T9 растягиваются плохо) | Plain dark oxblood felt cloth, fine fuzzy fibres, a few faint lint specks, nothing else. |
-
 ## Q. Значок и Steam — фаза 10
 
 | # | Файл | Холст | Промт |
 |---|---|---|---|
 | Q1 | — | — | **Не генерировать:** значок игры вырежу из готовой печати `art/ui/WAX__seal.webp` (крюк с фонарём на красном воске). Если на 32 px не читается — приложи печать и попроси: `The same seal simplified to read at 32 px: bolder shapes, fewer details.` |
 | Q2 | `assets/ui/APP__capsule.png` | wide | SCENE: key art — the hunter on a rooftop with his rifle, a huge shadowy creature rising from the fog behind the Ringwall, the slum lights below. Leave the top third calmer for the title (added later). |
-
-## R. Новые твари Серых Часовен (12) — чат на каждую тварь (решение владельца 2026-10-12)
-
-Порядок: 1 → 2 → 3 → 4 **в одном чате на тварь**, каждый раз прикладывая прошлую картинку — силуэт режется из
-боевого вида, поэтому они совпадают. [STYLE BLOCK] — первый блок из `style-blocks.md`. Шаблоны
-`docs/assets/templates/monsters/COMBAT__frame.png` и `LEAFLET__frame.png`, образец силуэтов —
-`art/ui/TAVERN__contract_board.webp`. Файлы — в `assets/monsters/`, потом скажи «импортируй арт».
-Силуэт — плоский чёрный #120D0B, читается в 96 px; части тела в промте видны и отдельны (по ним целятся в бою);
-поза, камера и масштаб у фаз одинаковые. Твари войдут в игру вместе с артом (описание — GDD приложение B.1).
-
-### Rat Swarm — `RAT_SWARM` · ранг A
-
-Части тела: Bone Crown, Teeth. Вторая фаза: «The swarm splits».
-
-**1 — боевой вид**, `RAT_SWARM__combat__normal.png`
-
-```text
-[STYLE BLOCK]
-Attached: COMBAT__frame.png (framing guide), TAVERN__contract_board (silhouette style reference).
-Full-body art of the creature "Rat Swarm" (danger rank A) for the combat screen.
-The creature: a knee-high swarm of soot-black rats moving as one heaving shape, hundreds of red eyes, a crown of gnawed bones riding on the middle of the mass, a ragged front edge of bared yellow teeth.
-Mostly in deep shadow, lit by a cold rim light from behind and a weak warm light from the front;
-slightly turned (3/4 view), standing on the ground line of the frame, filling the dashed safe area.
-These body parts must be clearly visible and separate from each other (the player aims at them):
-Bone Crown, Teeth.
-Wrong proportions rather than gore. Transparent background, no floor, no text.
-Output: transparent PNG, 2:3 portrait (1024×1536).
-```
-
-**2 — вторая фаза**, `RAT_SWARM__combat__phase2.png`
-
-```text
-[STYLE BLOCK]
-Attached: RAT_SWARM__combat__normal.png (the same creature, first phase).
-Repaint THE SAME CREATURE in the same pose, camera, scale and position — its second phase "The swarm splits":
-the mass tears into two swarms, a larger one on the left still carrying the cracked, tilted bone crown and a smaller one on the right, bared teeth along both front edges, more tails everywhere.
-Keep the body parts Bone Crown, Teeth in the same places; broken-looking is fine.
-Stronger glow, more threatening. Transparent background, no text.
-Output: transparent PNG, 2:3 portrait (1024×1536).
-```
-
-**3 — силуэт для листовки**, `RAT_SWARM__silhouette__leaflet.png`
-
-```text
-[STYLE BLOCK]
-Attached: RAT_SWARM__combat__normal.png (the creature), LEAFLET__frame.png (size guide),
-TAVERN__contract_board (how silhouettes look on hunters' leaflets).
-A pure flat black silhouette (#120D0B) of the attached creature, as drawn on a hunters' contract
-leaflet by a witness: same pose, slightly exaggerated, readable even at 96 px.
-No inner details, no eyes, no shading, no outline of another colour.
-It must fit inside the dashed circle of the frame with a little margin, standing on the line.
-Transparent background (do not paint the parchment). No text.
-Output: transparent PNG, 1:1 (1024×1024).
-```
-
-**4 — треснувший силуэт**, `RAT_SWARM__silhouette__cracked.png`
-
-```text
-[STYLE BLOCK]
-Attached: RAT_SWARM__silhouette__leaflet.png, RAT_SWARM__combat__phase2.png.
-The SAME black silhouette, cracked like broken porcelain: through thin glowing cracks a glimpse of
-the creature's true form shows (the mass tears into two smaller swarms pouring left and right, the bone crown cracked and tilted, more teeth and tails everywhere).
-Keep the outline identical. Transparent background, no text.
-Output: transparent PNG, 1:1 (1024×1024).
-```
-
-### Ghoul — `GHOUL` · ранг P
-
-Части тела: Claws, Jaw. Вторая фаза: «Grave hunger».
-
-**1 — боевой вид**, `GHOUL__combat__normal.png`
-
-```text
-[STYLE BLOCK]
-Attached: COMBAT__frame.png (framing guide), TAVERN__contract_board (silhouette style reference).
-Full-body art of the creature "Ghoul" (danger rank P) for the combat screen.
-The creature: a gaunt grave-eating ghoul crouching low on bare ground (no grave drawn), grey stretched skin, long dirty black claws on both hands, a torn burial shroud over its shoulders, an unhinged lower jaw full of broken teeth.
-Mostly in deep shadow, lit by a cold rim light from behind and a weak warm light from the front;
-slightly turned (3/4 view), standing on the ground line of the frame, filling the dashed safe area.
-These body parts must be clearly visible and separate from each other (the player aims at them):
-Claws, Jaw.
-Wrong proportions rather than gore. Transparent background, no floor, no text.
-Output: transparent PNG, 2:3 portrait (1024×1536).
-```
-
-**2 — вторая фаза**, `GHOUL__combat__phase2.png`
-
-```text
-[STYLE BLOCK]
-Attached: GHOUL__combat__normal.png (the same creature, first phase).
-Repaint THE SAME CREATURE in the same pose, camera, scale and position — its second phase "Grave hunger":
-it rises taller, ribs pushing through the skin, the jaw hanging open wider than a skull should allow, fresh grave earth and bone dust falling from its claws.
-Keep the body parts Claws, Jaw in the same places; broken-looking is fine.
-Stronger glow, more threatening. Transparent background, no text.
-Output: transparent PNG, 2:3 portrait (1024×1536).
-```
-
-**3 — силуэт для листовки**, `GHOUL__silhouette__leaflet.png`
-
-```text
-[STYLE BLOCK]
-Attached: GHOUL__combat__normal.png (the creature), LEAFLET__frame.png (size guide),
-TAVERN__contract_board (how silhouettes look on hunters' leaflets).
-A pure flat black silhouette (#120D0B) of the attached creature, as drawn on a hunters' contract
-leaflet by a witness: same pose, slightly exaggerated, readable even at 96 px.
-No inner details, no eyes, no shading, no outline of another colour.
-It must fit inside the dashed circle of the frame with a little margin, standing on the line.
-Transparent background (do not paint the parchment). No text.
-Output: transparent PNG, 1:1 (1024×1024).
-```
-
-**4 — треснувший силуэт**, `GHOUL__silhouette__cracked.png`
-
-```text
-[STYLE BLOCK]
-Attached: GHOUL__silhouette__leaflet.png, GHOUL__combat__phase2.png.
-The SAME black silhouette, cracked like broken porcelain: through thin glowing cracks a glimpse of
-the creature's true form shows (it rises taller, ribs pushing through the skin, the jaw hanging open wider than a skull should allow, fresh grave earth and bone dust falling from its claws).
-Keep the outline identical. Transparent background, no text.
-Output: transparent PNG, 1:1 (1024×1024).
-```
-
-### Abyss Thing — `ABYSS_THING` · ранг S
-
-Части тела: Long Arms, Hollow Face, Spine. Вторая фаза: «Unfolded».
-
-**1 — боевой вид**, `ABYSS_THING__combat__normal.png`
-
-```text
-[STYLE BLOCK]
-Attached: COMBAT__frame.png (framing guide), TAVERN__contract_board (silhouette style reference).
-Full-body art of the creature "Abyss Thing" (danger rank S) for the combat screen.
-The creature: a long-limbed pale thing rising out of a low wisp of grey fog at its feet (no wall or parapet drawn), far too many joints in its two long arms, a smooth hollow face with no features, a bent jointed spine like a row of knuckles, fog dripping off it like water.
-Mostly in deep shadow, lit by a cold rim light from behind and a weak warm light from the front;
-slightly turned (3/4 view), standing on the ground line of the frame, filling the dashed safe area.
-These body parts must be clearly visible and separate from each other (the player aims at them):
-Long Arms, Hollow Face, Spine.
-Wrong proportions rather than gore. Transparent background, no floor, no text.
-Output: transparent PNG, 2:3 portrait (1024×1536).
-```
-
-**2 — вторая фаза**, `ABYSS_THING__combat__phase2.png`
-
-```text
-[STYLE BLOCK]
-Attached: ABYSS_THING__combat__normal.png (the same creature, first phase).
-Repaint THE SAME CREATURE in the same pose, camera, scale and position — its second phase "Unfolded":
-it unfolds to twice its height, extra thin limbs opening from the spine like a cage, the hollow face split down the middle showing darkness inside, the fog around it glowing faintly silver.
-Keep the body parts Long Arms, Hollow Face, Spine in the same places; broken-looking is fine.
-Stronger glow, more threatening. Transparent background, no text.
-Output: transparent PNG, 2:3 portrait (1024×1536).
-```
-
-**3 — силуэт для листовки**, `ABYSS_THING__silhouette__leaflet.png`
-
-```text
-[STYLE BLOCK]
-Attached: ABYSS_THING__combat__normal.png (the creature), LEAFLET__frame.png (size guide),
-TAVERN__contract_board (how silhouettes look on hunters' leaflets).
-A pure flat black silhouette (#120D0B) of the attached creature, as drawn on a hunters' contract
-leaflet by a witness: same pose, slightly exaggerated, readable even at 96 px.
-No inner details, no eyes, no shading, no outline of another colour.
-It must fit inside the dashed circle of the frame with a little margin, standing on the line.
-Transparent background (do not paint the parchment). No text.
-Output: transparent PNG, 1:1 (1024×1024).
-```
-
-**4 — треснувший силуэт**, `ABYSS_THING__silhouette__cracked.png`
-
-```text
-[STYLE BLOCK]
-Attached: ABYSS_THING__silhouette__leaflet.png, ABYSS_THING__combat__phase2.png.
-The SAME black silhouette, cracked like broken porcelain: through thin glowing cracks a glimpse of
-the creature's true form shows (it unfolds to twice its height, extra thin limbs opening from the spine like a cage, the hollow face split down the middle showing darkness inside, the fog around it glowing faintly silver).
-Keep the outline identical. Transparent background, no text.
-Output: transparent PNG, 1:1 (1024×1024).
-```
 
 ## Проверка после генерации
 
@@ -515,5 +290,4 @@ Output: transparent PNG, 1:1 (1024×1024).
 ## Вопросы владельцу
 
 - Шрифты: какой нравится для заголовков — *Ruslan Display* (славянская вязь) или *Old Standard TT* (старая книга)?
-- Новые твари для Серых Часовен (часть R) — добавлять?
 - Картинки на картах (часть I) — делать сейчас или позже?

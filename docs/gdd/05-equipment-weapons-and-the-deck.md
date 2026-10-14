@@ -97,7 +97,7 @@ Data: `data/gear/weapons.json`, `modules.json`, `shapes.json`, `armor.json`, `me
 | Ichor Injector | shots +3, body parts +1 | −6 max HP | fang (Vigil Hound) |
 | Blood Pump | Rage cards cost 2 less HP, a Hound's Rage in the deck | −4 max HP | wyrm tooth (Burrow Wyrm) |
 
-Data: `data/gear/mechanisms.json` (negative mods are the costs), blueprints in `blueprints.json`. Icons — `docs/art-prompts/art-backlog.md` S (until then an empty icon place).
+Data: `data/gear/mechanisms.json` (negative mods are the costs), blueprints in `blueprints.json`. Icons — `art/ui/icons/MECHANISM__*` (received 2026-10-14).
 
 
 ## 5.7 Screen sketch — the workbench (owner 2026-10-14)

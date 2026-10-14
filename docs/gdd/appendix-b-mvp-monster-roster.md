@@ -11,7 +11,7 @@
 | Clay Saint | P | LUMEN | formalin; glass chiming; neat surgical wounds; walks in daylight | Head, Core | Immune to Fear; weak to Spark |
 | Burrow Wyrm | D | DEEPWRIGHT, Transition | tremors; floors collapse; acid; knocking from below | Maw, Shell, Tail | Boss of Chapter II opening |
 
-## B.1 New Grey Chapels creatures (owner 2026-10-12; data goes in with their art — prompts in `docs/art-prompts/art-backlog.md` R)
+## B.1 New Grey Chapels creatures (owner 2026-10-12; art received 2026-10-14 — `art/monsters/RAT_SWARM__*`, `GHOUL__*`, `ABYSS_THING__*`; data and combat still to do)
 
 | Monster | Rank | Where | Tags (new ones marked *) | Body parts → trophy | Phase 2 | Notes |
 |---|---|---|---|---|---|---|

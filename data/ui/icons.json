@@ -1268,6 +1268,36 @@
     "name": "Quick Holster",
     "use": "Armor mechanism (GDD 5)",
     "look": "a leather holster with brass buckles and a cartridge loop"
+   },
+   {
+    "id": "heavy_plating",
+    "name": "Heavy Plating",
+    "use": "Armor mechanism with a trade-off (GDD 5.6)",
+    "look": "riveted bronze chest plates bolted together over leather straps"
+   },
+   {
+    "id": "galvanic_harness",
+    "name": "Galvanic Harness",
+    "use": "Armor mechanism with a trade-off (GDD 5.6)",
+    "look": "a leather harness with a glass cylinder battery between copper coils"
+   },
+   {
+    "id": "fog_lens",
+    "name": "Fog Lens",
+    "use": "Armor mechanism with a trade-off (GDD 5.6)",
+    "look": "a round monocle lens with a smoked-glass face, a brass rim and a short chain"
+   },
+   {
+    "id": "ichor_injector",
+    "name": "Ichor Injector",
+    "use": "Armor mechanism with a trade-off (GDD 5.6)",
+    "look": "a brass syringe gun with a glass barrel of glowing orange ichor"
+   },
+   {
+    "id": "blood_pump",
+    "name": "Blood Pump",
+    "use": "Armor mechanism with a trade-off (GDD 5.6)",
+    "look": "a bellows-heart pump of brass and red leather with glass vials of blood"
    }
   ]
  },
