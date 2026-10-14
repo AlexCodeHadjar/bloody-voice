@@ -33,6 +33,14 @@ func setup(map: DistrictMapDef, data: ContentData) -> void:
 	_residents = LifeSpawn.build(self, _ctx)
 
 
+## F3 markup changed the residents: build them again from the edited data.
+func rebuild(map: DistrictMapDef, data: ContentData) -> void:
+	for c: Node in get_children():
+		c.queue_free()
+	_residents.clear()
+	setup(map, data)
+
+
 func _process(delta: float) -> void:
 	_check_in -= delta
 	if _check_in > 0.0:

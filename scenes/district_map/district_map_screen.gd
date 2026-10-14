@@ -15,6 +15,7 @@ var _map: DistrictMapDef
 var _view: DistrictView
 var _hero: HeroWalker
 var _life: LifeLayer
+var _markup: MapMarkupUi
 var _card: LandmarkCard
 var _tracker: ContractTracker
 var _panels := DistrictPanels.new()  ## the board, tablets, post, shop, shift result over the map
@@ -78,7 +79,7 @@ func _build() -> void:
 	_hero = HeroWalker.new()
 	_view.add_layer(_hero)
 	_life.hero = _hero
-	_view.follow = _hero
+	_view.hero = _hero
 	_build_overlays()
 	_view.landmark_hovered.connect(_on_hovered)
 	_view.landmark_clicked.connect(_on_landmark_clicked)
@@ -94,6 +95,11 @@ func _build() -> void:
 	add_child(_panels)
 	_build_tracker()
 	_build_tip()
+	_markup = MapMarkupUi.new()  # F3 markup tools (debug builds)
+	_markup.setup(_view)
+	_markup.life_changed.connect(func() -> void: _life.rebuild(_map, ContentDB.data))
+	_view.markup_ui = _markup
+	add_child(_markup)
 
 
 ## The veil and hover outline over the map, and the district state's look (fog, chalk, lanterns, GDD 14.6).
@@ -165,9 +171,8 @@ func _build_card() -> void:
 ## Taken contracts in the top-right corner (GDD 7.1); the place card opens below them.
 func _build_tracker() -> void:
 	_tracker = ContractTracker.new()
-	_tracker.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	_tracker.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-	_tracker.position = Vector2(-ContractTracker.WIDTH - 24.0, 74.0)
+	_tracker.set_anchors_preset(Control.PRESET_TOP_LEFT)  # pressed to the left edge with a small gap (owner 2026-10-14)
+	_tracker.position = Vector2(16.0, 74.0)
 	_tracker.zone_requested.connect(_on_zone_requested)
 	_tracker.contract_opened.connect(_panels.open_contract)
 	add_child(_tracker)
@@ -275,7 +280,6 @@ func _on_street_clicked(p: Vector2) -> void:
 
 func _walk_to(to: DistrictMapRules.Spot) -> void:
 	_card.close_card()
-	_view.follow = _hero  # the camera may have been sent to a contract's zone
 	var from := _current_spot()
 	var route := DistrictMapRules.route(_map, from, to)
 	_spot = to
@@ -344,16 +348,16 @@ func _open_rumor(uid: int) -> void:
 	_panels.open_rumor(uid)
 
 
-## The tracker's region icon: the zone where the creature was last seen glows and the view glides there
-## (the camera stops following the hero until the hunter walks again).
+## The tracker's region icon: the zone where the creature was last seen glows and the view glides there.
 func _on_zone_requested(zone: StringName) -> void:
-	_view.follow = null
 	_view.center_on(_view.overlay.flash_zone(zone), true)
 	UiKit.sound(&"paper.map")
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _view == null or _panels.is_open():
+		return
+	if OS.is_debug_build() and _markup.key(event):  # F3 markup: F3, Ctrl+S, Esc in the chain or rename
 		return
 	if event.is_action_pressed("ui_cancel"):
 		if _card.visible:
@@ -365,18 +369,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		match (event as InputEventKey).keycode:
 			KEY_SPACE:
 				_to_hero()
-			KEY_F3 when OS.is_debug_build():  # markup: a click picks a point, Ctrl + drag moves it, Ctrl+S saves
-				_view.overlay.toggle_debug()
-				if not _view.overlay.debug_visible:
-					_view.end_markup()
-				_view.set_dev_text(Loc.t("ui.dev.map_help") if _view.overlay.debug_visible else "")
-			KEY_S when OS.is_debug_build() and _view.overlay.debug_visible and (event as InputEventKey).ctrl_pressed:
-				var path := MapMarkupSaver.save(_map)
-				_view.set_dev_text(Loc.t("ui.dev.map_saved", {"path": path}) if path != "" else Loc.t("ui.dev.map_not_saved"))
 
 
 func _to_hero() -> void:
-	_view.follow = _hero
 	_view.center_on(_hero.position, true)
 
 

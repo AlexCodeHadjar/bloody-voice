@@ -195,10 +195,44 @@ ui.rumor.money,+{n},+{n}
 ui.rumor.crossed,Примета {tag} зачёркнута в заказе «{name}».,The sign {tag} is crossed out on the contract «{name}».
 ui.rumor.day_over,День прошёл.,The day is over.
 ui.rumor.next,Дальше,Next
-ui.dev.map_help,"Разметка (F3): клик выбирает точку — красная: узел улицы, белый круг: место, зелёный квадрат: угол зоны (общий угол двигается во всех зонах). Ctrl + зажатая мышь в любом месте карты двигает выбранную. Узлы не выносите за розовый контур — иначе игра не запустится. Ctrl+S — сохранить в файл карты, F3 — выйти.","Markup (F3): a click picks a point — red dot: street node, white ring: place, green square: zone corner (a shared corner moves in every zone). Ctrl + the held mouse anywhere on the map moves the picked one. Keep nodes inside the pink contour or the game will not start. Ctrl+S saves into the map file, F3 leaves."
+ui.dev.map_help,"Разметка (F3): легенда слева внизу. Клик — выбрать точку, Ctrl + зажатая мышь — двигать выбранную, правый клик — меню (создать, соединить, переименовать, удалить). Ctrl+S — сохранить, F3 — выйти.","Markup (F3): legend at the bottom left. Click picks a point, Ctrl + the held mouse moves it, right click opens the menu (create, connect, rename, delete). Ctrl+S saves, F3 leaves."
 ui.dev.map_point,"{id}: {x}, {y}","{id}: {x}, {y}"
 ui.dev.map_saved,Сохранено: {path},Saved: {path}
 ui.dev.map_not_saved,Не удалось сохранить файл карты.,Could not save the map file.
+ui.dev.legend_keys,Клик — выбрать · Ctrl+мышь — двигать · ПКМ — меню · Ctrl+S — сохранить · F3 — выйти,Click picks · Ctrl+mouse moves · right click menu · Ctrl+S saves · F3 leaves
+ui.dev.legend_pick,Жёлтое кольцо — выбранная точка,Yellow ring — the picked point
+ui.dev.legend_fog,Синяя линия и рамки — туман за стеной: тут штриховки нет,Blue line and frames — the fog beyond the wall: no veil here
+ui.dev.legend_contour,Розовая линия и рамки — граница района: снаружи тёмная штриховка,Pink line and frames — the district outline: the dark veil is outside
+ui.dev.legend_zone,"Зелёные линии и квадраты — зоны (слухи, бои, звук)","Green lines and squares — zones (rumors, fights, sound)"
+ui.dev.legend_resident,"Фиолетовая точка — житель, который стоит или работает",Violet dot — a resident standing or working in one spot
+ui.dev.legend_place,"Белый круг — место: клик по нему, герой идёт к его узлу","White ring — a place: clicked, the hero walks to its node"
+ui.dev.legend_rope,Оранжевая линия — канатный переход,Orange line — a rope crossing
+ui.dev.legend_street,Голубая линия — связь между узлами (улица),Cyan line — a link between nodes (a street)
+ui.dev.legend_node,Красная точка — узел улицы: по узлам ходят герой и прохожие,Red dot — street node: the hero and passers-by walk along them
+ui.dev.legend_title,Разметка района,District markup
+ui.dev.rename_help,"Enter — применить, Esc — отмена. Место: русское название; узел и житель: латиница.","Enter applies, Esc cancels. A place takes its Russian name; nodes and residents a latin id."
+ui.dev.rename_title,Новое имя,New name
+ui.dev.menu_resident,Поставить жителя,Place a resident
+ui.dev.menu_fog_corner,Добавить угол тумана (без штриховки),Add a fog corner (no veil)
+ui.dev.menu_dark_corner,Добавить угол тёмной области (граница района),Add an outline corner (the dark veil)
+ui.dev.menu_zone_corner,Добавить угол зоны,Add a zone corner
+ui.dev.menu_place,Создать место,New place
+ui.dev.menu_node,Создать узел улицы,New street node
+ui.dev.menu_unlink,Удалить связь {a} — {b},Delete link {a} — {b}
+ui.dev.menu_delete,Удалить,Delete
+ui.dev.menu_rename,Переименовать,Rename
+ui.dev.menu_connect,Соединить цепочкой,Connect (chain)
+ui.dev.chain_end,Соединение закончено.,Connecting finished.
+ui.dev.chain,"Соединение от {id}: клик по узлу — связь, клик по пустому месту — новый узел и связь. Правый клик или Esc — закончить.","Connecting from {id}: click a node to link it, empty ground makes a new linked node. Right click or Esc ends."
+ui.dev.no_delete_corner,Нельзя: в фигуре останется меньше трёх углов.,No: the shape would keep fewer than three corners.
+ui.dev.no_delete_place,Это единственное место с таким действием — удалить нельзя.,The only place with this action — it cannot be deleted.
+ui.dev.id_taken,Такое имя уже есть.,This name is taken.
+ui.dev.bad_id,"Имя: латинские строчные буквы, цифры и _, начинается с буквы.","Name: lowercase latin letters, digits and _, starting with a letter."
+ui.dev.no_delete_walker,Нельзя: у жителя {id} останется меньше двух узлов для прогулки.,No: resident {id} would keep fewer than two nodes to walk.
+ui.dev.no_delete_home,Это дом героя — его узел удалить нельзя.,This is the hero's home node — it cannot be deleted.
+ui.dev.place_name,Место {n},Place {n}
+ui.dev.path_name,Проход {id},Path {id}
+ui.dev.map_saved_errors,Сохранено: {path}. Но игра не запустится — ошибок: {n}. Первая: {first},Saved: {path}. The game will not start — {n} errors. First: {first}
 ui.story.title.step,Письмо,A letter
 ui.story.title.after,Записка,A note
 ui.story.title.end,Конец главы,End of the chapter

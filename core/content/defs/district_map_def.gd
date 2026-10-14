@@ -50,6 +50,7 @@ var image: String
 var image_size: Vector2 = Vector2.ONE
 var home: StringName
 var contour: PackedVector2Array
+var fog_side: PackedVector2Array  ## outside the contour but open fog (beyond the Ringwall): no veil there; optional
 var neighbours: Array[NeighbourDef] = []
 var zones: Array[ZoneDef] = []
 var sound_spots: Array[SoundSpotDef] = []
@@ -66,6 +67,7 @@ static func from_dict(d: Dictionary, errs: ErrorLog, where: String) -> DistrictM
 	x.image_size = _point(DefReader.array(d, "image_size", errs, where), errs, where + "/image_size", Vector2.ONE)
 	x.home = DefReader.id(d, "home", errs, where)
 	x.contour = _polygon(DefReader.array(d, "contour", errs, where), errs, where + "/contour")
+	x.fog_side = _polygon(DefReader.array(d, "fog_side", errs, where, false), errs, where + "/fog_side")
 	for n: Variant in DefReader.array(d, "neighbours", errs, where):
 		var nd := _object(n, errs, where + "/neighbours")
 		var nb := NeighbourDef.new()
@@ -108,12 +110,26 @@ func zone(id: StringName) -> ZoneDef:
 	return null
 
 
+## The bounding box of the district outline (art px): how far the camera's middle may go.
+func contour_box() -> Rect2:
+	var box := Rect2(contour[0], Vector2.ZERO) if not contour.is_empty() else Rect2(Vector2.ZERO, image_size)
+	for p: Vector2 in contour:
+		box = box.expand(p)
+	return box
+
+
 func node_pos(id: StringName) -> Vector2:
 	return nodes.get(id, Vector2.ZERO)
 
 
 func has_node_id(id: StringName) -> bool:
 	return nodes.has(id)
+
+
+## After the F3 markup changed nodes or streets.
+func rebuild_adjacency() -> void:
+	adjacency.clear()
+	_build_adjacency()
 
 
 func _build_adjacency() -> void:

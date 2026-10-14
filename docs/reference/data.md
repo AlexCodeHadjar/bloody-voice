@@ -14,7 +14,7 @@
 | `data/cards/tiers.json` | 18 | harpoon_shot_2, harpoon_shot_3, shock_harpoon_2, shock_harpoon_3, gout_of_flame_2, gout_of_flame_3, flash_2, flash_3, overcharge_2, overcharge_3, bayonet_thrust_2, bayonet_thrust_3, serrated_edge_2, serrated_edge_3, smoke_screen_2, smoke_screen_3, iron_net_2, iron_net_3 |
 | `data/cards/voice.json` | 1 | beast_form |
 | `data/city/district_life/GREY.json` | 10 | district, period, scales, walkers, walking_groups, locals, roles, animals, scenes, fx |
-| `data/city/district_maps/GREY.json` | 11 | district, image, image_size, home, contour, neighbours, zones, sound_spots, nodes, streets, landmarks |
+| `data/city/district_maps/GREY.json` | 12 | district, image, image_size, home, contour, fog_side, neighbours, zones, sound_spots, nodes, streets, landmarks |
 | `data/city/district_states.json` | 14 | normal, fog_breach, flooded, burning, burned, rebuilding, rebuilt, quarantine, riot, martial_law, festival, eclipse, collapsed, cleansed |
 | `data/city/districts.json` | 12 | CROWN, SILVERHILL, VIGIL, LUMEN, MARKET, EXCHANGE, AVENUES, MORRELL, NORDHAL, GREY, DEEPWRIGHT, SCARLET |
 | `data/city/events.json` | 1 | events |
@@ -36,6 +36,6 @@
 | `data/tutorial/sequences.json` | 11 | combat_intro, equipment_intro, district_intro, first_part_broken, first_panic, first_no_ammo, first_rent, contract_board, contract_taken, first_rumor, workshop_intro |
 | `data/ui/icons.json` | 25 | RESOURCE 6, STAT 8, ATTRIBUTE 3, STATUS 6, INTENT 7, CARD_TYPE 6, CELL 3, SECTION 5, ARMOR 5, SKILL 6, DIRECTION 4, CONTRACT 6, OUTCOME 5, TAG 6, ACTION 8, FACTION 15, RANK 4, REPUTATION 5 … |
 
-## Locale `locale/strings.csv` — 1238 keys
+## Locale `locale/strings.csv` — 1272 keys
 
-`affix.*` 10 · `armor.*` 4 · `card.*` 82 · `card_type.*` 6 · `cell.*` 3 · `district.*` 103 · `district_map.*` 63 · `effect.*` 17 · `event.*` 9 · `faction.*` 4 · `intent.*` 7 · `log.*` 29 · `mechanism.*` 18 · `mod.*` 12 · `module.*` 80 · `monster.*` 73 · `petition.*` 26 · `resource.*` 4 · `rule.*` 59 · `rumor_gossip.*` 8 · `rumor_witness.*` 8 · `section.*` 5 · `shape.*` 11 · `skill.*` 84 · `state.*` 14 · `status.*` 5 · `story.*` 12 · `tag.*` 36 · `trophy.*` 14 · `tutorial.*` 62 · `ui.*` 364 · `weapon.*` 6
+`affix.*` 10 · `armor.*` 4 · `card.*` 82 · `card_type.*` 6 · `cell.*` 3 · `district.*` 103 · `district_map.*` 63 · `effect.*` 17 · `event.*` 9 · `faction.*` 4 · `intent.*` 7 · `log.*` 29 · `mechanism.*` 18 · `mod.*` 12 · `module.*` 80 · `monster.*` 73 · `petition.*` 26 · `resource.*` 4 · `rule.*` 59 · `rumor_gossip.*` 8 · `rumor_witness.*` 8 · `section.*` 5 · `shape.*` 11 · `skill.*` 84 · `state.*` 14 · `status.*` 5 · `story.*` 12 · `tag.*` 36 · `trophy.*` 14 · `tutorial.*` 62 · `ui.*` 398 · `weapon.*` 6

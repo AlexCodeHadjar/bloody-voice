@@ -1,6 +1,6 @@
 class_name ContractTracker
 extends VBoxContainer
-## The tracker in the top-right corner (GDD 7.1): one row per taken contract — silhouette, name, days left and
+## The tracker at the left edge of the district screen (GDD 7.1): one row per taken contract — silhouette, name, days left and
 ## the region icon. The icon makes the zone where the creature was last seen glow on the map; the row opens the
 ## contract tablet. Hidden while no contract is taken.
 

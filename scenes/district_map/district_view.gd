@@ -12,14 +12,13 @@ const DRAG_THRESHOLD := 6.0  ## px of mouse travel before a press becomes a drag
 const ZOOM_MAX := 1.25
 const ZOOM_STEP := 1.12
 const START_ZOOM := 0.8
-const FOLLOW_SPEED := 5.0  ## how fast the camera catches up with the walking hero
 const JUMP_TIME := 0.45
 const HERO_PICK_RADIUS := 70.0  ## art px around the hero's feet that count as "the hero" for a double-click
 
 var map: DistrictMapDef
 var world := Node2D.new()
 var overlay: DistrictOverlay
-var follow: Node2D = null  ## the camera keeps this in the centre while it moves, unless the player drags
+var hero: Node2D = null  ## for the double-click on the hero; the camera never follows him (owner 2026-10-14)
 
 var _zoom := START_ZOOM
 var _pressed := false
@@ -28,6 +27,7 @@ var _press_pos := Vector2.ZERO
 var _hovered: DistrictMapDef.LandmarkDef = null
 var _jump: Tween = null
 var markup: MapMarkupEditor  ## F3 markup (debug builds): the picked point and its move
+var markup_ui: MapMarkupUi = null  ## F3 markup tools: right-click menu, chain mode, legend (set by the screen)
 var _dev_label: Label = null  ## F3 markup help and the last save, over the map
 
 const EDIT_PICK := 18.0  ## screen px around a node, a landmark centre or a zone corner that picks it in F3 markup
@@ -35,9 +35,10 @@ const EDIT_PICK := 18.0  ## screen px around a node, a landmark centre or a zone
 
 func setup(district_map: DistrictMapDef) -> void:
 	map = district_map
-	markup = MapMarkupEditor.new(map)
+	markup = MapMarkupEditor.new(map, ContentDB.data.life(map.district))
 	clip_contents = true
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	world.z_index = -10  # the map, residents and smoke stay under every panel and window (they use z 3..5 inside)
 	add_child(world)
 	var art := Sprite2D.new()
 	art.centered = false
@@ -54,6 +55,7 @@ func add_layer(node: Node2D) -> void:
 ## The veil and hover outline go on top of everything else.
 func add_overlay(o: DistrictOverlay) -> void:
 	overlay = o
+	o.z_index = 6  # over the residents (z 3..5): veil, signboards, hover and the F3 markup
 	world.add_child(o)
 
 
@@ -86,14 +88,6 @@ func center_on(p: Vector2, glide: bool = false) -> void:
 	_jump.tween_method(_apply, world.position, target, JUMP_TIME)
 
 
-func _process(delta: float) -> void:
-	if follow == null or _dragging or (_jump != null and _jump.is_running()):
-		return
-	var target := _clamped(size * 0.5 - follow.position * _zoom)
-	if world.position.distance_squared_to(target) > 1.0:
-		_apply(world.position.lerp(target, minf(1.0, delta * FOLLOW_SPEED)))
-
-
 func _gui_input(event: InputEvent) -> void:
 	if map == null:
 		return
@@ -109,6 +103,8 @@ func _on_button(mb: InputEventMouseButton) -> void:
 			_zoom_at(mb.position, _zoom * ZOOM_STEP)
 		MOUSE_BUTTON_WHEEL_DOWN when mb.pressed:
 			_zoom_at(mb.position, _zoom / ZOOM_STEP)
+		MOUSE_BUTTON_RIGHT when mb.pressed and _markup_on() and markup_ui != null:
+			markup_ui.right_click(mb.position)
 		MOUSE_BUTTON_LEFT:
 			if _markup_button(mb):
 				return
@@ -116,8 +112,8 @@ func _on_button(mb: InputEventMouseButton) -> void:
 				_pressed = true
 				_dragging = false
 				_press_pos = mb.position
-				if mb.double_click and follow != null \
-						and screen_to_art(mb.position).distance_to(follow.position) < HERO_PICK_RADIUS:
+				if mb.double_click and hero != null \
+						and screen_to_art(mb.position).distance_to(hero.position) < HERO_PICK_RADIUS:
 					hero_double_clicked.emit()
 			else:
 				if _pressed and not _dragging:
@@ -129,8 +125,12 @@ func _on_button(mb: InputEventMouseButton) -> void:
 func _on_motion(mm: InputEventMouseMotion) -> void:
 	if markup.moving:  # F3 markup: the picked point follows the mouse
 		markup.move_to(screen_to_art(mm.position))
-		_show_pick()
+		show_pick()
 		return
+	if markup_ui != null and markup_ui.chain_from != &"":  # F3 chain: a line from the last node to the mouse
+		overlay.chain_from = map.node_pos(markup_ui.chain_from)
+		overlay.chain_to = screen_to_art(mm.position)
+		overlay.queue_redraw()
 	if _pressed and not _dragging and mm.position.distance_to(_press_pos) > DRAG_THRESHOLD:
 		_dragging = true
 		if _jump != null:
@@ -147,8 +147,10 @@ func _notification(what: int) -> void:
 
 
 func _click(p: Vector2) -> void:
+	if _markup_on() and markup_ui != null and markup_ui.chain_click(p):  # F3 chain: link the next node
+		return
 	if _markup_on() and markup.pick(p, EDIT_PICK / _zoom):  # F3 markup: a click on a point picks it
-		_show_pick()
+		show_pick()
 		return
 	var lm := DistrictMapRules.landmark_at(map, p)
 	if lm != null:
@@ -190,9 +192,13 @@ func _apply(pos: Vector2) -> void:
 	world.position = _clamped(pos)
 
 
+## The middle of the view may go to any point of the district's outline box (owner 2026-10-14: the camera is free),
+## so the edges can be centred too; it never goes past the outline, i.e. not into the fog beyond the Ringwall.
 func _clamped(pos: Vector2) -> Vector2:
-	var art := map.image_size * _zoom
-	return Vector2(clampf(pos.x, minf(0.0, size.x - art.x), 0.0), clampf(pos.y, minf(0.0, size.y - art.y), 0.0))
+	var box := map.contour_box()
+	var half := size * 0.5
+	return Vector2(clampf(pos.x, half.x - box.end.x * _zoom, half.x - box.position.x * _zoom),
+		clampf(pos.y, half.y - box.end.y * _zoom, half.y - box.position.y * _zoom))
 
 
 ## F3 markup (debug builds): Ctrl + a press anywhere starts moving the picked point (a Ctrl-press on a point picks it
@@ -201,6 +207,8 @@ func _markup_button(mb: InputEventMouseButton) -> bool:
 	if not mb.pressed:
 		var was := markup.moving
 		markup.moving = false
+		if was and markup.resident != null and markup_ui != null:
+			markup_ui.life_changed.emit()  # the moved resident is built again at his new spot
 		return was
 	if not _markup_on() or not mb.ctrl_pressed:
 		return false
@@ -209,7 +217,7 @@ func _markup_button(mb: InputEventMouseButton) -> bool:
 	if not markup.has_pick():
 		return false
 	markup.start_move(at)
-	_show_pick()
+	show_pick()
 	return true
 
 
@@ -218,10 +226,13 @@ func _markup_on() -> bool:
 
 
 ## The picked point: a ring on the overlay and its name and coordinates in the line over the map.
-func _show_pick() -> void:
+func show_pick() -> void:
+	overlay.queue_redraw()
+	if not markup.has_pick():
+		overlay.markup_pick = Vector2.INF
+		return
 	var p := markup.position()
 	overlay.markup_pick = p
-	overlay.queue_redraw()
 	set_dev_text(Loc.t("ui.dev.map_point", {"id": markup.label(), "x": p.x, "y": p.y}))
 
 

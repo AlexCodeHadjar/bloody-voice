@@ -70,7 +70,6 @@ func _district_shots() -> void:
 			var v := n as DistrictView
 			v.overlay.toggle_debug()
 			v.call("_zoom_at", v.size * 0.5, 0.1)
-			v.follow = null
 			v.center_on(map.node_pos(&"square"))
 	await _wait(0.5)
 	await _shot("14_district_calibration")
@@ -113,7 +112,6 @@ func _rumor_shots() -> void:
 	var map := ContentDB.data.district_map(GameState.run.hero_district)
 	for n: Node in screen.find_children("*", "Control", true, false):
 		if n is DistrictView:
-			(n as DistrictView).follow = null
 			(n as DistrictView).center_on(map.node_pos(list[0].node))
 	await _wait(0.6)
 	await _shot("19_rumor_diamonds")

@@ -99,3 +99,11 @@ Data: `data/gear/weapons.json`, `modules.json`, `shapes.json`, `armor.json`, `me
 
 Data: `data/gear/mechanisms.json` (negative mods are the costs), blueprints in `blueprints.json`. Icons — `docs/art-prompts/art-backlog.md` S (until then an empty icon place).
 
+
+## 5.7 Screen sketch — the workbench (owner 2026-10-14)
+
+`docs/assets/ui/equipment_workbench.png` — the next look of the Equipment screen (not built yet). The rifle lies large
+on a workbench in the middle with its cells drawn on its parts (stock, frame, magazine, scope, barrel; leader lines);
+left — a mannequin with the four armor sockets and their mechanism dots; right — a drawer with spare modules,
+mechanisms and armor plates in tabs (a taken module follows the cursor, a green frame shows where it will go);
+bottom — the battle deck as a fan of cards with counts, the hovered module's cards lit.

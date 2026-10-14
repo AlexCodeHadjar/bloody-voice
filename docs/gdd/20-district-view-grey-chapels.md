@@ -37,7 +37,8 @@ question 20.10).
   points — owner's references in `assets/refs/` (local, not in git).
 - **Neighbours:** strips of Nordhal (north), Lumen Campus and Rowan Market (west), Deepwright Lifts and Scarlet
   Lantern Row (south) are inside the art but the game covers them with a dark veil (≈ 70 % black + diagonal
-  hatching) and a label «Нордхал — закрыто». They cannot be clicked or walked.
+  hatching) and a label «Нордхал — закрыто». They cannot be clicked or walked. Beyond the Ringwall (east) is open
+  fog, not a district: no veil there (`fog_side` polygon in the map data, owner 2026-10-14).
 - **View:** strictly top-down, north up, same engraved-watercolour style as the city map, but close.
 - **Time of day:** the base art is dusk. Night is a tint + lit windows layer later (Phase 7 overlays).
 
@@ -47,14 +48,20 @@ question 20.10).
 |---|---|
 | Hold **left button** and move (more than 6 px) | Drag the map. Releasing does not count as a click |
 | **Left click** (no drag) on a landmark / street | The hero walks there along the streets |
-| Hover a landmark | Its name and action in a tooltip; the building gets a brass outline |
+| Hover a landmark | Its name and action in a tooltip; the building gets a brass ring and its signboard glows |
 | Mouse wheel | Zoom from "the map is as wide as the screen" (≈ 0.48) to 1.25 (1.0 = native art); start 0.8 |
 | Space / double-click the hero | Centre the camera on the hero |
 | Buttons «К охотнику» and «Домой» (top bar) | Jump the camera to the hero / to Ash Garret, so the player never gets lost |
-| F3 (debug builds) | Calibration overlay: street graph, landmark spots, zones, contour |
+| F3 (debug builds) | Markup editor (§20.12) |
 
-- The camera is clamped to the map; at the start it centres on the hero's home (Ash Garret).
-- While the hero walks the camera follows, unless the player is dragging.
+- The camera is free (owner 2026-10-14): it never follows the hero; the middle of the view may go to any point of
+  the district outline's bounding box, so the edges can be centred too, but not past the outline (not into the fog
+  beyond the Ringwall). At the start it centres on the hero's home (Ash Garret).
+- **Signboards** (owner 2026-10-14): every place with an action (home, workshop, tavern, shop, infirmary,
+  Scriptorium, rumor post) has a small wrought plate with the action's icon hanging over it, always shown; under the
+  mouse it grows, glows brass and shows the place's name (`scenes/district_map/place_signs.gd`). Closed places have none.
+- The map, residents and smoke draw under every panel and window (the map world has z −10).
+- The contract tracker sits at the left edge of the screen with a small gap (owner 2026-10-14).
 - The viewport (1920 × 1080) shows about 68 % of the width and 29 % of the height — the player must drag to
   see the whole district, which is the point: the slums feel big.
 
@@ -147,20 +154,32 @@ Done 2026-10-12 — see §20.11 and CLAUDE.md («Район»).
 | Places | Click a place → the hero walks there → a card: name, zone, a line about it. **Ash Garret** — «Отдохнуть до утра» (ends the day); **Rusty Cog** — «Снаряжение»; **the Lantern & Hook** — «Доска заказов» (GDD 7.4); **Bonfire Square** — «Столб со слухами» (GDD 8.4; rumor diamonds stand on the streets); gates (North Gate, South Passage, West Crossing) — «Закрыто»; the rest — «Откроется позже» |
 | Hover | A brass ring round the place and a tooltip: name + what it does |
 | Streets | A click on a street (≤ 110 px from it) sends the hero there; the hero's node is saved (`RunState.hero_node`, save v3). Old v2 saves are moved to GREY and every other district is locked — on purpose (the game starts confined to GREY) |
-| Hero | The stone figurine (four views), 350 px/s, footsteps; the camera follows unless the player drags |
-| Neighbours | Veil 70 % black + diagonal hatching outside the contour, «Нордхал — закрыто» labels |
+| Hero | The stone figurine (four views), 350 px/s, footsteps; the camera does not follow (owner 2026-10-14) |
+| Neighbours | Veil 70 % black + diagonal hatching outside the contour, except the open fog beyond the Ringwall; «Нордхал — закрыто» labels |
 | Time of day | Always evening for now (the art is a night scene); real day / night comes with hours (phase 7) |
-| Residents | About 40 people + animals, scenes at places, living decor (`data/city/district_life/GREY.json`, `scenes/district_map/life/`): they walk, look around, chat with an emote, work at their spots, step aside for the hero. Only atmosphere; the little stories of map-life-people.md part D are the next step |
+| Residents | About 40 people + animals, scenes at places, living decor (no laundry, banners, card players, street circus or leaflet readers — owner 2026-10-14: they only got in the way) (`data/city/district_life/GREY.json`, `scenes/district_map/life/`): they walk, look around, chat with an emote, work at their spots, step aside for the hero. Only atmosphere; the little stories of map-life-people.md part D are the next step |
 | Sound | Music «Deep Humidity» + rain; a second layer by the place under the camera: cellars in the Fog Hollow, wind at the Ringwall, fire by the tavern, the market and Bonfire Square (`sound_spots` / zone `ambience` in the map data) |
 
-## 20.10 Markup editing (debug builds, owner 2026-10-12)
+## 20.12 Markup editing (debug builds, owner 2026-10-12/14)
 
-F3 on the district screen shows the markup (streets, nodes, landmark rings, zones with corner squares, contour). In it
-a **click picks** a point — a red node dot, a landmark centre or a green zone corner (a yellow ring marks it) — and
-**Ctrl + the held left button** anywhere on the map moves the picked point with the mouse, without a jump; a plain drag
-still moves the map, so a point never moves by accident. A zone corner shared by several zones moves in all of them.
-The line at the top shows the point's id and coordinates (`scenes/district_map/map_markup_editor.gd`). **Ctrl+S** writes
-the new numbers into `data/city/district_maps/<ID>.json` (nodes, landmark spots and zone polygons; only the numbers change, the layout of the file stays;
-`scenes/district_map/map_markup_saver.gd`; an exported build writes `user://district_maps/<ID>.json`). Streets keep
-their node order — moving a node bends every street through it. Keep nodes inside the contour (the validator stops the game otherwise); check with `tools/check_district_map.py`. The hero and residents standing still keep their old spot until they next move.
+F3 on the district screen opens the markup editor (`scenes/district_map/map_markup_*.gd`). A legend at the bottom left
+says what everything means: red dots — street nodes (the hero and passers-by walk along them); cyan lines — links
+(streets), orange — rope crossings; white rings — places; violet dots — residents standing or working in one spot;
+green lines and squares — zones; pink line and frames — the district outline (the dark veil is outside); blue line
+and frames — the open fog beyond the wall (no veil); a yellow ring — the picked point.
 
+- **Click** picks a point; **Ctrl + the held left button** anywhere moves the picked point (no jump); a plain drag
+  moves the map. A corner shared by several zones / the outline / the fog side moves in all of them.
+- **Right click** on empty ground: create a street node, a place (pick its action), a zone corner, an outline corner,
+  a fog corner (each corner goes on the nearest edge, into every polygon sharing it), or a resident (a copy of a
+  standing or working one). On a point: «Соединить цепочкой» (nodes), «Переименовать», «Удалить»; on a link:
+  «Удалить связь».
+- **Chain mode** («Соединить цепочкой»): each click on a node links the last node to it; a click on empty ground makes
+  a new node there and links it; right click or Esc ends. A chain is one new street (kind `street`).
+- **Names** come automatically (`node_N`, `place_N`, `path_N`, `<resident>_N`) and can be changed: a node or a
+  resident takes a latin id (every reference — streets, places, home, walkers — follows), a place its Russian name.
+  The hero's home node, the only place with an action and a walker's second-to-last node cannot be deleted.
+- **Ctrl+S** writes `data/city/district_maps/<ID>.json` and `data/city/district_life/<ID>.json` in their own layout
+  (`core/dev/json_layout.gd`; untouched fields stay) and the Russian names of new places and streets into
+  `locale/strings.csv`, then runs the map and residents checks the way the game does at boot and says if it would not
+  start. An exported build writes `user://district_maps/`. Residents are rebuilt at once after a change.

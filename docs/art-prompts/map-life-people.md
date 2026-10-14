@@ -340,11 +340,9 @@ Each group is ONE picture; a group may use the full width of its slot, at the sa
 
 | # | Файл | Где, когда | Промт |
 |---|---|---|---|
-| 1 | `LIFE__group__leaflet_readers.png` | столб листовок, утро | A crowd of people reading blank leaflets pinned on a tall post, one man reading aloud to illiterate neighbours, a child on someone's shoulders. |
 | 2 | `LIFE__group__soup_kitchen.png` | лазарет, полдень | Ash Sisters ladling soup from a big iron cauldron over a fire into tin bowls, a long line of ragged people with bowls. |
 | 3 | `LIFE__group__vigil_raid.png` | событие | Four Iron Vigil watchmen breaking down a door with a battering ram, a weeping woman held back, neighbours watching from windows. |
 | 4 | `LIFE__group__bucket_brigade.png` | пожар | A chain of people passing water buckets hand to hand towards a smoking doorway, a man on a ladder throwing water. |
-| 5 | `LIFE__group__street_circus.png` | рынок, вечер | A juggler with burning torches and a fire-eater blowing flame, a ring of amazed spectators, a hat on the ground. |
 | 6 | `LIFE__group__roof_repair.png` | крыши, днём | Three workers on a sagging roof replacing slates, one on a ladder passing tiles up, a bucket of tar smoking. |
 | 7 | `LIFE__group__rat_race.png` | двор у таверны | Men crouching around a chalk racing track on the ground where three rats run, betting with coins, one cheering wildly. |
 | 8 | `LIFE__group__workers_meeting.png` | депо, вечер (перед бунтом) | Deepwright workers gathered around a man standing on a crate, fists raised, torches, angry faces. |

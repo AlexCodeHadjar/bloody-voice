@@ -13,7 +13,7 @@
 - Time unit: **day**. 7 days = **week**. A chapter is about 4 weeks. There are no years: the game is short and tight.
 - **Monday:** the shop and black market refresh their stock; new contracts appear on the board.
 - **Sunday (Rentday):** rent for the workshop-home is due. Unpaid rent becomes debt; after 2 missed payments the workshop is locked for a day.
-- Every contract shows its deadline in days on the tracker (top-right).
+- Every contract shows its deadline in days on the tracker (left edge of the district screen).
 
 ## 3.3 Day actions
 

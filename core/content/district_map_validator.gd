@@ -12,6 +12,8 @@ static func validate(data: ContentData, errs: ErrorLog, check_files: bool = true
 			errs.add(w, "missing image %s" % m.image)
 		if m.contour.size() < 3:
 			errs.add(w, "contour needs at least 3 points")
+		if not m.fog_side.is_empty() and m.fog_side.size() < 3:
+			errs.add(w, "fog_side needs at least 3 points (or leave it out)")
 		for nb: DistrictMapDef.NeighbourDef in m.neighbours:
 			if not data.districts.has(nb.district):
 				errs.add(w, "unknown neighbour district '%s'" % nb.district)
