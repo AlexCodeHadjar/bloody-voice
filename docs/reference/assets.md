@@ -35,5 +35,5 @@
 
 | Prompt file | Named | Missing |
 |---|---|---|
-| `art-backlog.md` | 112 | 20: ABYSS_THING__combat__normal, ABYSS_THING__combat__phase2, ABYSS_THING__silhouette__cracked, ABYSS_THING__silhouette__leaflet, GHOUL__combat__normal, GHOUL__combat__phase2, GHOUL__silhouette__cracked, GHOUL__silhouette__leaflet, GREY__map__festival, GREY__map__fog_breach, GREY__map__quarantine, MECHANISM__blood_pump … |
+| `art-backlog.md` | 125 | 33: ABYSS_THING__combat__normal, ABYSS_THING__combat__phase2, ABYSS_THING__silhouette__cracked, ABYSS_THING__silhouette__leaflet, EQUIP__armor_socket, EQUIP__bench, EQUIP__cell__blood, EQUIP__cell__gear, EQUIP__cell__spark, EQUIP__deck_ledge, EQUIP__drawer, EQUIP__drawer_slot … |
 | `map-life-people.md` | 11 | 0 |

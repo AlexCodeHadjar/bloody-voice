@@ -81,3 +81,27 @@ func test_json_layout_round_trip() -> void:
 	for path: String in ["res://data/city/district_maps/GREY.json", "res://data/city/district_life/GREY.json"]:
 		var text := FileAccess.get_file_as_string(path)
 		eq(JsonLayout.format(JSON.parse_string(text)), text, "%s keeps its layout" % path)
+
+
+func test_filter_hides_from_picking() -> void:
+	var data := load_content(false)
+	var map := _map(data)
+	var ed := MapMarkupEditor.new(map, data.life(&"GREY"))
+	var node_pos := map.node_pos(map.home)
+	check(ed.pick(node_pos, 5.0), "a shown node is picked")
+	ed.layers[&"streets"] = false
+	ed.clear()
+	ed.pick(node_pos, 5.0)
+	check(ed.node == &"", "a hidden node is not picked")
+	var z := map.zones[0]
+	ed.layers[StringName("zone:" + z.id)] = false
+	ed.layers[&"contour"] = false
+	ed.layers[&"fog"] = false
+	var corner := z.polygon[0]
+	var others := map.zones.filter(func(o: DistrictMapDef.ZoneDef) -> bool: return o != z and o.polygon.has(corner))
+	for o: DistrictMapDef.ZoneDef in others:
+		ed.layers[StringName("zone:" + o.id)] = false
+	ed.layers[&"places"] = false
+	ed.layers[&"residents"] = false
+	check(not ed.pick(corner, 3.0), "a corner of hidden zones is not picked")
+

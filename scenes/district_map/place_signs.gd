@@ -16,6 +16,8 @@ const RIM := Color(0.72, 0.56, 0.3)
 const RIM_HOT := Color(1.0, 0.83, 0.5)
 const NAME_SIZE := 34
 
+static var _textures: Dictionary[StringName, Texture2D] = {}  ## kept here: a texture nobody holds is freed before the frame is drawn (white squares)
+
 
 static func has_sign(lm: DistrictMapDef.LandmarkDef) -> bool:
 	return ICONS.has(lm.action)
@@ -39,12 +41,20 @@ static func _draw_one(canvas: CanvasItem, lm: DistrictMapDef.LandmarkDef, hot: b
 		canvas.draw_rect(plate.grow(10.0), Color(RIM_HOT, 0.18))
 	canvas.draw_rect(plate, PLATE)
 	canvas.draw_rect(plate, rim, false, 4.0)
-	var pair: Array = ICONS[lm.action]
-	var tex := Icons.texture(pair[0] as String, pair[1] as StringName)
+	var tex := _icon(lm.action)
 	if tex != null:
-		canvas.draw_texture_rect(tex, plate.grow(-side * 0.14), false)
+		var box := plate.grow(-side * 0.14)
+		var fit := tex.get_size() * minf(box.size.x / tex.get_size().x, box.size.y / tex.get_size().y)
+		canvas.draw_texture_rect(tex, Rect2(box.get_center() - fit * 0.5, fit), false)  # keeps the icon's proportions
 	if hot:
 		var w := font.get_string_size(lm.name, HORIZONTAL_ALIGNMENT_LEFT, -1, NAME_SIZE).x
 		var at := Vector2(lm.pos.x - w * 0.5, plate.end.y + NAME_SIZE + 6.0)
 		canvas.draw_string_outline(font, at, lm.name, HORIZONTAL_ALIGNMENT_LEFT, -1, NAME_SIZE, 8, Color(0, 0, 0, 0.9))
 		canvas.draw_string(font, at, lm.name, HORIZONTAL_ALIGNMENT_LEFT, -1, NAME_SIZE, RIM_HOT)
+
+
+static func _icon(action: StringName) -> Texture2D:
+	if not _textures.has(action):
+		var pair: Array = ICONS[action]
+		_textures[action] = Icons.texture(pair[0] as String, pair[1] as StringName)
+	return _textures[action]

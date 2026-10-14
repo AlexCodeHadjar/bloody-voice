@@ -15,10 +15,9 @@ const FLASH := Color(0.55, 0.75, 1.0)  ## the blue glow of a contract's region
 const FLASH_IN := 0.35
 const FLASH_HOLD := 1.2
 const FLASH_OUT := 2.0
-const FOG_LINE := Color(0.35, 0.6, 1.0)  ## F3: the open fog side (no veil)
-const RESIDENT := Color(0.75, 0.45, 1.0)  ## F3: a resident standing in one spot
 
 var debug_visible := false
+var markup: MapMarkupEditor = null  ## F3 markup: what to draw and which layers the filter shows
 var markup_pick := Vector2.INF  ## F3 markup: the picked point (INF = none)
 var chain_from := Vector2.INF  ## F3 chain mode: the last node (INF = off) ...
 var chain_to := Vector2.ZERO  ## ... and the mouse: a dashed line between them
@@ -126,43 +125,8 @@ func _draw_label(pos: Vector2, text: String) -> void:
 
 ## Calibration view: streets (by kind), nodes with ids, landmark circles with numbers, zones and the contour.
 func _draw_debug() -> void:
-	var font := UiKit.serif()
-	draw_polyline(_closed(_map.contour), Color.MAGENTA, 4.0)
-	if _map.fog_side.size() >= 3:
-		draw_polyline(_closed(_map.fog_side), FOG_LINE, 3.0)
-	for z: DistrictMapDef.ZoneDef in _map.zones:
-		draw_polyline(_closed(z.polygon), Color(0.4, 1.0, 0.4, 0.8), 2.0)
-	for s: DistrictMapDef.StreetDef in _map.streets:
-		var pts := PackedVector2Array()
-		for id: StringName in s.nodes:
-			pts.append(_map.node_pos(id))
-		draw_polyline(pts, Color(1.0, 0.55, 0.1) if s.kind == &"rope" else Color.CYAN, 5.0)
-	if chain_from != Vector2.INF:
-		draw_dashed_line(chain_from, chain_to, Color.YELLOW, 4.0, 18.0)
-	for id: StringName in _map.nodes:
-		var p: Vector2 = _map.nodes[id]
-		draw_circle(p, 9.0, Color.RED)
-		draw_string(font, p + Vector2(12, -8), str(id), HORIZONTAL_ALIGNMENT_LEFT, -1, 26, Color.YELLOW)
-	for lm: DistrictMapDef.LandmarkDef in _map.landmarks:
-		draw_arc(lm.pos, lm.radius, 0.0, TAU, 48, Color.WHITE, 3.0)
-		draw_string(font, lm.pos, str(lm.number), HORIZONTAL_ALIGNMENT_CENTER, -1, 34, Color.WHITE)
-	_draw_markup_points(font)
-	if markup_pick != Vector2.INF:
-		draw_arc(markup_pick, 22.0, 0.0, TAU, 32, Color.YELLOW, 5.0)
-
-
-## Corners (zones green, outline magenta, fog blue) and the residents who stand or work in one spot (violet).
-func _draw_markup_points(font: Font) -> void:
-	for z: DistrictMapDef.ZoneDef in _map.zones:
-		for p: Vector2 in z.polygon:
-			draw_rect(Rect2(p - Vector2(6, 6), Vector2(12, 12)), Color(0.4, 1.0, 0.4))
-	for p: Vector2 in _map.contour:
-		draw_rect(Rect2(p - Vector2(8, 8), Vector2(16, 16)), Color.MAGENTA, false, 3.0)
-	for p: Vector2 in _map.fog_side:
-		draw_rect(Rect2(p - Vector2(8, 8), Vector2(16, 16)), FOG_LINE, false, 3.0)
-	for r: DistrictLifeDef.ResidentDef in MapMarkupOps.standing(ContentDB.data.life(_map.district)):
-		draw_circle(r.pos, 8.0, RESIDENT)
-		draw_string(font, r.pos + Vector2(12, 18), str(r.id), HORIZONTAL_ALIGNMENT_LEFT, -1, 22, RESIDENT)
+	if markup != null:
+		MapMarkupDraw.draw(self, markup, self, UiKit.serif())
 
 
 static func _closed(poly: PackedVector2Array) -> PackedVector2Array:

@@ -163,10 +163,12 @@ Done 2026-10-12 — see §20.11 and CLAUDE.md («Район»).
 ## 20.12 Markup editing (debug builds, owner 2026-10-12/14)
 
 F3 on the district screen opens the markup editor (`scenes/district_map/map_markup_*.gd`). A legend at the bottom left
-says what everything means: red dots — street nodes (the hero and passers-by walk along them); cyan lines — links
-(streets), orange — rope crossings; white rings — places; violet dots — residents standing or working in one spot;
-green lines and squares — zones; pink line and frames — the district outline (the dark veil is outside); blue line
-and frames — the open fog beyond the wall (no veil); a yellow ring — the picked point.
+says what everything means and is a **filter** (owner 2026-10-14): a tick per layer shows or hides it, and hidden
+points cannot be picked — streets and nodes (cyan lines, red dots; orange — rope crossings), node names, places (white
+rings), residents standing or working in one spot (violet dots), the district outline (pink; the dark veil is
+outside), the open fog beyond the wall (blue; no veil); «Показать всё» / «Скрыть всё». **Every zone has its own
+colour** — a light fill, a border, corner squares and its name in the middle — and its own tick in the legend.
+A yellow ring is the picked point; the line with its name and coordinates sits at the top centre.
 
 - **Click** picks a point; **Ctrl + the held left button** anywhere moves the picked point (no jump); a plain drag
   moves the map. A corner shared by several zones / the outline / the fog side moves in all of them.

@@ -203,13 +203,14 @@ ui.dev.legend_keys,Клик — выбрать · Ctrl+мышь — двигат
 ui.dev.legend_pick,Жёлтое кольцо — выбранная точка,Yellow ring — the picked point
 ui.dev.legend_fog,Синяя линия и рамки — туман за стеной: тут штриховки нет,Blue line and frames — the fog beyond the wall: no veil here
 ui.dev.legend_contour,Розовая линия и рамки — граница района: снаружи тёмная штриховка,Pink line and frames — the district outline: the dark veil is outside
-ui.dev.legend_zone,"Зелёные линии и квадраты — зоны (слухи, бои, звук)","Green lines and squares — zones (rumors, fights, sound)"
 ui.dev.legend_resident,"Фиолетовая точка — житель, который стоит или работает",Violet dot — a resident standing or working in one spot
 ui.dev.legend_place,"Белый круг — место: клик по нему, герой идёт к его узлу","White ring — a place: clicked, the hero walks to its node"
-ui.dev.legend_rope,Оранжевая линия — канатный переход,Orange line — a rope crossing
-ui.dev.legend_street,Голубая линия — связь между узлами (улица),Cyan line — a link between nodes (a street)
-ui.dev.legend_node,Красная точка — узел улицы: по узлам ходят герой и прохожие,Red dot — street node: the hero and passers-by walk along them
 ui.dev.legend_title,Разметка района,District markup
+ui.dev.show_none,Скрыть всё,Hide all
+ui.dev.show_all,Показать всё,Show all
+ui.dev.legend_zones,"Зоны (слухи, бои, звук) — у каждой свой цвет:","Zones (rumors, fights, sound) — each in its own colour:"
+ui.dev.legend_names,Имена узлов (жёлтые подписи),Node names (yellow labels)
+ui.dev.legend_streets,Улицы и узлы: голубые линии и красные точки — по ним ходят герой и прохожие (оранжевая линия — канат),Streets and nodes: cyan lines and red dots — the hero and passers-by walk along them (orange — a rope)
 ui.dev.rename_help,"Enter — применить, Esc — отмена. Место: русское название; узел и житель: латиница.","Enter applies, Esc cancels. A place takes its Russian name; nodes and residents a latin id."
 ui.dev.rename_title,Новое имя,New name
 ui.dev.menu_resident,Поставить жителя,Place a resident

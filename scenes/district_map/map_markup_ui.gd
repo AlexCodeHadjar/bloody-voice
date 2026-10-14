@@ -35,7 +35,7 @@ func setup(district_view: DistrictView) -> void:
 	for m: PopupMenu in [_menu, _places, _people]:  # the submenus become the menu's children when first added
 		m.id_pressed.connect(_on_menu)
 	add_child(_menu)
-	_legend = MapMarkupLegend.build()
+	_legend = MapMarkupLegend.build(ed, func() -> void: view.show_pick())  # a tick redraws the markup
 	_legend.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	_legend.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	_legend.position = Vector2(16.0, -16.0)

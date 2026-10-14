@@ -21,6 +21,15 @@ Rules behind the screens: workshop — GDD §6, hunter progression and webs — 
 Flow: pick a blueprint → see what it does to the deck → «Изготовить» → the item appears in the stash as spare and
 can be fitted at once via «К снаряжению». No craft is wasted: salvage returns half (GDD §6.2).
 
+### 23.1a Next look — «master's table» (owner 2026-10-14)
+
+`docs/assets/ui/workshop_master_table.png` (not built yet; the current screen is too small and plain): top — a shelf
+with the resources large (jar icons and big numbers) and today's two works as craft tokens; left — a wall of pinned
+blueprint cards, two per row, each with the item's picture, name and cost (tabs Modules / Mechanisms / Armor, «only
+available»); centre — the picked item's blueprint unrolled on the bench: big picture, name, section and cell, tier pips,
+effect, cards, owned; under it three big brass levers «Изготовить» / «Улучшить до II» / «Разобрать» with costs; right —
+a rack with ready items (tier, installed or spare) and trophies (which blueprint they open).
+
 ## 23.2 Skill webs («Развитие охотника»)
 
 | # | Zone | Content |

@@ -17,11 +17,16 @@ var moving := false
 var renamed_residents: Dictionary[StringName, StringName] = {}  ## new id -> id in the file (for the saver)
 var copied_residents: Dictionary[StringName, StringName] = {}  ## new resident -> the one it was copied from
 var named_places: Dictionary[StringName, bool] = {}  ## places whose Russian name the saver writes to the table
+var layers: Dictionary[StringName, bool] = {}  ## the legend filter: streets, names, places, residents, contour, fog, zone:<id> (missing = shown)
 
 
 func _init(district_map: DistrictMapDef, district_life: DistrictLifeDef) -> void:
 	map = district_map
 	life = district_life
+
+
+func shown(layer: StringName) -> bool:
+	return layers.get(layer, true)
 
 
 func has_pick() -> bool:
@@ -37,29 +42,35 @@ func clear() -> void:
 	moving = false
 
 
-## Picks the point within `radius` art px of `p`: nodes, places, residents, then corners. False if none.
+## Picks the shown point within `radius` art px of `p`: nodes, places, residents, then corners. False if none.
 func pick(p: Vector2, radius: float) -> bool:
-	for id: StringName in map.nodes:
+	for id: StringName in (map.nodes if shown(&"streets") else {}):
 		if map.nodes[id].distance_to(p) <= radius:
 			clear()
 			node = id
 			return true
-	for lm: DistrictMapDef.LandmarkDef in map.landmarks:
+	for lm: DistrictMapDef.LandmarkDef in (map.landmarks if shown(&"places") else []):
 		if lm.pos.distance_to(p) <= radius:
 			clear()
 			landmark = lm
 			return true
-	for r: DistrictLifeDef.ResidentDef in MapMarkupOps.standing(life):
+	for r: DistrictLifeDef.ResidentDef in (MapMarkupOps.standing(life) if shown(&"residents") else []):
 		if r.pos.distance_to(p) <= radius:
 			clear()
 			resident = r
 			return true
 	for poly: MapMarkupOps.PolyRef in MapMarkupOps.polygons(map):
+		if not shown(poly_layer(poly)):
+			continue
 		for q: Vector2 in poly.points():
 			if q.distance_to(p) <= radius:
 				pick_corner(q)
 				return true
 	return false
+
+
+static func poly_layer(poly: MapMarkupOps.PolyRef) -> StringName:
+	return StringName("zone:" + poly.zone.id) if poly.zone != null else poly.which
 
 
 func pick_corner(at: Vector2) -> void:

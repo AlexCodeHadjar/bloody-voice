@@ -55,6 +55,7 @@ func add_layer(node: Node2D) -> void:
 ## The veil and hover outline go on top of everything else.
 func add_overlay(o: DistrictOverlay) -> void:
 	overlay = o
+	o.markup = markup
 	o.z_index = 6  # over the residents (z 3..5): veil, signboards, hover and the F3 markup
 	world.add_child(o)
 
@@ -246,7 +247,9 @@ func end_markup() -> void:
 func set_dev_text(text: String) -> void:
 	if _dev_label == null:
 		_dev_label = UiKit.label("", 18, Palette.PARCHMENT)
-		_dev_label.position = Vector2(16, 12)
+		_dev_label.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)  # top centre: the tracker sits at the left
+		_dev_label.offset_top = 12.0
+		_dev_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		_dev_label.add_theme_constant_override("outline_size", 6)
 		_dev_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
 		_dev_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
