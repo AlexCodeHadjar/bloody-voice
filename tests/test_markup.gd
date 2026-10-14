@@ -158,3 +158,25 @@ func test_corner_snaps_to_a_neighbour() -> void:
 	eq(ZoneMosaic.snap(map, target + Vector2(5, 3), 12.0, PackedVector2Array()), target, "sticks to a nearby corner")
 	var far := Vector2(-500, -500)
 	eq(ZoneMosaic.snap(map, far, 12.0, PackedVector2Array()), far, "nothing near: stays")
+
+
+func test_subtract_inner_shape_is_not_a_hole() -> void:
+	var a := PackedVector2Array([Vector2(0, 0), Vector2(1000, 0), Vector2(1000, 1000), Vector2(0, 1000)])
+	var b := PackedVector2Array([Vector2(400, 400), Vector2(600, 400), Vector2(600, 600), Vector2(400, 600)])
+	var pieces := ZoneMosaic.subtract(a, b)
+	var total := 0.0
+	for p: PackedVector2Array in pieces:
+		total += absf(ZoneMosaic.area(p))
+		check(not Geometry2D.is_point_in_polygon(Vector2(500, 500), p), "no piece covers the inner shape")
+	near(total, 1000.0 * 1000.0 - 200.0 * 200.0, "the ring is kept as simple pieces", 50.0)
+
+
+func test_heal_puts_places_in_their_zone() -> void:
+	var data := load_content(false)
+	var map := _map(data)
+	map.zones.erase(map.zones[0])
+	ZoneMosaic.heal(map)
+	for lm: DistrictMapDef.LandmarkDef in map.landmarks:
+		var here := DistrictMapRules.zone_at(map, lm.pos)
+		if here != &"":
+			eq(lm.zone, here, "%s takes the zone it stands in" % lm.id)

@@ -1026,7 +1026,6 @@ district.GREY.danger,P,P
 district.GREY.look,"Руины часовен забытой веры, хибары на крышах, серый туман в подвалах, костры.","Ruined chapels of a forgotten faith, shanty roofs, grey fog in cellars, bonfires."
 district.GREY.area.the_old_grey_chapel,Старая Серая Часовня,The Old Grey Chapel
 district.GREY.area.shanty_roofs,Хибары на крышах,Shanty Roofs
-district.GREY.area.edge_walk,Дорожка над Бездной,Edge Walk (railing over the abyss)
 district.DEEPWRIGHT.name,Подъёмники Дипрайта,Deepwright Lifts
 district.DEEPWRIGHT.class,Промышленный,Industrial
 district.DEEPWRIGHT.controller,Компания Дипрайт,Deepwright Company
@@ -1127,7 +1126,6 @@ district_map.GREY.street.path_23,Проход path_23,path_23
 district_map.GREY.street.path_24,Проход path_24,path_24
 district_map.GREY.street.path_25,Проход path_25,path_25
 district_map.GREY.street.path_26,Проход path_26,path_26
-district_map.GREY.zone.edge_walk,Дорожка над Бездной,Edge Walk
 district_map.GREY.zone.fog_hollow,Туманный лог,Fog Hollow
 district_map.GREY.zone.chapel_close,Часовенный двор,Chapel Close
 district_map.GREY.zone.shanty_roofs,Хибары на крышах,Shanty Roofs

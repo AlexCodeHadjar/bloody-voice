@@ -104,6 +104,7 @@ static func _landmarks(list: Array, ed: MapMarkupEditor, names: Dictionary[Strin
 			"number": lm.number, "name": str(lm.id), "zone": str(lm.zone), "radius": lm.radius, "action": str(lm.action)}
 		d["pos"] = _pt(lm.pos)
 		d["node"] = str(lm.node)
+		d["zone"] = str(lm.zone)  # the mosaic may have moved the place into another zone
 		if not old.has(str(lm.id)) or ed.named_places.has(lm.id):
 			names["%s.landmark.%s.name" % [base, lm.id]] = lm.name
 		out.append(d)

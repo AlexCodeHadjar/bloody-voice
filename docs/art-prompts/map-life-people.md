@@ -346,7 +346,6 @@ Each group is ONE picture; a group may use the full width of its slot, at the sa
 | 7 | `LIFE__group__rat_race.png` | двор у таверны | Men crouching around a chalk racing track on the ground where three rats run, betting with coins, one cheering wildly. |
 | 8 | `LIFE__group__workers_meeting.png` | депо, вечер (перед бунтом) | Deepwright workers gathered around a man standing on a crate, fists raised, torches, angry faces. |
 | 9 | `LIFE__group__wall_drill.png` | Кольцевая стена, утро | A sergeant drilling five young recruits with muskets on the wall walk, one recruit dropping his musket. |
-| 10 | `LIFE__group__night_watch_fire.png` | ночь, у ворот | Three men warming their hands around a fire in an iron barrel, one telling a story, one asleep against the wall. |
 
 ## D. Маленькие сюжеты — что можно увидеть, если смотреть
 

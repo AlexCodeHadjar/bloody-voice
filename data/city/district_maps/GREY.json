@@ -14,12 +14,11 @@
   {"district": "SCARLET", "label": [2650, 5620]}
  ],
  "zones": [
-  {"id": "edge_walk", "ambience": "wind", "polygon": [[2820, 700], [3060, 1150], [3260, 1500], [3368, 1819], [3396, 1919], [3315, 1963], [3276, 2073], [3352, 2635], [3376, 3515], [3390, 3839], [3368, 4431], [3352, 4607], [3454, 4613], [3370, 5147], [3300, 5140], [3190, 5140], [3170, 4000], [3200, 2000], [3110, 1600], [2900, 1250], [2700, 800], [2500, 420], [2602, 394]]},
-  {"id": "fog_hollow", "ambience": "cellar", "polygon": [[3200, 2000], [3171, 3948], [2600, 3820], [2100, 3660], [1700, 3200], [1300, 2520], [1300, 2150], [1900, 2149], [2250, 2099], [2767, 3000], [2947, 3000], [3179, 2849]]},
+  {"id": "fog_hollow", "ambience": "cellar", "polygon": [[3171, 3948], [2600, 3820], [2100, 3660], [1700, 3200], [1300, 2520], [1300, 2150], [1900, 2149], [2250, 2099], [2767, 3000], [2947, 3000], [3179, 2849], [3200, 2000]]},
   {"id": "chapel_close", "ambience": "", "polygon": [[3110, 1600], [3200, 2000], [3179, 2849], [2947, 3000], [2767, 3000], [2251, 2099], [2300, 1300], [2500, 1550], [2899, 1350], [2900, 1250]]},
-  {"id": "shanty_roofs", "ambience": "", "polygon": [[2820, 700], [2602, 394], [2500, 420], [2700, 800], [2900, 1250], [2899, 1350], [2500, 1550], [2300, 1300], [2250, 600], [2016, 292], [1033, 419], [1490, 303], [2015, 291], [2471, 187], [2620, 2]]},
+  {"id": "shanty_roofs", "ambience": "", "polygon": [[2820, 700], [3060, 1150], [3260, 1500], [3368, 1819], [3396, 1919], [3315, 1963], [3276, 2073], [3352, 2635], [3376, 3515], [3390, 3839], [3368, 4431], [3352, 4607], [3454, 4613], [3370, 5147], [3300, 5140], [3189, 5140], [3169, 4000], [3200, 2000], [3110, 1600], [2900, 1250], [2899, 1350], [2500, 1550], [2300, 1300], [2250, 600], [2016, 292], [1033, 419], [1490, 303], [2015, 291], [2471, 187], [2620, 2]]},
   {"id": "ash_quarter", "ambience": "", "polygon": [[2250, 600], [2300, 1300], [2250, 2099], [1900, 2149], [900, 2150], [512, 2311], [375, 1886], [371, 1709], [426, 1407], [578, 1046], [720, 600], [1033, 419], [2016, 292]]},
-  {"id": "lower_yards", "ambience": "", "polygon": [[1300, 2520], [1700, 3200], [2100, 3660], [2600, 3820], [3171, 3948], [3170, 4000], [3190, 5140], [1500, 5140], [580, 5472], [990, 4451], [940, 4300], [890, 3925], [810, 3425], [620, 2800], [588, 2544], [512, 2311], [900, 2150], [1300, 2150]]}
+  {"id": "lower_yards", "ambience": "", "polygon": [[1300, 2520], [1700, 3200], [2100, 3660], [2600, 3820], [3171, 3948], [3169, 4000], [3189, 5140], [1500, 5140], [580, 5472], [990, 4451], [940, 4300], [890, 3925], [810, 3425], [620, 2800], [588, 2544], [512, 2311], [900, 2150], [1300, 2150]]}
  ],
  "sound_spots": [
   {"ambience": "fire", "pos": [1130, 1640], "radius": 380},
@@ -178,7 +177,7 @@
  ],
  "landmarks": [
   {"id": "old_grey_chapel", "number": 1, "name": "The Old Grey Chapel", "zone": "chapel_close", "pos": [2690, 2105], "node": "ch_w", "radius": 300, "action": "soon"},
-  {"id": "silent_belfry", "number": 2, "name": "The Silent Belfry", "zone": "ash_quarter", "pos": [2165, 470], "node": "belfry", "radius": 160, "action": "soon"},
+  {"id": "silent_belfry", "number": 2, "name": "The Silent Belfry", "zone": "shanty_roofs", "pos": [2165, 470], "node": "belfry", "radius": 160, "action": "soon"},
   {"id": "north_gate", "number": 3, "name": "North Gate", "zone": "ash_quarter", "pos": [1527, 415], "node": "north_gate", "radius": 120, "action": "locked"},
   {"id": "ash_market", "number": 4, "name": "Ash Market", "zone": "ash_quarter", "pos": [2050, 1150], "node": "market", "radius": 200, "action": "soon"},
   {"id": "rag_and_bone", "number": 5, "name": "Rag-and-Bone Shop", "zone": "ash_quarter", "pos": [1780, 1720], "node": "shop", "radius": 110, "action": "shop"},
@@ -189,9 +188,9 @@
   {"id": "candle_bridge", "number": 10, "name": "Candle Bridge", "zone": "fog_hollow", "pos": [1450, 2440], "node": "bridge_m", "radius": 160, "action": "soon"},
   {"id": "fog_cellars", "number": 11, "name": "The Fog Cellars", "zone": "fog_hollow", "pos": [1880, 2960], "node": "cellars", "radius": 130, "action": "soon"},
   {"id": "crypt_scriptorium", "number": 12, "name": "Crypt Scriptorium", "zone": "chapel_close", "pos": [3178, 2265], "node": "scriptorium", "radius": 130, "action": "library"},
-  {"id": "god_in_the_wall", "number": 13, "name": "The God in the Wall", "zone": "edge_walk", "pos": [3440, 3000], "node": "god_wall", "radius": 140, "action": "soon"},
-  {"id": "edge_walk", "number": 14, "name": "Edge Walk", "zone": "edge_walk", "pos": [3230, 1650], "node": "edge_2", "radius": 150, "action": "soon"},
-  {"id": "old_aqueduct", "number": 15, "name": "The Old Aqueduct", "zone": "lower_yards", "pos": [2590, 3800], "node": "aqueduct", "radius": 200, "action": "soon"},
+  {"id": "god_in_the_wall", "number": 13, "name": "The God in the Wall", "zone": "fog_hollow", "pos": [3440, 3000], "node": "god_wall", "radius": 140, "action": "soon"},
+  {"id": "edge_walk", "number": 14, "name": "Edge Walk", "zone": "shanty_roofs", "pos": [3230, 1650], "node": "edge_2", "radius": 150, "action": "soon"},
+  {"id": "old_aqueduct", "number": 15, "name": "The Old Aqueduct", "zone": "fog_hollow", "pos": [2590, 3800], "node": "aqueduct", "radius": 200, "action": "soon"},
   {"id": "ash_sisters", "number": 16, "name": "Ash Sisters' Infirmary", "zone": "lower_yards", "pos": [1850, 3650], "node": "infirmary", "radius": 130, "action": "infirmary"},
   {"id": "nameless_yard", "number": 17, "name": "The Nameless Yard", "zone": "lower_yards", "pos": [1840, 4280], "node": "yard", "radius": 220, "action": "soon"},
   {"id": "broken_hoist", "number": 18, "name": "The Broken Hoist", "zone": "lower_yards", "pos": [3600, 4880], "node": "hoist", "radius": 230, "action": "soon"},

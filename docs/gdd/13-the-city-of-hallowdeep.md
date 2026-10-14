@@ -188,7 +188,7 @@ Each district is described with the same fields. **Code** is the stable identifi
 | Controlled by | Nobody officially; the Grey Communion secretly |
 | Danger rank | P |
 | Look | Ruined chapels of a forgotten faith, shanty roofs, grey fog in cellars, bonfires. |
-| Areas (sub-zones) | Ash Quarter · Shanty Roofs · Chapel Close · Fog Hollow · Lower Yards · Edge Walk (GDD §20.5) |
+| Areas (sub-zones) | Ash Quarter · Shanty Roofs · Chapel Close · Fog Hollow · Lower Yards (GDD §20.5; Edge Walk removed 2026-10-14) |
 | Landmarks | 12 — The Old Grey Chapel (city map number). Inside the district: 21 places, see GDD §20.6 |
 | Typical monsters | Fog corruption, cult summonings, rat swarms. |
 | Rumor flavour tags | grey fog in the cellar; prayers to the god in the wall; people with grey eyes |

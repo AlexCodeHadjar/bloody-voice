@@ -83,14 +83,14 @@ question 20.10).
 | Chapel Close | Часовенный двор | The ruined Old Grey Chapel and its walled yard, broken saints, grey candles, cult chalk signs | sacred and wrong | prayers to the god in the wall, grey eyes | cult summonings, Clay Saint |
 | Fog Hollow | Туманный лог | A sunken gully where the platform sagged: flooded cellars, grey fog lying like water, the Candle Bridge above it | cold, silent | grey fog in the cellar, wet footprints | fog corruption, Lamplighter |
 | Lower Yards | Нижние дворы | Yards, sheds and graves along the aqueduct down to the south edge; the broken hoist leaning over the abyss | abandoned, hungry | digging sounds, opened graves | ghouls, Burrow Wyrm (rare) |
-| Edge Walk | Дорожка над Бездной | A railing path along the inner face of the Ringwall, lamps on chains, the abyss beyond the parapet | dizzying | voices from below the edge | things climbing up |
+| Edge Walk | Дорожка над Бездной | A railing path along the inner face of the Ringwall, lamps on chains, the abyss beyond the parapet | dizzying | voices from below the edge | things climbing up — **zone removed 2026-10-14 (owner)**: its strip went to the neighbouring zones |
 
 ## 20.6 Landmarks
 
 | # | Name (game, RU) | English (prompts) | Zone | Game role | What it looks like (for art) |
 |---|---|---|---|---|---|
 | 1 | Старая Серая Часовня | The Old Grey Chapel | Chapel Close | Story hub of the Grey Communion; first story contract | A large Gothic chapel of grey stone, cross-shaped plan, one tall broken spire, roof half collapsed with timber ribs showing, lit grey candles inside visible through holes, walled yard with toppled saints |
-| 2 | Безмолвная колокольня | The Silent Belfry | Ash Quarter (north) | Lookout: reveals rumors nearby (later); landmark on the Nordhal border | Very tall narrow bell tower without a bell, scaffolding and a ladder to the top, a lantern at the top |
+| 2 | Безмолвная колокольня | The Silent Belfry | Shanty Roofs | Lookout: reveals rumors nearby (later); landmark on the Nordhal border | Very tall narrow bell tower without a bell, scaffolding and a ladder to the top, a lantern at the top |
 | 3 | Северные ворота | North Gate | border | Exit to Nordhal — **locked** at the start | Iron gate in a brick arch, chained shut, a guard brazier, Nordhal's warm lights beyond |
 | 4 | Пепельный рынок | Ash Market | Ash Quarter | Daily trade, food, gossip; market events | Square of patched canvas stalls around 3 bonfires, carts, crates, crowd shapes |
 | 5 | Лавка старьёвщика | Rag-and-Bone Shop | Ash Quarter | **SHOP**: weapons, modules, consumables | Crooked two-storey shop with a cart full of scrap outside, hanging bones and old lamps, sign shaped like a bone |
@@ -101,9 +101,9 @@ question 20.10).
 | 10 | Мост Свечей | Candle Bridge | Fog Hollow | Crossing over the hollow; votive candles mark the dead | Old stone arch bridge over fog, hundreds of small candles on its parapets, glowing arches |
 | 11 | Туманные подвалы | The Fog Cellars | Fog Hollow | Night hunts; fog creatures; secret cult rooms | Sunken half-flooded cellar entrances, stairs going down into grey fog, broken doors |
 | 12 | Склеп-скрипторий | Crypt Scriptorium | Chapel Close | **LIBRARY**: bestiary research, old texts | Crypt entrance beside the chapel with a reading lamp, stacks of books under a vault, a scribe's desk |
-| 13 | Бог в стене | The God in the Wall | Edge Walk | Shrine of the forbidden faith; Voice events | A huge face-like relief carved into the inner Ringwall, candles and offerings at its base, grey cloth strips |
-| 14 | Дорожка над Бездной | Edge Walk | Edge Walk | Path along the edge; rare events | Narrow railed walkway along the wall, lamps on chains, fog pouring over the edge |
-| 15 | Старый акведук | The Old Aqueduct | Lower Yards | Walkway across the district on top of the arches | Long brick aqueduct on high arches crossing diagonally, a path along its top, ivy and dripping water |
+| 13 | Бог в стене | The God in the Wall | Fog Hollow | Shrine of the forbidden faith; Voice events | A huge face-like relief carved into the inner Ringwall, candles and offerings at its base, grey cloth strips |
+| 14 | Дорожка над Бездной | Edge Walk | Shanty Roofs | Path along the edge; rare events | Narrow railed walkway along the wall, lamps on chains, fog pouring over the edge |
+| 15 | Старый акведук | The Old Aqueduct | Fog Hollow | Walkway across the district on top of the arches | Long brick aqueduct on high arches crossing diagonally, a path along its top, ivy and dripping water |
 | 16 | Лазарет Пепельных сестёр | Ash Sisters' Infirmary | Lower Yards | Heal HP and Sanity for money | Former chapel house with white sheets in windows, a red lamp, beds visible in a yard, nuns in grey |
 | 17 | Безымянное кладбище | The Nameless Yard | Lower Yards | Paupers' graves; ichor, ghoul contracts | Walled graveyard with crooked wooden markers, open fresh graves, a gravedigger's hut, crows |
 | 18 | Сломанный подъёмник | The Broken Hoist | Lower Yards | Sealed way down to the under-slums (Chapter II) | Collapsed iron lift tower leaning over the edge, snapped cables, boarded cage, warning signs without text |
@@ -157,8 +157,8 @@ Done 2026-10-12 — see §20.11 and CLAUDE.md («Район»).
 | Hero | The stone figurine (four views), 350 px/s, footsteps; the camera does not follow (owner 2026-10-14) |
 | Neighbours | Veil 70 % black + diagonal hatching outside the contour, except the open fog beyond the Ringwall; «Нордхал — закрыто» labels |
 | Time of day | Always evening for now (the art is a night scene); real day / night comes with hours (phase 7) |
-| Residents | About 40 people + animals, scenes at places, living decor (no laundry, banners, card players, street circus, leaflet readers, roof repair or fortune teller — owner 2026-10-14: they only got in the way) (`data/city/district_life/GREY.json`, `scenes/district_map/life/`): they walk, look around, chat with an emote, work at their spots, step aside for the hero. Only atmosphere; the little stories of map-life-people.md part D are the next step |
-| Sound | Music «Deep Humidity» + rain; a second layer by the place under the camera: cellars in the Fog Hollow, wind at the Ringwall, fire by the tavern, the market and Bonfire Square (`sound_spots` / zone `ambience` in the map data) |
+| Residents | About 40 people + animals, scenes at places, living decor (no laundry, banners, card players, street circus, leaflet readers, roof repair, fortune teller, night-watch fire or market crowd — owner 2026-10-14: they only got in the way) (`data/city/district_life/GREY.json`, `scenes/district_map/life/`): they walk, look around, chat with an emote, work at their spots, step aside for the hero. Only atmosphere; the little stories of map-life-people.md part D are the next step |
+| Sound | Music «Deep Humidity» + rain; a second layer by the place under the camera: cellars in the Fog Hollow (the wind of the Edge Walk zone went with it, 2026-10-14), fire by the tavern, the market and Bonfire Square (`sound_spots` / zone `ambience` in the map data) |
 
 ## 20.12 Markup editing (debug builds, owner 2026-10-12/14)
 

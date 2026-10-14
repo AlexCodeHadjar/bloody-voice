@@ -46,7 +46,7 @@
    "petition": "story_wyrm",
    "monster": "burrow_wyrm",
    "type": "slay",
-   "zone": "edge_walk",
+   "zone": "fog_hollow",
    "reward": 140,
    "portrait": "scribe",
    "after": {

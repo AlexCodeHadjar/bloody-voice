@@ -64,9 +64,26 @@ static func gaps(map: DistrictMapDef) -> Array[PackedVector2Array]:
 	for z: DistrictMapDef.ZoneDef in map.zones:
 		var next: Array[PackedVector2Array] = []
 		for g: PackedVector2Array in left:
-			next.append_array(Geometry2D.clip_polygons(g, z.polygon))
+			next.append_array(subtract(g, z.polygon))
 		left = next
 	return left.filter(func(g: PackedVector2Array) -> bool: return absf(area(g)) >= SLIVER and 2.0 * absf(area(g)) / perimeter(g) >= THIN)
+
+
+## `a` minus `b` as simple shapes. When `b` lies wholly inside `a` the result would be a ring (an outline with a hole,
+## which a zone cannot be): `a` is cut in two through `b`'s middle and each half loses its part of `b`.
+static func subtract(a: PackedVector2Array, b: PackedVector2Array) -> Array[PackedVector2Array]:
+	var res := Geometry2D.clip_polygons(a, b)
+	var big := largest(res)
+	if res.size() < 2 or not res.any(func(p: PackedVector2Array) -> bool:
+			return Geometry2D.is_polygon_clockwise(p) != Geometry2D.is_polygon_clockwise(big)):
+		return res
+	var x := centre(b).x
+	var out: Array[PackedVector2Array] = []
+	for half: PackedVector2Array in [PackedVector2Array([Vector2(-1e6, -1e6), Vector2(x, -1e6), Vector2(x, 1e6), Vector2(-1e6, 1e6)]),
+			PackedVector2Array([Vector2(x, -1e6), Vector2(1e6, -1e6), Vector2(1e6, 1e6), Vector2(x, 1e6)])]:
+		for piece: PackedVector2Array in Geometry2D.intersect_polygons(a, half):
+			out.append_array(Geometry2D.clip_polygons(piece, b))
+	return out
 
 
 ## The zone whose border the gap touches most (the nearest one when it touches none, unless `touching_only`).
