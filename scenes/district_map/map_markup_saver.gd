@@ -26,6 +26,7 @@ static func save(ed: MapMarkupEditor) -> String:
 		if life_raw is Dictionary:
 			_sync_life(life_raw as Dictionary, ed)
 			written.append(_write(life_path, JsonLayout.format(life_raw)))
+	written.append(_save_rumor_zones(ed))
 	if not names.is_empty():
 		_upsert_csv(names)
 	return "" if written.has("") else ", ".join(written)
@@ -42,10 +43,7 @@ static func _sync_map(raw: Dictionary, ed: MapMarkupEditor) -> Dictionary[String
 		raw.erase("fog_side")
 	else:
 		raw["fog_side"] = _pts(map.fog_side)
-	for zd: Dictionary in raw["zones"]:
-		var z := map.zone(StringName(str(zd["id"])))
-		if z != null:
-			zd["polygon"] = _pts(z.polygon)
+	raw["zones"] = _zones(raw["zones"] as Array, ed, names, base)
 	var nodes := {}
 	for id: StringName in map.nodes:
 		nodes[str(id)] = _pt(map.nodes[id])
@@ -61,6 +59,41 @@ static func _sync_map(raw: Dictionary, ed: MapMarkupEditor) -> Dictionary[String
 	raw["streets"] = streets
 	raw["landmarks"] = _landmarks(raw["landmarks"] as Array, ed, names, base)
 	return names
+
+
+## Zones as the editor has them: kept fields of the old ones, new ones from the editor, deleted ones gone.
+static func _zones(list: Array, ed: MapMarkupEditor, names: Dictionary[String, String], base: String) -> Array:
+	var old := _by_id(list)
+	var out: Array = []
+	for z: DistrictMapDef.ZoneDef in ed.map.zones:
+		var d: Dictionary = (old[str(z.id)] as Dictionary).duplicate() if old.has(str(z.id)) else {"id": str(z.id),
+			"ambience": str(z.ambience)}
+		d["polygon"] = _pts(z.polygon)
+		if ed.named_zones.has(z.id):
+			names["%s.zone.%s" % [base, z.id]] = z.name
+		out.append(d)
+	return out
+
+
+## data/rumors/rumors.json: every zone of the district keeps its rumor pictures and signs; a new zone gets a copy of
+## the zone it was cut from, a deleted one loses its entry. Written in that file's own layout (one item per line).
+static func _save_rumor_zones(ed: MapMarkupEditor) -> String:
+	var path := "res://data/rumors/rumors.json"
+	var raw: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	if not raw is Dictionary or not (raw as Dictionary).has("zones"):
+		return ""
+	var all: Dictionary = raw["zones"]
+	var old: Dictionary = all.get(str(ed.map.district), {})
+	var out := {}
+	for id: String in old:  # the file's own order first
+		if ed.map.zone(StringName(id)) != null:
+			out[id] = old[id]
+	for z: DistrictMapDef.ZoneDef in ed.map.zones:
+		var src := str(ed.zone_parents.get(z.id, z.id))
+		if not out.has(str(z.id)) and old.has(src):
+			out[str(z.id)] = (old[src] as Dictionary).duplicate(true)
+	all[str(ed.map.district)] = out
+	return _write(path, JSON.stringify(raw, " ", false) + "\n")
 
 
 static func _landmarks(list: Array, ed: MapMarkupEditor, names: Dictionary[String, String], base: String) -> Array:

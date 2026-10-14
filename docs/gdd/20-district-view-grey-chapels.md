@@ -176,12 +176,23 @@ A yellow ring is the picked point; the line with its name and coordinates sits a
   a fog corner (each corner goes on the nearest edge, into every polygon sharing it), or a resident (a copy of a
   standing or working one). On a point: «Соединить цепочкой» (nodes), «Переименовать», «Удалить»; on a link:
   «Удалить связь».
+- **Zones are a mosaic** (owner 2026-10-14, `zone_mosaic.gd`): they always cover the whole district without holes or
+  overlaps. After a zone or outline corner is moved, added or deleted, every zone is cut to the outline, overlaps are
+  cut away (the zone just edited keeps its shape) and every hole goes to the neighbour that borders it most; places
+  take the zone they stand in. A dragged corner **sticks** to a nearby corner or border of another zone.
+- **New zone**: right click → «Новая зона (обвести кликами)», click its corners along the quarter (they stick to the
+  neighbours), right click or Enter closes it, Esc drops it. It is carved out of the zones under it, takes the sound
+  and the rumor pictures and signs of the zone it mostly lies in (`rumors.json` gets a copy) and asks for its Russian
+  name. **Delete a zone**: right click inside it → «Удалить зону» — its ground goes to the neighbours; the last zone
+  and a zone the story sends the hunter to cannot be deleted. «Переименовать зону» changes its Russian name. A new
+  zone has no fight backdrop of its own yet (the district scene is used).
 - **Chain mode** («Соединить цепочкой»): each click on a node links the last node to it; a click on empty ground makes
   a new node there and links it; right click or Esc ends. A chain is one new street (kind `street`).
 - **Names** come automatically (`node_N`, `place_N`, `path_N`, `<resident>_N`) and can be changed: a node or a
   resident takes a latin id (every reference — streets, places, home, walkers — follows), a place its Russian name.
   The hero's home node, the only place with an action and a walker's second-to-last node cannot be deleted.
-- **Ctrl+S** writes `data/city/district_maps/<ID>.json` and `data/city/district_life/<ID>.json` in their own layout
+- **Ctrl+S** writes `data/city/district_maps/<ID>.json`, `data/city/district_life/<ID>.json` and the zones of
+  `data/rumors/rumors.json` in their own layout
   (`core/dev/json_layout.gd`; untouched fields stay) and the Russian names of new places and streets into
   `locale/strings.csv`. First it runs the map and residents checks the way the game does at boot: a markup the game
   would not start with is not written (owner 2026-10-14 — a lone node once locked him out of the game); the changes

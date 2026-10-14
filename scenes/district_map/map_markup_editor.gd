@@ -17,6 +17,8 @@ var moving := false
 var renamed_residents: Dictionary[StringName, StringName] = {}  ## new id -> id in the file (for the saver)
 var copied_residents: Dictionary[StringName, StringName] = {}  ## new resident -> the one it was copied from
 var named_places: Dictionary[StringName, bool] = {}  ## places whose Russian name the saver writes to the table
+var named_zones: Dictionary[StringName, bool] = {}  ## the same for zones (new or renamed)
+var zone_parents: Dictionary[StringName, StringName] = {}  ## new zone -> the zone whose rumor data it copies
 var layers: Dictionary[StringName, bool] = {}  ## the legend filter: streets, names, places, residents, contour, fog, zone:<id> (missing = shown)
 
 
@@ -113,9 +115,21 @@ func start_move(mouse_art: Vector2) -> void:
 	_offset = position() - mouse_art
 
 
-## Moves the picked point after the mouse; returns its new position.
-func move_to(mouse_art: Vector2) -> Vector2:
+## The first zone the picked corner belongs to (it keeps its shape when the zones are healed), or null.
+func corner_zone() -> DistrictMapDef.ZoneDef:
+	for c: Array in _corners:
+		var poly := c[0] as MapMarkupOps.PolyRef
+		if poly.zone != null:
+			return poly.zone
+	return null
+
+
+## Moves the picked point after the mouse; a corner sticks to a corner or border of another shape within
+## `snap_radius` art px (ZoneMosaic.snap). Returns the new position.
+func move_to(mouse_art: Vector2, snap_radius: float = 0.0) -> Vector2:
 	var p := (mouse_art + _offset).round()
+	if corner != Vector2.INF and snap_radius > 0.0:
+		p = ZoneMosaic.snap(map, p, snap_radius, PackedVector2Array([corner]))
 	if node != &"":
 		map.nodes[node] = p
 	elif landmark != null:

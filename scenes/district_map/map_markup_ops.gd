@@ -264,3 +264,53 @@ static func rename_resident(life: DistrictLifeDef, r: DistrictLifeDef.ResidentDe
 	if problem == "":
 		r.id = to
 	return problem
+
+
+## The zone a new outline mostly lies in (the most shared area), or null.
+static func main_zone(map: DistrictMapDef, outline: PackedVector2Array) -> DistrictMapDef.ZoneDef:
+	var best: DistrictMapDef.ZoneDef = null
+	var best_area := 0.0
+	for z: DistrictMapDef.ZoneDef in map.zones:
+		var shared := 0.0
+		for p: PackedVector2Array in Geometry2D.intersect_polygons(outline, z.polygon):
+			shared += absf(ZoneMosaic.area(p))
+		if shared > best_area:
+			best = z
+			best_area = shared
+	return best
+
+
+## A new zone from the outline the owner clicked: cut to the district and carved out of the zones under it (it keeps
+## its shape); it takes the sound and the rumor pictures and signs of `parent`. Null when it lies outside the district.
+static func add_zone(map: DistrictMapDef, data: ContentData, outline: PackedVector2Array,
+		parent: DistrictMapDef.ZoneDef) -> DistrictMapDef.ZoneDef:
+	var poly := ZoneMosaic.largest(Geometry2D.intersect_polygons(outline, map.contour))
+	if poly.size() < 3:
+		return null
+	var z := DistrictMapDef.ZoneDef.new()
+	z.id = unique_id("zone", func(x: StringName) -> bool: return map.zone(x) != null)
+	z.name = Loc.t("ui.dev.zone_name", {"n": map.zones.size() + 1})
+	z.ambience = parent.ambience if parent != null else &""
+	z.polygon = ZoneMosaic.tidy(poly)
+	map.zones.append(z)
+	ZoneMosaic.heal(map, z)
+	var rumor_zones: Dictionary = data.rumor_data.zones.get(map.district, {})
+	if parent != null and rumor_zones.has(parent.id):
+		var src: RumorDefs.ZoneDef = rumor_zones[parent.id]
+		var copy := RumorDefs.ZoneDef.new()
+		copy.art = src.art.duplicate()
+		copy.tags = src.tags.duplicate()
+		rumor_zones[z.id] = copy
+	return z
+
+
+## Removes a zone; its ground goes to the neighbours. Refuses the last zone and a zone the story sends the hunter to.
+static func delete_zone(map: DistrictMapDef, data: ContentData, z: DistrictMapDef.ZoneDef) -> String:
+	if map.zones.size() <= 1:
+		return Loc.t("ui.dev.no_delete_zone_last")
+	if data.story != null and data.story.steps.any(func(s: StoryDefs.StepDef) -> bool: return s.zone == z.id):
+		return Loc.t("ui.dev.no_delete_zone_story", {"name": z.name})
+	map.zones.erase(z)
+	ZoneMosaic.heal(map)
+	(data.rumor_data.zones.get(map.district, {}) as Dictionary).erase(z.id)
+	return ""

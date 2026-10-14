@@ -21,6 +21,7 @@ var markup: MapMarkupEditor = null  ## F3 markup: what to draw and which layers 
 var markup_pick := Vector2.INF  ## F3 markup: the picked point (INF = none)
 var chain_from := Vector2.INF  ## F3 chain mode: the last node (INF = off) ...
 var chain_to := Vector2.ZERO  ## ... and the mouse: a dashed line between them
+var draft := PackedVector2Array()  ## F3: the corners of a new zone being outlined
 
 var _map: DistrictMapDef
 var _veil: Array[PackedVector2Array] = []  ## the whole art with the district and the open fog side cut out

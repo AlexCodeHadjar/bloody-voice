@@ -125,11 +125,12 @@ func _on_button(mb: InputEventMouseButton) -> void:
 
 func _on_motion(mm: InputEventMouseMotion) -> void:
 	if markup.moving:  # F3 markup: the picked point follows the mouse
-		markup.move_to(screen_to_art(mm.position))
+		markup.move_to(screen_to_art(mm.position), EDIT_PICK / _zoom)
 		show_pick()
 		return
-	if markup_ui != null and markup_ui.chain_from != &"":  # F3 chain: a line from the last node to the mouse
-		overlay.chain_from = map.node_pos(markup_ui.chain_from)
+	if markup_ui != null and (markup_ui.chain_from != &"" or markup_ui.drafting):  # F3: a line to the mouse
+		if markup_ui.chain_from != &"":
+			overlay.chain_from = map.node_pos(markup_ui.chain_from)
 		overlay.chain_to = screen_to_art(mm.position)
 		overlay.queue_redraw()
 	if _pressed and not _dragging and mm.position.distance_to(_press_pos) > DRAG_THRESHOLD:
@@ -148,7 +149,7 @@ func _notification(what: int) -> void:
 
 
 func _click(p: Vector2) -> void:
-	if _markup_on() and markup_ui != null and markup_ui.chain_click(p):  # F3 chain: link the next node
+	if _markup_on() and markup_ui != null and markup_ui.click(p):  # F3 chain or a new zone's outline
 		return
 	if _markup_on() and markup.pick(p, EDIT_PICK / _zoom):  # F3 markup: a click on a point picks it
 		show_pick()
@@ -210,6 +211,8 @@ func _markup_button(mb: InputEventMouseButton) -> bool:
 		markup.moving = false
 		if was and markup.resident != null and markup_ui != null:
 			markup_ui.life_changed.emit()  # the moved resident is built again at his new spot
+		elif was and markup.corner != Vector2.INF and markup_ui != null:
+			markup_ui.heal_zones(markup.corner_zone())  # the zones close up again around the moved corner
 		return was
 	if not _markup_on() or not mb.ctrl_pressed:
 		return false

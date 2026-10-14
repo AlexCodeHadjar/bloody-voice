@@ -46,6 +46,12 @@ static func draw(c: CanvasItem, ed: MapMarkupEditor, overlay: DistrictOverlay, f
 		for r: DistrictLifeDef.ResidentDef in MapMarkupOps.standing(ed.life):
 			c.draw_circle(r.pos, 8.0, RESIDENT)
 			c.draw_string(font, r.pos + Vector2(12, 18), str(r.id), HORIZONTAL_ALIGNMENT_LEFT, -1, 22, RESIDENT)
+	if not overlay.draft.is_empty():  # a new zone being outlined: its corners, its sides and a line to the mouse
+		c.draw_polyline(overlay.draft, PICK, 4.0)
+		for p: Vector2 in overlay.draft:
+			c.draw_circle(p, 9.0, PICK)
+		c.draw_dashed_line(overlay.draft[-1], overlay.chain_to, PICK, 3.0, 16.0)
+		c.draw_dashed_line(overlay.chain_to, overlay.draft[0], Color(PICK, 0.5), 2.0, 16.0)
 	if overlay.markup_pick != Vector2.INF:
 		c.draw_arc(overlay.markup_pick, 22.0, 0.0, TAU, 32, PICK, 5.0)
 

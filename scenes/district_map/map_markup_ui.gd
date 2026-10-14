@@ -8,7 +8,8 @@ extends Control
 
 signal life_changed  ## residents were added, moved, renamed or deleted: the screen rebuilds them
 
-enum { CONNECT = 1, RENAME, DELETE, UNLINK, NEW_NODE = 10, ZONE_CORNER, DARK_CORNER, FOG_CORNER, PLACE = 100, RESIDENT = 200 }
+enum { CONNECT = 1, RENAME, DELETE, UNLINK, NEW_NODE = 10, ZONE_CORNER, DARK_CORNER, FOG_CORNER, NEW_ZONE = 20, RENAME_ZONE,
+	DELETE_ZONE, PLACE = 100, RESIDENT = 200 }
 
 const LINK_PICK := 14.0  ## screen px around a link that a right click hits
 
@@ -24,6 +25,11 @@ var _rename: PanelContainer
 var _rename_edit: LineEdit
 var _at := Vector2.ZERO  ## art point of the last right click
 var _link: Array[StringName] = []  ## the link under the last right click
+var _zone_here: DistrictMapDef.ZoneDef = null  ## the zone under the last right click
+var zones := MapMarkupZoneTool.new(self)  ## new zones, deleting, renaming, healing the mosaic
+var drafting: bool:  ## a new zone is being outlined
+	get:
+		return zones.drafting
 
 
 func setup(district_view: DistrictView) -> void:
@@ -57,16 +63,20 @@ func key(event: InputEvent) -> bool:
 	if k.keycode == KEY_S and k.ctrl_pressed:
 		_save()
 		return true
+	if (k.keycode == KEY_ENTER or k.keycode == KEY_KP_ENTER) and zones.drafting:
+		zones.finish()
+		return true
 	return event.is_action_pressed("ui_cancel") and cancel()
 
 
 func set_on(on: bool) -> void:
 	visible = on
 	end_chain()
+	zones.cancel()
 	_rename.visible = false
 	if not on:
 		view.end_markup()
-	_status(Loc.t("ui.dev.map_help") if on else "")
+	status(Loc.t("ui.dev.map_help") if on else "")
 
 
 func is_busy() -> bool:
@@ -77,6 +87,11 @@ func is_busy() -> bool:
 func cancel() -> bool:
 	if _rename.visible:
 		_rename.visible = false
+		zones.rename_target = null
+		return true
+	if zones.drafting:
+		zones.cancel()
+		status(Loc.t("ui.dev.zone_cancelled"))
 		return true
 	if chain_from != &"":
 		end_chain()
@@ -88,6 +103,9 @@ func cancel() -> bool:
 func right_click(screen_pos: Vector2) -> void:
 	if chain_from != &"":
 		end_chain()
+		return
+	if zones.drafting:
+		zones.finish()
 		return
 	_at = view.screen_to_art(screen_pos)
 	_link = []
@@ -101,8 +119,12 @@ func right_click(screen_pos: Vector2) -> void:
 	view.show_pick()
 
 
-## A left click in the chain mode (art point): link to the node there, or make a new node and link to it.
-func chain_click(p: Vector2) -> bool:
+## A left click (art point) while outlining a zone adds a corner; in the chain mode it links to the node there, or makes
+## a new node and links to it. False when neither mode is on.
+func click(p: Vector2) -> bool:
+	if zones.drafting:
+		zones.add_point(p)
+		return true
 	if chain_from == &"":
 		return false
 	var to := &""
@@ -115,14 +137,14 @@ func chain_click(p: Vector2) -> bool:
 	chain_from = to
 	ed.clear()
 	ed.node = to
-	_status(Loc.t("ui.dev.chain", {"id": to}))
+	status(Loc.t("ui.dev.chain", {"id": to}))
 	view.show_pick()
 	return true
 
 
 func end_chain() -> void:
 	if chain_from != &"":
-		_status(Loc.t("ui.dev.chain_end"))
+		status(Loc.t("ui.dev.chain_end"))
 	chain_from = &""
 	_chain_street = null
 	view.overlay.chain_from = Vector2.INF
@@ -150,6 +172,13 @@ func _fill_menu(picked: bool) -> void:
 	_menu.add_item(Loc.t("ui.dev.menu_dark_corner"), DARK_CORNER)
 	if not ed.map.fog_side.is_empty():
 		_menu.add_item(Loc.t("ui.dev.menu_fog_corner"), FOG_CORNER)
+	_menu.add_separator()
+	_menu.add_item(Loc.t("ui.dev.menu_new_zone"), NEW_ZONE)
+	_zone_here = ed.map.zone(DistrictMapRules.zone_at(ed.map, _at))
+	if _zone_here != null:
+		_menu.add_item(Loc.t("ui.dev.menu_rename_zone", {"name": _zone_here.name}), RENAME_ZONE)
+		_menu.add_item(Loc.t("ui.dev.menu_delete_zone", {"name": _zone_here.name}), DELETE_ZONE)
+	_menu.add_separator()
 	_people.clear()
 	var standing := MapMarkupOps.standing(ed.life)
 	for i: int in standing.size():
@@ -163,8 +192,9 @@ func _on_menu(id: int) -> void:
 	match id:
 		CONNECT:
 			chain_from = ed.node
-			_status(Loc.t("ui.dev.chain", {"id": chain_from}))
+			status(Loc.t("ui.dev.chain", {"id": chain_from}))
 		RENAME:
+			zones.rename_target = null
 			_open_rename()
 		DELETE:
 			problem = _delete()
@@ -174,16 +204,24 @@ func _on_menu(id: int) -> void:
 			ed.clear()
 			ed.node = MapMarkupOps.add_node(ed.map, _at)
 			chain_from = ed.node
-			_status(Loc.t("ui.dev.chain", {"id": chain_from}))
+			status(Loc.t("ui.dev.chain", {"id": chain_from}))
 		ZONE_CORNER, DARK_CORNER, FOG_CORNER:
 			var which: StringName = {ZONE_CORNER: &"zone", DARK_CORNER: &"contour", FOG_CORNER: &"fog"}[id]
 			MapMarkupOps.add_corner(ed.map, which, _at)
 			ed.pick_corner(_at.round())
+			zones.heal()
+		NEW_ZONE:
+			zones.start()
+		RENAME_ZONE:
+			zones.rename_target = _zone_here
+			open_rename(_zone_here.name)
+		DELETE_ZONE:
+			problem = zones.delete(_zone_here)
 		_:
 			_create(id)
 	if problem != "":
-		_status(problem)
-	elif id != CONNECT and id != NEW_NODE:
+		status(problem)
+	elif not id in [CONNECT, NEW_NODE, NEW_ZONE, RENAME_ZONE]:
 		view.show_pick()
 
 
@@ -209,6 +247,9 @@ func _delete() -> String:
 		life_changed.emit()
 	else:
 		problem = MapMarkupOps.delete_corner(ed.map, ed.corner)
+		if problem == "":
+			ed.clear()
+			zones.heal()
 	if problem == "":
 		ed.clear()
 	return problem
@@ -243,7 +284,11 @@ func _build_rename() -> void:
 
 
 func _open_rename() -> void:
-	_rename_edit.text = ed.landmark.name if ed.landmark != null else str(ed.node if ed.node != &"" else ed.resident.id)
+	open_rename(ed.landmark.name if ed.landmark != null else str(ed.node if ed.node != &"" else ed.resident.id))
+
+
+func open_rename(text: String) -> void:
+	_rename_edit.text = text
 	_rename.visible = true
 	_rename_edit.grab_focus()
 	_rename_edit.select_all()
@@ -252,7 +297,9 @@ func _open_rename() -> void:
 func _apply_rename(text: String) -> void:
 	var to := text.strip_edges()
 	var problem := ""
-	if ed.landmark != null:
+	if zones.rename_target != null:
+		zones.rename(to)
+	elif ed.landmark != null:
 		if to != "":
 			ed.landmark.name = to
 			ed.named_places[ed.landmark.id] = true
@@ -266,10 +313,15 @@ func _apply_rename(text: String) -> void:
 		if problem == "":
 			ed.note_rename(old, ed.resident.id)
 	if problem != "":
-		_status(problem)
+		status(problem)
 		return
 	_rename.visible = false
 	view.show_pick()
+
+
+## A zone corner was moved: the zones close up again around it (`first` keeps its shape).
+func heal_zones(first: DistrictMapDef.ZoneDef) -> void:
+	zones.heal(first)
 
 
 ## Ctrl+S: checks the map and the residents the way the game does at boot first; a markup the game would not start
@@ -278,13 +330,16 @@ func _save() -> void:
 	var errs := ErrorLog.new()
 	DistrictMapValidator.validate(ContentDB.data, errs, false)
 	DistrictLifeValidator.validate(ContentDB.data, errs, false)
+	RumorValidator.validate(ContentDB.data, errs, false)  # every zone needs its rumor pictures and signs
+	StoryValidator.validate(ContentDB.data, errs, false)  # the story's zones must exist
 	if not errs.messages.is_empty():
-		_status(Loc.t("ui.dev.map_save_refused", {"n": errs.messages.size(), "first": errs.messages[0]}))
+		status(Loc.t("ui.dev.map_save_refused", {"n": errs.messages.size(), "first": errs.messages[0]}))
 		return
 	var path := MapMarkupSaver.save(ed)
-	_status(Loc.t("ui.dev.map_saved", {"path": path}) if path != "" else Loc.t("ui.dev.map_not_saved"))
+	status(Loc.t("ui.dev.map_saved", {"path": path}) if path != "" else Loc.t("ui.dev.map_not_saved"))
 	life_changed.emit()
 
 
-func _status(text: String) -> void:
+## The line at the top of the map.
+func status(text: String) -> void:
 	view.set_dev_text(text)

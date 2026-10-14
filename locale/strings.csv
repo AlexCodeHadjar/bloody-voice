@@ -199,6 +199,18 @@ ui.dev.map_help,"Разметка (F3): легенда слева внизу. К
 ui.dev.map_point,"{id}: {x}, {y}","{id}: {x}, {y}"
 ui.dev.map_saved,Сохранено: {path},Saved: {path}
 ui.dev.map_not_saved,Не удалось сохранить файл карты.,Could not save the map file.
+ui.dev.no_delete_zone_story,Нельзя: в зону «{name}» отправляет сюжет.,No: the story sends the hunter to «{name}».
+ui.dev.no_delete_zone_last,Это последняя зона — удалить нельзя.,The last zone cannot be deleted.
+ui.dev.menu_delete_zone,Удалить зону «{name}» (её место займут соседние),Delete zone «{name}» (the neighbours take its ground)
+ui.dev.menu_rename_zone,Переименовать зону «{name}»,Rename zone «{name}»
+ui.dev.menu_new_zone,Новая зона (обвести кликами),New zone (outline with clicks)
+ui.dev.zone_name,Зона {n},Zone {n}
+ui.dev.zone_cancelled,Новая зона отменена.,New zone cancelled.
+ui.dev.zone_outside,Обводка за границей района — зона не создана.,The outline is outside the district — no zone made.
+ui.dev.zone_island,Зона не создана: обводка целиком внутри другой зоны. Дотяните хотя бы один угол до края зоны (он прилипнет) — тогда новая зона вырежется из соседней.,No zone made: the outline lies wholly inside another zone. Bring at least one corner to the zone's edge (it will stick) so the new zone is cut out of its neighbour.
+ui.dev.zone_too_small,Нужно хотя бы три угла — зона не создана.,At least three corners are needed — no zone made.
+ui.dev.zone_draw_n,"Новая зона: углов {n}. Правый клик или Enter — готово, Esc — отмена.","New zone: {n} corners. Right click or Enter finishes, Esc cancels."
+ui.dev.zone_draw,"Новая зона: кликайте углы по краю квартала (углы прилипают к соседним). Правый клик или Enter — готово, Esc — отмена.","New zone: click its corners along the quarter edge (they stick to the neighbours). Right click or Enter finishes, Esc cancels."
 ui.dev.legend_keys,Клик — выбрать · Ctrl+мышь — двигать · ПКМ — меню · Ctrl+S — сохранить · F3 — выйти,Click picks · Ctrl+mouse moves · right click menu · Ctrl+S saves · F3 leaves
 ui.dev.legend_pick,Жёлтое кольцо — выбранная точка,Yellow ring — the picked point
 ui.dev.legend_fog,Синяя линия и рамки — туман за стеной: тут штриховки нет,Blue line and frames — the fog beyond the wall: no veil here
@@ -211,7 +223,7 @@ ui.dev.show_all,Показать всё,Show all
 ui.dev.legend_zones,"Зоны (слухи, бои, звук) — у каждой свой цвет:","Zones (rumors, fights, sound) — each in its own colour:"
 ui.dev.legend_names,Имена узлов (жёлтые подписи),Node names (yellow labels)
 ui.dev.legend_streets,Улицы и узлы: голубые линии и красные точки — по ним ходят герой и прохожие (оранжевая линия — канат),Streets and nodes: cyan lines and red dots — the hero and passers-by walk along them (orange — a rope)
-ui.dev.rename_help,"Enter — применить, Esc — отмена. Место: русское название; узел и житель: латиница.","Enter applies, Esc cancels. A place takes its Russian name; nodes and residents a latin id."
+ui.dev.rename_help,"Enter — применить, Esc — отмена. Место и зона: русское название; узел и житель: латиница.","Enter applies, Esc cancels. A place or a zone takes its Russian name; nodes and residents a latin id."
 ui.dev.rename_title,Новое имя,New name
 ui.dev.menu_resident,Поставить жителя,Place a resident
 ui.dev.menu_fog_corner,Добавить угол тумана (без штриховки),Add a fog corner (no veil)

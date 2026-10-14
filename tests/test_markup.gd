@@ -105,3 +105,56 @@ func test_filter_hides_from_picking() -> void:
 	ed.layers[&"residents"] = false
 	check(not ed.pick(corner, 3.0), "a corner of hidden zones is not picked")
 
+
+func test_zone_mosaic_has_no_holes() -> void:
+	var data := load_content(false)
+	var map := _map(data)
+	map.zones[0].polygon = PackedVector2Array([Vector2(1000, 1000), Vector2(1100, 1000), Vector2(1100, 1100)])  # leave a hole
+	ZoneMosaic.heal(map)
+	eq(ZoneMosaic.gaps(map).size(), 0, "every hole is given to a neighbour")
+	for i: int in map.zones.size():
+		for j: int in range(i + 1, map.zones.size()):
+			var overlap := 0.0
+			for p: PackedVector2Array in Geometry2D.intersect_polygons(map.zones[i].polygon, map.zones[j].polygon):
+				overlap += absf(ZoneMosaic.area(p))
+			check(overlap < 2000.0, "zones %s and %s barely overlap" % [map.zones[i].id, map.zones[j].id])
+
+
+func _overlap(map: DistrictMapDef) -> float:
+	var total := 0.0
+	for i: int in map.zones.size():
+		for j: int in range(i + 1, map.zones.size()):
+			for p: PackedVector2Array in Geometry2D.intersect_polygons(map.zones[i].polygon, map.zones[j].polygon):
+				total += absf(ZoneMosaic.area(p))
+	return total
+
+
+func test_add_and_delete_zone() -> void:
+	var data := load_content(false)
+	var map := _map(data)
+	ZoneMosaic.heal(map)
+	var island := PackedVector2Array([Vector2(1300, 1300), Vector2(1700, 1300), Vector2(1700, 1700), Vector2(1300, 1700)])
+	check(ZoneMosaic.is_island(map, island), "an outline wholly inside one zone is an island (refused by the editor)")
+	var probe := Vector2(1550, 2150)  # on the border between two zones
+	var outline := PackedVector2Array([Vector2(1400, 2000), Vector2(1700, 2000), Vector2(1700, 2300), Vector2(1400, 2300)])
+	check(not ZoneMosaic.is_island(map, outline), "an outline across a border is not an island")
+	var parent := MapMarkupOps.main_zone(map, outline)
+	var z := MapMarkupOps.add_zone(map, data, outline, parent)
+	check(z != null and map.zones.has(z), "the new zone is on the map")
+	eq(DistrictMapRules.zone_at(map, probe), z.id, "the outlined ground is its own now")
+	check((data.rumor_data.zones[&"GREY"] as Dictionary).has(z.id), "it has rumor pictures and signs")
+	eq(ZoneMosaic.gaps(map).size(), 0, "no holes after it")
+	check(_overlap(map) < 2000.0, "no overlaps after it (only rounding dust)")
+	var story_zone := map.zone(data.story.steps[0].zone)
+	check(MapMarkupOps.delete_zone(map, data, story_zone) != "", "a story zone is kept")
+	eq(MapMarkupOps.delete_zone(map, data, z), "", "the new zone is deleted")
+	eq(ZoneMosaic.gaps(map).size(), 0, "its ground goes to the neighbours")
+
+
+func test_corner_snaps_to_a_neighbour() -> void:
+	var data := load_content(false)
+	var map := _map(data)
+	var target := map.zones[1].polygon[0]
+	eq(ZoneMosaic.snap(map, target + Vector2(5, 3), 12.0, PackedVector2Array()), target, "sticks to a nearby corner")
+	var far := Vector2(-500, -500)
+	eq(ZoneMosaic.snap(map, far, 12.0, PackedVector2Array()), far, "nothing near: stays")
