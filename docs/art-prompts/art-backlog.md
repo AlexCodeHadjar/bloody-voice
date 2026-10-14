@@ -2,7 +2,7 @@
 
 > **Готово (2026-10-10):** части G–Q (93 картинки) сгенерированы и импортированы в `art/`; листы иконок `MECHANISM` и
 > `SETTINGS` разрезаны (наборы добавлены в `data/ui/icons.json`). Q1 (значок) — из `art/ui/WAX__seal.webp`, когда понадобится.
-> **Ждём ещё:** U (иконка сумки). **Получено 2026-10-14:** R (три новые твари — арт в `art/monsters/`, в игру войдут с данными), S (иконки 5 механизмов),
+> **Ждём ещё:** U (иконка сумки), V (вывески мест). **Получено 2026-10-14:** R (три новые твари — арт в `art/monsters/`, в игру войдут с данными), S (иконки 5 механизмов),
 > T (экран «Снаряжение» — верстак, `art/ui/EQUIP__*`, `TEX__felt`); их промты удалены. **Ждём:** P2 (карты состояний района).
 
 Всё, что ещё понадобится игре из арта, **кроме** уже расписанного:
@@ -280,6 +280,34 @@ UI STYLE BLOCK + TRANSPARENT BLOCK, холст square, папка `assets/icons/
 | # | Файл | Где в игре | Промт |
 |---|---|---|---|
 | U1 | `UI__bag.png` | Верхняя полоса района: кнопка «Снаряжение» (владелец 2026-10-14) | A hunter's leather satchel with a brass buckle and a strap, a gun cartridge loop on its side, seen from the front, fills the middle two thirds of the canvas. |
+
+## V. Вывески мест на карте района (7) — чат «Signs»
+
+Нынешние вывески — рамка, нарисованная кодом, с маленькой иконкой внутри; владелец 2026-10-14: «выглядят убого».
+Нужны настоящие кованые вывески, как над дверью лавки в старом городе. Висят над зданием на карте района и видны мелко
+(примерно 60–90 px на экране), поэтому главное — **крупный простой силуэт эмблемы**, читаемый издалека.
+
+UI STYLE BLOCK + TRANSPARENT BLOCK, холст square, папка `assets/ui/`. Порядок: сначала **V1**, затем каждую следующую
+делай в том же чате с приложенной готовой `SIGN__home.png`: «Exactly the same bracket, board shape, size, metal and
+lighting as the attached sign; only the emblem and the board's paint change.» Для V7 — «keep the same bracket and chains, replace the board by the post-top». При импорте Claude переключит вывески
+на эти картинки (`scenes/district_map/place_signs.gd`), нынешняя рамка останется запасной.
+
+Общее для всех: *A hanging shop sign of a Victorian slum, seen straight from the front: a short wrought-iron wall
+bracket with a curled end at the top, two small chains, and under it a thick wooden board in a riveted iron frame.
+On the board a bold emblem in pale tarnished brass or bone-white paint, clearly lighter than the board, with a thin
+light edge; no more than two main shapes; the emblem takes at least half of the board, the bracket and chains stay
+thin. Readable when tiny. Weathered, sooty, a little rust, warm lamplight from below-left. No writing anywhere.
+The sign fills the middle two thirds of the canvas, nothing else.*
+
+| # | Файл | Место | Эмблема и доска (дописать к общему) |
+|---|---|---|---|
+| V1 | `SIGN__home.png` | Пепельный чердак — дом, отдых | Dark plank board; emblem: a crooked garret house with a single lit window and a crescent moon over the roof. |
+| V2 | `SIGN__workshop.png` | Мастерская «Ржавая Шестерня» | Board painted soot-black; emblem: a large rusty cogwheel crossed by a hammer. |
+| V3 | `SIGN__tavern.png` | Таверна «Фонарь и Крюк» (доска заказов) | Board painted dark oxblood; emblem: a lantern hanging from a hook. |
+| V4 | `SIGN__shop.png` | Лавка старьёвщика | Faded green board; emblem: a pair of old brass scales with a coin in one pan. |
+| V5 | `SIGN__infirmary.png` | Лазарет Пепельных Сестёр | Dark ash-grey board; emblem: a simple bone-white cross with a red drop at its centre. |
+| V6 | `SIGN__library.png` | Скрипторий в крипте | Deep blue-black board; emblem: an open book with a quill standing in it. |
+| V7 | `SIGN__rumors.png` | Столб со слухами | Instead of a board: a small wooden post-top with one torn paper leaflet nailed to it, a crude drawn eye on it; no writing on the leaflet. |
 
 ## Q. Значок и Steam — фаза 10
 
