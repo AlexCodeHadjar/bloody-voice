@@ -168,6 +168,7 @@ Autoloads: `EventBus` (autoload/event_bus.gd), `ContentDB` (autoload/content_db.
 | `scenes/contracts/contract_leaflet.gd` | ContractLeaflet | One leaflet pinned on the tavern board (GDD 7.1): type, danger rank, the creature's black silhouette, reward | setup |
 | `scenes/contracts/contract_tablet.gd` | ContractTablet | The contract tablet (GDD 7.2) in front of the hero: petition, type, silhouette, known signs, where the creature | open_list, close_tablet |
 | `scenes/contracts/contract_tracker.gd` | ContractTracker | The tracker at the left edge of the district screen (GDD 7.1): one row per taken contract — silhouette, name, days left and | refresh |
+| `scenes/district_map/click_ripple.gd` | ClickRipple | Where the hunter is going (owner 2026-10-14): a warm ring of light at the clicked point that spreads out and fades, | spawn |
 | `scenes/district_map/district_map_screen.gd` |  | District screen (GDD 20): the Grey Chapels up close. The hunter walks the streets by click, the map is dragged with |  |
 | `scenes/district_map/district_overlay.gd` | DistrictOverlay | Drawn over the district art (GDD 20.2): the veil over the locked neighbours (70 % black with diagonal hatching, | setup, set_hovered, flash_zone, toggle_debug |
 | `scenes/district_map/district_panels.gd` | DistrictPanels | Full-screen panels over the district map (one at a time): the contract board and tablets, the rumor post and | is_open, open, open_for, show_news, open_contract, open_rumor |

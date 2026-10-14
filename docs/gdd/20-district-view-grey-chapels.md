@@ -47,11 +47,11 @@ question 20.10).
 | Input | Effect |
 |---|---|
 | Hold **left button** and move (more than 6 px) | Drag the map. Releasing does not count as a click |
-| **Left click** (no drag) on a landmark / street | The hero walks there along the streets |
+| **Left click** (no drag) on a landmark / street | The hero walks there along the streets; a warm ring of light spreads and fades where he is going (`click_ripple.gd`, owner 2026-10-14) |
 | Hover a landmark | Its name and action in a tooltip; the building gets a brass ring and its signboard glows |
-| Mouse wheel | Zoom from "the map is as wide as the screen" (≈ 0.48) to 1.25 (1.0 = native art); start 0.8 |
+| Mouse wheel | Zoom from "the map is as wide as the screen" (≈ 0.48) to 1.25 (1.0 = native art); start 0.8. At the farthest zoom three more notches out rise to the city map (a hint counts them; owner 2026-10-14) |
 | Space / double-click the hero | Centre the camera on the hero |
-| Buttons «К охотнику» and «Домой» (top bar) | Jump the camera to the hero / to Ash Garret, so the player never gets lost |
+| Top bar (owner 2026-10-14) | Icons only, names as tooltips: the hunter (progress), the book (bestiary), the bag (equipment), the menu. No camera or city-map buttons |
 | F3 (debug builds) | Markup editor (§20.12) |
 
 - The camera is free (owner 2026-10-14): it never follows the hero; the middle of the view may go to any point of

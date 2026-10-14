@@ -85,6 +85,7 @@ func _build() -> void:
 	_view.landmark_clicked.connect(_on_landmark_clicked)
 	_view.street_clicked.connect(_on_street_clicked)
 	_view.hero_double_clicked.connect(_to_hero)
+	_view.city_requested.connect(_to_city)  # the wheel on past the farthest zoom (owner 2026-10-14)
 	_hero.arrived.connect(_on_arrived)
 	_hero.stepped.connect(func() -> void: UiKit.sound(&"world.step"))
 	_build_card()
@@ -139,23 +140,24 @@ func _build_bar() -> Control:
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(spacer)
-	var camera_buttons := HBoxContainer.new()
-	camera_buttons.add_theme_constant_override("separation", 18)
-	camera_buttons.add_child(_bar_button("PLACE", &"hunter", "ui.district.to_hero", _to_hero))
-	camera_buttons.add_child(_bar_button("PLACE", &"home", "ui.district.to_home", _to_home))
-	TutorialAnchors.register(&"camera_buttons", camera_buttons)
-	row.add_child(camera_buttons)
-	row.add_child(_bar_button("PLACE", &"city_map", "ui.district.city_map", _to_city))
-	row.add_child(_bar_button("STAT", &"xp", "ui.progress.button", func() -> void: _panels.open(HeroPanel.new())))
+	# icons instead of words, no camera or city-map buttons (owner 2026-10-14): Space / double-click the hunter, the wheel
+	row.add_child(_bar_button("PLACE", &"hunter", "ui.progress.button", func() -> void: _panels.open(HeroPanel.new())))
 	row.add_child(_bar_button("UI", &"bestiary", "ui.bestiary.button", func() -> void: _panels.open(BestiaryPanel.new())))
-	row.add_child(_bar_button("DIRECTION", &"equipment", "ui.city.equipment", _to_equipment))
+	row.add_child(_bar_button("UI", &"bag", "ui.city.equipment", _to_equipment))
 	row.add_child(_bar_button("UI", &"menu", "ui.city.menu", _to_menu))
 	return bar
 
 
+## A square icon button with its name as a tooltip (the bag falls back to the equipment icon until its art comes).
 func _bar_button(set_code: String, icon: StringName, key: String, action: Callable) -> Button:
-	var b := Icons.button(set_code, icon, Loc.t(key), 18)
-	b.custom_minimum_size = Vector2(0, 40)
+	var b := Button.new()
+	var tex := Icons.texture(set_code, icon)
+	b.icon = tex if tex != null else Icons.texture("DIRECTION", &"equipment")
+	b.expand_icon = true
+	b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	b.custom_minimum_size = Vector2(62, 56)
+	b.add_theme_constant_override("icon_max_width", 44)
+	b.tooltip_text = Loc.t(key)
 	b.pressed.connect(action)
 	return b
 
@@ -284,6 +286,7 @@ func _walk_to(to: DistrictMapRules.Spot) -> void:
 	var route := DistrictMapRules.route(_map, from, to)
 	_spot = to
 	_hero.walk(route)
+	ClickRipple.spawn(_view.world, to.point)  # a ring of light where the hunter is going (owner 2026-10-14)
 
 
 ## Where the hero is right now: mid-walk it is a point on the street it is crossing.
@@ -373,10 +376,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _to_hero() -> void:
 	_view.center_on(_hero.position, true)
-
-
-func _to_home() -> void:
-	_view.center_on(_map.node_pos(_map.home), true)
 
 
 func _to_city() -> void:

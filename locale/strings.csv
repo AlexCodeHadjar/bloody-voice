@@ -11,6 +11,7 @@ ui.city.menu,Меню,Menu
 ui.city.day_bar,День {day} · {weekday} · Неделя {week}    Аренда {rent},Day {day} · {weekday} · Week {week}    Rent {rent}
 ui.city.rent_today,сегодня,due today
 ui.city.rent_in,через {n} {n:день|дня|дней},in {n} d
+ui.district.pull_city,Ещё — и подниметесь к карте города ({n}/{of}),A little more and you rise to the city map ({n}/{of})
 ui.district.facts,"{class}
 Хозяин: {controller}
 Опасность: {danger}
@@ -23,9 +24,6 @@ ui.district.send,"Нажмите, чтобы отправить охотника
 ui.district.locked,Район закрыт.,The district is closed.
 ui.district.locked_short,закрыто,closed
 ui.district.closed_label,{name} — закрыто,{name} — closed
-ui.district.to_hero,К охотнику,To the hunter
-ui.district.to_home,Домой,Home
-ui.district.city_map,Карта города,City map
 ui.district.action.rest,Отдохнуть до утра (+треть сил),Rest until morning (+a third)
 ui.district.action.workshop,Мастерская,Workshop
 ui.district.action.rumors,Столб со слухами,Rumor post
@@ -610,7 +608,7 @@ tutorial.equipment_intro.5.text,В гнёзда брони ставятся ме
 tutorial.district_intro.1.title,Серые Часовни,The Grey Chapels
 tutorial.district_intro.1.text,"Это ваш район — трущобы у края платформы. Зажмите левую кнопку мыши и тяните, чтобы осмотреться; колесо приближает.","This is your district, the slums at the platform edge. Hold the left mouse button and drag to look around; the wheel zooms."
 tutorial.district_intro.2.title,Не потеряйтесь,Do not get lost
-tutorial.district_intro.2.text,«К охотнику» и «Домой» вернут взгляд к фигурке охотника или к его чердаку. Пробел — тоже к охотнику.,«To the hunter» and «Home» bring the view back to the hunter's figure or the garret. Space works too.
+tutorial.district_intro.2.text,Пробел или двойной клик по охотнику вернут к нему взгляд. Крутите колесо от себя до упора — и ещё немного: подниметесь к карте города.,Space or a double click on the hunter brings the view back to him. Turn the wheel all the way out — and a little more: you rise to the city map.
 tutorial.district_intro.3.title,Прогулка,A walk
 tutorial.district_intro.3.text,Нажмите на улицу или здание — охотник пойдёт туда по улицам. Ходьба по району не тратит время.,Click a street or a building and the hunter walks there along the streets. Walking in the district costs no time.
 tutorial.district_intro.4.title,Места,Places

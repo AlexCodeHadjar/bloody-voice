@@ -28,7 +28,7 @@
   "trigger": "district_open",
   "steps": [
    {"anchor": "district_map"},
-   {"anchor": "camera_buttons"},
+   {"anchor": "district_map"},
    {"anchor": "district_map", "do": "hero_walked"},
    {"anchor": "district_map"}
   ]

@@ -7,10 +7,14 @@ signal landmark_hovered(landmark: DistrictMapDef.LandmarkDef)  ## null when the 
 signal landmark_clicked(landmark: DistrictMapDef.LandmarkDef)
 signal street_clicked(point: Vector2)  ## art pixels
 signal hero_double_clicked
+signal city_requested  ## the wheel was turned on past the farthest zoom: rise to the city map (owner 2026-10-14)
 
 const DRAG_THRESHOLD := 6.0  ## px of mouse travel before a press becomes a drag (GDD 20.3)
 const ZOOM_MAX := 1.25
 const ZOOM_STEP := 1.12
+const PULL_TICKS := 3  ## wheel notches past the farthest zoom that rise to the city map (owner 2026-10-14)
+const PULL_RESET_MS := 1500  ## a pause this long starts the count again
+const PULL_GAP_MS := 180  ## notches closer than this count once (a touchpad sends many events per swipe)
 const START_ZOOM := 0.8
 const JUMP_TIME := 0.45
 const HERO_PICK_RADIUS := 70.0  ## art px around the hero's feet that count as "the hero" for a double-click
@@ -26,6 +30,10 @@ var _dragging := false
 var _press_pos := Vector2.ZERO
 var _hovered: DistrictMapDef.LandmarkDef = null
 var _jump: Tween = null
+var _pull := 0  ## wheel notches past the farthest zoom
+var _pull_ms := 0
+var _pull_label: Label = null  ## «turn on — the city map» at the bottom while pulling out
+var _pull_fade: Tween = null
 var markup: MapMarkupEditor  ## F3 markup (debug builds): the picked point and its move
 var markup_ui: MapMarkupUi = null  ## F3 markup tools: right-click menu, chain mode, legend (set by the screen)
 var _dev_label: Label = null  ## F3 markup help and the last save, over the map
@@ -101,9 +109,13 @@ func _gui_input(event: InputEvent) -> void:
 func _on_button(mb: InputEventMouseButton) -> void:
 	match mb.button_index:
 		MOUSE_BUTTON_WHEEL_UP when mb.pressed:
+			_pull = 0
 			_zoom_at(mb.position, _zoom * ZOOM_STEP)
 		MOUSE_BUTTON_WHEEL_DOWN when mb.pressed:
-			_zoom_at(mb.position, _zoom / ZOOM_STEP)
+			if _zoom <= _min_zoom() + 0.001:
+				_pull_out()
+			else:
+				_zoom_at(mb.position, _zoom / ZOOM_STEP)
 		MOUSE_BUTTON_RIGHT when mb.pressed and _markup_on() and markup_ui != null:
 			markup_ui.right_click(mb.position)
 		MOUSE_BUTTON_LEFT:
@@ -176,6 +188,40 @@ func _zoom_at(screen_pos: Vector2, new_zoom: float) -> void:
 	_zoom = z
 	world.scale = Vector2(z, z)
 	_apply(screen_pos - anchor * z)
+
+
+## Wheel on at the farthest zoom: counts notches (a pause starts again); the last one asks for the city map.
+func _pull_out() -> void:
+	var now := Time.get_ticks_msec()
+	if now - _pull_ms < PULL_GAP_MS:
+		return
+	if now - _pull_ms > PULL_RESET_MS:
+		_pull = 0
+	_pull_ms = now
+	_pull = mini(_pull + 1, PULL_TICKS)
+	_show_pull(_pull)
+	if _pull >= PULL_TICKS:
+		_pull = 0
+		city_requested.emit()
+
+
+func _show_pull(ticks: int) -> void:
+	if _pull_label == null:
+		_pull_label = UiKit.label("", 26, Palette.BRASS_LIGHT)
+		_pull_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+		_pull_label.grow_horizontal = Control.GROW_DIRECTION_BOTH
+		_pull_label.offset_top = -90.0
+		_pull_label.add_theme_constant_override("outline_size", 10)
+		_pull_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+		_pull_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(_pull_label)
+	_pull_label.text = Loc.t("ui.district.pull_city", {"n": ticks, "of": PULL_TICKS})
+	_pull_label.modulate.a = 1.0
+	if _pull_fade != null:
+		_pull_fade.kill()
+	_pull_fade = create_tween()
+	_pull_fade.tween_interval(PULL_RESET_MS / 1000.0 * 0.6)
+	_pull_fade.tween_property(_pull_label, "modulate:a", 0.0, 0.4)
 
 
 ## The art always covers the view: the smallest zoom shows the whole width (or height) of the map.

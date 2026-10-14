@@ -2,7 +2,7 @@
 
 > **Готово (2026-10-10):** части G–Q (93 картинки) сгенерированы и импортированы в `art/`; листы иконок `MECHANISM` и
 > `SETTINGS` разрезаны (наборы добавлены в `data/ui/icons.json`). Q1 (значок) — из `art/ui/WAX__seal.webp`, когда понадобится.
-> **Получено 2026-10-14:** R (три новые твари — арт в `art/monsters/`, в игру войдут с данными), S (иконки 5 механизмов),
+> **Ждём ещё:** U (иконка сумки). **Получено 2026-10-14:** R (три новые твари — арт в `art/monsters/`, в игру войдут с данными), S (иконки 5 механизмов),
 > T (экран «Снаряжение» — верстак, `art/ui/EQUIP__*`, `TEX__felt`); их промты удалены. **Ждём:** P2 (карты состояний района).
 
 Всё, что ещё понадобится игре из арта, **кроме** уже расписанного:
@@ -270,6 +270,16 @@ SCENE STYLE BLOCK, wide, без прозрачности, `assets/ui/`, имя `
 | `GREY__map__fog_breach.png` | Прорыв тумана | The same district map at night, thick grey fog rolling in from the north wall and filling the low streets, lamps dimmed to faint halos, roofs and the chapel spire rising out of the mist. |
 | `GREY__map__quarantine.png` | Карантин | The same district map, grey chalk crosses on doors, wooden barricades across two streets, a plague cart, few people, smoke from burning rags in braziers. |
 | `GREY__map__festival.png` | Ночь Сумерек | The same district map at dusk, strings of paper lanterns between houses, bonfires on the square, crowds in the streets, warm orange light. |
+
+## U. Иконка сумки (1) — чат «Icons»
+
+UI STYLE BLOCK + TRANSPARENT BLOCK, холст square, папка `assets/icons/`. Приложи `art/ui/icons/UI__bestiary.webp` и
+`art/ui/icons/UI__menu.webp`: «Same size, brass and engraved look as the attached icons.» При импорте Claude добавит `bag`
+в набор `UI` (`data/ui/icons.json`); до неё у кнопки снаряжения стоит иконка снаряжения.
+
+| # | Файл | Где в игре | Промт |
+|---|---|---|---|
+| U1 | `UI__bag.png` | Верхняя полоса района: кнопка «Снаряжение» (владелец 2026-10-14) | A hunter's leather satchel with a brass buckle and a strap, a gun cartridge loop on its side, seen from the front, fills the middle two thirds of the canvas. |
 
 ## Q. Значок и Steam — фаза 10
 

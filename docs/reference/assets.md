@@ -35,5 +35,5 @@
 
 | Prompt file | Named | Missing |
 |---|---|---|
-| `art-backlog.md` | 95 | 3: GREY__map__festival, GREY__map__fog_breach, GREY__map__quarantine |
+| `art-backlog.md` | 96 | 4: GREY__map__festival, GREY__map__fog_breach, GREY__map__quarantine, UI__bag |
 | `map-life-people.md` | 9 | 0 |
