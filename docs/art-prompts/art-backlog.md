@@ -2,7 +2,7 @@
 
 > **Готово (2026-10-10):** части G–Q (93 картинки) сгенерированы и импортированы в `art/`; листы иконок `MECHANISM` и
 > `SETTINGS` разрезаны (наборы добавлены в `data/ui/icons.json`). Q1 (значок) — из `art/ui/WAX__seal.webp`, когда понадобится.
-> **Ждём ещё:** U (иконка сумки), W (логово твари). **Получено 2026-10-14:** V (вывески мест; столб V7 не подключён — столба больше нет), K (листовка и картинки слухов), R (три новые твари — арт в `art/monsters/`, в игру войдут с данными), S (иконки 5 механизмов),
+> **Ждём ещё:** U (иконка сумки), W (логово твари), X (доска сыщика в книжке). **Получено 2026-10-14:** V (вывески мест; столб V7 не подключён — столба больше нет), K (листовка и картинки слухов), R (три новые твари — арт в `art/monsters/`, в игру войдут с данными), S (иконки 5 механизмов),
 > T (экран «Снаряжение» — верстак, `art/ui/EQUIP__*`, `TEX__felt`); их промты удалены. **Ждём:** P2 (карты состояний района).
 
 Всё, что ещё понадобится игре из арта, **кроме** уже расписанного:
@@ -266,6 +266,35 @@ UI STYLE BLOCK + TRANSPARENT BLOCK, холст square, папка `assets/icons/
 | # | Файл | Промт (дописать к блокам) |
 |---|---|---|
 | W1 | `RUMOR__lair.png` | A round wrought-iron plaque nailed to wet cobbles, seen from above: a dark iron disc with a riveted rim, three deep claw gouges torn across it, dried blood in the grooves, a few dark drops around. Bold, simple, readable when tiny; no text. |
+
+## X. Доска сыщика в записной книжке (8) — чат «Notebook»
+
+Записная книжка (GDD §8.4): доска тёмного дерева, слева карточки заказов, справа приколотые слухи, между ними
+**красные нити** от примет слухов к приметам заказа. Верная нить держится, ложная рвётся, и слух сгорает. Сейчас
+всё нарисовано кодом; эти картинки сделают доску «настоящей». Эскиз раскладки — `docs/assets/ui/notebook_threads.png`.
+
+**Порядок.** Сначала **X0** в отдельном чате: приложи эскиз и попроси красивый концепт. Это образец для глаз, в игру
+он не идёт: сохрани его в `docs/assets/ui/` (**не** в `assets/`, иначе импорт заберёт его в игру). Затем **X1–X7** в
+одном чате с приложенным концептом X0 и словами: «Same materials, light and palette as the attached concept; one
+isolated piece only». Для X7 приложи ещё готовый `NOTE__rumor_card.png`. Папка X1–X7 — `assets/ui/`. Блоки — UI STYLE
+BLOCK (+ TRANSPARENT BLOCK, где указано): тени, дым и тёплый свет концепта X0 — только в нём, в X2–X7 фон и тени не
+рисовать. Текст игра пишет сама, поэтому бумага везде **пустая**.
+
+| # | Файл | Холст | Блоки | Промт (дописать к блокам) |
+|---|---|---|---|---|
+| X0 | `NOTE__concept.png` (в `docs/assets/ui/`) | wide | UI | A detective's evidence board seen straight on, warm lamplight from the upper left: dark weathered wooden planks with old nail holes and scratches. On the left a parchment contract sheet with a red wax seal and ruled lines; on the right four small torn paper leaflets, each pinned by a brass pushpin, a tiny ink sketch of a street at night at the top of each, slightly rotated. Taut red wool threads run from small brass pins on the leaflets to brass pins on the contract sheet, sagging slightly, casting thin shadows; one thread is snapped with frayed ends hanging, and the leaflet it came from is burning at the edges with glowing embers and a curl of smoke. Composition like the attached sketch; all paper blank, no writing. |
+| X1 | `NOTE__board.png` | wide | UI | The empty board only: dark weathered wooden planks laid horizontally, iron nails at the corners, old pin holes, faint scratches and soot, a darker worn frame of the same wood around the edge, the frame the same width on all four sides. Even light, no objects, nothing pinned. |
+| X2 | `NOTE__rumor_card.png` | tall | UI + TRANSPARENT | One small torn paper leaflet, cheap and slightly yellowed, ragged bottom edge, a small hole at the top where a pin goes, faint water stains; the paper is EMPTY. |
+| X3 | `NOTE__contract_card.png` | tall | UI + TRANSPARENT | One sheet of thick parchment with a darker top band, faint ruled lines, a red wax seal in the lower right corner, slightly curled corners; no writing. |
+| X4 | `NOTE__pin.png` | square | UI + TRANSPARENT | One brass pushpin seen from straight above: a round domed tarnished-brass head with a small highlight, a tiny loop of red thread wound once around it. Readable when tiny. |
+| X5 | `NOTE__thread.png` | wide | UI + TRANSPARENT | One straight horizontal piece of twisted red wool yarn running across the whole canvas width, about one eighth of the canvas tall, transparent above and below; the twist clearly visible, even thickness, the same at both ends so it can be repeated; nothing else. |
+| X6 | `NOTE__thread_frayed.png` | square | UI + TRANSPARENT | The frayed torn end of a red wool yarn: the twisted thread coming in from the left and splitting into loose fibres on the right. |
+| X7 | `NOTE__burn.png` | tall | UI + TRANSPARENT | The same small leaflet as the attached one, burning: charred black edges curling inward, glowing orange embers along the burn line, a little grey smoke rising, holes burned through; the middle still pale and empty. |
+
+**Как пойдёт в игру (для Claude):** X1 — фон доски (рамка по краям не растягивается: девять частей, середину
+при другом размере экрана заполняет `TEX__dark_wood`), X2/X3 — бумага карточек
+(`notebook_cards.gd`), X4 — булавки на концах нитей, X5 — текстура нити для `Line2D` с повтором вдоль изгиба
+(`thread_view.gd`), X6 — концы порванной нити, X7 — кадр сгорания вместо цветного прямоугольника (`notebook_board.gd`).
 
 ## Q. Значок и Steam — фаза 10
 

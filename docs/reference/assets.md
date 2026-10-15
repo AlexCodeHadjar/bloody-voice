@@ -35,5 +35,5 @@
 
 | Prompt file | Named | Missing |
 |---|---|---|
-| `art-backlog.md` | 86 | 5: GREY__map__festival, GREY__map__fog_breach, GREY__map__quarantine, RUMOR__lair, UI__bag |
+| `art-backlog.md` | 94 | 13: GREY__map__festival, GREY__map__fog_breach, GREY__map__quarantine, NOTE__board, NOTE__burn, NOTE__concept, NOTE__contract_card, NOTE__pin, NOTE__rumor_card, NOTE__thread, NOTE__thread_frayed, RUMOR__lair … |
 | `map-life-people.md` | 9 | 0 |
