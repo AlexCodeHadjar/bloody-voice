@@ -5,6 +5,12 @@
 > tavern**; they go into the **notebook**, a detective board where the player ties **red threads** from their signs to
 > contracts. Section 8.4 is the rule as built; 8.2 (tags) still holds.
 
+> **Next (owner 2026-10-15, not built yet):** the notebook becomes a **large board** panned with the held left mouse
+> button (wheel zoom and a minimap — Claude's proposal, to confirm); new rumors land in an «incoming» stack and the player pins cards anywhere. Rumors
+> also **make missions**: threads from rumor signs to an empty **mission form** — three rumors about one creature fill
+> it into a mission (its lair on the map, loot and XP, no client). Tavern contracts stay on the board beside them.
+> Special missions from special rumors — later. Sketch: `docs/assets/ui/notebook_threads.png`.
+
 ## 8.1 Flow
 
 1. Take a contract on the tavern board (GDD 7): it says in which **zone** the creature was last seen.
