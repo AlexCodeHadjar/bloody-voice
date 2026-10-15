@@ -17,7 +17,7 @@
 | 1. Combat core | Grey-box card combat | CombatSession (pure), cards as data, effects interpreter, AP, draw/discard, enemy deck + intents, body parts, combat screen | One full fight playable; bot can play 1000 fights headless | 3–4 w |
 | 2. Gear = deck | Equipment builds the deck | Weapon tablet with grid + polyomino modules, armor sockets, mechanisms, deck assembly, ammo/reload | Changing modules changes the deck; tests for grid placement | 3 w |
 | 2b. Look and onboarding | The game looks right and teaches itself (owner, 2026-10-07) | Russian interface through translation keys; tutorial hints (dim + highlight); combat screen v2; close-up Grey Chapels map, game starts confined there (GDD §20–22) | All UI in Russian; combat/equipment/district hint sequences; the hero walks the Grey Chapels map | 5–6 w (RU 1 · tutorial 1 · combat v2 2 · district map 2) |
-| 3. Investigation | Contracts and rumors | Step 1 (done): tavern board, contract tablet, tracker, ContractGenerator v1, deadlines, rewards (GDD 7.4). Step 2 (done, redone 2026-10-14): listening for rumors in a zone, taking or dropping them, marks, RumorGenerator (GDD 8.4) | Contract → rumor → fight → reward loop works with generated content | 4 w |
+| 3. Investigation | Contracts and rumors | Step 1 (done): tavern board, contract tablet, tracker, ContractGenerator v1, deadlines, rewards (GDD 7.4). Step 2 (done, redone 2026-10-15): rumors overheard on the way or asked in the tavern, the notebook board with red threads, lairs, RumorGenerator (GDD 8.4) | Contract → rumor → fight → reward loop works with generated content | 4 w |
 | 4. Time, city, economy — VERTICAL SLICE | The day loop | Calendar, day actions, rent, shop, workshop crafting, library, tavern shift, Hunter's Fall; the slice stays in the Grey Chapels (owner 2026-10-12). Steps: 1 resources, loot and workshop (done, GDD 6.3) · 2 shop, tavern shift, rent debt (done, GDD 11.3) · 3 Hunter's Fall, HP between fights, infirmary, library (done, GDD 4.5) | Prologue + 1 week playable start-to-end; first external playtest | 3–4 w |
 | 5. Art generation pipeline (parallel from Phase 1) | Consistent look | Style bible, prompt files, city sketch, import tool (PNG → webp, naming check), placeholder → final swap | Map, 3 districts, UI props and 6 monsters in final style | ongoing |
 | 6. Progression | Long-term goals | Levels, attributes, Mechanic + Monster skill webs, Voice stages, Bestiary, factions & reputation, Register rank. Steps (owner 2026-10-12): 1 XP, levels, attributes (done, GDD 4.6) · 2 the Mechanic web (done, GDD 4.7) · 3 the Monster web and the Voice (done, GDD 4.8) · 4 Bestiary, factions, Register rank (done, GDD 10.4, 12.2) — Grey Chapels only (owner 2026-10-12: no mechanics of other districts until he says the game is interesting) | A full Chapter I week shows meaningful build choices | 4 w |
@@ -34,7 +34,7 @@
 |---|---|---|
 | 0–1 | Rng service with named streams; seeded tests | Style bible; 3 test images to lock the style |
 | 2 | — | Weapon tablet, module and resource icons |
-| 3 | ContractGenerator v1, RumorGenerator v1 | City sketch → full city map; listening for rumors, marks, tavern board, contract tablet |
+| 3 | ContractGenerator v1, RumorGenerator v1 | City sketch → full city map; the notebook board, lairs, tavern board, contract tablet |
 | 4 | ShopGenerator | Shop table, hero figurine (4 views), 3 district tiles + scenes |
 | 6 | LootGenerator, MonsterVariant | Monster silhouettes + cracked versions |
 | 7 | EventScheduler | State variants for the 3 slice districts |

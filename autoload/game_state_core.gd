@@ -97,7 +97,7 @@ func _refresh_board() -> void:
 	ShopRules.refresh(run, ContentDB.data, Rng.stream(&"shop", week))
 
 
-## Each morning threats that faded and the marks of closed contracts go (GDD 8.4).
+## Each morning the lairs and the tied rumor cards of closed contracts go (GDD 8.4).
 func _new_morning() -> void:
 	if RumorRules.tidy(run):
 		EventBus.rumors_changed.emit()

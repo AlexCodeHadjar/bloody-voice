@@ -18,20 +18,14 @@ var _life: LifeLayer
 var _markup: MapMarkupUi
 var _card: LandmarkCard
 var _tracker: ContractTracker
-var _panels := DistrictPanels.new()  ## the board, tablets, post, shop, shift result over the map
+var _panels := DistrictPanels.new()  ## the board, tablets, notebook, shop, shift result over the map
+var _bar: DistrictBar
 var _tip: PanelContainer
 var _tip_label: Label
-var _day_label: Label
-var _money_label: Label
-var _stock_row: HBoxContainer
-var _health_label: Label
-var _state_box: HBoxContainer  ## the district state and its days left (GDD 14), hidden when normal
 var _weather: DistrictWeather
-var _voice_box: HBoxContainer  ## the Voice and its stage (GDD 4.2), hidden while silent
 var _spot: DistrictMapRules.Spot  ## where the hero stands or walks to
 var _target: DistrictMapDef.LandmarkDef = null  ## the card opens when the hero gets there
-var _target_mark := 0  ## the mark's sheet opens when the hero gets to this mark
-var _listen: ListenLayer
+var _target_mark := 0  ## the lair's sheet opens when the hero gets to this lair
 var _sound_clock := 0.0
 
 
@@ -47,13 +41,9 @@ func _ready() -> void:
 		return
 	_build()
 	EventBus.day_changed.connect(_on_day_changed)
-	EventBus.money_changed.connect(func(_m: int) -> void: _refresh_bar())
-	EventBus.stock_changed.connect(_refresh_stock)
-	EventBus.progress_changed.connect(_refresh_bar)
-	EventBus.district_state_changed.connect(func(_k: StringName, _o: StringName, _n: StringName) -> void: _refresh_bar())
-	_refresh_bar()
+	EventBus.district_state_changed.connect(func(_k: StringName, _o: StringName, _n: StringName) -> void: _refresh_weather())
+	_refresh_weather()
 	_panels.show_news.call_deferred()  # the morning leaflet of a district event (GDD 15)
-	_refresh_stock()
 	_place_hero()
 	_view.center_on.call_deferred(_hero.position)
 	Tutorial.trigger.call_deferred(&"district_open")
@@ -64,7 +54,9 @@ func _build() -> void:
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.add_theme_constant_override("separation", 0)
 	add_child(root)
-	root.add_child(_build_bar())
+	_bar = DistrictBar.new()
+	_bar.pressed.connect(_on_bar)
+	root.add_child(_bar)
 	_view = DistrictView.new()
 	_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	root.add_child(_view)
@@ -74,12 +66,10 @@ func _build() -> void:
 	_life.setup(_map, ContentDB.data)
 	_view.add_layer(_life)
 	_hero = HeroWalker.new()
-	_listen = ListenLayer.new()  # listening for rumors and the marks (GDD 8.4), below the hero
-	_listen.setup(_map, _hero)
-	_listen.busy = _panels.is_open
-	_listen.rumor_opened.connect(_panels.open_heard)
-	_listen.mark_clicked.connect(_go_to_mark)
-	_view.add_layer(_listen)
+	var lairs := MarkLayer.new()  # the lairs rumors led to (GDD 8.4), below the hero
+	lairs.setup(_map)
+	lairs.mark_clicked.connect(_go_to_mark)
+	_view.add_layer(lairs)
 	_view.add_layer(_hero)
 	_life.hero = _hero
 	_view.hero = _hero
@@ -93,10 +83,11 @@ func _build() -> void:
 	_hero.stepped.connect(func() -> void: UiKit.sound(&"world.step"))
 	_build_card()
 	_panels.host = self
-	_panels.rumor_taken.connect(_listen.show_taken)
 	_panels.fight_started.connect(func() -> void: get_tree().change_scene_to_file(COMBAT))
 	add_child(_panels)
-	add_child(_listen.make_button())
+	var ears := Overhearing.new()  # rumors overheard on the way fly into the notebook (GDD 8.4)
+	ears.setup(_map, _hero, _bar, _panels.is_open)
+	add_child(ears)
 	_build_tracker()
 	_build_tip()
 	_markup = MapMarkupUi.new()  # F3 markup tools (debug builds)
@@ -115,54 +106,24 @@ func _build_overlays() -> void:
 	_view.add_child(_weather)
 
 
-func _build_bar() -> Control:
-	var bar := PanelContainer.new()
-	bar.add_theme_stylebox_override("panel", UiKit.panel_box(Palette.PANEL, Palette.BRASS))
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 18)
-	bar.add_child(row)
-	row.add_child(Icons.rect("ACTION", &"day", 34))
-	_day_label = UiKit.label("", 22)
-	TutorialAnchors.register(&"day_bar", _day_label)
-	row.add_child(_day_label)
-	row.add_child(Icons.rect("RESOURCE", &"money", 34))
-	_money_label = UiKit.label("", 22, Palette.BRASS_LIGHT)
-	row.add_child(_money_label)
-	row.add_child(Icons.rect("STAT", &"hp", 30))
-	_health_label = UiKit.label("", 20)  # HP and Sanity carried between fights (GDD 4)
-	row.add_child(_health_label)
-	_voice_box = Icons.with_text("STAT", &"voice", "", 30, 20)
-	_voice_box.mouse_filter = Control.MOUSE_FILTER_PASS
-	row.add_child(_voice_box)
-	_state_box = Icons.with_text("STATE", &"fog_breach", "", 30, 20, Palette.ALARM)
-	_state_box.mouse_filter = Control.MOUSE_FILTER_PASS
-	row.add_child(_state_box)
-	_stock_row = HBoxContainer.new()  # resources (GDD 6.1)
-	_stock_row.add_theme_constant_override("separation", 10)
-	row.add_child(_stock_row)
-	var spacer := Control.new()
-	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(spacer)
-	# icons instead of words, no camera or city-map buttons (owner 2026-10-14): Space / double-click the hunter, the wheel
-	row.add_child(_bar_button("PLACE", &"hunter", "ui.progress.button", func() -> void: _panels.open(HeroPanel.new())))
-	row.add_child(_bar_button("UI", &"bestiary", "ui.bestiary.button", func() -> void: _panels.open(BestiaryPanel.new())))
-	row.add_child(_bar_button("UI", &"bag", "ui.city.equipment", _to_equipment))
-	row.add_child(_bar_button("UI", &"menu", "ui.city.menu", _to_menu))
-	return bar
+## The top bar's icon buttons.
+func _on_bar(id: StringName) -> void:
+	match id:
+		&"hunter":
+			_panels.open(HeroPanel.new())
+		&"bestiary":
+			_panels.open(BestiaryPanel.new())
+		&"notebook":
+			_panels.open_notebook()
+		&"bag":
+			_to_equipment()
+		&"menu":
+			_to_menu()
 
 
-## A square icon button with its name as a tooltip (the bag falls back to the equipment icon until its art comes).
-func _bar_button(set_code: String, icon: StringName, key: String, action: Callable) -> Button:
-	var b := Button.new()
-	var tex := Icons.texture(set_code, icon)
-	b.icon = tex if tex != null else Icons.texture("DIRECTION", &"equipment")
-	b.expand_icon = true
-	b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	b.custom_minimum_size = Vector2(62, 56)
-	b.add_theme_constant_override("icon_max_width", 44)
-	b.tooltip_text = Loc.t(key)
-	b.pressed.connect(action)
-	return b
+## The district state's look over the map (fog, chalk, lanterns, GDD 14.6).
+func _refresh_weather() -> void:
+	_weather.show_state(EventRules.state_def(GameState.run, ContentDB.data))
 
 
 func _build_card() -> void:
@@ -195,52 +156,6 @@ func _build_tip() -> void:
 	_tip.add_child(_tip_label)
 	_tip.visible = false
 	add_child(_tip)
-
-
-func _refresh_bar() -> void:
-	var run := GameState.run
-	var b := ContentDB.data.balance
-	var rent_in := CalendarRules.days_until_rent(run.day, b)
-	_day_label.text = Loc.t("ui.city.day_bar", {"day": run.day, "weekday": CalendarRules.weekday_name(run.day, b),
-		"week": CalendarRules.week(run.day, b),
-		"rent": Loc.t("ui.city.rent_today") if rent_in == 0 else Loc.t("ui.city.rent_in", {"n": rent_in})})
-	_money_label.text = str(run.money)
-	var data := ContentDB.data
-	_health_label.text = Loc.t("ui.health.bar", {"hp": HealthRules.hp(run, data), "max": HealthRules.max_hp(run, data),
-		"sanity": HealthRules.sanity(run, data), "max_sanity": HealthRules.max_sanity(run, data)})
-	var low := HealthRules.hp(run, data) * 3 < HealthRules.max_hp(run, data)
-	_health_label.add_theme_color_override("font_color", Palette.ALARM if low else Palette.PARCHMENT)
-	_money_label.add_theme_color_override("font_color", Palette.ALARM if run.money < 0 else Palette.BRASS_LIGHT)
-	_money_label.mouse_filter = Control.MOUSE_FILTER_PASS
-	_refresh_state(run, data)
-	var stage := VoiceRules.stage(run, data)
-	_voice_box.visible = run.voice > 0
-	(_voice_box.get_child(1) as Label).text = Loc.t("ui.voice.now", {"n": run.voice, "stage": Loc.t("ui.voice.stage.%d" % stage)})
-	_voice_box.tooltip_text = Loc.t("ui.voice.effect.%d" % stage)
-	_money_label.tooltip_text = "" if run.money >= 0 else Loc.t("ui.district.debt", {"n": run.debt_strikes, "of": b.debt_strikes})
-
-
-## The district state on the bar (icon, name, days left, what it changes) and over the map.
-func _refresh_state(run: RunState, data: ContentData) -> void:
-	var state := run.city.state_of(run.hero_district)
-	var days := (run.city.places[run.hero_district] as PlaceState).days_left if run.city.places.has(run.hero_district) else 0
-	_state_box.visible = state != &"normal"
-	(_state_box.get_child(0) as TextureRect).texture = Icons.texture("STATE", state)
-	(_state_box.get_child(1) as Label).text = Loc.t("ui.event.badge", {"state": Loc.t("state.%s.name" % state), "n": days})
-	_state_box.tooltip_text = NewsPanel.effects_text(EventRules.state_def(run, data), data)
-	_weather.show_state(EventRules.state_def(run, data))
-
-
-## Resources on the bar, rebuilt only when the stock changes.
-func _refresh_stock() -> void:
-	var run := GameState.run
-	for child: Node in _stock_row.get_children():
-		child.queue_free()
-	for id: StringName in ContentDB.data.balance.workshop.resources:
-		var cell := Icons.with_text("RESOURCE", id, str(run.workshop.amount(id)), 28, 18)
-		cell.tooltip_text = WorkshopKit.stock_name(id)
-		cell.mouse_filter = Control.MOUSE_FILTER_PASS
-		_stock_row.add_child(cell)
 
 
 func _place_hero() -> void:
@@ -318,7 +233,7 @@ func _on_arrived() -> void:
 
 
 func _on_day_changed(_day: int) -> void:
-	_refresh_bar()
+	_refresh_weather()
 	_panels.show_news.call_deferred()  # after the panel of the day's action opens: the leaflet waits for it to close
 	if CalendarRules.days_until_rent(GameState.run.day, ContentDB.data.balance) == 1:
 		Tutorial.trigger(&"rent_tomorrow")

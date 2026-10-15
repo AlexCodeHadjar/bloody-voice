@@ -5,7 +5,7 @@
 | Loop | Scale | Player decisions |
 |---|---|---|
 | Chapter loop | Weeks | Which contracts to accept, which faction to support, where to spend money (rent, shop, weapons), Mechanic vs Monster growth. |
-| Day loop | 1 day = 1 main action | Listen for rumors, work in the workshop, study in the library, take a tavern shift, or rest. |
+| Day loop | 1 day = 1 main action | Work in the workshop, study in the library, take a tavern shift, or rest. |
 | Combat loop | 5–15 turns | Which cards to play with limited action points, which body part to target, when to reload, when to try capture. |
 
 ## 3.2 Calendar
@@ -19,11 +19,11 @@
 
 | Action | Cost | Result |
 |---|---|---|
-| Listen to the street | free | Stand in a zone, press «Слушать улицу», take rumors into the notes (GDD 8.4). Three right ones bring the creature's mark; its fight ends the day. |
+| Gather rumors | free | Overhear them while walking through a zone, or ask in the tavern («Расспросить», once a day); tie them to contracts on the notebook board (GDD 8.4). Three rumor cards on a contract bring the creature's lair; its fight ends the day. |
 | Workshop | 1 day | Craft up to 2 items from blueprints, upgrade a module tier, salvage items. (Installing modules is free at any time in the hub.) |
 | Library | 1 day | Study a trophy (Bestiary knowledge), reset the Mechanic web, learn a blueprint from a book. |
 | Tavern shift | 1 day | Money + a line of gossip + small faction gossip. |
 | Rest | 1 day | Restore HP and Sanity; lower the Voice slightly. |
 | Free actions | 0 | Accept contracts, visit the shop, move the hero figure to another district, manage equipment. |
 
-> **Rule:** Listening is free and a taken rumor always teaches something (a true sign, or a wrong lead noted). A day must never feel completely wasted.
+> **Rule:** Gathering rumors is free and a held thread always teaches something (a true sign). A day must never feel completely wasted.

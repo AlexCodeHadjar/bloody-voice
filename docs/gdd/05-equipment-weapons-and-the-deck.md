@@ -7,7 +7,7 @@
 | Helmet | Perception, mind protection | Intent preview, Fear resistance, masks that change rumor reading |
 | Chestplate | Survival | Armor, HP, Bleed and Acid resistance |
 | Gauntlets & Pauldrons | Handling and strikes | Melee cards, reload speed, capture tools |
-| Greaves | Mobility | Dodge, search ring speed, escape from fights |
+| Greaves | Mobility | Dodge, escape from fights |
 
 Each piece has **mechanism sockets** (1 at start, up to 3 through the webs). **Mechanisms** add tags and cards: e.g. 'Lantern of Revealing' (+1 intent preview, card 'Flash'), 'Smoke Bellows' (card 'Smoke Screen'), 'Tag Reader' (rumor analysis bonus).
 

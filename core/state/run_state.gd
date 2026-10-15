@@ -3,7 +3,7 @@ extends RefCounted
 ## Everything that is saved for one playthrough. Pure data: no nodes, no signals.
 ## Only GameState (through rules) changes it.
 
-const SAVE_VERSION := 18
+const SAVE_VERSION := 19
 
 var master_seed: int = 0
 var day: int = 1  ## day 1 = Monday of week 1
@@ -16,7 +16,7 @@ var events: EventsState = EventsState.new()  ## district events and unread news 
 var story: StoryState = StoryState.new()  ## the district story and its unread letters (GDD 2.4)
 var loadout: LoadoutState = LoadoutState.new()
 var contracts: ContractsState = ContractsState.new()  ## tavern board and accepted contracts (GDD 7)
-var rumors: RumorsState = RumorsState.new()  ## trails, hidden threat counts and marks of listening (GDD 8.4)
+var rumors: RumorsState = RumorsState.new()  ## the notebook of rumor cards and the lairs (GDD 8.4)
 var shop: ShopState = ShopState.new()  ## the Rag-and-Bone table this week (GDD 11.1)
 var bag: Array[StringName] = []  ## consumable cards carried into every fight until played (shop.bag_size)
 var debt_strikes: int = 0  ## rents in a row left unpaid (GDD 3.2)

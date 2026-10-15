@@ -67,7 +67,7 @@ func test_attribute_effects() -> void:
 	eq(ProgressRules.hand_bonus(run, data), data.balance.progress.agility_hand_at.size(), "two extra cards")
 	eq(ProgressRules.preview(run, data), data.balance.progress.cunning_preview_at.size(), "two moves ahead")
 	check(ProgressRules.discount(run, data) <= data.balance.progress.max_discount, "discount capped")
-	var h := RumorGenerator.Heard.new()
+	var h := RumorsState.Card.new()
 	h.uid = 3
 	eq(ProgressRules.suspicious(run, data, h), ProgressRules.suspicious(run, data, h), "the same rumor, the same whisper")
 	run.progress.attributes[&"cunning"] = 0

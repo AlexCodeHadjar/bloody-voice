@@ -1,11 +1,10 @@
 class_name DistrictPanels
 extends Node
-## Full-screen panels over the district map (one at a time): the contract board and tablets, a heard rumor and a
-## mark (GDD 8.4), the shop, the tavern-shift result, the infirmary, the Scriptorium and the morning news. Adds them to the district screen
+## Full-screen panels over the district map (one at a time): the contract board and tablets, the notebook of rumors
+## and a lair (GDD 8.4), the shop, the tavern-shift result, the infirmary, the Scriptorium and the morning news. Adds them to the district screen
 ## and tells it what happened.
 
-signal rumor_taken(t: RumorRules.Taken)  ## «Взять в записи» on a heard rumor
-signal fight_started  ## a mark started a fight
+signal fight_started  ## a lair started a fight
 
 var host: Control
 var current: Control = null
@@ -28,6 +27,9 @@ func open_for(action: StringName) -> bool:
 	match action:
 		&"tavern":
 			open(ContractBoard.new())
+		&"ask":  # asking around in the tavern: the new cards land in the notebook, which opens
+			GameState.ask_rumors(&"tavern")
+			open_notebook()
 		&"shop":
 			open(ShopTable.new())
 		&"shift":
@@ -71,13 +73,9 @@ func open_contract(list: Array[ContractsState.Contract], index: int) -> void:
 	tablet.open_list(list, index)
 
 
-func open_heard(h: RumorGenerator.Heard) -> void:
-	if current != null:
-		return
-	var sheet := RumorSheet.new()
-	open(sheet)
-	sheet.taken.connect(func(t: RumorRules.Taken) -> void: rumor_taken.emit(t))
-	sheet.open_heard(h)
+func open_notebook() -> void:
+	if current == null:
+		open(NotebookBoard.new())
 
 
 func open_mark(uid: int) -> void:

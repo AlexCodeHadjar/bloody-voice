@@ -2,7 +2,7 @@
 
 > **Готово (2026-10-10):** части G–Q (93 картинки) сгенерированы и импортированы в `art/`; листы иконок `MECHANISM` и
 > `SETTINGS` разрезаны (наборы добавлены в `data/ui/icons.json`). Q1 (значок) — из `art/ui/WAX__seal.webp`, когда понадобится.
-> **Ждём ещё:** U (иконка сумки). **Получено 2026-10-14:** V (вывески мест; столб V7 не подключён — столба больше нет), K (листовка и картинки слухов), R (три новые твари — арт в `art/monsters/`, в игру войдут с данными), S (иконки 5 механизмов),
+> **Ждём ещё:** U (иконка сумки), W (логово твари). **Получено 2026-10-14:** V (вывески мест; столб V7 не подключён — столба больше нет), K (листовка и картинки слухов), R (три новые твари — арт в `art/monsters/`, в игру войдут с данными), S (иконки 5 механизмов),
 > T (экран «Снаряжение» — верстак, `art/ui/EQUIP__*`, `TEX__felt`); их промты удалены. **Ждём:** P2 (карты состояний района).
 
 Всё, что ещё понадобится игре из арта, **кроме** уже расписанного:
@@ -255,6 +255,17 @@ UI STYLE BLOCK + TRANSPARENT BLOCK, холст square, папка `assets/icons/
 | # | Файл | Где в игре | Промт |
 |---|---|---|---|
 | U1 | `UI__bag.png` | Верхняя полоса района: кнопка «Снаряжение» (владелец 2026-10-14) | A hunter's leather satchel with a brass buckle and a strap, a gun cartridge loop on its side, seen from the front, fills the middle two thirds of the canvas. |
+
+## W. Логово твари на карте района (1) — чат «Signs»
+
+Когда слухи на нитях сходятся, на карте района появляется **логово** твари (GDD §8.4). Сейчас оно нарисовано кодом:
+тёмный диск, красное свечение и три следа когтей. Видно мелко (примерно 60–90 px на экране), поэтому нужен крупный
+простой силуэт. UI STYLE BLOCK + TRANSPARENT BLOCK, холст square, папка `assets/ui/`. При импорте Claude заменит
+рисунок кодом на картинку (`scenes/rumors/mark_layer.gd`); пульсирующее красное свечение останется кодом.
+
+| # | Файл | Промт (дописать к блокам) |
+|---|---|---|
+| W1 | `RUMOR__lair.png` | A round wrought-iron plaque nailed to wet cobbles, seen from above: a dark iron disc with a riveted rim, three deep claw gouges torn across it, dried blood in the grooves, a few dark drops around. Bold, simple, readable when tiny; no text. |
 
 ## Q. Значок и Steam — фаза 10
 

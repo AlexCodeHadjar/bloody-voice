@@ -34,7 +34,7 @@ The game is **not** a pure roguelike. The story, chapters, main characters and k
 | Fixed (authored) | Generated each playthrough (seeded) |
 |---|---|
 | Main story, chapters, main characters, endings | Side contracts on the tavern board (monster, district, reward, deadline) |
-| Story contracts and their monsters | Rumors in the search ring and their tags (true / noise) |
+| Story contracts and their monsters | Rumors in the hunter's notebook and their tags (true / noise) |
 | City layout, districts, landmarks | Shop stock every week, black-market offers |
 | Faction storylines | Random city events (fog breach, riot, festival) and their districts |
 | Skill webs, blueprint catalog | Investigation outcomes, loot, monster variants (affixes) |

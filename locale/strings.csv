@@ -172,11 +172,7 @@ ui.contract.done,Выполнен,Done
 ui.contract.tracker,Заказы,Contracts
 ui.contract.open_hint,Открыть табличку заказа,Open the contract tablet
 ui.contract.region_hint,"Показать на карте, где видели: {zone}",Show where it was seen: {zone}
-ui.rumor.title,Слух,Rumor
 ui.rumor.suspicious,Чутьё: слух сомнительный,Instinct: this rumor sounds wrong
-ui.rumor.match,Заказ «{name}»: совпадает {n} из {of} известных примет,Contract «{name}»: {n} of {of} known signs match
-ui.rumor.known,Известные приметы: {list},Known signs: {list}
-ui.rumor.no_contract,В этой зоне нет ваших заказов — верного следа здесь не найти. Неверные слухи в записях могут привлечь что-то неизвестное.,No contract of yours in this zone: no right trail here. Wrong rumors in your notes may draw something unknown.
 ui.rumor.day_over,День прошёл.,The day is over.
 ui.rumor.next,Дальше,Next
 ui.dev.map_help,"Разметка (F3): легенда слева внизу. Клик — выбрать точку, Ctrl + зажатая мышь — двигать выбранную, правый клик — меню (создать, соединить, переименовать, удалить). Ctrl+S — сохранить, F3 — выйти.","Markup (F3): legend at the bottom left. Click picks a point, Ctrl + the held mouse moves it, right click opens the menu (create, connect, rename, delete). Ctrl+S saves, F3 leaves."
@@ -246,7 +242,7 @@ ui.event.effect.shop,Цены лавки: {v},Shop prices: {v}
 ui.event.effect.infirmary,Цены лазарета: {v},Infirmary prices: {v}
 ui.event.effect.shift,Плата за смену: {v},Shift pay: {v}
 ui.event.effect.rewards,Награды новых заказов: {v},New contract rewards: {v}
-ui.event.effect.rumors,Слухов на улице сразу: +{n},Rumors on the street at once: +{n}
+ui.event.effect.rumors,Подслушанных слухов за день: +{n},Rumors overheard a day: +{n}
 ui.event.effect.closed,Закрыто: {list},Closed: {list}
 resource.scrap,Лом,Scrap
 resource.gears,Шестерни,Gears
@@ -598,12 +594,12 @@ tutorial.contract_board.1.title,Доска заказов,Contract board
 tutorial.contract_board.1.text,"Здесь висят заказы на тварей Серых Часовен. Нажмите на листок — откроется табличка: кто просит, приметы твари, где её видели, срок и награда. Новые листки — каждый понедельник.","Contracts on the creatures of the Grey Chapels hang here. Click a leaflet to open its tablet: who asks, the creature's signs, where it was seen, the deadline and the reward. New leaflets every Monday."
 tutorial.contract_taken.1.title,Ваши заказы,Your contracts
 tutorial.contract_taken.1.text,"Принятые заказы — в правом верхнем углу. Значок места подсветит на карте, где видели тварь. Встаньте в этой зоне и слушайте улицу: три верных слуха выведут на тварь. Не успеете к сроку — заказ останется, но тварь станет сильнее.","Taken contracts are in the top-right corner. The place icon lights up where the creature was seen. Stand in that zone and listen to the street: three right rumors lead to the creature. Miss the deadline and the contract stays, but the creature grows stronger."
-tutorial.first_rumor.1.title,Слух,A rumor
-tutorial.first_rumor.1.text,Приметы из слуха. Часть может быть враньём.,The rumor's signs. Some may be lies.
-tutorial.first_rumor.2.title,Совпадение,The match
-tutorial.first_rumor.2.text,Сколько примет совпадает с вашим заказом в этой зоне и сколько верных слухов уже в записях. Это не гарантия.,How many signs match your contract in this zone and how many right rumors are already in your notes. Never a guarantee.
-tutorial.first_rumor.3.title,Записи,Notes
-tutorial.first_rumor.3.text,Верный слух в записях ведёт по следу: три — и тварь найдена. Неверные тоже копятся и могут привлечь неизвестную угрозу. Сомневаетесь — отбросьте.,"A right rumor in your notes follows the trail: three and the creature is found. Wrong ones add up too and may draw an unknown threat. In doubt, throw it away."
+tutorial.first_rumor.1.title,Слухи,Rumors
+tutorial.first_rumor.1.text,"Слухи: кто что слышал и о какой зоне. Часть примет может быть враньём, а слух — вообще не о вашей твари.","Rumors: who heard what about which zone. Some signs may be lies, and a rumor may be about another creature."
+tutorial.first_rumor.2.title,Заказы,Contracts
+tutorial.first_rumor.2.text,Зажмите примету слуха и тяните нить к заказу. Верная держится и дописывает примету в заказ.,Hold a rumor's sign and pull the thread to a contract. A true one holds and adds the sign to the contract.
+tutorial.first_rumor.3.title,След,The trail
+tutorial.first_rumor.3.text,"Ложная нить рвётся, и слух сгорает. Три слуха на нитях одного заказа — на карте появится логово твари.",A false thread snaps and the rumor burns. Three rumors on one contract's threads: the creature's lair appears on the map.
 tutorial.workshop_intro.1.title,Чертежи,Blueprints
 tutorial.workshop_intro.1.text,"Слева — чертежи. Простые известны сразу, особые открывает первый трофей нужной твари.",Blueprints are on the left. Simple ones are known at once; special ones are taught by the first trophy of the right creature.
 tutorial.workshop_intro.2.title,Верстак,The workbench
@@ -1299,26 +1295,31 @@ rumor_gossip.rent_collector.text,"Сборщик аренды снова под�
 rumor_gossip.ash_sisters.text,У Пепельных Сестёр кончились бинты. Теперь кипятят старые.,The Ash Sisters ran out of bandages. They boil the old ones now.
 rumor_gossip.fog_cellars.text,"Дети спорят, кто спустится в Туманные подвалы. Хвастаться возвращаются всё меньше.",Children dare each other to go down to the Fog Cellars. Fewer come back to brag.
 rumor_gossip.god_in_wall.text,У Бога в стене каждое утро свежие подношения. Кто-то очень усердно молится.,Fresh offerings at the God in the Wall every morning. Somebody is praying hard.
-ui.rumor.listen,Слушать улицу,Listen to the street
-ui.rumor.stop,Перестать слушать,Stop listening
-ui.rumor.heard_tip,"Слух — нажмите, чтобы прочесть",A rumor: click to read it
-ui.rumor.target_tip,Логово: {name},The lair: {name}
-ui.rumor.threat_tip,Неизвестная угроза. Уйдёт через {n} {n:день|дня|дней}.,An unknown threat. Gone in {n} d.
-ui.rumor.free,Слушать и записывать — бесплатно; день уходит только на бой.,Listening and taking notes is free; only a fight takes the day.
-ui.rumor.take,Взять в записи,Take in the notes
-ui.rumor.discard,Отбросить,Throw away
+ui.rumor.target_tip,Логово: {name},Lair: {name}
+ui.rumor.discard,Выбросить,Throw away
 ui.rumor.trail,След: {n} из {of},Trail: {n} of {of}
-ui.rumor.found,Тварь найдена — отметка на карте,Creature found: its mark is on the map
-ui.rumor.noted,Записано,Noted
-ui.rumor.noted_trail,След: {n} из {of},Trail: {n} of {of}
-ui.rumor.noted_found,Тварь найдена! Её отметка на карте,Creature found! Its mark is on the map
-ui.rumor.noted_threat,Что-то зашевелилось поблизости…,Something stirs nearby…
+ui.rumor.found,Логово найдено — отметка на карте,Lair found: marked on the map
+ui.rumor.noted_found,Нить держится. Тварь найдена — её логово на карте!,The thread holds. The creature is found: its lair is on the map!
 ui.rumor.target_title,Тварь найдена,Creature found
 ui.rumor.target_text,"След привёл к логову: «{name}», зона «{zone}».","The trail led to the lair: «{name}», zone «{zone}»."
-ui.rumor.threat_title,Неизвестная угроза,Unknown threat
-ui.rumor.threat_text,Слухи сложились в нечто иное: в зоне «{zone}» бродит неизвестная тварь. Бой необязательный; через {n} {n:день|дня|дней} она уйдёт.,The rumors added up to something else: an unknown creature roams «{zone}». The fight is optional; it leaves in {n} d.
 ui.rumor.fight_day,Бой займёт остаток дня.,The fight takes the rest of the day.
 ui.rumor.fight,В бой,Fight
 ui.rumor.later,Не сейчас,Not now
-tutorial.first_listen.1.title,Слушать улицу,Listen to the street
-tutorial.first_listen.1.text,"Пока вы стоите, по зоне расходятся слухи. Нажмите на значок, чтобы прочесть. Отойдёте — слушание прервётся.","While you stand, rumors surface around the zone. Click one to read it. Walk away and listening pauses."
+ui.rumor.notebook,Записная книжка,Notebook
+ui.rumor.board_hint,"Тяните нить от приметы слуха к заказу. Верная нить держится и дописывает примету, ложная рвётся — и слух сгорает. Три слуха на нитях — логово твари на карте.",Pull a thread from a rumor's sign to a contract. A true one holds and adds the sign; a false one snaps and the rumor burns. Three rumors on the threads: the creature's lair is on the map.
+ui.rumor.no_contracts,Заказов нет — возьмите их на доске в таверне.,No contracts: take them on the tavern board.
+ui.rumor.no_cards,Слухов пока нет. Ходите по улицам — охотник подслушает; в таверне можно расспросить.,No rumors yet. Walk the streets and the hunter overhears; in the tavern you can ask around.
+ui.rumor.fresh,новый,new
+ui.rumor.pull_hint,Зажмите и тяните нить к заказу,Hold and pull the thread to a contract
+ui.rumor.on_thread,На нити: {name},On the thread: {name}
+ui.rumor.new_sign,+ новая примета,+ a new sign
+ui.rumor.trail_dots,След: {dots},Trail: {dots}
+ui.rumor.held,Нить держится. След: {n} из {of},The thread holds. Trail: {n} of {of}
+ui.rumor.held_learned,Нить держится. Новая примета: {tag}. След: {n} из {of},The thread holds. A new sign: {tag}. Trail: {n} of {of}
+ui.rumor.snapped,Нить порвалась — слух оказался ложным и сгорел.,The thread snapped: the rumor was false and burned.
+ui.rumor.cant_tie,Этот слух уже на нити другого заказа.,This rumor is already on another contract's thread.
+ui.district.action.ask,Расспросить,Ask around
+rule.rumor.asked_today,Сегодня здесь уже расспрашивали — приходите завтра.,Already asked here today: come back tomorrow.
+rule.rumor.notebook_full,В книжке нет места — выбросьте лишние слухи.,The notebook is full: throw some rumors away.
+tutorial.first_overheard.1.title,Подслушано,Overheard
+tutorial.first_overheard.1.text,Охотник что-то подслушал по дороге. Слух лёг в записную книжку — откройте её здесь.,The hunter overheard something on the way. The rumor is in the notebook: open it here.

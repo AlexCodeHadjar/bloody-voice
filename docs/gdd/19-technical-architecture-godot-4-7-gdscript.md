@@ -86,7 +86,7 @@ extends Node
 
 signal day_changed(day: int)
 signal contract_accepted(contract_id: StringName)
-signal rumor_heard(rumor_id: StringName)
+signal rumors_changed()
 signal district_state_changed(target: StringName, old_state: StringName, new_state: StringName)
 signal card_played(card_id: StringName, target: StringName)
 signal combat_finished(result: Dictionary)

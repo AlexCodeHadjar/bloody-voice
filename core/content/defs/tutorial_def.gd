@@ -4,12 +4,12 @@ extends RefCounted
 
 ## Events that start a sequence (fired by screens through the Tutorial autoload).
 const TRIGGERS: Array[StringName] = [&"combat_start", &"equipment_open", &"part_broken", &"panic", &"no_ammo",
-	&"rent_tomorrow", &"district_open", &"first_listen", &"first_rumor", &"contract_board_open", &"contract_taken",
+	&"rent_tomorrow", &"district_open", &"first_overheard", &"first_rumor", &"contract_board_open", &"contract_taken",
 	&"workshop_open"]
 ## Elements a step can highlight (screens register them in TutorialAnchors).
 const ANCHORS: Array[StringName] = [&"enemy", &"intents", &"hand", &"ap", &"parts", &"weapon", &"vials", &"end_turn",
 	&"weapon_grid", &"spares", &"deck", &"armor", &"day_bar", &"battle", &"district_map",
-	&"contract_board", &"contract_tracker", &"listen_button", &"rumor_tags", &"rumor_match", &"rumor_buttons",
+	&"contract_board", &"contract_tracker", &"notebook_button", &"notebook_rumors", &"notebook_contracts",
 	&"workshop_list", &"workshop_bench", &"workshop_crafts", &"workshop_stash"]
 ## Player actions a `do` step waits for.
 const ACTIONS: Array[StringName] = [&"attack_played", &"end_turn", &"module_installed", &"hero_walked"]

@@ -91,11 +91,13 @@
   "overdue_damage_bonus": 1
  },
  "rumors": {
-  "_comment": "Listening for rumors (GDD 8.4; owner 2026-10-14): «Слушать улицу» in a zone shows a new rumor every 4-6 s (at most 3 at once, an unread one fades after 20 s). In a zone with a taken contract a rumor is about its creature with true_chance; otherwise about another creature of the district (wrong_creature_chance) or lies. 3 right rumors taken bring the contract's creature out; 3 wrong ones taken in a zone bring a red unknown threat for 3 days.",
-  "listen_every_min": 4,
-  "listen_every_max": 6,
-  "max_heard": 3,
-  "heard_seconds": 20,
+  "_comment": "The notebook of rumors (GDD 8.4; owner 2026-10-15). Walking through a zone the hunter may overhear a rumor every overhear_steps footsteps (overhear_chance, at most overhear_per_day a day + the district state's rumor_bonus); asking in the tavern gives ask_min-ask_max rumors once a day. A rumor is about the creature of a contract whose lair is not found yet with true_chance; otherwise about another creature of the district (wrong_creature_chance) or lies. The notebook holds notebook_max cards. trail_needed cards tied to a contract by threads that held bring its lair.",
+  "overhear_steps": 10,
+  "overhear_chance": 0.5,
+  "overhear_per_day": 4,
+  "ask_min": 2,
+  "ask_max": 3,
+  "notebook_max": 12,
   "true_chance": 0.5,
   "wrong_creature_chance": 0.5,
   "true_tags_min": 1,
@@ -103,9 +105,7 @@
   "noise_chance": 0.3,
   "lie_tags_min": 1,
   "lie_tags_max": 3,
-  "trail_needed": 3,
-  "threat_needed": 3,
-  "threat_days": 3
+  "trail_needed": 3
  },
  "workshop": {
   "_comment": "Workshop and loot (GDD 6, 17.2 LootGenerator; owner 2026-10-12): the first craft or upgrade of a day starts a workshop day (2 items), leaving the workshop ends it. Salvage is free and returns half. A won fight gives ichor and scrap by the creature's rank (x2 ichor for a capture) plus monsters[].loot and the trophies of broken parts.",

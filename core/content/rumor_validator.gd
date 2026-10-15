@@ -42,13 +42,11 @@ static func _zone(data: ContentData, district: StringName, zone_id: StringName, 
 
 static func _balance(b: RumorDefs.Balance, errs: ErrorLog) -> void:
 	var w := "balance.json/rumors"
-	for pair: Array in [[b.true_tags_min, b.true_tags_max], [b.lie_tags_min, b.lie_tags_max]]:
+	for pair: Array in [[b.true_tags_min, b.true_tags_max], [b.lie_tags_min, b.lie_tags_max], [b.ask_min, b.ask_max]]:
 		if int(pair[0]) < 1 or int(pair[1]) < int(pair[0]):
-			errs.add(w, "every *_tags_min must be >= 1 and <= its *_max")
-	if b.listen_every_min <= 0.0 or b.listen_every_max < b.listen_every_min or b.heard_seconds <= 0.0:
-		errs.add(w, "need 0 < listen_every_min <= listen_every_max and heard_seconds > 0")
-	if b.max_heard < 1 or b.trail_needed < 1 or b.threat_needed < 1 or b.threat_days < 1:
-		errs.add(w, "max_heard, trail_needed, threat_needed and threat_days must be >= 1")
-	for c: float in [b.true_chance, b.wrong_creature_chance, b.noise_chance]:
+			errs.add(w, "every *_min must be >= 1 and <= its *_max")
+	if b.overhear_steps < 1 or b.overhear_per_day < 0 or b.notebook_max < 1 or b.trail_needed < 1:
+		errs.add(w, "overhear_steps, notebook_max and trail_needed must be >= 1, overhear_per_day >= 0")
+	for c: float in [b.overhear_chance, b.true_chance, b.wrong_creature_chance, b.noise_chance]:
 		if c < 0.0 or c > 1.0:
-			errs.add(w, "true_chance, wrong_creature_chance and noise_chance must be in 0..1")
+			errs.add(w, "overhear_chance, true_chance, wrong_creature_chance and noise_chance must be in 0..1")

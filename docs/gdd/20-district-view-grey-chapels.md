@@ -16,7 +16,7 @@ art and is no longer used by the game). Check the calibration with F3 in the gam
 | Level | Shows | Used for |
 |---|---|---|
 | **City map** (exists) | All 12 districts from far away | Choosing a district to travel to. At the start only GREY is lit; the rest are dark with «закрыто» |
-| **District map** (new, main play surface) | One district up close: single houses, alleys, bonfires | Walking, entering buildings, listening for rumors, night hunts |
+| **District map** (new, main play surface) | One district up close: single houses, alleys, bonfires | Walking, entering buildings, overhearing rumors, night hunts |
 
 The game opens on the district map of the Grey Chapels. The city map is reached by a button
 («Карта города») and is mostly a view of what is still locked. District unlocks are story events (open
@@ -99,7 +99,7 @@ question 20.10).
 | 3 | Северные ворота | North Gate | border | Exit to Nordhal — **locked** at the start | Iron gate in a brick arch, chained shut, a guard brazier, Nordhal's warm lights beyond |
 | 4 | Пепельный рынок | Ash Market | Ash Quarter | Daily trade, food, gossip; market events | Square of patched canvas stalls around 3 bonfires, carts, crates, crowd shapes |
 | 5 | Лавка старьёвщика | Rag-and-Bone Shop | Ash Quarter | **SHOP**: weapons, modules, consumables | Crooked two-storey shop with a cart full of scrap outside, hanging bones and old lamps, sign shaped like a bone |
-| 6 | Таверна «Фонарь и Крюк» | The Lantern & Hook | Ash Quarter | **TAVERN** (GDD §7): contract board, shifts, gossip | Wide low tavern with a big iron lantern and a hunter's hook over the door, warm light from every window, people outside, barrels |
+| 6 | Таверна «Фонарь и Крюк» | The Lantern & Hook | Ash Quarter | **TAVERN** (GDD §7): contract board, shifts, «Расспросить» (rumors) | Wide low tavern with a big iron lantern and a hunter's hook over the door, warm light from every window, people outside, barrels |
 | 7 | Пепельный чердак | Ash Garret | Ash Quarter | **HOME**: rest, rent, stash; start point | Narrow tenement with a garret window under the roof, one lamp lit, laundry line, iron stair outside |
 | 8 | Мастерская «Ржавая Шестерня» | The Rusty Cog | Ash Quarter | **WORKSHOP**: craft and fit modules | Brick workshop with a big rusty cog over the gate, a chimney with sparks, scrap piles, a workbench in an open yard |
 | 9 | Костровая площадь | Bonfire Square | Ash Quarter | Leaflets are pinned here; night start of hunts | Small square with a big bonfire and a tall post covered in pinned paper leaflets |
@@ -156,8 +156,8 @@ Done 2026-10-12 — see §20.11 and CLAUDE.md («Район»).
 | Topic | What the game does |
 |---|---|
 | Flow | New game / Continue / back from a fight or the equipment screen → the district screen. «Карта города» opens the city map; only open districts (`RunState.open_districts`, start `["GREY"]`) are lit, the rest are dark «закрыто»; «К району» returns |
-| Places | Click a place → the hero walks there → a card: name, zone, a line about it. **Ash Garret** — «Отдохнуть до утра» (ends the day); **Rusty Cog** — «Снаряжение»; **the Lantern & Hook** — «Доска заказов» (GDD 7.4); **Bonfire Square** — «soon»; gates (North Gate, South Passage, West Crossing) — «Закрыто»; the rest — «Откроется позже» |
-| Listen | While the hunter stands in a zone, a «Слушать улицу» button at the bottom middle (GDD 8.4) |
+| Places | Click a place → the hero walks there → a card: name, zone, a line about it. **Ash Garret** — «Отдохнуть до утра» (ends the day); **Rusty Cog** — «Снаряжение»; **the Lantern & Hook** — «Доска заказов» (GDD 7.4), «Расспросить» (GDD 8.4); **Bonfire Square** — «soon»; gates (North Gate, South Passage, West Crossing) — «Закрыто»; the rest — «Откроется позже» |
+| Notebook | The «Записная книжка» icon on the top bar with a count of new cards (GDD 8.4); a scrap of an overheard phrase shows over the hunter and a leaflet flies into the icon; a found lair is a dark disc with a red glow on its zone («В бой») |
 | Hover | A brass ring round the place and a tooltip: name + what it does |
 | Streets | A click on a street (≤ 110 px from it) sends the hero there; the hero's node is saved (`RunState.hero_node`, save v3). Old v2 saves are moved to GREY and every other district is locked — on purpose (the game starts confined to GREY) |
 | Hero | The stone figurine (four views), 350 px/s, footsteps; the camera does not follow (owner 2026-10-14) |

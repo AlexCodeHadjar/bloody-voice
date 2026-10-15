@@ -81,7 +81,7 @@ func test_prices_rewards_and_rumors_follow_the_state() -> void:
 	run.city = CityState.new()
 	_start(run, data, &"dusk_night")
 	var quiet := RunState.create(31, data.balance)
-	check(RumorRules.max_heard(run, data) > RumorRules.max_heard(quiet, data), "a festival street holds more rumors")
+	check(RumorRules.per_day(run, data) > RumorRules.per_day(quiet, data), "more rumors overheard at a festival")
 
 
 func test_event_ends_with_news_and_rest_weeks() -> void:

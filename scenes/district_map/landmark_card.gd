@@ -1,8 +1,8 @@
 class_name LandmarkCard
 extends PanelContainer
 ## The card of a place the hero has walked to (owner, 2026-10-12): name, zone, a line about it and what can be done
-## there now — rest at home, crafting in the workshop, the contract board and a shift in the tavern, the shop, the
-## infirmary, the Scriptorium; gates say why they are shut; the other places say they open later.
+## there now — rest at home, crafting in the workshop, the contract board, asking around for rumors (GDD 8.4) and a
+## shift in the tavern, the shop, the infirmary, the Scriptorium; gates say why they are shut; the other places say they open later.
 
 signal action_chosen(action: StringName)
 
@@ -12,13 +12,14 @@ const BUTTONS: Dictionary[StringName, Array] = {
 	&"rest": ["ui.district.action.rest", "ACTION", &"rest"],
 	&"workshop": ["ui.district.action.workshop", "ACTION", &"workshop"],
 	&"tavern": ["ui.district.action.tavern", "ACTION", &"tavern"],
+	&"ask": ["ui.district.action.ask", "UI", &"journal"],
 	&"shift": ["ui.district.action.shift", "RESOURCE", &"money"],
 	&"shop": ["ui.district.action.shop", "PLACE", &"shop"],
 	&"infirmary": ["ui.district.action.infirmary", "PLACE", &"infirmary"],
 	&"library": ["ui.district.action.library", "ACTION", &"library"],
 }
 ## a place's action -> its buttons (one button of the same name when not listed)
-const PLACE_BUTTONS: Dictionary[StringName, Array] = {&"tavern": [&"tavern", &"shift"]}
+const PLACE_BUTTONS: Dictionary[StringName, Array] = {&"tavern": [&"tavern", &"ask", &"shift"]}
 
 var _title: Label
 var _zone: Label
@@ -80,6 +81,9 @@ func _button_for(action: StringName) -> Button:
 		if EventRules.is_closed(GameState.run, ContentDB.data, action):  # shut by the district state (GDD 14)
 			b.disabled = true
 			b.tooltip_text = Loc.t("ui.event.closed", {"state": Loc.t("state.%s.name" % GameState.run.city.state_of(GameState.run.hero_district))})
+		elif action == &"ask":  # once a day, while the notebook has room
+			b.tooltip_text = RumorRules.can_ask(GameState.run, ContentDB.data, &"tavern")
+			b.disabled = b.tooltip_text != ""
 	else:
 		var key := "ui.district.action.locked" if action == &"locked" else "ui.district.action.soon"
 		b = UiKit.button(Loc.t(key), 20)

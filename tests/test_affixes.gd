@@ -44,7 +44,7 @@ func test_leaflets_and_rumors_show_affix_signs() -> void:
 		check(not c.affixes.is_empty(), "every leaflet at threat 2 has affixes")
 		for t: StringName in AffixGenerator.tags(data, c.affixes):
 			check(c.known_tags.has(t), "its sign %s is known" % t)
-	var r := RumorGenerator.make(data, &"GREY", board[0].zone, board[0], [], [], 99, SeededRng.make_stream(4, &"rumors", 1))
+	var r := RumorGenerator.make(data, &"GREY", board[0].zone, board[0], [], 99, 1, SeededRng.make_stream(4, &"rumors", 1))
 	for t: StringName in AffixGenerator.tags(data, board[0].affixes):
 		check(r.tags.has(t), "the right rumor carries %s" % t)
 
@@ -70,9 +70,10 @@ func test_affix_signs_are_learned_and_never_studied_as_missing() -> void:
 	c.affixes.assign([&"venom"])
 	var affix_sign := data.affix(&"venom").tag
 	c.known_tags.erase(affix_sign)
-	var h := RumorGenerator.make(data, &"GREY", c.zone, c, [], [], 77, SeededRng.make_stream(4, &"rumors", 1))
-	RumorRules.take(run, data, h, SeededRng.make_stream(4, &"take", 1))
-	check(c.known_tags.has(affix_sign), "a right rumor teaches the affix's sign")
+	var h := RumorGenerator.make(data, &"GREY", c.zone, c, [], 77, run.day, SeededRng.make_stream(4, &"rumors", 1))
+	run.rumors.cards.append(h)
+	RumorRules.link(run, data, h.uid, c.uid, affix_sign, SeededRng.make_stream(4, &"lair", 1))
+	check(c.known_tags.has(affix_sign), "a thread from the affix's sign holds and teaches it")
 	var m := data.monster(c.monster)
 	c.known_tags.assign([affix_sign])  # only the affix's sign: the creature's own signs are still to learn
 	check(LibraryRules.contracts_to_teach(run, data, c.monster).has(c), "an affix sign does not hide missing own signs")

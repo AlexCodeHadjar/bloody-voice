@@ -66,30 +66,61 @@ func _workshop_result(problem: String) -> String:
 	return problem
 
 
-## Listening to the street (GDD 8.4): a new rumor in the zone; free. `used`: street nodes already showing a rumor.
-## null when nothing can be heard now.
-func hear_rumor(zone: StringName, used: Array[StringName]) -> RumorGenerator.Heard:
+## Walking through a zone (GDD 8.4): the screen rolls every overhear_steps footsteps; a new card or null. Free.
+func overhear_rumor(zone: StringName) -> RumorsState.Card:
 	if run == null or combat != null:
 		return null
-	return RumorRules.hear(run, ContentDB.data, zone, used,
-		Rng.stream(StringName("listen_%d" % run.rumors.next_uid), run.day))
+	var card := RumorRules.overhear(run, ContentDB.data, zone,
+		Rng.stream(StringName("overhear_%d" % run.rumors.rolls), run.day))
+	if card != null:
+		EventBus.rumors_changed.emit()
+		save_game()
+	return card
 
 
-## «Взять в записи»: a right rumor grows its contract's trail and teaches signs, a wrong one the zone's hidden count;
-## a mark may appear. Free. null if not now.
-func take_rumor(h: RumorGenerator.Heard) -> RumorRules.Taken:
-	if run == null or combat != null or h == null:
+## «Расспросить» in a place (the tavern): a few cards, once a day. Free. [] if not now.
+func ask_rumors(place: StringName) -> Array[RumorsState.Card]:
+	if run == null or combat != null:
+		return []
+	var cards := RumorRules.ask(run, ContentDB.data, place, Rng.stream(StringName("ask_%s" % place), run.day))
+	if not cards.is_empty():
+		EventBus.rumors_changed.emit()
+		save_game()
+	return cards
+
+
+## A thread from a card's sign to a contract: it holds (the contract may learn the sign, the lair may appear) or snaps
+## and the card burns. null if it can't be tied.
+func link_rumor(card_uid: int, contract_uid: int, tag: StringName) -> RumorRules.Link:
+	if run == null or combat != null:
 		return null
-	var t := RumorRules.take(run, ContentDB.data, h, Rng.stream(StringName("rumor_take_%d" % h.uid), run.day))
-	if t.right:
-		EventBus.contracts_changed.emit()
+	var l := RumorRules.link(run, ContentDB.data, card_uid, contract_uid, tag,
+		Rng.stream(StringName("lair_%d" % contract_uid), run.day))
+	if l != null:
+		if l.learned != &"" or l.mark != null:
+			EventBus.contracts_changed.emit()
+		EventBus.rumors_changed.emit()
+		save_game()
+	return l
+
+
+## Throws a card out of the notebook (not one on a thread). false if not.
+func discard_rumor(uid: int) -> bool:
+	if run == null or not RumorRules.discard(run, uid):
+		return false
 	EventBus.rumors_changed.emit()
 	save_game()
-	return t
+	return true
 
 
-## A click on a mark: the fight with the found creature or the unknown threat on the zone's background (the day ends
-## after it). false if there is no such mark.
+## The notebook was opened: its new cards are seen.
+func notebook_seen() -> void:
+	if run != null and RumorRules.seen(run):
+		EventBus.rumors_changed.emit()
+
+
+## A click on a lair: the fight with the found creature on the zone's background (the day ends after it). false if
+## there is no such lair.
 func fight_mark(uid: int) -> bool:
 	if run == null or combat != null:
 		return false
@@ -97,7 +128,7 @@ func fight_mark(uid: int) -> bool:
 	if m == null:
 		return false
 	EventBus.rumors_changed.emit()
-	_start_fight(m.monster, run.contracts.find(m.contract_uid) if m.contract_uid != 0 else null, m.zone)
+	_start_fight(m.monster, run.contracts.find(m.contract_uid), m.zone)
 	return true
 
 

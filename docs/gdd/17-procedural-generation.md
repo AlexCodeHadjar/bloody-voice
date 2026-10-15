@@ -17,7 +17,7 @@ stream(name) = RandomNumberGenerator with seed = hash(master_seed, name, day)
 | Generator | Input | Output | Key rules |
 |---|---|---|---|
 | ContractGenerator | week, chapter, district states, hero rank, reputation | 3–6 side contracts on the board each Monday | Monster from district pool (weighted by state); reward scales with rank; deadline 4–10 days; never more than 2 of the same type. **v1 (built):** district pool and creature rank only, 3–5 leaflets, cap 3 per type while only Slay/Capture exist, 2 per creature (GDD 7.4) |
-| RumorGenerator | district, active contracts, day, Cunning | The rumor heard in a zone | Right (`true_chance`) in a zone with a taken contract, else another creature (`wrong_creature_chance`) or lies from the zone's signs; no outcomes (GDD 8.4) |
+| RumorGenerator | district, active contracts, day, Cunning | A rumor card about a zone | Right (`true_chance`) about a taken contract whose lair is not found yet, else another creature (`wrong_creature_chance`) or lies from the zone's signs; no outcomes (GDD 8.4) |
 | ShopGenerator | week, Exchange reputation, district state | Cards on the shop table | Fixed slots: 2 weapons, 4 modules, 4 consumables, 3 resource lots; rarity by chapter. **v1 (built):** 3 modules, 2 unknown blueprints, 3 consumables, 3 lots; no weapons, reputation or rarity yet (GDD 11.3) |
 | EventScheduler | chapter, day, flags | Random world events | Weighted table with cooldowns; at most 1 random event active; story events always win |
 | MonsterVariant | base monster, chapter | Affixes (e.g. 'Fog-touched', 'Starving') | 0–2 affixes; each adds 1 card to the monster deck and 1 tag |

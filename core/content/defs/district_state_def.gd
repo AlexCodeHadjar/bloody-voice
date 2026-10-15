@@ -15,7 +15,7 @@ var rumor_tag_weights: Dictionary[StringName, float] = {}
 var infirmary_mult: float = 1.0  ## the Ash Sisters' prices
 var shift_pay_mult: float = 1.0  ## a tavern shift's pay
 var contract_reward_mult: float = 1.0  ## rewards of leaflets pinned while the state lasts
-var rumor_bonus: int = 0  ## more rumors on the street at once (GDD 8.4)
+var rumor_bonus: int = 0  ## more rumors overheard a day (GDD 8.4)
 var closed_actions: Array[StringName] = []  ## place actions shut while the state lasts
 
 

@@ -3,10 +3,9 @@
 | Term | Meaning |
 |---|---|
 | Contract | A job from the tavern board: slay, capture, research or story |
-| Rumor | Heard while listening to the street in a zone; right or wrong. Three right ones bring the creature's mark, three wrong ones an unknown threat |
-| Mark | A sign on a zone of the district map: the creature's (click → fight) or a red unknown threat (3 days, any creature of the district) |
+| Rumor | A card in the notebook about a zone, overheard on the way or asked in the tavern; right or wrong. Three on a contract's threads bring the creature's lair |
+| Lair | A mark on a zone of the district map: the creature's den (walk there → fight) |
 | Tag | A sign of a monster (sound, trace, victims, time, place, shape) |
-| Search ring | Blue rings spreading from the hero to the zone border while he listens to the street |
 | Tablet | In-world UI panel (contract, rumor, weapon) |
 | Module | A shaped part installed into weapon cells; gives cards and bonuses |
 | Mechanism | A device installed into an armor socket; gives tags and cards |

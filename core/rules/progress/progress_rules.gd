@@ -103,9 +103,9 @@ static func discount(run: RunState, data: ContentData) -> float:
 	return minf(p.max_discount, p.discount_per_cunning * run.progress.attribute(&"cunning"))
 
 
-## Cunning: the hunter senses that a heard rumor is wrong («Чутьё: слух сомнительный»). Never on a right one;
-## stable per rumor (seeded).
-static func suspicious(run: RunState, data: ContentData, h: RumorGenerator.Heard) -> bool:
+## Cunning: the hunter senses that a rumor card is wrong («Чутьё: слух сомнительный»). Never on a right one;
+## stable per card (seeded).
+static func suspicious(run: RunState, data: ContentData, h: RumorsState.Card) -> bool:
 	if h.right():
 		return false
 	var chance := data.balance.progress.flag_per_cunning * run.progress.attribute(&"cunning")
